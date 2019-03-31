@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Challenge52</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="target_List_my_targets">Minhas metas</string>
+    <string name="target_list_no_targets">Nenhuma meta foi cadastrada até agora. O quê você acha de criar uma agora
+        mesmo?
+    </string>
+
+    <string name="target_create_new_target">Nova meta</string>
+    <string name="target_create_target_name">Nome da meta</string>
+    <string name="target_create_target_value">Valor inicial a depositar</string>
+    <string name="target_create_target_data">Data inicial para começar</string>
+    <string name="target_create_create_target">Criar meta</string>
+</resources>
