@@ -1,10 +1,12 @@
 <resources>
+    <dimen name="text_sixteen">16sp</dimen>
+    <dimen name="text_eighteen">18sp</dimen>
     <dimen name="text_twenty">24sp</dimen>
 
     <dimen name="margin_six">6dp</dimen>
     <dimen name="margin_ten">10dp</dimen>
     <dimen name="margin_sixteen">16dp</dimen>
     <dimen name="margin_twenty_four">24dp</dimen>
-    <dimen name="margin_twenty_eight">28dp</dimen>
+    <dimen name="margin_twenty_eight">32dp</dimen>
     <dimen name="margin_forty">40dp</dimen>
 </resources>

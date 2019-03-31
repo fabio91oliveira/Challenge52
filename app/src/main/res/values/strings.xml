@@ -8,8 +8,8 @@
     </string>
 
     <string name="target_create_new_target">Nova meta</string>
-    <string name="target_create_target_name">Nome da meta</string>
-    <string name="target_create_target_value">Valor inicial a depositar</string>
-    <string name="target_create_target_data">Data inicial para começar</string>
+    <string name="target_create_target_name">Qual é o nome da sua meta?</string>
+    <string name="target_create_target_value">Com que valor você quer começar?</string>
+    <string name="target_create_target_data">Qual a data para começar?</string>
     <string name="target_create_create_target">Criar meta</string>
 </resources>
