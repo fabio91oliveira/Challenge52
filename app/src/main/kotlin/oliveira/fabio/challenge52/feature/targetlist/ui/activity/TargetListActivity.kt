@@ -17,6 +17,7 @@ class TargetListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_target_list)
+        fab.hide()
         init()
     }
 
@@ -40,7 +41,7 @@ class TargetListActivity : AppCompatActivity() {
         fadeIn.interpolator = DecelerateInterpolator()
         fadeIn.duration = 2000
 
-        val animation = AnimationSet(false) //change to false
+        val animation = AnimationSet(false)
         animation.addAnimation(fadeIn)
         txtNoTargetsFirst.animation = animation
         imgNoTargets.animation = animation
@@ -48,12 +49,13 @@ class TargetListActivity : AppCompatActivity() {
         val valueAnimator = ValueAnimator.ofFloat(-100f, 0f)
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
         valueAnimator.duration = 1000
-        valueAnimator.addUpdateListener { animation ->
-            val progress = animation.animatedValue as Float
+        valueAnimator.addUpdateListener {
+            val progress = it.animatedValue as Float
             txtNoTargetsFirst.translationY = progress
             imgNoTargets.translationY = progress
         }
         valueAnimator.start()
+        fab.show()
     }
 
     private fun openTargetCreateActivity() = startActivity(Intent(this, TargetCreateActivity::class.java))

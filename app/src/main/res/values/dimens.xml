@@ -1,4 +1,6 @@
 <resources>
+    <dimen name="button_height">56dp</dimen>
+
     <dimen name="text_sixteen">16sp</dimen>
     <dimen name="text_eighteen">18sp</dimen>
     <dimen name="text_twenty">24sp</dimen>

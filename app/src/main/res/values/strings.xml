@@ -3,13 +3,19 @@
     <string name="action_settings">Settings</string>
 
     <string name="target_List_my_targets">Minhas metas</string>
-    <string name="target_list_no_targets">Nenhuma meta foi cadastrada até agora. O quê você acha de criar uma agora
-        mesmo?
+    <string name="target_list_no_targets">Nenhuma meta foi cadastrada até o momento. O quê você acha de criar uma
+        agora?
     </string>
 
     <string name="target_create_new_target">Nova meta</string>
     <string name="target_create_target_name">Qual é o nome da sua meta?</string>
-    <string name="target_create_target_value">Com que valor você quer começar?</string>
+    <string name="target_create_target_value">Qual é valor para começar?</string>
     <string name="target_create_target_data">Qual a data para começar?</string>
     <string name="target_create_create_target">Criar meta</string>
+
+    <string name="target_create_calendar_choose_date">Escolher data</string>
+    <string name="target_create_calendar_select_date">Selecionar data</string>
+
+    <string name="currency_mask">[R$,.]</string>
+    <string name="date_pattern">dd/MM/yyyy</string>
 </resources>
