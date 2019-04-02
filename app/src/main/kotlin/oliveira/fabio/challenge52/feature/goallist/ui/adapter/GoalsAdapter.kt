@@ -8,6 +8,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_goal.*
@@ -41,12 +42,19 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
     inner class GoalViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
         fun bind(position: Int) {
+            val progress = goalsList[position].getPercentOfConclusion()
+            val textConclusion =
+                progress.toString() + containerView.context.getString(R.string.goal_list_progress_value_percent)
+
             txtName.text = goalsList[position].goal.name
             txtValue.text = NumberFormat.getCurrencyInstance().format((goalsList[position].goal.totalValue / 100))
             txtWeeksValue.text = goalsList[position].getRemainingWeeksCount().toString()
             txtStartDateValue.text = goalsList[position].getStartDate().toCurrentFormat(containerView.context)
             txtEndDateValue.text = goalsList[position].getEndDate().toCurrentFormat(containerView.context)
-
+            txtDoneValue.text = textConclusion
+            if (progress > 0) {
+                txtDoneValue.setTextColor(ContextCompat.getColor(containerView.context, R.color.colorGreen))
+            }
             if (position >= lastPosition) animate()
         }
 

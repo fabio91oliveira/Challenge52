@@ -26,11 +26,14 @@ class GoalWithWeeks : Serializable {
         return remainingWeeksCount
     }
 
+    fun getPercentOfConclusion() = ((getRemainingWeeksCount() - weeks.size) / weeks.size) * PERCENT
+
     fun getStartDate() = weeks[FIRST_INDEX].date
     fun getEndDate() = weeks[LAST_INDEX].date
 
     companion object {
         private const val FIRST_INDEX = 0
         private const val LAST_INDEX = 51
+        private const val PERCENT = 100
     }
 }

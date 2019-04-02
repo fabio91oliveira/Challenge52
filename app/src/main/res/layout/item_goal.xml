@@ -51,13 +51,23 @@
                 android:text="@string/goal_list_end_date"/>
 
         <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtDone"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:textSize="@dimen/text_sixteen"
+                app:layout_constraintTop_toTopOf="@id/txtDoneValue"
+                app:layout_constraintBottom_toBottomOf="@id/txtDoneValue"
+                app:layout_constraintStart_toStartOf="@id/txtEndDate"
+                android:text="@string/goal_list_progress"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txtName"
+                app:layout_constraintBottom_toBottomOf="@+id/txtName"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textStyle="bold"
-                android:layout_marginTop="@dimen/margin_six"
                 android:layout_marginEnd="@dimen/margin_six"
                 tools:text="R$ 2.000,00"/>
 
@@ -85,6 +95,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtStartDateValue"
                 app:layout_constraintEnd_toEndOf="@id/txtStartDateValue"
                 tools:text="01/02/2020"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtDoneValue"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_eighteen"
+                android:layout_marginTop="@dimen/margin_sixteen"
+                app:layout_constraintTop_toBottomOf="@id/txtEndDateValue"
+                app:layout_constraintEnd_toEndOf="@id/txtEndDateValue"
+                tools:text="0%"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

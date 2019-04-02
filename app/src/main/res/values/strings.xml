@@ -9,6 +9,8 @@
     <string name="goal_list_weeks_remaining">Semanas restantes:</string>
     <string name="goal_list_start_date">Data de Início:</string>
     <string name="goal_list_end_date">Data de encerramento:</string>
+    <string name="goal_list_progress">Progresso:</string>
+    <string name="goal_list_progress_value_percent">%</string>
 
     <string name="goal_create_new_goal">Nova meta</string>
     <string name="goal_create_goal_name">Qual é o nome da sua meta?</string>
