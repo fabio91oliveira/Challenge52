@@ -9,3 +9,8 @@ fun Calendar.toCurrentFormat(context: Context): String {
     val sdf = SimpleDateFormat(context.resources.getString(R.string.date_pattern))
     return sdf.format(time)
 }
+
+fun Date.toCurrentFormat(context: Context): String {
+    val sdf = SimpleDateFormat(context.resources.getString(R.string.date_pattern))
+    return sdf.format(time)
+}

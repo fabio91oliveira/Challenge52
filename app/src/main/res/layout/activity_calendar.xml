@@ -47,7 +47,7 @@
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="0dp"
                     android:layout_height="56dp"
-                    android:text="@string/target_create_calendar_select_date"
+                    android:text="@string/goal_create_calendar_select_date"
                     android:background="@drawable/selector_button"
                     android:layout_marginTop="@dimen/margin_sixteen"
                     android:textSize="@dimen/text_eighteen"

@@ -52,11 +52,10 @@ dependencies {
     // Lifecycle
     implementation deps.lifecycle.extensions
     implementation deps.lifecycle.runtime
-    annotationProcessor deps.lifecycle.compiler
+    kapt deps.lifecycle.compiler
 
     // Room
     implementation deps.room.runtime
-    implementation deps.room.rxjava2
     kapt deps.room.compiler
     kapt deps.room.compiler
 
@@ -76,4 +75,10 @@ dependencies {
     androidTestImplementation deps.espresso.contrib
     androidTestImplementation deps.espresso.core
     androidTestImplementation deps.espresso.intent
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
+
+    implementation 'com.github.kittinunf.result:result:2.1.0'
+    implementation 'com.github.kittinunf.result:result-coroutines:2.0.0'
 }

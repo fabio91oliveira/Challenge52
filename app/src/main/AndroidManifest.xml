@@ -11,15 +11,15 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning">
         <activity
-                android:name=".feature.targetlist.ui.activity.TargetListActivity">
+                android:name=".feature.goallist.ui.activity.GoalListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".feature.targetcreate.ui.activity.TargetCreateActivity"
+        <activity android:name=".feature.goalcreate.ui.activity.GoalCreateActivity"
                   android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".feature.targetcreate.ui.activity.CalendarActivity"
+        <activity android:name=".feature.goalcreate.ui.activity.CalendarActivity"
                   android:windowSoftInputMode="adjustResize"/>
     </application>
 

@@ -27,14 +27,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:showIn="@layout/activity_target_list"
-            tools:context=".feature.targetlist.ui.activity.TargetListActivity">
+            tools:showIn="@layout/activity_goal_list"
+            tools:context=".feature.goallist.ui.activity.GoalListActivity">
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvGoalsList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:listitem="@layout/item_goal"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+        <androidx.constraintlayout.widget.Group
+                android:id="@+id/noGoalsGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="txtNoGoalsFirst,imgNoGoals "
+                android:visibility="gone"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtNoTargetsFirst"
+                android:id="@+id/txtNoGoalsFirst"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/target_list_no_targets"
+                android:text="@string/goal_list_no_goals"
                 android:layout_marginStart="@dimen/margin_twenty_four"
                 android:layout_marginEnd="@dimen/margin_twenty_four"
                 android:textSize="@dimen/text_twenty"
@@ -44,18 +61,31 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintVertical_bias="0.2"/>
+                app:layout_constraintVertical_bias="0.2"
+                tools:visibility="gone"/>
 
         <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgNoTargets"
+                android:id="@+id/imgNoGoals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_coin"
                 android:layout_marginTop="@dimen/margin_forty"
-                app:layout_constraintTop_toBottomOf="@+id/txtNoTargetsFirst"
+                app:layout_constraintTop_toBottomOf="@+id/txtNoGoalsFirst"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:visibility="gone"/>
 
+        <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/loading"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="false"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

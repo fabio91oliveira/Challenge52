@@ -1,25 +1,18 @@
 package oliveira.fabio.challenge52.model.entity
 
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.io.Serializable
 import java.util.*
 
-@Entity(
-    tableName = "week",
-    foreignKeys = [ForeignKey(
-        entity = Target::class,
-        parentColumns = ["id"],
-        childColumns = ["id_target"],
-        onDelete = ForeignKey.NO_ACTION
-    )], indices = [Index(value = ["id_target"], name = "target_index")]
-)
+@Entity(tableName = "week")
 data class Week(
-    var number: Int,
-    var isDeposited: Boolean,
-    var spittedValue: Double,
+    var position: Int,
+    var spittedValue: Float,
     var date: Date,
-    @ColumnInfo(name = "id_target")
-    var idTarget: Int
-) {
+    var isDeposited: Boolean,
+    var idGoal: Long
+) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
 }

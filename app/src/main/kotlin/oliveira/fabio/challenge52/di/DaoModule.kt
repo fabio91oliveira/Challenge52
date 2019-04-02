@@ -13,5 +13,6 @@ val daoModule = module {
         )
             .build()
     }
-    single { get<Database>().targetDao() }
+    single { get<Database>().goalDao() }
+    single { get<Database>().weekDao() }
 }

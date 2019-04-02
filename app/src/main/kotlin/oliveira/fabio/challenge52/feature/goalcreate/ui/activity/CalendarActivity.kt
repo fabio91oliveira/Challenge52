@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.feature.targetcreate.ui.activity
+package oliveira.fabio.challenge52.feature.goalcreate.ui.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -33,7 +33,7 @@ class CalendarActivity : AppCompatActivity(), CalendarView.OnDateChangeListener 
 
     private fun setupToolbar() {
         setSupportActionBar(toolbar)
-        supportActionBar?.title = resources.getString(R.string.target_create_calendar_choose_date)
+        supportActionBar?.title = resources.getString(R.string.goal_create_calendar_choose_date)
         toolbar.setNavigationOnClickListener { finish() }
     }
 

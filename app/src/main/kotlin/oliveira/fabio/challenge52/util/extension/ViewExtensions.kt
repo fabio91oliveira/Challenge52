@@ -5,6 +5,9 @@ import android.text.TextWatcher
 import android.widget.EditText
 import oliveira.fabio.challenge52.R
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 fun EditText.toCurrencyFormat(func: (() -> Unit?)? = null) {
     var current = ""
@@ -40,8 +43,7 @@ fun EditText.callFunctionAfterTextChanged(func: () -> Unit) {
     })
 }
 
-fun EditText.isZero(): Boolean {
-    val pattern = "000"
-    val unformatted = Regex(context.getString(R.string.currency_mask)).replace(text.toString(), "")
-    return unformatted == pattern
+fun EditText.toDate(): Date {
+    val sdf = SimpleDateFormat(context.resources.getString(R.string.date_pattern))
+    return sdf.parse(text.toString())
 }
