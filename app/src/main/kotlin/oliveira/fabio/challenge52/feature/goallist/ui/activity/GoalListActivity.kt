@@ -23,6 +23,30 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
+    override fun onClickAdd(goal: GoalWithWeeks) {
+        goalListViewModel.goalWithWeeksToRemove.add(goal)
+        fabAdd.hide()
+        fabRemove.show()
+        goalListViewModel.isDeleteShown = true
+    }
+
+    override fun onClickRemove(goal: GoalWithWeeks) {
+        goalListViewModel.goalWithWeeksToRemove.remove(goal)
+        if (goalListViewModel.goalWithWeeksToRemove.isEmpty()) {
+            fabRemove.hide()
+            fabAdd.show()
+            goalListViewModel.isDeleteShown = false
+        }
+    }
+
+
+    override fun onLongClick(goal: GoalWithWeeks) {
+        goalListViewModel.goalWithWeeksToRemove.add(goal)
+        fabAdd.hide()
+        fabRemove.show()
+        goalListViewModel.isDeleteShown = true
+    }
+
     override fun onClickGoal(goal: GoalWithWeeks) {
     }
 
@@ -32,7 +56,7 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_goal_list)
-        fab.hide()
+        fabAdd.hide()
         init()
     }
 
@@ -51,15 +75,14 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
 
     private fun init() {
         setupToolbar()
-        initLiveDate()
+        initLiveData()
         initClickListener()
-        initAnimationsNoGoals()
         initRecyclerView()
         showLoading()
         goalListViewModel.listGoals()
     }
 
-    private fun initLiveDate() {
+    private fun initLiveData() {
         goalListViewModel.mutableLiveDataGoals.observe(this, Observer { event ->
             goalsAdapter.clearList()
             event.getContentIfNotHandled()?.let {
@@ -78,6 +101,24 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
                 }
             }
         })
+        goalListViewModel.mutableLiveDataRemoved.observe(this, Observer { event ->
+            event.getContentIfNotHandled()?.let {
+                when (it) {
+                    true -> {
+                        goalsAdapter.remove(goalListViewModel.goalWithWeeksToRemove)
+                        goalListViewModel.goalWithWeeksToRemove.clear()
+                        fabRemove.hide()
+                        fabAdd.show()
+                        goalListViewModel.isDeleteShown = false
+
+                        if (goalsAdapter.itemCount == 0) {
+                            hideGoalsList()
+                            showNoGoals()
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun initRecyclerView() {
@@ -86,9 +127,9 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
         rvGoalsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0)
-                    fab.hide()
+                    if (goalListViewModel.isDeleteShown) fabRemove.hide() else fabAdd.hide()
                 else if (dy < 0)
-                    fab.show()
+                    if (goalListViewModel.isDeleteShown) fabRemove.show() else fabAdd.show()
             }
         })
     }
@@ -99,7 +140,8 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
     }
 
     private fun initClickListener() {
-        fab.setOnClickListener { openGoalCreateActivity() }
+        fabAdd.setOnClickListener { openGoalCreateActivity() }
+        fabRemove.setOnClickListener { goalListViewModel.removeGoals() }
     }
 
     private fun initAnimationsNoGoals() {
@@ -121,7 +163,7 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
             imgNoGoals.translationY = progress
         }
         valueAnimator.start()
-        fab.show()
+        fabAdd.show()
     }
 
     private fun showGoalsList() {
@@ -133,6 +175,7 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
     }
 
     private fun showNoGoals() {
+        initAnimationsNoGoals()
         noGoalsGroup.visibility = View.VISIBLE
     }
 

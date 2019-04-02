@@ -90,7 +90,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/fabAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
@@ -100,6 +100,20 @@
             app:rippleColor="@color/colorAccent"
             android:clickable="true"
             app:srcCompat="@android:drawable/ic_input_add"
+            android:focusable="true"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabRemove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/margin_sixteen"
+            android:tint="@color/colorWhite"
+            app:backgroundTint="@color/colorRed"
+            app:rippleColor="@color/colorAccent"
+            android:clickable="true"
+            app:srcCompat="@android:drawable/ic_delete"
+            android:visibility="gone"
             android:focusable="true"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

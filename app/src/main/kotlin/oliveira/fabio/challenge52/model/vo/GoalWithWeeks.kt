@@ -1,6 +1,7 @@
 package oliveira.fabio.challenge52.model.vo
 
 import androidx.room.Embedded
+import androidx.room.Ignore
 import androidx.room.Relation
 import oliveira.fabio.challenge52.model.entity.Goal
 import oliveira.fabio.challenge52.model.entity.Week
@@ -15,6 +16,8 @@ class GoalWithWeeks : Serializable {
         entity = Week::class
     )
     lateinit var weeks: List<Week>
+    @Ignore
+    var isSelected = false
 
     fun getRemainingWeeksCount(): Int {
         var remainingWeeksCount = 0

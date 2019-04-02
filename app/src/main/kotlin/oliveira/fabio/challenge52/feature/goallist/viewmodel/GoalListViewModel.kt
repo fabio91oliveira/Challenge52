@@ -7,6 +7,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import oliveira.fabio.challenge52.model.entity.Goal
+import oliveira.fabio.challenge52.model.entity.Week
 import oliveira.fabio.challenge52.model.repository.GoalWithWeeksRepository
 import oliveira.fabio.challenge52.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.util.Event
@@ -16,6 +18,10 @@ class GoalListViewModel(private val goalWithWeeksRepository: GoalWithWeeksReposi
     private val job = SupervisorJob()
 
     val mutableLiveDataGoals by lazy { MutableLiveData<Event<List<GoalWithWeeks>>>() }
+    val mutableLiveDataRemoved by lazy { MutableLiveData<Event<Boolean>>() }
+    val goalWithWeeksToRemove by lazy { mutableListOf<GoalWithWeeks>() }
+
+    var isDeleteShown = false
 
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
@@ -36,6 +42,31 @@ class GoalListViewModel(private val goalWithWeeksRepository: GoalWithWeeksReposi
                         mutableLiveDataGoals.postValue(null)
                     }
                 )
+        }
+    }
+
+    fun removeGoals() {
+        launch {
+            val goalsToRemove = arrayListOf<Goal>()
+            val weeksToRemove = arrayListOf<Week>()
+
+            goalWithWeeksToRemove.forEach {
+                goalsToRemove.add(it.goal)
+                weeksToRemove.addAll(it.weeks)
+            }
+
+            SuspendableResult.of<Int, Exception> { goalWithWeeksRepository.removeGoals(goalsToRemove) }.fold(
+                success = {
+                    SuspendableResult.of<Int, Exception> { goalWithWeeksRepository.removeWeeks(weeksToRemove) }
+                        .fold(success = {
+                            mutableLiveDataRemoved.postValue(Event(true))
+                        }, failure = {
+                            mutableLiveDataRemoved.postValue(Event(false))
+                        })
+
+                }, failure = {
+                    mutableLiveDataRemoved.postValue(Event(false))
+                })
         }
     }
 }

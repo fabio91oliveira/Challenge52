@@ -145,7 +145,7 @@
                     android:background="@drawable/selector_button"
                     android:textSize="@dimen/text_eighteen"
                     android:layout_marginTop="@dimen/margin_sixteen"
-                    android:layout_marginBottom="@dimen/margin_sixteen"
+                    android:layout_marginBottom="@dimen/margin_twenty_four"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@id/card"
                     app:layout_constraintEnd_toEndOf="@id/card"

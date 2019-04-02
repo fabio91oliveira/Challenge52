@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_goal.*
+import kotlinx.android.synthetic.main.item_goal.view.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.util.extension.toCurrentFormat
@@ -29,12 +30,19 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
         LayoutInflater.from(parent.context).inflate(R.layout.item_goal, parent, false)
     )
 
-    fun addList(results: List<GoalWithWeeks>) {
-        this.goalsList.addAll(results)
+    fun addList(goalsList: List<GoalWithWeeks>) {
+        this.goalsList.addAll(goalsList)
+        notifyDataSetChanged()
+    }
+
+    fun remove(goalsList: List<GoalWithWeeks>) {
+        lastPosition = 0
+        this.goalsList.removeAll(goalsList)
         notifyDataSetChanged()
     }
 
     fun clearList() {
+        lastPosition = 0
         goalsList.clear()
         notifyDataSetChanged()
     }
@@ -42,6 +50,12 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
     inner class GoalViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
         fun bind(position: Int) {
+            containerView.contentCard.setBackgroundColor(
+                ContextCompat.getColor(
+                    containerView.context,
+                    R.color.colorWhite
+                )
+            )
             val progress = goalsList[position].getPercentOfConclusion()
             val textConclusion =
                 progress.toString() + containerView.context.getString(R.string.goal_list_progress_value_percent)
@@ -56,6 +70,54 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                 txtDoneValue.setTextColor(ContextCompat.getColor(containerView.context, R.color.colorGreen))
             }
             if (position >= lastPosition) animate()
+
+            containerView.setOnLongClickListener {
+                if (!goalsList[position].isSelected) {
+                    goalsList[position].isSelected = true
+                    containerView.contentCard.setBackgroundColor(
+                        ContextCompat.getColor(
+                            containerView.context,
+                            R.color.colorSofterGrey
+                        )
+                    )
+                    onClickGoalListener.onLongClick(goalsList[position])
+                    true
+                } else {
+                    false
+                }
+            }
+
+            containerView.setOnClickListener {
+                if (goalsList[position].isSelected) {
+                    containerView.contentCard.setBackgroundColor(
+                        ContextCompat.getColor(
+                            containerView.context,
+                            R.color.colorWhite
+                        )
+                    )
+                    onClickGoalListener.onClickRemove(goalsList[position])
+                    goalsList[position].isSelected = false
+                } else {
+                    var hasAtLeastOneSelected = false
+                    for (i in 0 until goalsList.size) {
+                        if (goalsList[i].isSelected) {
+                            hasAtLeastOneSelected = true
+                            break
+                        }
+                    }
+
+                    if (hasAtLeastOneSelected) {
+                        goalsList[position].isSelected = true
+                        containerView.contentCard.setBackgroundColor(
+                            ContextCompat.getColor(
+                                containerView.context,
+                                R.color.colorSofterGrey
+                            )
+                        )
+                        onClickGoalListener.onClickAdd(goalsList[position])
+                    }
+                }
+            }
         }
 
         private fun animate() {
@@ -81,5 +143,8 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
 
     interface OnClickGoalListener {
         fun onClickGoal(goal: GoalWithWeeks)
+        fun onLongClick(goal: GoalWithWeeks)
+        fun onClickAdd(goal: GoalWithWeeks)
+        fun onClickRemove(goal: GoalWithWeeks)
     }
 }
