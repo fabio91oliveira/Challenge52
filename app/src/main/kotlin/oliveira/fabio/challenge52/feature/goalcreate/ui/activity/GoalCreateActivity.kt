@@ -32,11 +32,6 @@ class GoalCreateActivity : AppCompatActivity() {
         init()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        goalCreateViewModel.onCleared()
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 

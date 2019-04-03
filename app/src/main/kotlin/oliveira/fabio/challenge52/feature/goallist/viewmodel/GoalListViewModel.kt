@@ -15,16 +15,15 @@ import oliveira.fabio.challenge52.util.Event
 import kotlin.coroutines.CoroutineContext
 
 class GoalListViewModel(private val goalWithWeeksRepository: GoalWithWeeksRepository) : ViewModel(), CoroutineScope {
+
     private val job = SupervisorJob()
-
-    val mutableLiveDataGoals by lazy { MutableLiveData<Event<List<GoalWithWeeks>>>() }
-    val mutableLiveDataRemoved by lazy { MutableLiveData<Event<Boolean>>() }
-    val goalWithWeeksToRemove by lazy { mutableListOf<GoalWithWeeks>() }
-
-    var isDeleteShown = false
-
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
+
+    val mutableLiveDataGoals by lazy { MutableLiveData<MutableList<GoalWithWeeks>?>() }
+    val mutableLiveDataRemoved by lazy { MutableLiveData<Event<Boolean>>() }
+    val goalWithWeeksToRemove by lazy { mutableListOf<GoalWithWeeks>() }
+    var isDeleteShown = false
 
     public override fun onCleared() {
         super.onCleared()
@@ -36,7 +35,7 @@ class GoalListViewModel(private val goalWithWeeksRepository: GoalWithWeeksReposi
             SuspendableResult.of<List<GoalWithWeeks>, Exception> { goalWithWeeksRepository.getAllGoalsWithWeeks() }
                 .fold(
                     success = {
-                        mutableLiveDataGoals.postValue(Event(it))
+                        mutableLiveDataGoals.postValue(it.toMutableList())
                     },
                     failure = {
                         mutableLiveDataGoals.postValue(null)
@@ -59,6 +58,7 @@ class GoalListViewModel(private val goalWithWeeksRepository: GoalWithWeeksReposi
                 success = {
                     SuspendableResult.of<Int, Exception> { goalWithWeeksRepository.removeWeeks(weeksToRemove) }
                         .fold(success = {
+                            mutableLiveDataGoals.value?.removeAll(goalWithWeeksToRemove)
                             mutableLiveDataRemoved.postValue(Event(true))
                         }, failure = {
                             mutableLiveDataRemoved.postValue(Event(false))

@@ -23,6 +23,32 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
+
+    private val goalListViewModel: GoalListViewModel by viewModel()
+    private val goalsAdapter by lazy { GoalsAdapter(this) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_goal_list)
+
+        savedInstanceState?.let {
+            setupToolbar()
+            initLiveData()
+            initClickListener()
+            initRecyclerView()
+        } ?: run {
+            init()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_LIST) {
+            goalListViewModel.listGoals()
+        }
+    }
+
     override fun onClickAdd(goal: GoalWithWeeks) {
         goalListViewModel.goalWithWeeksToRemove.add(goal)
         fabAdd.hide()
@@ -39,7 +65,6 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
         }
     }
 
-
     override fun onLongClick(goal: GoalWithWeeks) {
         goalListViewModel.goalWithWeeksToRemove.add(goal)
         fabAdd.hide()
@@ -48,28 +73,6 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
     }
 
     override fun onClickGoal(goal: GoalWithWeeks) {
-    }
-
-    private val goalListViewModel: GoalListViewModel by viewModel()
-    private val goalsAdapter by lazy { GoalsAdapter(this) }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_goal_list)
-        init()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        goalListViewModel.onCleared()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_LIST) {
-            goalListViewModel.listGoals()
-        }
     }
 
     private fun init() {
@@ -82,10 +85,10 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
     }
 
     private fun initLiveData() {
-        goalListViewModel.mutableLiveDataGoals.observe(this, Observer { event ->
+        goalListViewModel.mutableLiveDataGoals.observe(this, Observer {
             goalsAdapter.clearList()
-            event.getContentIfNotHandled()?.let {
-                when (it.isNotEmpty()) {
+            it?.let { list ->
+                when (list.isNotEmpty()) {
                     true -> {
                         goalsAdapter.addList(it)
                         hideNoGoals()
@@ -98,6 +101,8 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
                         hideLoading()
                     }
                 }
+            } ?: run {
+                val a = ""
             }
         })
         goalListViewModel.mutableLiveDataRemoved.observe(this, Observer { event ->

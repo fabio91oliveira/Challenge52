@@ -16,13 +16,12 @@ import kotlin.coroutines.CoroutineContext
 
 class GoalCreateViewModel(private val goalWithWeeksRepository: GoalWithWeeksRepository) :
     ViewModel(), CoroutineScope {
-    private val job = SupervisorJob()
 
-    val mutableLiveData by lazy { MutableLiveData<Boolean>() }
-
-
+    private val job by lazy { SupervisorJob() }
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
+
+    val mutableLiveData by lazy { MutableLiveData<Boolean>() }
 
     public override fun onCleared() {
         super.onCleared()
