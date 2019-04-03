@@ -167,7 +167,6 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
             imgNoGoals.translationY = progress
         }
         valueAnimator.start()
-        fabAdd.show()
     }
 
     private fun showGoalsList() {
