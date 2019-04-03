@@ -33,7 +33,6 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
     fun addList(goalsList: List<GoalWithWeeks>) {
         this.goalsList.addAll(goalsList)
         notifyDataSetChanged()
-        lastPosition = 0
     }
 
     fun remove(goalsList: List<GoalWithWeeks>) {
@@ -42,6 +41,7 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
     }
 
     fun clearList() {
+        lastPosition = goalsList.size
         goalsList.clear()
         notifyDataSetChanged()
     }
