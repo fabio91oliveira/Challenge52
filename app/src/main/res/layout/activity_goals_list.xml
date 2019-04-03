@@ -27,8 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:showIn="@layout/activity_goal_list"
-            tools:context=".feature.goallist.ui.activity.GoalListActivity">
+            tools:showIn="@layout/activity_goals_list"
+            tools:context=".feature.goallist.ui.activity.GoalsListActivity">
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvGoalsList"
@@ -54,7 +54,7 @@
                 android:text="@string/goal_list_no_goals"
                 android:layout_marginStart="@dimen/margin_twenty_four"
                 android:layout_marginEnd="@dimen/margin_twenty_four"
-                android:textSize="@dimen/text_twenty"
+                android:textSize="@dimen/text_twenty_four"
                 android:textColor="@color/colorBlack"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

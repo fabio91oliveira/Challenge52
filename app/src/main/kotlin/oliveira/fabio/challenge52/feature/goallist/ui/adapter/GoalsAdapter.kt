@@ -15,8 +15,8 @@ import kotlinx.android.synthetic.main.item_goal.*
 import kotlinx.android.synthetic.main.item_goal.view.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.util.extension.toCurrency
 import oliveira.fabio.challenge52.util.extension.toCurrentFormat
-import java.text.NumberFormat
 
 class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
     RecyclerView.Adapter<GoalsAdapter.GoalViewHolder>() {
@@ -60,7 +60,7 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                 progress.toString() + containerView.context.getString(R.string.goal_list_progress_value_percent)
 
             txtName.text = goalsList[position].goal.name
-            txtValue.text = NumberFormat.getCurrencyInstance().format((goalsList[position].goal.totalValue / 100))
+            txtValue.text = goalsList[position].goal.totalValue.toCurrency()
             txtWeeksValue.text = goalsList[position].getRemainingWeeksCount().toString()
             txtStartDateValue.text = goalsList[position].getStartDate()
                 .toCurrentFormat(containerView.context.getString(R.string.date_pattern))
@@ -116,6 +116,8 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                             )
                         )
                         onClickGoalListener.onClickAdd(goalsList[position])
+                    } else {
+                        onClickGoalListener.onClickGoal(goalsList[position])
                     }
                 }
             }
@@ -128,14 +130,14 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
 
             val animation = AnimationSet(false)
             animation.addAnimation(fadeIn)
-            containerView.animation = animation
+            containerView.cardGoal.animation = animation
 
             val valueAnimator = ValueAnimator.ofFloat(-300f, 0f)
             valueAnimator.interpolator = AccelerateDecelerateInterpolator()
             valueAnimator.duration = 500
             valueAnimator.addUpdateListener {
                 val progress = it.animatedValue as Float
-                containerView.translationX = progress
+                containerView.cardGoal.translationX = progress
             }
             valueAnimator.start()
             lastPosition++

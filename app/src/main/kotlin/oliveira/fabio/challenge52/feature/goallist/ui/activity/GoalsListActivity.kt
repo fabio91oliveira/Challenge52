@@ -13,23 +13,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_goal_list.*
+import kotlinx.android.synthetic.main.activity_goals_list.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.goalcreate.ui.activity.GoalCreateActivity
+import oliveira.fabio.challenge52.feature.goaldetails.ui.activity.GoalDetailsActivity
 import oliveira.fabio.challenge52.feature.goallist.ui.adapter.GoalsAdapter
-import oliveira.fabio.challenge52.feature.goallist.viewmodel.GoalListViewModel
+import oliveira.fabio.challenge52.feature.goallist.viewmodel.GoalsListViewModel
 import oliveira.fabio.challenge52.model.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
+class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
 
-    private val goalListViewModel: GoalListViewModel by viewModel()
+    private val goalsListViewModel: GoalsListViewModel by viewModel()
     private val goalsAdapter by lazy { GoalsAdapter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_goal_list)
+        setContentView(R.layout.activity_goals_list)
 
         savedInstanceState?.let {
             setupToolbar()
@@ -45,34 +46,38 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_LIST) {
-            goalListViewModel.listGoals()
+            goalsListViewModel.listGoals()
         }
     }
 
     override fun onClickAdd(goal: GoalWithWeeks) {
-        goalListViewModel.goalWithWeeksToRemove.add(goal)
+        goalsListViewModel.goalWithWeeksToRemove.add(goal)
         fabAdd.hide()
         fabRemove.show()
-        goalListViewModel.isDeleteShown = true
+        goalsListViewModel.isDeleteShown = true
     }
 
     override fun onClickRemove(goal: GoalWithWeeks) {
-        goalListViewModel.goalWithWeeksToRemove.remove(goal)
-        if (goalListViewModel.goalWithWeeksToRemove.isEmpty()) {
+        goalsListViewModel.goalWithWeeksToRemove.remove(goal)
+        if (goalsListViewModel.goalWithWeeksToRemove.isEmpty()) {
             fabRemove.hide()
             fabAdd.show()
-            goalListViewModel.isDeleteShown = false
+            goalsListViewModel.isDeleteShown = false
         }
     }
 
     override fun onLongClick(goal: GoalWithWeeks) {
-        goalListViewModel.goalWithWeeksToRemove.add(goal)
+        goalsListViewModel.goalWithWeeksToRemove.add(goal)
         fabAdd.hide()
         fabRemove.show()
-        goalListViewModel.isDeleteShown = true
+        goalsListViewModel.isDeleteShown = true
     }
 
     override fun onClickGoal(goal: GoalWithWeeks) {
+        Intent(this, GoalDetailsActivity::class.java).apply {
+            putExtra(GOAL_TAG, goal)
+            startActivity(this)
+        }
     }
 
     private fun init() {
@@ -81,11 +86,11 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
         initClickListener()
         initRecyclerView()
         showLoading()
-        goalListViewModel.listGoals()
+        goalsListViewModel.listGoals()
     }
 
     private fun initLiveData() {
-        goalListViewModel.mutableLiveDataGoals.observe(this, Observer {
+        goalsListViewModel.mutableLiveDataGoals.observe(this, Observer {
             goalsAdapter.clearList()
             it?.let { list ->
                 when (list.isNotEmpty()) {
@@ -105,15 +110,15 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
                 val a = ""
             }
         })
-        goalListViewModel.mutableLiveDataRemoved.observe(this, Observer { event ->
+        goalsListViewModel.mutableLiveDataRemoved.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let {
                 when (it) {
                     true -> {
-                        goalsAdapter.remove(goalListViewModel.goalWithWeeksToRemove)
-                        goalListViewModel.goalWithWeeksToRemove.clear()
+                        goalsAdapter.remove(goalsListViewModel.goalWithWeeksToRemove)
+                        goalsListViewModel.goalWithWeeksToRemove.clear()
                         fabRemove.hide()
                         fabAdd.show()
-                        goalListViewModel.isDeleteShown = false
+                        goalsListViewModel.isDeleteShown = false
 
                         if (goalsAdapter.itemCount == 0) {
                             hideGoalsList()
@@ -131,9 +136,9 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
         rvGoalsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0)
-                    if (goalListViewModel.isDeleteShown) fabRemove.hide() else fabAdd.hide()
+                    if (goalsListViewModel.isDeleteShown) fabRemove.hide() else fabAdd.hide()
                 else if (dy < 0)
-                    if (goalListViewModel.isDeleteShown) fabRemove.show() else fabAdd.show()
+                    if (goalsListViewModel.isDeleteShown) fabRemove.show() else fabAdd.show()
             }
         })
     }
@@ -145,7 +150,7 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
 
     private fun initClickListener() {
         fabAdd.setOnClickListener { openGoalCreateActivity() }
-        fabRemove.setOnClickListener { goalListViewModel.removeGoals() }
+        fabRemove.setOnClickListener { goalsListViewModel.removeGoals() }
     }
 
     private fun initAnimationsNoGoals() {
@@ -200,6 +205,7 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
 
     companion object {
         private const val REQUEST_CODE_LIST = 300
+        private const val GOAL_TAG = "GOAL"
     }
 
 }

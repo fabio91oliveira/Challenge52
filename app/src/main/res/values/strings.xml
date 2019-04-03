@@ -21,6 +21,9 @@
     <string name="goal_create_calendar_choose_date">Escolher data</string>
     <string name="goal_create_calendar_select_date">Selecionar data</string>
 
+
+    <string name="goal_details_week">Semana:</string>
+
     <string name="currency_mask">[R$,.]</string>
     <string name="date_pattern">dd/MM/yyyy</string>
 </resources>

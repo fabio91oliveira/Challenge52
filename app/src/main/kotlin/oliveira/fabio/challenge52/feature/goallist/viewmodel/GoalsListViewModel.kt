@@ -14,7 +14,7 @@ import oliveira.fabio.challenge52.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.util.Event
 import kotlin.coroutines.CoroutineContext
 
-class GoalListViewModel(private val goalWithWeeksRepository: GoalWithWeeksRepository) : ViewModel(), CoroutineScope {
+class GoalsListViewModel(private val goalWithWeeksRepository: GoalWithWeeksRepository) : ViewModel(), CoroutineScope {
 
     private val job = SupervisorJob()
     override val coroutineContext: CoroutineContext
