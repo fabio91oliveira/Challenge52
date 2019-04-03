@@ -49,15 +49,15 @@
                     app:cardPreventCornerOverlap="true"
                     app:cardUseCompatPadding="true"
                     app:layout_constraintVertical_bias="0"
-                    android:layout_marginTop="@dimen/margin_twenty_eight"
+                    android:layout_marginTop="@dimen/margin_ten"
                     android:layout_marginStart="@dimen/margin_sixteen"
                     android:layout_marginEnd="@dimen/margin_sixteen">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_twenty_eight"
-                        android:layout_marginBottom="@dimen/margin_forty"
+                        android:layout_marginTop="@dimen/margin_twenty_four"
+                        android:layout_marginBottom="@dimen/margin_twenty_eight"
                         android:layout_marginStart="@dimen/margin_twenty_four"
                         android:layout_marginEnd="@dimen/margin_twenty_four">
 

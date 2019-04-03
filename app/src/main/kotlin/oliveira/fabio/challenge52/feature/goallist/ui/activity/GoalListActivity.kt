@@ -56,7 +56,6 @@ class GoalListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_goal_list)
-        fabAdd.hide()
         init()
     }
 
