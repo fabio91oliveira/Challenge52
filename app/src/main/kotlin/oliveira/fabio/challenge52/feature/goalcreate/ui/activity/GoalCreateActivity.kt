@@ -41,7 +41,7 @@ class GoalCreateActivity : AppCompatActivity() {
             this.calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH))
             this.calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH))
 
-            setData(this.calendar.toCurrentFormat(this@GoalCreateActivity))
+            setData(this.calendar.toCurrentFormat(resources.getString(R.string.date_pattern)))
             content.requestFocus()
         }
     }
@@ -88,7 +88,7 @@ class GoalCreateActivity : AppCompatActivity() {
     }
 
     private fun initFields() {
-        setData(calendar.toCurrentFormat(this@GoalCreateActivity))
+        setData(calendar.toCurrentFormat(resources.getString(R.string.date_pattern)))
         txtName.callFunctionAfterTextChanged { validateCreateButton() }
         txtValue.toCurrencyFormat {
             validateCreateButton()

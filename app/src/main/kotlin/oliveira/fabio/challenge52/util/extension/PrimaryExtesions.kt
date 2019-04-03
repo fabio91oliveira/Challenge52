@@ -1,16 +1,14 @@
 package oliveira.fabio.challenge52.util.extension
 
-import android.content.Context
-import oliveira.fabio.challenge52.R
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun Calendar.toCurrentFormat(context: Context): String {
-    val sdf = SimpleDateFormat(context.resources.getString(R.string.date_pattern))
+fun Calendar.toCurrentFormat(pattern: String): String {
+    val sdf = SimpleDateFormat(pattern)
     return sdf.format(time)
 }
 
-fun Date.toCurrentFormat(context: Context): String {
-    val sdf = SimpleDateFormat(context.resources.getString(R.string.date_pattern))
+fun Date.toCurrentFormat(pattern: String): String {
+    val sdf = SimpleDateFormat(pattern)
     return sdf.format(time)
 }

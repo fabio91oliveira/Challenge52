@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import oliveira.fabio.challenge52.model.entity.Goal
 import oliveira.fabio.challenge52.model.entity.Week
 import oliveira.fabio.challenge52.model.repository.GoalWithWeeksRepository
+import oliveira.fabio.challenge52.util.extension.toCurrentFormat
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
@@ -58,16 +59,16 @@ class GoalCreateViewModel(private val goalWithWeeksRepository: GoalWithWeeksRepo
         calendar.time = goal.initialDate
 
         for (i in 1..TOTAL_WEEKS) {
-            calendar.add(Calendar.DAY_OF_YEAR, 7)
             Week(i, spittedValue, calendar.time, false, goal.id).apply {
                 this.position = i
                 this.spittedValue = spittedValue
                 this.date = calendar.time
                 this.idGoal = goal.id
                 this.isDeposited = false
-                Log.d("WEEK", "CRIOU: $i")
+                Log.d("DATA: ", calendar.toCurrentFormat("dd/MM/yyyy"))
                 weeks.add(this)
             }
+            calendar.add(Calendar.DAY_OF_YEAR, 7)
         }
 
         return weeks

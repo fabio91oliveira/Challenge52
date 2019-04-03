@@ -62,8 +62,10 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
             txtName.text = goalsList[position].goal.name
             txtValue.text = NumberFormat.getCurrencyInstance().format((goalsList[position].goal.totalValue / 100))
             txtWeeksValue.text = goalsList[position].getRemainingWeeksCount().toString()
-            txtStartDateValue.text = goalsList[position].getStartDate().toCurrentFormat(containerView.context)
-            txtEndDateValue.text = goalsList[position].getEndDate().toCurrentFormat(containerView.context)
+            txtStartDateValue.text = goalsList[position].getStartDate()
+                .toCurrentFormat(containerView.context.getString(R.string.date_pattern))
+            txtEndDateValue.text =
+                goalsList[position].getEndDate().toCurrentFormat(containerView.context.getString(R.string.date_pattern))
             txtDoneValue.text = textConclusion
             if (progress > 0) {
                 txtDoneValue.setTextColor(ContextCompat.getColor(containerView.context, R.color.colorGreen))
