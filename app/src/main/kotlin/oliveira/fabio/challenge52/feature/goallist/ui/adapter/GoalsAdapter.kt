@@ -67,6 +67,7 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
             txtEndDateValue.text =
                 goalsList[position].getEndDate().toCurrentFormat(containerView.context.getString(R.string.date_pattern))
             txtDoneValue.text = textConclusion
+            progressBar.progress = progress
             if (progress > 0) {
                 txtDoneValue.setTextColor(ContextCompat.getColor(containerView.context, R.color.colorGreen))
             }
