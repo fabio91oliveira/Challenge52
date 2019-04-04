@@ -1,5 +1,6 @@
 package oliveira.fabio.challenge52.feature.goalslist.ui.adapter
 
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.util.extension.toCurrency
 import oliveira.fabio.challenge52.util.extension.toCurrentFormat
+
 
 class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
     RecyclerView.Adapter<GoalsAdapter.GoalViewHolder>() {
@@ -56,8 +58,6 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                 )
             )
             val progress = goalsList[position].getPercentOfConclusion()
-            val textConclusion =
-                progress.toString() + containerView.context.getString(R.string.goal_list_progress_value_percent)
 
             txtName.text = goalsList[position].goal.name
             txtValue.text = goalsList[position].goal.totalValue.toCurrency()
@@ -66,13 +66,21 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                 .toCurrentFormat(containerView.context.getString(R.string.date_pattern))
             txtEndDateValue.text =
                 goalsList[position].getEndDate().toCurrentFormat(containerView.context.getString(R.string.date_pattern))
-            txtDoneValue.text = textConclusion
-            progressBar.progress = progress
 
             when (progress > 0) {
                 true -> txtDoneValue.setTextColor(ContextCompat.getColor(containerView.context, R.color.colorGreen))
                 false -> txtDoneValue.setTextColor(ContextCompat.getColor(containerView.context, R.color.colorBlack))
             }
+
+            val animation = ObjectAnimator.ofInt(progressBar, "progress", 0, progress)
+            animation.duration = 1000
+            animation.interpolator = DecelerateInterpolator()
+            animation.addUpdateListener {
+                val prog = it.animatedValue as Int
+                txtDoneValue.text =
+                    prog.toString() + containerView.context.getString(R.string.goal_list_progress_value_percent)
+            }
+            animation.start()
 
             if (position >= lastPosition) animate()
 
