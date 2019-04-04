@@ -34,7 +34,6 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         closeDetails()
     }
 
@@ -46,7 +45,6 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
         setupToolbar()
         initRecyclerView()
         initLiveData()
-        setValues()
     }
 
     private fun initLiveData() {
@@ -55,10 +53,6 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
                 if (it) newIntent.putExtra(HAS_CHANGED, true)
             }
         })
-    }
-
-    private fun setValues() {
-
     }
 
     private fun setupToolbar() {

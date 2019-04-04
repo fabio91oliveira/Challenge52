@@ -40,11 +40,6 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
         notifyDataSetChanged()
     }
 
-    fun remove(weeksList: List<Week>) {
-        this.weeksList.removeAll(weeksList)
-        notifyDataSetChanged()
-    }
-
     inner class WeekViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
         fun bind(position: Int) {
@@ -54,7 +49,7 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
             txtYear.text = weeksList[position].date.getYearNumber().toString()
             txtMonth.text = weeksList[position].date.getMonthNumber().toString()
             txtDay.text = weeksList[position].date.getDayNumber().toString()
-            if (lastPosition >= position) animate()
+            if (position >= lastPosition) animate()
 
             containerView.setOnClickListener {
                 changeBackground(weeksList[position])
