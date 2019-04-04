@@ -9,14 +9,34 @@
     <com.google.android.material.appbar.AppBarLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:stateListAnimator="@null"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:stateListAnimator="@null">
 
-        <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+                android:layout_height="@dimen/collapsing_size"
+                app:expandedTitleMarginTop="@dimen/margin_forty"
+                app:expandedTitleGravity="start"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:scrollbarStyle="insideOverlay"
+                app:expandedTitleTextAppearance="@style/TextAppearance.Expanded"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.Collapsed"
+                app:contentScrim="?colorPrimary">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
+                    android:scaleType="centerCrop"/>
+
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:title="@string/goal_List_my_goals"/>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -26,6 +46,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:behavior_overlapTop="@dimen/margin_ninety"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:showIn="@layout/activity_goals_list"
             tools:context=".feature.goalslist.ui.activity.GoalsListActivity">
@@ -121,6 +142,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorPrimary"
-            android:visibility="invisible" />
+            android:visibility="invisible"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -49,12 +49,13 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
             txtYear.text = weeksList[position].date.getYearNumber().toString()
             txtMonth.text = weeksList[position].date.getMonthNumber().toString()
             txtDay.text = weeksList[position].date.getDayNumber().toString()
-            if (position >= lastPosition) animate()
 
             containerView.setOnClickListener {
-                changeBackground(weeksList[position])
+                weeksList[position].isDeposited = !weeksList[position].isDeposited
                 onClickWeekListener.onClickWeek(weeksList[position])
             }
+
+            if (position >= lastPosition) animate()
         }
 
         private fun animate() {
@@ -64,14 +65,14 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
 
             val animation = AnimationSet(false)
             animation.addAnimation(fadeIn)
-            containerView.cardWeek.animation = animation
+            cardWeek.animation = animation
 
             val valueAnimator = ValueAnimator.ofFloat(-300f, 0f)
             valueAnimator.interpolator = AccelerateDecelerateInterpolator()
             valueAnimator.duration = 500
             valueAnimator.addUpdateListener {
                 val progress = it.animatedValue as Float
-                containerView.cardWeek.translationX = progress
+                cardWeek.translationX = progress
             }
             valueAnimator.start()
             lastPosition++

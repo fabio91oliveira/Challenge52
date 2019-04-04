@@ -22,6 +22,7 @@
         <activity android:name=".feature.goalcreate.ui.activity.CalendarActivity"
                   android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".feature.goaldetails.ui.activity.GoalDetailsActivity"/>
+        <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
     </application>
 
 </manifest>

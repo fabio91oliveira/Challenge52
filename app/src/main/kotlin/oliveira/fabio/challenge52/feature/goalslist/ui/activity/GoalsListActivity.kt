@@ -36,7 +36,6 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
         setContentView(R.layout.activity_goals_list)
 
         savedInstanceState?.let {
-            setupToolbar()
             initLiveData()
             initClickListener()
             initRecyclerView()
@@ -102,7 +101,6 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
     }
 
     private fun init() {
-        setupToolbar()
         initLiveData()
         initClickListener()
         initRecyclerView()
@@ -166,11 +164,6 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
                     if (goalsListViewModel.isDeleteShown) fabRemove.show() else fabAdd.show()
             }
         })
-    }
-
-    private fun setupToolbar() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = resources.getString(R.string.goal_List_my_goals)
     }
 
     private fun initClickListener() {

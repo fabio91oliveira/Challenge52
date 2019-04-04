@@ -4,13 +4,17 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/cardGoal"
         style="@style/Widget.MaterialComponents.CardView"
+        app:cardElevation="@dimen/margin_four"
         android:layout_width="match_parent"
+        app:cardCornerRadius="@dimen/margin_eight"
         android:layout_height="wrap_content"
         android:foreground="?android:attr/selectableItemBackground"
         android:stateListAnimator="@anim/animation"
         android:clickable="true"
-        app:cardCornerRadius="@dimen/margin_eight"
-        app:cardUseCompatPadding="true"
+        android:layout_marginTop="@dimen/margin_ten"
+        android:layout_marginStart="@dimen/margin_ten"
+        android:layout_marginEnd="@dimen/margin_ten"
+        android:layout_marginBottom="@dimen/margin_ten"
         android:focusable="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,7 +72,7 @@
                 android:textStyle="bold"
                 android:layout_marginEnd="@dimen/margin_six"
                 android:textColor="@color/colorBlack"
-                tools:text="R$ 2.000,00"/>
+                tools:text="R$ 2.000,00" app:fontFamily="@font/ubuntu_bold"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtWeeksValue"
@@ -108,7 +112,7 @@
                 android:textColor="@color/colorBlack"
                 app:layout_constraintTop_toBottomOf="@+id/txtEndDateValue"
                 app:layout_constraintEnd_toEndOf="@id/txtEndDateValue"
-                tools:text="0%"/>
+                tools:text="0%" app:fontFamily="@font/ubuntu_bold"/>
 
         <androidx.core.widget.ContentLoadingProgressBar
                 android:id="@+id/progressBar"

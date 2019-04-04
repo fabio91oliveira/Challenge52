@@ -50,7 +50,9 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
     private fun initLiveData() {
         goalDetailsViewModel.mutableLiveDataUpdated.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let {
-                if (it) newIntent.putExtra(HAS_CHANGED, true)
+                if (it) {
+                    newIntent.putExtra(HAS_CHANGED, true)
+                }
             }
         })
     }
