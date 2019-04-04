@@ -27,6 +27,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/margin_six"
                 android:layout_marginStart="@dimen/margin_six"
+                android:textColor="@color/colorBlack"
                 tools:text="Nome da meta"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -36,15 +37,16 @@
                 android:layout_marginTop="@dimen/margin_sixteen"
                 app:layout_constraintTop_toBottomOf="@+id/txtName"
                 app:layout_constraintStart_toStartOf="@id/txtName"
+                android:textColor="@color/colorBlack"
                 android:text="@string/goal_list_weeks_remaining"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtStartDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_sixteen"
                 app:layout_constraintTop_toBottomOf="@+id/txtWeeks"
                 app:layout_constraintStart_toStartOf="@id/txtWeeks"
+                android:textColor="@color/colorBlack"
                 android:text="@string/goal_list_start_date"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -53,6 +55,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/txtStartDate"
                 app:layout_constraintStart_toStartOf="@id/txtStartDate"
+                android:textColor="@color/colorBlack"
                 android:text="@string/goal_list_end_date"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -64,6 +67,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textStyle="bold"
                 android:layout_marginEnd="@dimen/margin_six"
+                android:textColor="@color/colorBlack"
                 tools:text="R$ 2.000,00"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -73,15 +77,16 @@
                 android:layout_marginTop="@dimen/margin_sixteen"
                 app:layout_constraintTop_toBottomOf="@+id/txtValue"
                 app:layout_constraintEnd_toEndOf="@id/txtValue"
+                android:textColor="@color/colorBlack"
                 tools:text="52"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtStartDateValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_sixteen"
                 app:layout_constraintTop_toBottomOf="@+id/txtWeeksValue"
                 app:layout_constraintEnd_toEndOf="@id/txtValue"
+                android:textColor="@color/colorBlack"
                 tools:text="01/02/2019"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -90,6 +95,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/txtStartDateValue"
                 app:layout_constraintEnd_toEndOf="@id/txtStartDateValue"
+                android:textColor="@color/colorBlack"
                 tools:text="01/02/2020"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -99,6 +105,7 @@
                 android:textStyle="bold"
                 android:textSize="@dimen/text_eighteen"
                 android:layout_marginTop="@dimen/margin_twenty_four"
+                android:textColor="@color/colorBlack"
                 app:layout_constraintTop_toBottomOf="@+id/txtEndDateValue"
                 app:layout_constraintEnd_toEndOf="@id/txtEndDateValue"
                 tools:text="0%"/>
@@ -109,6 +116,8 @@
                 android:layout_height="0dp"
                 android:includeFontPadding="false"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:progressTint="@color/colorGreen"
+                android:progressBackgroundTint="@color/colorSofterGrey"
                 android:indeterminate="false"
                 tools:progress="45"
                 app:layout_constraintTop_toBottomOf="@+id/txtDoneValue"

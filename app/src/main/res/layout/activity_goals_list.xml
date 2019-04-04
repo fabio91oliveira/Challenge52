@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:showIn="@layout/activity_goals_list"
-            tools:context=".feature.goallist.ui.activity.GoalsListActivity">
+            tools:context=".feature.goalslist.ui.activity.GoalsListActivity">
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvGoalsList"

@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.feature.goallist.viewmodel
+package oliveira.fabio.challenge52.feature.goalslist.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

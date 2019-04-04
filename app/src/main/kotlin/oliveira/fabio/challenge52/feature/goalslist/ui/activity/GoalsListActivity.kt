@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.feature.goallist.ui.activity
+package oliveira.fabio.challenge52.feature.goalslist.ui.activity
 
 import android.animation.ValueAnimator
 import android.app.Activity
@@ -17,8 +17,8 @@ import kotlinx.android.synthetic.main.activity_goals_list.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.goalcreate.ui.activity.GoalCreateActivity
 import oliveira.fabio.challenge52.feature.goaldetails.ui.activity.GoalDetailsActivity
-import oliveira.fabio.challenge52.feature.goallist.ui.adapter.GoalsAdapter
-import oliveira.fabio.challenge52.feature.goallist.viewmodel.GoalsListViewModel
+import oliveira.fabio.challenge52.feature.goalslist.ui.adapter.GoalsAdapter
+import oliveira.fabio.challenge52.feature.goalslist.viewmodel.GoalsListViewModel
 import oliveira.fabio.challenge52.model.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -45,8 +45,14 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_LIST) {
-            goalsListViewModel.listGoals()
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_CODE_LIST, REQUEST_CODE_DETAILS -> goalsListViewModel.listGoals()
+            }
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            when (requestCode) {
+                REQUEST_CODE_DETAILS -> goalsListViewModel.listGoals()
+            }
         }
     }
 
@@ -74,10 +80,7 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
     }
 
     override fun onClickGoal(goal: GoalWithWeeks) {
-        Intent(this, GoalDetailsActivity::class.java).apply {
-            putExtra(GOAL_TAG, goal)
-            startActivity(this)
-        }
+        openGoalDetailsActivity(goal)
     }
 
     private fun init() {
@@ -203,8 +206,15 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
         startActivityForResult(this, REQUEST_CODE_LIST)
     }
 
+    private fun openGoalDetailsActivity(goal: GoalWithWeeks) = Intent(this, GoalDetailsActivity::class.java).apply {
+        putExtra(GOAL_TAG, goal)
+        startActivityForResult(this, REQUEST_CODE_DETAILS)
+    }
+
+
     companion object {
         private const val REQUEST_CODE_LIST = 300
+        private const val REQUEST_CODE_DETAILS = 400
         private const val GOAL_TAG = "GOAL"
     }
 

@@ -29,7 +29,7 @@ class GoalWithWeeks : Serializable {
         return remainingWeeksCount
     }
 
-    fun getPercentOfConclusion() = ((getRemainingWeeksCount() - weeks.size) / weeks.size) * PERCENT
+    fun getPercentOfConclusion() = (((weeks.size.toFloat() - getRemainingWeeksCount().toFloat()) / weeks.size.toFloat()) * PERCENT).toInt()
 
     fun getStartDate() = weeks[FIRST_INDEX].date
     fun getEndDate() = weeks[LAST_INDEX].date
