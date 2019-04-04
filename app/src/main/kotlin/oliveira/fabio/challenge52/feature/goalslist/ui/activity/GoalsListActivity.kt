@@ -1,10 +1,13 @@
 package oliveira.fabio.challenge52.feature.goalslist.ui.activity
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.ViewAnimationUtils
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
@@ -47,11 +50,26 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
 
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                REQUEST_CODE_LIST, REQUEST_CODE_DETAILS -> goalsListViewModel.listGoals()
+                REQUEST_CODE_LIST -> {
+                    resetAnimation()
+                    goalsListViewModel.listGoals()
+                }
+                REQUEST_CODE_DETAILS -> {
+                    data?.getBooleanExtra(HAS_CHANGED, false)?.let {
+                        if (it) goalsListViewModel.listGoals()
+                    }
+                }
             }
         } else if (resultCode == Activity.RESULT_CANCELED) {
             when (requestCode) {
-                REQUEST_CODE_DETAILS -> goalsListViewModel.listGoals()
+                REQUEST_CODE_LIST -> {
+                    resetAnimation()
+                }
+                REQUEST_CODE_DETAILS -> {
+                    data?.getBooleanExtra(HAS_CHANGED, false)?.let {
+                        if (it) goalsListViewModel.listGoals()
+                    }
+                }
             }
         }
     }
@@ -94,6 +112,8 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
 
     private fun initLiveData() {
         goalsListViewModel.mutableLiveDataGoals.observe(this, Observer {
+            hideGoalsList()
+            showLoading()
             goalsAdapter.clearList()
             it?.let { list ->
                 when (list.isNotEmpty()) {
@@ -110,7 +130,9 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
                     }
                 }
             } ?: run {
-                val a = ""
+                hideGoalsList()
+                hideLoading()
+                // exibir view de erro
             }
         })
         goalsListViewModel.mutableLiveDataRemoved.observe(this, Observer { event ->
@@ -152,7 +174,7 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
     }
 
     private fun initClickListener() {
-        fabAdd.setOnClickListener { openGoalCreateActivity() }
+        fabAdd.setOnClickListener { revealButton() }
         fabRemove.setOnClickListener { goalsListViewModel.removeGoals() }
     }
 
@@ -211,11 +233,48 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
         startActivityForResult(this, REQUEST_CODE_DETAILS)
     }
 
+    private fun revealButton() {
+        revealView.visibility = View.VISIBLE
+        fabAdd.hide()
+
+        val cx = revealView.width
+        val cy = revealView.height
+
+
+        val x = (getButtonSize() / 2 + fabAdd.x)
+        val y = (getButtonSize() / 2 + fabAdd.y)
+
+        val finalRadius = Math.max(cx, cy) * 1.2f
+
+        val reveal = ViewAnimationUtils
+            .createCircularReveal(
+                revealView,
+                x.toInt(),
+                y.toInt(),
+                getButtonSize(), finalRadius
+            )
+
+        reveal.duration = 350
+        reveal.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                openGoalCreateActivity()
+            }
+        })
+        reveal.start()
+    }
+
+    private fun resetAnimation() {
+        revealView.visibility = View.INVISIBLE
+        fabAdd.show()
+    }
+
+    private fun getButtonSize() = resources.getDimension(R.dimen.button_height)
 
     companion object {
         private const val REQUEST_CODE_LIST = 300
         private const val REQUEST_CODE_DETAILS = 400
         private const val GOAL_TAG = "GOAL"
+        private const val HAS_CHANGED = "HAS_CHANGED"
     }
 
 }

@@ -116,4 +116,11 @@
             android:visibility="gone"
             android:focusable="true"/>
 
+    <View
+            android:id="@+id/revealView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:visibility="invisible" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -54,7 +54,7 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
             txtYear.text = weeksList[position].date.getYearNumber().toString()
             txtMonth.text = weeksList[position].date.getMonthNumber().toString()
             txtDay.text = weeksList[position].date.getDayNumber().toString()
-//            if (lastPosition >= position) animate()
+            if (lastPosition >= position) animate()
 
             containerView.setOnClickListener {
                 changeBackground(weeksList[position])
