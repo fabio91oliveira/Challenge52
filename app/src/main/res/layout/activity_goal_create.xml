@@ -79,6 +79,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textSize="@dimen/text_sixteen"
+                                android:maxLength="30"
                                 android:singleLine="true"
                                 android:backgroundTint="@color/colorSofterGrey"
                                 android:imeOptions="actionNext"
@@ -103,6 +104,7 @@
                                 android:layout_height="wrap_content"
                                 android:textSize="@dimen/text_sixteen"
                                 android:singleLine="true"
+                                android:maxLength="14"
                                 android:inputType="number"
                                 android:nextFocusRight="@id/txtDate"
                                 android:backgroundTint="@color/colorSofterGrey"/>

@@ -17,13 +17,13 @@
 
     <style name="TextAppearance.CollapsingToolbar" parent="Theme.AppCompat.NoActionBar">
         <item name="android:textColor">@color/colorWhite</item>
-        <item name="android:textSize">@dimen/text_twenty_four</item>
+        <item name="android:fontFamily">@font/ubuntu_bold</item>
     </style>
 
     <style name="TextAppearance.Expanded" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:fontFamily">@font/ubuntu_bold</item>
         <item name="android:textColor">@color/colorWhite</item>
-        <item name="android:textSize">@dimen/text_forty</item>
+        <item name="android:textSize">@dimen/text_thirty</item>
     </style>
 
     <style name="TextAppearance.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">

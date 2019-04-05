@@ -25,14 +25,18 @@
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/txtValue"
                 android:layout_marginTop="@dimen/margin_six"
                 android:layout_marginStart="@dimen/margin_six"
-                android:textColor="@color/colorBlack"
-                tools:text="Nome da meta"/>
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                tools:text="Nome da metaasjkdhasjdkahsdkjasdjaskdh"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtWeeks"
@@ -67,12 +71,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="@+id/txtName"
+                app:layout_constraintStart_toEndOf="@id/txtName"
                 app:layout_constraintBottom_toBottomOf="@+id/txtName"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textStyle="bold"
                 android:layout_marginEnd="@dimen/margin_six"
                 android:textColor="@color/colorBlack"
-                tools:text="R$ 2.000,00" app:fontFamily="@font/ubuntu_bold"/>
+                tools:text="R$ 2.000,00999999999" app:fontFamily="@font/ubuntu_bold"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtWeeksValue"

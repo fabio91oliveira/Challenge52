@@ -13,6 +13,7 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -101,11 +102,20 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
     }
 
     private fun init() {
+        setupToolbar()
         initLiveData()
         initClickListener()
         initRecyclerView()
         showLoading()
         goalsListViewModel.listGoals()
+    }
+
+    private fun setupToolbar() {
+        collapsingToolbar.apply {
+            val tf = ResourcesCompat.getFont(context, R.font.ubuntu_bold)
+            setCollapsedTitleTypeface(tf)
+            setExpandedTitleTypeface(tf)
+        }
     }
 
     private fun initLiveData() {
@@ -119,10 +129,12 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
                         goalsAdapter.addList(it)
                         hideNoGoals()
                         showGoalsList()
+                        expandBar(true)
                         hideLoading()
                     }
                     false -> {
                         hideGoalsList()
+                        expandBar(false)
                         showNoGoals()
                         hideLoading()
                     }
@@ -216,6 +228,8 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
     private fun hideLoading() {
         loading.visibility = View.GONE
     }
+
+    private fun expandBar(hasToExpand: Boolean) = appBar.setExpanded(hasToExpand)
 
     private fun openGoalCreateActivity() = Intent(this, GoalCreateActivity::class.java).apply {
         startActivityForResult(this, REQUEST_CODE_LIST)

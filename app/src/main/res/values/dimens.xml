@@ -1,6 +1,6 @@
 <resources>
     <dimen name="button_height">56dp</dimen>
-    <dimen name="collapsing_size">250dp</dimen>
+    <dimen name="collapsing_size">280dp</dimen>
 
     <dimen name="text_fourteen">14sp</dimen>
     <dimen name="text_sixteen">16sp</dimen>
@@ -17,5 +17,5 @@
     <dimen name="margin_twenty_four">24dp</dimen>
     <dimen name="margin_twenty_eight">32dp</dimen>
     <dimen name="margin_forty">40dp</dimen>
-    <dimen name="margin_ninety">90dp</dimen>
+    <dimen name="margin_ninety">100dp</dimen>
 </resources>

@@ -7,9 +7,11 @@
         android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:stateListAnimator="@null">
+            android:stateListAnimator="@null"
+            style="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsingToolbar"
@@ -34,7 +36,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
-                    app:title="@string/goal_List_my_goals"/>
+                    app:title="@string/goal_List_my_goals"
+                    style="@style/AppTheme.PopupOverlay"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

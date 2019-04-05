@@ -1,8 +1,10 @@
 package oliveira.fabio.challenge52.feature.goaldetails.ui.activity
 
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,6 +47,7 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
         setupToolbar()
         initRecyclerView()
         initLiveData()
+        setupDetails()
     }
 
     private fun initLiveData() {
@@ -57,9 +60,23 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
         })
     }
 
+    private fun setupDetails() {
+        val progress = goalWithWeeks.getPercentOfConclusion()
+
+        val animation = ObjectAnimator.ofInt(progressBar, "progress", 0, progress)
+        animation.duration = 1000
+        animation.interpolator = DecelerateInterpolator()
+        animation.addUpdateListener {
+            val prog = it.animatedValue as Int
+            txtPercent.text =
+                prog.toString() + resources.getString(R.string.goal_list_progress_value_percent)
+        }
+        animation.start()
+    }
+
     private fun setupToolbar() {
         setSupportActionBar(toolbar)
-        supportActionBar?.title = goalWithWeeks.goal.name
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         toolbar.setNavigationOnClickListener { closeDetails() }
     }
 

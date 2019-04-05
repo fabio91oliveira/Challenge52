@@ -59,13 +59,13 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
         }
 
         private fun animate() {
-            val fadeIn = AlphaAnimation(0f, 1f)
-            fadeIn.interpolator = DecelerateInterpolator()
-            fadeIn.duration = 900
-
-            val animation = AnimationSet(false)
-            animation.addAnimation(fadeIn)
-            cardWeek.animation = animation
+//            val fadeIn = AlphaAnimation(0f, 1f)
+//            fadeIn.interpolator = DecelerateInterpolator()
+//            fadeIn.duration = 900
+//
+//            val animation = AnimationSet(false)
+//            animation.addAnimation(fadeIn)
+//            cardWeek.animation = animation
 
             val valueAnimator = ValueAnimator.ofFloat(-300f, 0f)
             valueAnimator.interpolator = AccelerateDecelerateInterpolator()

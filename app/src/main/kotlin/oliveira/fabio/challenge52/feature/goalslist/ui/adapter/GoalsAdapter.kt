@@ -57,8 +57,6 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                     R.color.colorWhite
                 )
             )
-            val progress = goalsList[position].getPercentOfConclusion()
-
             txtName.text = goalsList[position].goal.name
             txtValue.text = goalsList[position].goal.totalValue.toCurrency()
             txtWeeksValue.text = goalsList[position].getRemainingWeeksCount().toString()
@@ -67,6 +65,7 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
             txtEndDateValue.text =
                 goalsList[position].getEndDate().toCurrentFormat(containerView.context.getString(R.string.date_pattern))
 
+            val progress = goalsList[position].getPercentOfConclusion()
             when (progress > 0) {
                 true -> txtDoneValue.setTextColor(ContextCompat.getColor(containerView.context, R.color.colorGreen))
                 false -> txtDoneValue.setTextColor(ContextCompat.getColor(containerView.context, R.color.colorBlack))
@@ -136,15 +135,15 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
         }
 
         private fun animate() {
-            val fadeIn = AlphaAnimation(0f, 1f)
-            fadeIn.interpolator = DecelerateInterpolator()
-            fadeIn.duration = 900
+//            val fadeIn = AlphaAnimation(0f, 1f)
+//            fadeIn.interpolator = DecelerateInterpolator()
+//            fadeIn.duration = 900
+//
+//            val animation = AnimationSet(false)
+//            animation.addAnimation(fadeIn)
+//            containerView.cardGoal.animation = animation
 
-            val animation = AnimationSet(false)
-            animation.addAnimation(fadeIn)
-            containerView.cardGoal.animation = animation
-
-            val valueAnimator = ValueAnimator.ofFloat(-300f, 0f)
+            val valueAnimator = ValueAnimator.ofFloat(-500f, 0f)
             valueAnimator.interpolator = AccelerateDecelerateInterpolator()
             valueAnimator.duration = 500
             valueAnimator.addUpdateListener {
