@@ -11,12 +11,13 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:stateListAnimator="@null"
+            app:expanded="false"
             style="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsingToolbar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/collapsing_size"
+                android:layout_height="@dimen/collapsing_size_goals_list"
                 app:expandedTitleMarginTop="@dimen/margin_forty"
                 app:expandedTitleGravity="start"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"

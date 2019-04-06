@@ -22,7 +22,11 @@
     <string name="goal_create_calendar_select_date">Selecionar data</string>
 
 
-    <string name="goal_details_week">Semana:</string>
+    <string name="goal_details_week">Semana %s</string>
+    <string name="goal_details_weeks">Semanas:</string>
+    <string name="goal_details_goal">Meta alcançada:</string>
+    <string name="goal_details_of_weeks">de %s semanas</string>
+    <string name="goal_details_of_money">de %s</string>
 
     <string name="currency_mask">[R$,.]</string>
     <string name="date_pattern">dd/MM/yyyy</string>

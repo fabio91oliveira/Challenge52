@@ -1,10 +1,9 @@
 package oliveira.fabio.challenge52.feature.goaldetails.ui.activity
 
-import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.animation.DecelerateInterpolator
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,12 +23,17 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
     private val weeksAdapter by lazy { WeeksAdapter(this) }
     private val goalWithWeeks by lazy { intent?.extras?.getSerializable(GOAL_TAG) as GoalWithWeeks }
 
+    private var firstTime = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_goal_details)
 
         savedInstanceState?.let {
-
+            setupToolbar()
+            showLoading()
+            initRecyclerView()
+            initLiveData()
         } ?: run {
             init()
         }
@@ -41,16 +45,32 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
 
     override fun onClickWeek(week: Week) {
         goalDetailsViewModel.updateWeek(week)
+        goalDetailsViewModel.getParsedDetailsList(goalWithWeeks, week)
     }
 
     private fun init() {
         setupToolbar()
+        showLoading()
         initRecyclerView()
         initLiveData()
-        setupDetails()
+        goalDetailsViewModel.getParsedDetailsList(goalWithWeeks)
     }
 
     private fun initLiveData() {
+        goalDetailsViewModel.mutableLiveDataItemList.observe(this, Observer {
+            hideLoading()
+            it?.let { list ->
+                weeksAdapter.clearList()
+                weeksAdapter.addList(list)
+                showContent()
+                if (firstTime) {
+                    expandBar(true)
+                    firstTime = false
+                }
+            } ?: run {
+                expandBar(false)
+            }
+        })
         goalDetailsViewModel.mutableLiveDataUpdated.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let {
                 if (it) {
@@ -60,36 +80,47 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
         })
     }
 
-    private fun setupDetails() {
-        val progress = goalWithWeeks.getPercentOfConclusion()
-
-        val animation = ObjectAnimator.ofInt(progressBar, "progress", 0, progress)
-        animation.duration = 1000
-        animation.interpolator = DecelerateInterpolator()
-        animation.addUpdateListener {
-            val prog = it.animatedValue as Int
-            txtPercent.text =
-                prog.toString() + resources.getString(R.string.goal_list_progress_value_percent)
-        }
-        animation.start()
-    }
-
     private fun setupToolbar() {
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.title = goalWithWeeks.goal.name
         toolbar.setNavigationOnClickListener { closeDetails() }
     }
 
     private fun initRecyclerView() {
         rvWeeks.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         rvWeeks.adapter = weeksAdapter
-        weeksAdapter.addList(goalWithWeeks.weeks)
     }
 
     private fun closeDetails() {
         setResult(Activity.RESULT_OK, newIntent)
         finish()
     }
+
+    private fun showLoading() {
+        loading.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        loading.visibility = View.GONE
+    }
+
+    private fun showContent() {
+        rvWeeks.visibility = View.VISIBLE
+    }
+
+    private fun hideContent() {
+        rvWeeks.visibility = View.GONE
+    }
+
+    private fun showError() {
+
+    }
+
+    private fun hideError() {
+
+    }
+
+    private fun expandBar(hasToExpand: Boolean) = appBarLayout.setExpanded(hasToExpand)
 
     companion object {
         private const val GOAL_TAG = "GOAL"

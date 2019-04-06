@@ -158,6 +158,7 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
                         if (goalsAdapter.itemCount == 0) {
                             hideGoalsList()
                             showNoGoals()
+                            expandBar(false)
                         }
                     }
                 }
@@ -227,6 +228,14 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
 
     private fun hideLoading() {
         loading.visibility = View.GONE
+    }
+
+    private fun showError() {
+
+    }
+
+    private fun hideError() {
+
     }
 
     private fun expandBar(hasToExpand: Boolean) = appBar.setExpanded(hasToExpand)
