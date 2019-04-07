@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AlphaAnimation
-import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -51,12 +49,22 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
     inner class GoalViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
         fun bind(position: Int) {
-            containerView.contentCard.setBackgroundColor(
-                ContextCompat.getColor(
-                    containerView.context,
-                    R.color.colorWhite
+            if (goalsList[position].isSelected) {
+                onClickGoalListener.onRotateHasGoalSelected()
+                containerView.contentCard.setBackgroundColor(
+                    ContextCompat.getColor(
+                        containerView.context,
+                        R.color.colorSofterGrey
+                    )
                 )
-            )
+            } else {
+                containerView.contentCard.setBackgroundColor(
+                    ContextCompat.getColor(
+                        containerView.context,
+                        R.color.colorWhite
+                    )
+                )
+            }
             txtName.text = goalsList[position].goal.name
             txtValue.text = goalsList[position].goal.totalValue.toCurrency()
             txtWeeksValue.text = goalsList[position].getRemainingWeeksCount().toString()
@@ -135,14 +143,6 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
         }
 
         private fun animate() {
-//            val fadeIn = AlphaAnimation(0f, 1f)
-//            fadeIn.interpolator = DecelerateInterpolator()
-//            fadeIn.duration = 900
-//
-//            val animation = AnimationSet(false)
-//            animation.addAnimation(fadeIn)
-//            containerView.cardGoal.animation = animation
-
             val valueAnimator = ValueAnimator.ofFloat(-500f, 0f)
             valueAnimator.interpolator = AccelerateDecelerateInterpolator()
             valueAnimator.duration = 500
@@ -160,5 +160,6 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
         fun onLongClick(goal: GoalWithWeeks)
         fun onClickAdd(goal: GoalWithWeeks)
         fun onClickRemove(goal: GoalWithWeeks)
+        fun onRotateHasGoalSelected()
     }
 }

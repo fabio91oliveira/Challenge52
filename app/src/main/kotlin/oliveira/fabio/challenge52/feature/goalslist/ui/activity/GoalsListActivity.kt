@@ -86,6 +86,13 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
         }
     }
 
+    override fun onRotateHasGoalSelected() {
+        if (goalsListViewModel.isDeleteShown) {
+            fabAdd.hide()
+            fabRemove.show()
+        }
+    }
+
     override fun onClickAdd(goal: GoalWithWeeks) {
         goalsListViewModel.goalWithWeeksToRemove.add(goal)
         fabAdd.hide()
@@ -243,12 +250,13 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
     }
 
     private fun listGoals() {
+        hideError()
+        hideNoGoals()
         showLoading()
         goalsListViewModel.listGoals()
     }
 
     private fun removeGoals() {
-        showLoading()
         goalsListViewModel.removeGoals()
     }
 
