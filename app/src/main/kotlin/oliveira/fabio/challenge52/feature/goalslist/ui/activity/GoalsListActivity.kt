@@ -128,6 +128,7 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
                 when (list.isNotEmpty()) {
                     true -> {
                         goalsAdapter.addList(it)
+                        hideError()
                         hideNoGoals()
                         showGoalsList()
                         expandBar(true)
@@ -135,6 +136,7 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
                     }
                     false -> {
                         hideGoalsList()
+                        hideError()
                         expandBar(false)
                         showNoGoals()
                         hideLoading()
@@ -143,7 +145,7 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
             } ?: run {
                 hideGoalsList()
                 hideLoading()
-                // exibir view de erro
+                showError()
             }
         })
         goalsListViewModel.mutableLiveDataRemoved.observe(this, Observer { event ->
@@ -232,11 +234,11 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
     }
 
     private fun showError() {
-
+        // TODO
     }
 
     private fun hideError() {
-
+        // TODO
     }
 
     private fun expandBar(hasToExpand: Boolean) = appBar.setExpanded(hasToExpand)

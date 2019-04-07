@@ -18,6 +18,8 @@ class GoalWithWeeks : Serializable {
     lateinit var weeks: List<Week>
     @Ignore
     var isSelected = false
+    @Ignore
+    var lastPosition: Int? = null
 
     fun getRemainingWeeksCount(): Int {
         var remainingWeeksCount = 0

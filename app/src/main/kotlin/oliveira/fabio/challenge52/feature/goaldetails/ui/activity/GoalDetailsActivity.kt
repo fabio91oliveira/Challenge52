@@ -44,8 +44,9 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
         closeDetails()
     }
 
-    override fun onClickWeek(week: Week) {
+    override fun onClickWeek(week: Week, position: Int) {
         goalDetailsViewModel.updateWeek(week)
+        goalWithWeeks.lastPosition = position
         goalDetailsViewModel.getParsedDetailsList(goalWithWeeks, week)
     }
 
@@ -61,8 +62,15 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
         goalDetailsViewModel.mutableLiveDataItemList.observe(this, Observer {
             hideLoading()
             it?.let { list ->
-                weeksAdapter.clearList()
-                weeksAdapter.addList(list)
+                goalWithWeeks.lastPosition?.let { position ->
+                    weeksAdapter.addSingleItem(list[FIRST_POSITION], FIRST_POSITION)
+                    weeksAdapter.addSingleItem(list[position], position)
+                    goalWithWeeks.lastPosition = null
+                } ?: run {
+                    weeksAdapter.clearList()
+                    weeksAdapter.addList(list)
+                }
+
                 showContent()
                 if (firstTime) {
                     rvWeeks.scheduleLayoutAnimation()
@@ -96,6 +104,7 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
     private fun initRecyclerView() {
         rvWeeks.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         rvWeeks.adapter = weeksAdapter
+        rvWeeks.itemAnimator = null
     }
 
     private fun closeDetails() {
@@ -120,11 +129,11 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
     }
 
     private fun showError() {
-
+        // TODO
     }
 
     private fun hideError() {
-
+        // TODO
     }
 
     private fun expandBar(hasToExpand: Boolean) = appBarLayout.setExpanded(hasToExpand)
@@ -132,5 +141,6 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
     companion object {
         private const val GOAL_TAG = "GOAL"
         private const val HAS_CHANGED = "HAS_CHANGED"
+        private const val FIRST_POSITION = 0
     }
 }
