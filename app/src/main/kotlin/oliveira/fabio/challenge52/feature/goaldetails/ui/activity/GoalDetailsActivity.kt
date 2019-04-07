@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_goal_details.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.goaldetails.ui.adapter.WeeksAdapter
 import oliveira.fabio.challenge52.feature.goaldetails.viewmodel.GoalDetailsViewModel
+import oliveira.fabio.challenge52.feature.goalslist.ui.activity.GoalsListActivity
 import oliveira.fabio.challenge52.model.entity.Week
 import oliveira.fabio.challenge52.model.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -78,13 +80,15 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
                     firstTime = false
                 }
             } ?: run {
-                expandBar(false)
+                setResult(GoalsListActivity.ACTIVITY_ERROR)
+                finish()
             }
         })
         goalDetailsViewModel.mutableLiveDataUpdated.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let {
-                if (it) {
-                    newIntent.putExtra(HAS_CHANGED, true)
+                when (it) {
+                    true -> newIntent.putExtra(HAS_CHANGED, true)
+                    else -> showErrorDialog(resources.getString(R.string.goal_details_update_error_message))
                 }
             }
         })
@@ -124,17 +128,11 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
         rvWeeks.visibility = View.VISIBLE
     }
 
-    private fun hideContent() {
-        rvWeeks.visibility = View.GONE
-    }
-
-    private fun showError() {
-        // TODO
-    }
-
-    private fun hideError() {
-        // TODO
-    }
+    private fun showErrorDialog(message: String) = AlertDialog.Builder(this).apply {
+        setTitle(resources.getString(R.string.goal_error_title))
+        setMessage(message)
+        setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
+    }.show()
 
     private fun expandBar(hasToExpand: Boolean) = appBarLayout.setExpanded(hasToExpand)
 

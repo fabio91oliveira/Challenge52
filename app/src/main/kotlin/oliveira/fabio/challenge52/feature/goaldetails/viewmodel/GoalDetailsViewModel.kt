@@ -34,6 +34,7 @@ class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRep
     }
 
     fun updateWeek(week: Week) {
+        week.isDeposited = !week.isDeposited
         launch {
             SuspendableResult.of<Unit, Exception> { goalWithWeeksRepository.updateWeek(week) }
                 .fold(
@@ -41,6 +42,7 @@ class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRep
                         mutableLiveDataUpdated.postValue(Event(true))
                     },
                     failure = {
+                        week.isDeposited = !week.isDeposited
                         mutableLiveDataUpdated.postValue(Event(false))
                     }
                 )

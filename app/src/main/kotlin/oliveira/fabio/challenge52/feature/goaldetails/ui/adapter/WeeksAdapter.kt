@@ -145,7 +145,6 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
                         }
                     }
                 }
-                item.getWeek().week.isDeposited = isDeposited
                 onClickWeekListener.onClickWeek(item.getWeek().week, position)
             }
         }

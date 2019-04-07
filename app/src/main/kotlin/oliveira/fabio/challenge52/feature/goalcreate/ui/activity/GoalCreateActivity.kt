@@ -5,14 +5,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AlphaAnimation
-import android.view.animation.AnimationSet
-import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_goal_create.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.goalcreate.viewmodel.GoalCreateViewModel
+import oliveira.fabio.challenge52.feature.goalslist.ui.activity.GoalsListActivity
 import oliveira.fabio.challenge52.model.entity.Goal
 import oliveira.fabio.challenge52.util.extension.callFunctionAfterTextChanged
 import oliveira.fabio.challenge52.util.extension.toCurrencyFormat
@@ -63,6 +61,8 @@ class GoalCreateActivity : AppCompatActivity() {
                     finish()
                 }
                 false -> {
+                    setResult(GoalsListActivity.ACTIVITY_ERROR)
+                    finish()
                 }
             }
         })
@@ -96,17 +96,6 @@ class GoalCreateActivity : AppCompatActivity() {
     }
 
     private fun initAnimations() {
-//        val fadeIn = AlphaAnimation(0f, 1f)
-//        fadeIn.interpolator = DecelerateInterpolator()
-//        fadeIn.duration = 900
-//
-//        val animation = AnimationSet(false)
-//        animation.addAnimation(fadeIn)
-//        tilName.animation = animation
-//        tilValue.animation = animation
-//        tilData.animation = animation
-//        btnCreate.animation = animation
-
         val valueAnimator = ValueAnimator.ofFloat(-300f, 0f)
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
         valueAnimator.duration = 500

@@ -12,6 +12,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
@@ -51,25 +52,35 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
 
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                REQUEST_CODE_LIST -> {
+                REQUEST_CODE_CREATE -> {
                     resetAnimation()
-                    goalsListViewModel.listGoals()
+                    listGoals()
                 }
                 REQUEST_CODE_DETAILS -> {
                     data?.getBooleanExtra(HAS_CHANGED, false)?.let {
-                        if (it) goalsListViewModel.listGoals()
+                        if (it) listGoals()
                     }
                 }
             }
         } else if (resultCode == Activity.RESULT_CANCELED) {
             when (requestCode) {
-                REQUEST_CODE_LIST -> {
+                REQUEST_CODE_CREATE -> {
                     resetAnimation()
                 }
                 REQUEST_CODE_DETAILS -> {
                     data?.getBooleanExtra(HAS_CHANGED, false)?.let {
-                        if (it) goalsListViewModel.listGoals()
+                        if (it) listGoals()
                     }
+                }
+            }
+        } else if (resultCode == ACTIVITY_ERROR) {
+            resetAnimation()
+            when (requestCode) {
+                REQUEST_CODE_CREATE -> {
+                    showErrorDialog(resources.getString(R.string.goal_create_error_message))
+                }
+                REQUEST_CODE_DETAILS -> {
+                    showErrorDialog(resources.getString(R.string.goal_details_list_error_message))
                 }
             }
         }
@@ -107,8 +118,7 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
         initLiveData()
         initClickListener()
         initRecyclerView()
-        showLoading()
-        goalsListViewModel.listGoals()
+        listGoals()
     }
 
     private fun setupToolbar() {
@@ -152,6 +162,7 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
             event.getContentIfNotHandled()?.let {
                 when (it) {
                     true -> {
+                        hideLoading()
                         goalsAdapter.remove(goalsListViewModel.goalWithWeeksToRemove)
                         goalsListViewModel.goalWithWeeksToRemove.clear()
                         fabRemove.hide()
@@ -184,7 +195,9 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
 
     private fun initClickListener() {
         fabAdd.setOnClickListener { revealButton() }
-        fabRemove.setOnClickListener { goalsListViewModel.removeGoals() }
+        fabRemove.setOnClickListener { removeGoals() }
+        txtError.setOnClickListener { listGoals() }
+        imgError.setOnClickListener { listGoals() }
     }
 
     private fun initAnimationsNoGoals() {
@@ -206,6 +219,37 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
             imgNoGoals.translationY = progress
         }
         valueAnimator.start()
+    }
+
+    private fun initAnimationsError() {
+        val fadeIn = AlphaAnimation(0f, 1f)
+        fadeIn.interpolator = DecelerateInterpolator()
+        fadeIn.duration = 2000
+
+        val animation = AnimationSet(false)
+        animation.addAnimation(fadeIn)
+        txtError.animation = animation
+        imgError.animation = animation
+
+        val valueAnimator = ValueAnimator.ofFloat(-100f, 0f)
+        valueAnimator.interpolator = AccelerateDecelerateInterpolator()
+        valueAnimator.duration = 1000
+        valueAnimator.addUpdateListener {
+            val progress = it.animatedValue as Float
+            txtError.translationY = progress
+            imgError.translationY = progress
+        }
+        valueAnimator.start()
+    }
+
+    private fun listGoals() {
+        showLoading()
+        goalsListViewModel.listGoals()
+    }
+
+    private fun removeGoals() {
+        showLoading()
+        goalsListViewModel.removeGoals()
     }
 
     private fun showGoalsList() {
@@ -234,17 +278,24 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
     }
 
     private fun showError() {
-        // TODO
+        initAnimationsError()
+        errorGroup.visibility = View.VISIBLE
     }
 
     private fun hideError() {
-        // TODO
+        errorGroup.visibility = View.GONE
     }
+
+    private fun showErrorDialog(message: String) = AlertDialog.Builder(this).apply {
+        setTitle(resources.getString(R.string.goal_error_title))
+        setMessage(message)
+        setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
+    }.show()
 
     private fun expandBar(hasToExpand: Boolean) = appBar.setExpanded(hasToExpand)
 
     private fun openGoalCreateActivity() = Intent(this, GoalCreateActivity::class.java).apply {
-        startActivityForResult(this, REQUEST_CODE_LIST)
+        startActivityForResult(this, REQUEST_CODE_CREATE)
     }
 
     private fun openGoalDetailsActivity(goal: GoalWithWeeks) = Intent(this, GoalDetailsActivity::class.java).apply {
@@ -290,10 +341,11 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
     private fun getButtonSize() = resources.getDimension(R.dimen.button_height)
 
     companion object {
-        private const val REQUEST_CODE_LIST = 300
+        private const val REQUEST_CODE_CREATE = 300
         private const val REQUEST_CODE_DETAILS = 400
         private const val GOAL_TAG = "GOAL"
         private const val HAS_CHANGED = "HAS_CHANGED"
+        const val ACTIVITY_ERROR = -3
     }
 
 }
