@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/cardGoal"
         style="@style/Widget.MaterialComponents.CardView"
-        app:cardElevation="@dimen/margin_four"
+        app:cardElevation="0dp"
         android:layout_width="match_parent"
         app:cardCornerRadius="@dimen/margin_eight"
         android:layout_height="wrap_content"

@@ -66,7 +66,7 @@ class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRep
 
         week?.let {
             for (weekInner in goalWithWeeks.weeks) {
-                if(weekInner.id == it.id) {
+                if (weekInner.id == it.id) {
                     weekInner.isDeposited = it.isDeposited
                     break
                 }
@@ -76,7 +76,7 @@ class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRep
         add(
             SubItemDetails(
                 goalWithWeeks.getPercentOfConclusion(),
-                goalWithWeeks.getRemainingWeeksCount(),
+                (goalWithWeeks.weeks.size - goalWithWeeks.getRemainingWeeksCount()),
                 goalWithWeeks.weeks.size,
                 goalWithWeeks.getTotalAccumulated(),
                 goalWithWeeks.goal.totalValue

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -84,6 +85,11 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
         setSupportActionBar(toolbar)
         supportActionBar?.title = goalWithWeeks.goal.name
         toolbar.setNavigationOnClickListener { closeDetails() }
+        collapsingToolbar.apply {
+            val tf = ResourcesCompat.getFont(context, R.font.ubuntu_bold)
+            setCollapsedTitleTypeface(tf)
+            setExpandedTitleTypeface(tf)
+        }
     }
 
     private fun initRecyclerView() {
