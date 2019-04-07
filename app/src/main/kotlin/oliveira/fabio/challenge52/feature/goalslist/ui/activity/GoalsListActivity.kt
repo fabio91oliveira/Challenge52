@@ -37,6 +37,7 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
         setContentView(R.layout.activity_goals_list)
 
         savedInstanceState?.let {
+            setupToolbar()
             initLiveData()
             initClickListener()
             initRecyclerView()

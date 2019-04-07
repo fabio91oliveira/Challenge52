@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
@@ -22,6 +23,7 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
     RecyclerView.Adapter<WeeksAdapter.WeekViewHolder>() {
 
     private var list: MutableList<Item> = mutableListOf()
+    private var lastChanged: Week? = null
 
     override fun getItemViewType(position: Int) = list[position].viewType
     override fun getItemCount() = list.size
@@ -88,7 +90,46 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
 
     inner class SubItemWeekViewHolder(override val containerView: View) : WeekViewHolder(containerView) {
         override fun bind(item: Item) {
-            chkWeek.isChecked = item.getWeek().week.isDeposited
+            val animChecked = AnimationUtils.loadAnimation(containerView.context, R.anim.scale_fab_in)
+            val animNotChecked = AnimationUtils.loadAnimation(containerView.context, R.anim.scale_fab_out)
+
+            lastChanged?.let {
+                if (it.id == item.getWeek().week.id) {
+                    if (item.getWeek().week.isDeposited) {
+                        imgNotChecked.startAnimation(animNotChecked)
+                        imgNotChecked.visibility = View.INVISIBLE
+                        imgChecked.startAnimation(animChecked)
+                        imgChecked.visibility = View.VISIBLE
+                    } else {
+                        imgChecked.startAnimation(animNotChecked)
+                        imgChecked.visibility = View.INVISIBLE
+                        imgNotChecked.startAnimation(animChecked)
+                        imgNotChecked.visibility = View.VISIBLE
+                    }
+                } else {
+                    if (item.getWeek().week.isDeposited) {
+                        imgNotChecked.visibility = View.INVISIBLE
+                        imgChecked.visibility = View.VISIBLE
+                    } else {
+                        imgChecked.visibility = View.INVISIBLE
+                        imgNotChecked.visibility = View.VISIBLE
+                    }
+                }
+            } ?: run {
+                if (item.getWeek().week.isDeposited) {
+                    imgNotChecked.startAnimation(animNotChecked)
+                    imgNotChecked.visibility = View.INVISIBLE
+                    imgChecked.startAnimation(animChecked)
+                    imgChecked.visibility = View.VISIBLE
+                } else {
+                    imgChecked.startAnimation(animNotChecked)
+                    imgChecked.visibility = View.INVISIBLE
+                    imgNotChecked.startAnimation(animChecked)
+                    imgNotChecked.visibility = View.VISIBLE
+                }
+            }
+
+
             txtWeek.text =
                 containerView.context.getString(R.string.goal_details_week, item.getWeek().week.position.toString())
             txtMoney.text = item.getWeek().week.spittedValue.toCurrency()
@@ -97,6 +138,7 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
 
             containerView.setOnClickListener {
                 item.getWeek().week.isDeposited = !item.getWeek().week.isDeposited
+                lastChanged = item.getWeek().week
                 onClickWeekListener.onClickWeek(item.getWeek().week)
             }
         }

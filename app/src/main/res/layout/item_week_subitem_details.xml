@@ -33,7 +33,7 @@
                 android:indeterminate="false"
                 tools:progress="70"
                 android:progressDrawable="@drawable/background_progress"
-                android:background="@drawable/background_circle"
+                android:background="@drawable/background_progress_circle"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
