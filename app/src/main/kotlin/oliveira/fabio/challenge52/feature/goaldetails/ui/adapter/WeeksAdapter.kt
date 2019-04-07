@@ -1,14 +1,10 @@
 package oliveira.fabio.challenge52.feature.goaldetails.ui.adapter
 
-import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_week_header.*
@@ -26,7 +22,6 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
     RecyclerView.Adapter<WeeksAdapter.WeekViewHolder>() {
 
     private var list: MutableList<Item> = mutableListOf()
-    private var lastPosition = 0
 
     override fun getItemViewType(position: Int) = list[position].viewType
     override fun getItemCount() = list.size
@@ -104,48 +99,6 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
                 item.getWeek().week.isDeposited = !item.getWeek().week.isDeposited
                 onClickWeekListener.onClickWeek(item.getWeek().week)
             }
-
-//            if (position >= lastPosition) animate()
-        }
-
-        private fun animate() {
-            val valueAnimator = ValueAnimator.ofFloat(-100f, 0f)
-            valueAnimator.interpolator = AccelerateDecelerateInterpolator()
-            valueAnimator.duration = 400
-            valueAnimator.addUpdateListener {
-                val progress = it.animatedValue as Float
-                containerView.translationX = progress
-            }
-            valueAnimator.start()
-            lastPosition++
-        }
-
-        private fun changeBackground(week: Week) {
-            var firstColor = 0
-            var secondColor = 0
-
-            when (week.isDeposited) {
-                true -> {
-                    week.isDeposited = false
-                    firstColor = ContextCompat.getColor(containerView.context, R.color.colorGreen)
-                    secondColor = ContextCompat.getColor(containerView.context, R.color.colorWhite)
-                }
-                false -> {
-                    week.isDeposited = true
-                    firstColor = ContextCompat.getColor(containerView.context, R.color.colorWhite)
-                    secondColor = ContextCompat.getColor(containerView.context, R.color.colorGreen)
-                }
-            }
-
-            val duration = 500L
-            ObjectAnimator.ofObject(
-                containerView, "backgroundColor",
-                ArgbEvaluator(),
-                firstColor,
-                secondColor
-            )
-                .setDuration(duration)
-                .start()
         }
     }
 
