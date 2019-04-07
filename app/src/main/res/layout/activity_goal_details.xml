@@ -49,6 +49,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:behavior_overlapTop="@dimen/margin_seventy"
             tools:visibility="visible"
+            android:layoutAnimation="@anim/layout_animation_from_left"
             tools:listitem="@layout/item_week_subitem_week"/>
 
     <androidx.core.widget.ContentLoadingProgressBar

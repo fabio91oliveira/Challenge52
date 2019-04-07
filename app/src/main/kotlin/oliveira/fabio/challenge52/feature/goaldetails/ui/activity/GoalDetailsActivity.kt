@@ -65,6 +65,7 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
                 weeksAdapter.addList(list)
                 showContent()
                 if (firstTime) {
+                    rvWeeks.scheduleLayoutAnimation()
                     expandBar(true)
                     firstTime = false
                 }
