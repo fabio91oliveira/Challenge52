@@ -33,7 +33,8 @@
     <string name="date_pattern">dd/MM/yyyy</string>
 
     <string name="goal_error_title">Atenção</string>
-    <string name="goal_create_error_message">Ocorreu um error ao tentar criar meta, tente novamente ou contate o desenvolvedor.</string>
-    <string name="goal_details_list_error_message">Ocorreu um error ao tentar detalhar meta, tente novamente ou contate o desenvolvedor.</string>
-    <string name="goal_details_update_error_message">Ocorreu um error ao atualizar semana, tente novamente ou contate o desenvolvedor.</string>
+    <string name="goal_list_error_delete">Ocorreu um erro ao tentar deletar meta(s), tente novamente ou contate o desenvolvedor.</string>
+    <string name="goal_create_error_message">Ocorreu um erro ao tentar criar meta, tente novamente ou contate o desenvolvedor.</string>
+    <string name="goal_details_list_error_message">Ocorreu um erro ao tentar detalhar meta, tente novamente ou contate o desenvolvedor.</string>
+    <string name="goal_details_update_error_message">Ocorreu um erro ao atualizar semana, tente novamente ou contate o desenvolvedor.</string>
 </resources>

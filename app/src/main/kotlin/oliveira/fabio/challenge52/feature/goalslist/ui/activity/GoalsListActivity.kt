@@ -180,8 +180,11 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
                             hideGoalsList()
                             showNoGoals()
                             expandBar(false)
+                        } else {
+                            showGoalsList()
                         }
                     }
+                    false -> showErrorDialog(resources.getString(R.string.goal_list_error_delete))
                 }
             }
         })
