@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Desafio 52</string>
+    <string name="action_settings">Opções</string>
+
+    <string name="goal_List_my_goals">Minhas metas</string>
+    <string name="goal_list_no_goals">Nenhuma meta foi cadastrada até o momento. O quê você acha de criar uma
+        agora?
+    </string>
+    <string name="goal_list_error">Ocorreu um erro, tente novamente clicando aqui ou contate o desenvolvedor.</string>
+    <string name="goal_list_weeks_remaining">Semanas restantes:</string>
+    <string name="goal_list_start_date">Data de Início:</string>
+    <string name="goal_list_end_date">Data de encerramento:</string>
+    <string name="goal_list_progress">Progresso:</string>
+    <string name="goal_list_progress_value_percent">%</string>
+
+    <string name="goal_create_new_goal">Nova meta</string>
+    <string name="goal_create_goal_name">Qual é o nome da sua meta?</string>
+    <string name="goal_create_goal_value">Qual é valor para começar?</string>
+    <string name="goal_create_goal_data">Qual a data para começar?</string>
+    <string name="goal_create_create_goal">Criar meta</string>
+
+    <string name="goal_create_calendar_choose_date">Escolher data</string>
+    <string name="goal_create_calendar_select_date">Selecionar data</string>
+
+
+    <string name="goal_details_week">Semana %s</string>
+    <string name="goal_details_weeks">Semanas:</string>
+    <string name="goal_details_goal">Meta alcançada:</string>
+    <string name="goal_details_of_weeks">de %s semanas</string>
+    <string name="goal_details_of_money">de %s</string>
+
+    <string name="currency_mask">[R$,.]</string>
+    <string name="date_pattern">dd/MM/yyyy</string>
+
+    <string name="goal_error_title">Atenção</string>
+    <string name="goal_list_error_delete">Ocorreu um erro ao tentar deletar meta(s), tente novamente ou contate o desenvolvedor.</string>
+    <string name="goal_create_error_message">Ocorreu um erro ao tentar criar meta, tente novamente ou contate o desenvolvedor.</string>
+    <string name="goal_details_list_error_message">Ocorreu um erro ao tentar detalhar meta, tente novamente ou contate o desenvolvedor.</string>
+    <string name="goal_details_update_error_message">Ocorreu um erro ao atualizar semana, tente novamente ou contate o desenvolvedor.</string>
+</resources>
