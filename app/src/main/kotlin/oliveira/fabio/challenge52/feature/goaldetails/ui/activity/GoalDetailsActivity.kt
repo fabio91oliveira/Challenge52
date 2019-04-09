@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_goal_details.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.goaldetails.ui.adapter.WeeksAdapter
 import oliveira.fabio.challenge52.feature.goaldetails.viewmodel.GoalDetailsViewModel
-import oliveira.fabio.challenge52.feature.goalslist.ui.activity.GoalsListActivity
+import oliveira.fabio.challenge52.feature.goalslist.ui.fragment.GoalsListFragment
 import oliveira.fabio.challenge52.model.entity.Week
 import oliveira.fabio.challenge52.model.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -80,7 +80,7 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
                     firstTime = false
                 }
             } ?: run {
-                setResult(GoalsListActivity.ACTIVITY_ERROR)
+                setResult(GoalsListFragment.ACTIVITY_ERROR)
                 finish()
             }
         })

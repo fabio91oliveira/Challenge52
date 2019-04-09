@@ -1,24 +1,28 @@
-package oliveira.fabio.challenge52.feature.goalslist.ui.activity
+package oliveira.fabio.challenge52.feature.goalslist.ui.fragment
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewAnimationUtils
+import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_goals_list.*
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.fragment_goals_list.*
+import kotlinx.android.synthetic.main.view_navigation_count.view.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.goalcreate.ui.activity.GoalCreateActivity
 import oliveira.fabio.challenge52.feature.goaldetails.ui.activity.GoalDetailsActivity
@@ -27,16 +31,20 @@ import oliveira.fabio.challenge52.feature.goalslist.viewmodel.GoalsListViewModel
 import oliveira.fabio.challenge52.model.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.viewModel
 
-
-class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener {
+class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
 
     private val goalsListViewModel: GoalsListViewModel by viewModel()
     private val goalsAdapter by lazy { GoalsAdapter(this) }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_goals_list)
+    private lateinit var countGoals: AppCompatTextView
+    private lateinit var countDone: AppCompatTextView
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_goals_list, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         savedInstanceState?.let {
             setupToolbar()
             initLiveData()
@@ -191,7 +199,7 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
     }
 
     private fun initRecyclerView() {
-        rvGoalsList.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        rvGoalsList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         rvGoalsList.adapter = goalsAdapter
         rvGoalsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -204,7 +212,7 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
     }
 
     private fun initClickListener() {
-        fabAdd.setOnClickListener { revealButton() }
+        fabAdd.setOnClickListener { openGoalCreateActivity() }
         fabRemove.setOnClickListener { removeGoals() }
         txtError.setOnClickListener { listGoals() }
         imgError.setOnClickListener { listGoals() }
@@ -297,7 +305,7 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
         errorGroup.visibility = View.GONE
     }
 
-    private fun showErrorDialog(message: String) = AlertDialog.Builder(this).apply {
+    private fun showErrorDialog(message: String) = AlertDialog.Builder(requireContext()).apply {
         setTitle(resources.getString(R.string.goal_error_title))
         setMessage(message)
         setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
@@ -305,47 +313,50 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
 
     private fun expandBar(hasToExpand: Boolean) = appBar.setExpanded(hasToExpand)
 
-    private fun openGoalCreateActivity() = Intent(this, GoalCreateActivity::class.java).apply {
+    private fun openGoalCreateActivity() = Intent(context, GoalCreateActivity::class.java).apply {
         startActivityForResult(this, REQUEST_CODE_CREATE)
     }
 
-    private fun openGoalDetailsActivity(goal: GoalWithWeeks) = Intent(this, GoalDetailsActivity::class.java).apply {
+    private fun openGoalDetailsActivity(goal: GoalWithWeeks) = Intent(context, GoalDetailsActivity::class.java).apply {
         putExtra(GOAL_TAG, goal)
         startActivityForResult(this, REQUEST_CODE_DETAILS)
     }
 
     private fun revealButton() {
-        revealView.visibility = View.VISIBLE
-        fabAdd.hide()
+//        activity?.revealView?.let {
+//            it.visibility = View.VISIBLE
+//            fabAdd.hide()
+//
+//            val cx = it.width
+//            val cy = it.height
+//
+//
+//            val x = (getButtonSize() / 2 + fabAdd.x)
+//            val y = (getButtonSize() / 2 + fabAdd.y)
+//
+//            val finalRadius = Math.max(cx, cy) * 1.2f
+//
+//            val reveal = ViewAnimationUtils
+//                .createCircularReveal(
+//                    it,
+//                    x.toInt(),
+//                    y.toInt(),
+//                    getButtonSize(), finalRadius
+//                )
+//
+//            reveal.duration = 350
+//            reveal.addListener(object : AnimatorListenerAdapter() {
+//                override fun onAnimationEnd(animation: Animator) {
+//                    openGoalCreateActivity()
+//                }
+//            })
+//            reveal.start()
+//        }
 
-        val cx = revealView.width
-        val cy = revealView.height
-
-
-        val x = (getButtonSize() / 2 + fabAdd.x)
-        val y = (getButtonSize() / 2 + fabAdd.y)
-
-        val finalRadius = Math.max(cx, cy) * 1.2f
-
-        val reveal = ViewAnimationUtils
-            .createCircularReveal(
-                revealView,
-                x.toInt(),
-                y.toInt(),
-                getButtonSize(), finalRadius
-            )
-
-        reveal.duration = 350
-        reveal.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                openGoalCreateActivity()
-            }
-        })
-        reveal.start()
     }
 
     private fun resetAnimation() {
-        revealView.visibility = View.INVISIBLE
+//        activity?.revealView?.visibility = View.INVISIBLE
         fabAdd.show()
     }
 
@@ -357,6 +368,10 @@ class GoalsListActivity : AppCompatActivity(), GoalsAdapter.OnClickGoalListener 
         private const val GOAL_TAG = "GOAL"
         private const val HAS_CHANGED = "HAS_CHANGED"
         const val ACTIVITY_ERROR = -3
+
+        fun newInstance(): Fragment {
+            return GoalsListFragment()
+        }
     }
 
 }

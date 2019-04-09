@@ -53,8 +53,8 @@
             android:layout_height="match_parent"
             app:behavior_overlapTop="@dimen/margin_ninety"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:showIn="@layout/activity_goals_list"
-            tools:context=".feature.goalslist.ui.activity.GoalsListActivity">
+            tools:showIn="@layout/fragment_goals_list"
+            tools:context=".feature.goalslist.ui.fragment.GoalsListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvGoalsList"
@@ -181,12 +181,5 @@
             app:srcCompat="@android:drawable/ic_delete"
             android:visibility="gone"
             android:focusable="true"/>
-
-    <View
-            android:id="@+id/revealView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
-            android:visibility="invisible"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

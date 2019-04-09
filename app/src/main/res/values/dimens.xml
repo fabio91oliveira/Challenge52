@@ -19,6 +19,7 @@
     <dimen name="margin_twenty_four">24dp</dimen>
     <dimen name="margin_twenty_eight">32dp</dimen>
     <dimen name="margin_forty">40dp</dimen>
+    <dimen name="margin_forty_five">45dp</dimen>
     <dimen name="margin_seventy">70dp</dimen>
     <dimen name="margin_ninety">100dp</dimen>
 </resources>
