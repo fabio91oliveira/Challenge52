@@ -14,4 +14,7 @@ interface GoalDao {
 
     @Query("SELECT * FROM goal")
     fun getAllGoalsWithWeeks(): List<GoalWithWeeks>
+
+    @Query("SELECT * FROM goal WHERE goal.isDone = 1")
+    fun getAllDoneGoalsWithWeeks(): List<GoalWithWeeks>
 }

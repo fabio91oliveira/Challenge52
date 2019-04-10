@@ -87,7 +87,7 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
             animation.addUpdateListener {
                 val progress = it.animatedValue as Int
                 txtPercent.text =
-                    progress.toString() + containerView.context.getString(R.string.goal_list_progress_value_percent)
+                    progress.toString() + containerView.context.getString(R.string.goals_list_progress_value_percent)
             }
             animation.start()
         }

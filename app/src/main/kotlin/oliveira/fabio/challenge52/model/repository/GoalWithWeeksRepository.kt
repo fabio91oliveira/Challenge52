@@ -31,4 +31,8 @@ class GoalWithWeeksRepository(private val goalDao: GoalDao, private val weekDao:
     suspend fun getAllGoalsWithWeeks() = withContext(Dispatchers.Default) {
         goalDao.getAllGoalsWithWeeks()
     }
+
+    suspend fun getDoneAllGoalsWithWeeks() = withContext(Dispatchers.Default) {
+        goalDao.getAllDoneGoalsWithWeeks()
+    }
 }

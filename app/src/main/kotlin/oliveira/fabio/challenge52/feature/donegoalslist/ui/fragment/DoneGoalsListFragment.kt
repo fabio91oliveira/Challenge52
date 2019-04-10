@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.feature.goalslist.ui.fragment
+package oliveira.fabio.challenge52.feature.donegoalslist.ui.fragment
 
 import android.animation.ValueAnimator
 import android.app.Activity
@@ -17,22 +17,21 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_goals_list.*
+import kotlinx.android.synthetic.main.fragment_done_goals_list.*
 import oliveira.fabio.challenge52.R
-import oliveira.fabio.challenge52.feature.goalcreate.ui.activity.GoalCreateActivity
+import oliveira.fabio.challenge52.feature.donegoalslist.ui.adapter.DoneGoalsAdapter
+import oliveira.fabio.challenge52.feature.donegoalslist.viewmodel.DoneGoalsListViewModel
 import oliveira.fabio.challenge52.feature.goaldetails.ui.activity.GoalDetailsActivity
-import oliveira.fabio.challenge52.feature.goalslist.ui.adapter.GoalsAdapter
-import oliveira.fabio.challenge52.feature.goalslist.viewmodel.GoalsListViewModel
 import oliveira.fabio.challenge52.model.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
+class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
 
-    private val goalsListViewModel: GoalsListViewModel by viewModel()
-    private val goalsAdapter by lazy { GoalsAdapter(this) }
+    private val doneGoalsListViewModel: DoneGoalsListViewModel by viewModel()
+    private val doneGoalsAdapter by lazy { DoneGoalsAdapter(this) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_goals_list, container, false)
+        return inflater.inflate(R.layout.fragment_done_goals_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,68 +51,45 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
 
         when (resultCode) {
             Activity.RESULT_OK -> when (requestCode) {
-                REQUEST_CODE_CREATE -> {
-                    resetAnimation()
-                    listGoals()
-                }
                 REQUEST_CODE_DETAILS -> {
                     data?.getBooleanExtra(HAS_CHANGED, false)?.let {
-                        if (it) listGoals()
+                        if (it) listDoneGoals()
                     }
                 }
             }
             Activity.RESULT_CANCELED -> when (requestCode) {
-                REQUEST_CODE_CREATE -> {
-                    resetAnimation()
-                }
                 REQUEST_CODE_DETAILS -> {
                     data?.getBooleanExtra(HAS_CHANGED, false)?.let {
-                        if (it) listGoals()
+                        if (it) listDoneGoals()
                     }
                 }
             }
-            ACTIVITY_ERROR -> {
-                resetAnimation()
-                when (requestCode) {
-                    REQUEST_CODE_CREATE -> {
-                        showErrorDialog(resources.getString(R.string.goal_create_error_message))
-                    }
-                    REQUEST_CODE_DETAILS -> {
-                        showErrorDialog(resources.getString(R.string.goal_details_list_error_message))
-                    }
+            ACTIVITY_ERROR -> when (requestCode) {
+                REQUEST_CODE_DETAILS -> {
+                    showErrorDialog(resources.getString(R.string.goal_details_list_error_message))
                 }
             }
         }
     }
 
     override fun onRotateHasGoalSelected() {
-        if (goalsListViewModel.isDeleteShown) {
-            fabAdd.hide()
+        if (doneGoalsListViewModel.isDeleteShown) {
             fabRemove.show()
         }
     }
 
-    override fun onClickAdd(goal: GoalWithWeeks) {
-        goalsListViewModel.goalWithWeeksToRemove.add(goal)
-        fabAdd.hide()
-        fabRemove.show()
-        goalsListViewModel.isDeleteShown = true
-    }
-
     override fun onClickRemove(goal: GoalWithWeeks) {
-        goalsListViewModel.goalWithWeeksToRemove.remove(goal)
-        if (goalsListViewModel.goalWithWeeksToRemove.isEmpty()) {
+        doneGoalsListViewModel.doneGoalWithWeeksToRemove.remove(goal)
+        if (doneGoalsListViewModel.doneGoalWithWeeksToRemove.isEmpty()) {
             fabRemove.hide()
-            fabAdd.show()
-            goalsListViewModel.isDeleteShown = false
+            doneGoalsListViewModel.isDeleteShown = false
         }
     }
 
     override fun onLongClick(goal: GoalWithWeeks) {
-        goalsListViewModel.goalWithWeeksToRemove.add(goal)
-        fabAdd.hide()
+        doneGoalsListViewModel.doneGoalWithWeeksToRemove.add(goal)
         fabRemove.show()
-        goalsListViewModel.isDeleteShown = true
+        doneGoalsListViewModel.isDeleteShown = true
     }
 
     override fun onClickGoal(goal: GoalWithWeeks) {
@@ -125,7 +101,7 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         initLiveData()
         initClickListener()
         initRecyclerView()
-        listGoals()
+        listDoneGoals()
     }
 
     private fun setupToolbar() {
@@ -137,51 +113,50 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
     }
 
     private fun initLiveData() {
-        goalsListViewModel.mutableLiveDataGoals.observe(this, Observer {
-            hideGoalsList()
+        doneGoalsListViewModel.mutableLiveDataDoneGoals.observe(this, Observer {
+            hideDoneGoalsList()
             showLoading()
-            goalsAdapter.clearList()
+            doneGoalsAdapter.clearList()
             it?.let { list ->
                 when (list.isNotEmpty()) {
                     true -> {
-                        goalsAdapter.addList(it)
+                        doneGoalsAdapter.addList(it)
                         hideError()
-                        hideNoGoals()
-                        showGoalsList()
+                        hideNoDoneGoals()
+                        showDoneGoalsList()
                         expandBar(true)
                         hideLoading()
                     }
                     false -> {
-                        hideGoalsList()
+                        hideDoneGoalsList()
                         hideError()
                         expandBar(false)
-                        showNoGoals()
+                        showNoDoneGoals()
                         hideLoading()
                     }
                 }
             } ?: run {
-                hideGoalsList()
+                hideDoneGoalsList()
                 hideLoading()
                 showError()
             }
         })
-        goalsListViewModel.mutableLiveDataRemoved.observe(this, Observer { event ->
+        doneGoalsListViewModel.mutableLiveDataRemoved.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let {
                 when (it) {
                     true -> {
                         hideLoading()
-                        goalsAdapter.remove(goalsListViewModel.goalWithWeeksToRemove)
-                        goalsListViewModel.goalWithWeeksToRemove.clear()
+                        doneGoalsAdapter.remove(doneGoalsListViewModel.doneGoalWithWeeksToRemove)
+                        doneGoalsListViewModel.doneGoalWithWeeksToRemove.clear()
                         fabRemove.hide()
-                        fabAdd.show()
-                        goalsListViewModel.isDeleteShown = false
+                        doneGoalsListViewModel.isDeleteShown = false
 
-                        if (goalsAdapter.itemCount == 0) {
-                            hideGoalsList()
-                            showNoGoals()
+                        if (doneGoalsAdapter.itemCount == 0) {
+                            hideDoneGoalsList()
+                            showNoDoneGoals()
                             expandBar(false)
                         } else {
-                            showGoalsList()
+                            showDoneGoalsList()
                         }
                     }
                     false -> showErrorDialog(resources.getString(R.string.goals_list_error_delete))
@@ -191,51 +166,41 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
     }
 
     private fun initRecyclerView() {
-        rvGoalsList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        rvGoalsList.adapter = goalsAdapter
-        rvGoalsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        rvDoneGoalsList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        rvDoneGoalsList.adapter = doneGoalsAdapter
+        rvDoneGoalsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0)
-                    if (goalsListViewModel.isDeleteShown) fabRemove.hide() else fabAdd.hide()
-                else if (dy < 0)
-                    if (goalsListViewModel.isDeleteShown) fabRemove.show() else fabAdd.show()
+                    if (doneGoalsListViewModel.isDeleteShown) fabRemove.hide()
+                    else if (dy < 0)
+                        if (doneGoalsListViewModel.isDeleteShown) fabRemove.show()
             }
         })
     }
 
     private fun initClickListener() {
-        fabAdd.setOnClickListener {
-            openGoalCreateActivity()
-            fabAdd.hide()
-        }
-        fabRemove.setOnClickListener { removeGoals() }
-        txtError.setOnClickListener {
-            hideError()
-            listGoals()
-        }
-        imgError.setOnClickListener {
-            hideError()
-            listGoals()
-        }
+        fabRemove.setOnClickListener { removeDoneGoals() }
+        txtError.setOnClickListener { listDoneGoals() }
+        imgError.setOnClickListener { listDoneGoals() }
     }
 
-    private fun initAnimationsNoGoals() {
+    private fun initAnimationsNoDoneGoals() {
         val fadeIn = AlphaAnimation(0f, 1f)
         fadeIn.interpolator = DecelerateInterpolator()
         fadeIn.duration = 2000
 
         val animation = AnimationSet(false)
         animation.addAnimation(fadeIn)
-        txtNoGoalsFirst.animation = animation
-        imgNoGoals.animation = animation
+        txtNoDoneGoalsFirst.animation = animation
+        imgNoDoneGoals.animation = animation
 
         val valueAnimator = ValueAnimator.ofFloat(-100f, 0f)
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
         valueAnimator.duration = 1000
         valueAnimator.addUpdateListener {
             val progress = it.animatedValue as Float
-            txtNoGoalsFirst.translationY = progress
-            imgNoGoals.translationY = progress
+            txtNoDoneGoalsFirst.translationY = progress
+            imgNoDoneGoals.translationY = progress
         }
         valueAnimator.start()
     }
@@ -261,32 +226,32 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         valueAnimator.start()
     }
 
-    private fun listGoals() {
+    private fun listDoneGoals() {
         hideError()
-        hideNoGoals()
+        hideNoDoneGoals()
         showLoading()
-        goalsListViewModel.listGoals()
+        doneGoalsListViewModel.listDoneGoals()
     }
 
-    private fun removeGoals() {
-        goalsListViewModel.removeGoals()
+    private fun removeDoneGoals() {
+        doneGoalsListViewModel.removeDoneGoals()
     }
 
-    private fun showGoalsList() {
-        rvGoalsList.visibility = View.VISIBLE
+    private fun showDoneGoalsList() {
+        rvDoneGoalsList.visibility = View.VISIBLE
     }
 
-    private fun hideGoalsList() {
-        rvGoalsList.visibility = View.GONE
+    private fun hideDoneGoalsList() {
+        rvDoneGoalsList.visibility = View.GONE
     }
 
-    private fun showNoGoals() {
-        initAnimationsNoGoals()
-        noGoalsGroup.visibility = View.VISIBLE
+    private fun showNoDoneGoals() {
+        initAnimationsNoDoneGoals()
+        noDoneGoalsGroup.visibility = View.VISIBLE
     }
 
-    private fun hideNoGoals() {
-        noGoalsGroup.visibility = View.GONE
+    private fun hideNoDoneGoals() {
+        noDoneGoalsGroup.visibility = View.GONE
     }
 
     private fun showLoading() {
@@ -300,7 +265,6 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
     private fun showError() {
         initAnimationsError()
         errorGroup.visibility = View.VISIBLE
-        fabAdd.hide()
     }
 
     private fun hideError() {
@@ -315,64 +279,19 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
 
     private fun expandBar(hasToExpand: Boolean) = appBar.setExpanded(hasToExpand)
 
-    private fun openGoalCreateActivity() = Intent(context, GoalCreateActivity::class.java).apply {
-        startActivityForResult(this, REQUEST_CODE_CREATE)
-    }
-
     private fun openGoalDetailsActivity(goal: GoalWithWeeks) = Intent(context, GoalDetailsActivity::class.java).apply {
         putExtra(GOAL_TAG, goal)
         startActivityForResult(this, REQUEST_CODE_DETAILS)
     }
 
-    private fun revealButton() {
-//        activity?.revealView?.let {
-//            it.visibility = View.VISIBLE
-//            fabAdd.hide()
-//
-//            val cx = it.width
-//            val cy = it.height
-//
-//
-//            val x = (getButtonSize() / 2 + fabAdd.x)
-//            val y = (getButtonSize() / 2 + fabAdd.y)
-//
-//            val finalRadius = Math.max(cx, cy) * 1.2f
-//
-//            val reveal = ViewAnimationUtils
-//                .createCircularReveal(
-//                    it,
-//                    x.toInt(),
-//                    y.toInt(),
-//                    getButtonSize(), finalRadius
-//                )
-//
-//            reveal.duration = 350
-//            reveal.addListener(object : AnimatorListenerAdapter() {
-//                override fun onAnimationEnd(animation: Animator) {
-//                    openGoalCreateActivity()
-//                }
-//            })
-//            reveal.start()
-//        }
-
-    }
-
-    private fun resetAnimation() {
-//        activity?.revealView?.visibility = View.INVISIBLE
-        fabAdd.show()
-    }
-
-    private fun getButtonSize() = resources.getDimension(R.dimen.button_height)
-
     companion object {
-        private const val REQUEST_CODE_CREATE = 300
         private const val REQUEST_CODE_DETAILS = 400
         private const val GOAL_TAG = "GOAL"
         private const val HAS_CHANGED = "HAS_CHANGED"
         const val ACTIVITY_ERROR = -3
 
         fun newInstance(): Fragment {
-            return GoalsListFragment()
+            return DoneGoalsListFragment()
         }
     }
 

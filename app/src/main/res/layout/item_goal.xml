@@ -46,7 +46,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtName"
                 app:layout_constraintStart_toStartOf="@id/txtName"
                 android:textColor="@color/colorBlack"
-                android:text="@string/goal_list_weeks_remaining"/>
+                android:text="@string/goals_list_weeks_remaining"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtStartDate"
@@ -55,7 +55,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtWeeks"
                 app:layout_constraintStart_toStartOf="@id/txtWeeks"
                 android:textColor="@color/colorBlack"
-                android:text="@string/goal_list_start_date"/>
+                android:text="@string/goals_list_start_date"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtEndDate"
@@ -64,7 +64,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtStartDate"
                 app:layout_constraintStart_toStartOf="@id/txtStartDate"
                 android:textColor="@color/colorBlack"
-                android:text="@string/goal_list_end_date"/>
+                android:text="@string/goals_list_end_date"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtValue"

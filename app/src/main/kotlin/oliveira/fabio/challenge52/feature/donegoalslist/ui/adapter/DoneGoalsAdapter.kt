@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.feature.goalslist.ui.adapter
+package oliveira.fabio.challenge52.feature.donegoalslist.ui.adapter
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -18,8 +18,8 @@ import oliveira.fabio.challenge52.util.extension.toCurrency
 import oliveira.fabio.challenge52.util.extension.toCurrentFormat
 
 
-class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
-    RecyclerView.Adapter<GoalsAdapter.GoalViewHolder>() {
+class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
+    RecyclerView.Adapter<DoneGoalsAdapter.GoalViewHolder>() {
 
     private var lastPosition = 0
     private var goalsList: MutableList<GoalWithWeeks> = mutableListOf()
@@ -134,7 +134,6 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                                 R.color.colorSofterGrey
                             )
                         )
-                        onClickGoalListener.onClickAdd(goalsList[position])
                     } else {
                         onClickGoalListener.onClickGoal(goalsList[position])
                     }
@@ -158,7 +157,6 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
     interface OnClickGoalListener {
         fun onClickGoal(goal: GoalWithWeeks)
         fun onLongClick(goal: GoalWithWeeks)
-        fun onClickAdd(goal: GoalWithWeeks)
         fun onClickRemove(goal: GoalWithWeeks)
         fun onRotateHasGoalSelected()
     }

@@ -11,6 +11,7 @@ class Goal :
     Serializable {
     lateinit var name: String
     var totalValue: Float = 0f
+    var isDone = false
     @Ignore
     lateinit var initialDate: Date
     @PrimaryKey(autoGenerate = true)

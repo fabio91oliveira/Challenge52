@@ -38,7 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
-                    app:title="@string/goals_list_my_goals"
+                    app:title="@string/done_goals_list_title"
                     style="@style/AppTheme.PopupOverlay"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -57,7 +57,7 @@
             tools:context=".feature.goalslist.ui.fragment.GoalsListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvGoalsList"
+                android:id="@+id/rvDoneGoalsList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -66,19 +66,19 @@
                 android:visibility="gone"
                 tools:visibility="visible"/>
 
-        <!-- No Goals show -->
+        <!-- No results to show -->
         <androidx.constraintlayout.widget.Group
-                android:id="@+id/noGoalsGroup"
+                android:id="@+id/noDoneGoalsGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="txtNoGoalsFirst,imgNoGoals "
+                app:constraint_referenced_ids="txtNoDoneGoalsFirst,imgNoDoneGoals "
                 android:visibility="gone"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtNoGoalsFirst"
+                android:id="@+id/txtNoDoneGoalsFirst"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/goals_list_no_goals"
+                android:text="@string/done_goals_list_none_result"
                 android:layout_marginStart="@dimen/margin_twenty_four"
                 android:layout_marginEnd="@dimen/margin_twenty_four"
                 android:layout_marginTop="@dimen/margin_sixteen"
@@ -93,12 +93,12 @@
                 tools:visibility="gone"/>
 
         <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgNoGoals"
+                android:id="@+id/imgNoDoneGoals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_coin"
                 android:layout_marginTop="@dimen/margin_forty"
-                app:layout_constraintTop_toBottomOf="@+id/txtNoGoalsFirst"
+                app:layout_constraintTop_toBottomOf="@+id/txtNoDoneGoalsFirst"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:visibility="gone"/>
@@ -115,7 +115,7 @@
                 android:id="@+id/txtError"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/goals_list_error"
+                android:text="@string/done_goals_list_error"
                 android:textAlignment="center"
                 android:layout_marginStart="@dimen/margin_twenty_four"
                 android:layout_marginEnd="@dimen/margin_twenty_four"
@@ -154,19 +154,6 @@
                 tools:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/margin_sixteen"
-            android:tint="@color/colorWhite"
-            app:backgroundTint="@color/colorPrimary"
-            app:rippleColor="@color/colorAccent"
-            android:clickable="true"
-            app:srcCompat="@android:drawable/ic_input_add"
-            android:focusable="true"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabRemove"

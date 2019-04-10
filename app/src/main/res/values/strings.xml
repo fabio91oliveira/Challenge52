@@ -2,38 +2,50 @@
     <string name="app_name">Challenge 52</string>
     <string name="action_settings">Settings</string>
 
-    <string name="goal_List_my_goals">My Goals</string>
-    <string name="goal_list_no_goals">There are no goals registered at the moment. Do you want to create the first one
+    <!-- Goals List -->
+    <string name="goals_list_my_goals">My Goals</string>
+    <string name="goals_list_no_goals">There are no goals registered at the moment. Do you want to create the first one
         right now?
     </string>
-    <string name="goal_list_error">An error has occurred, try again clicking here or contact the developer.</string>
-    <string name="goal_list_weeks_remaining">Remaining weeks:</string>
-    <string name="goal_list_start_date">Start date:</string>
-    <string name="goal_list_end_date">End date:</string>
-    <string name="goal_list_progress">Progress:</string>
-    <string name="goal_list_progress_value_percent">%</string>
+    <string name="goals_list_error">An error has occurred, try again clicking here or contact the developer.</string>
+    <string name="goals_list_weeks_remaining">Remaining weeks:</string>
+    <string name="goals_list_start_date">Start date:</string>
+    <string name="goals_list_end_date">End date:</string>
+    <string name="goals_list_progress">Progress:</string>
+    <string name="goals_list_progress_value_percent">%</string>
 
+    <!-- Done List -->
+    <string name="done_goals_list_title">Done goals</string>
+    <string name="done_goals_list_none_result">There are no done goals for a while.</string>
+    <string name="done_goals_list_error">An error has occurred, try again clicking here or contact the developer.</string>
+    <string name="done_goals_list_start_date">Start date:</string>
+    <string name="done_goals_list_end_date">End date:</string>
+    <string name="done_goals_list_progress">Progress:</string>
+    <string name="done_goals_list_progress_value_percent">%</string>
+
+    <!-- Goal Create -->
     <string name="goal_create_new_goal">New goal</string>
     <string name="goal_create_goal_name">What is the name of your goal?</string>
     <string name="goal_create_goal_value">How much to offer?</string>
     <string name="goal_create_goal_data">When do you want to start?</string>
     <string name="goal_create_create_goal">Create goal</string>
-
     <string name="goal_create_calendar_choose_date">Choose date</string>
     <string name="goal_create_calendar_select_date">Select date</string>
 
-
+    <!-- Goal Details -->
     <string name="goal_details_week">Week %s</string>
     <string name="goal_details_weeks">Weeks:</string>
     <string name="goal_details_goal">Goal reached:</string>
     <string name="goal_details_of_weeks">of %s weeks</string>
     <string name="goal_details_of_money">of %s</string>
 
+    <!-- Patterns -->
     <string name="currency_mask">[$,.]</string>
     <string name="date_pattern">yyyy/MM/dd</string>
 
+    <!-- Error -->
     <string name="goal_error_title">Warning</string>
-    <string name="goal_list_error_delete">An error has occurred when try to remove goal, try again or contact the
+    <string name="goals_list_error_delete">An error has occurred when try to remove goal, try again or contact the
         developer.
     </string>
     <string name="goal_create_error_message">An error has occurred when try to create goal, try again or contact the
