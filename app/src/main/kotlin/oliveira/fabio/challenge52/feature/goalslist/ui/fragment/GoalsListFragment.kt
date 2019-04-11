@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,7 @@ import oliveira.fabio.challenge52.feature.goalcreate.ui.activity.GoalCreateActiv
 import oliveira.fabio.challenge52.feature.goaldetails.ui.activity.GoalDetailsActivity
 import oliveira.fabio.challenge52.feature.goalslist.ui.adapter.GoalsAdapter
 import oliveira.fabio.challenge52.feature.goalslist.viewmodel.GoalsListViewModel
-import oliveira.fabio.challenge52.persistence.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
@@ -45,6 +46,11 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         } ?: run {
             init()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("kkkkk", "auheuaheau")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

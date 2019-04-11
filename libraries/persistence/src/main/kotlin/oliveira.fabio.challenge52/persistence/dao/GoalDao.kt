@@ -2,7 +2,7 @@ package oliveira.fabio.challenge52.persistence.dao
 
 import androidx.room.*
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
-import oliveira.fabio.challenge52.persistence.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 
 @Dao
 interface GoalDao {

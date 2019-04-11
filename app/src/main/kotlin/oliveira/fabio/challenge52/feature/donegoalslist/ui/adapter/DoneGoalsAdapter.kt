@@ -13,7 +13,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_goal.*
 import kotlinx.android.synthetic.main.item_goal.view.*
 import oliveira.fabio.challenge52.R
-import oliveira.fabio.challenge52.persistence.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.util.extension.toCurrency
 import oliveira.fabio.challenge52.util.extension.toCurrentFormat
 

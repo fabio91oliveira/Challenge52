@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.persistence.vo
+package oliveira.fabio.challenge52.persistence.model.vo
 
 import androidx.room.Embedded
 import androidx.room.Ignore

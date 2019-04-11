@@ -16,7 +16,7 @@
 
     <!-- Done List -->
     <string name="done_goals_list_title">Done goals</string>
-    <string name="done_goals_list_none_result">There are no done goals for a while.</string>
+    <string name="done_goals_list_none_result">There are no done goals for a while. When you reach a goal, then you can put the completed one here.</string>
     <string name="done_goals_list_error">An error has occurred, try again clicking here or contact the developer.</string>
     <string name="done_goals_list_start_date">Start date:</string>
     <string name="done_goals_list_end_date">End date:</string>
