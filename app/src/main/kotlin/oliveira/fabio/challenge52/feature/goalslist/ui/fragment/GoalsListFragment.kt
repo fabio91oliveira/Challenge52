@@ -44,6 +44,7 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
             initRecyclerView()
         } ?: run {
             init()
+            retainInstance = true
         }
     }
 

@@ -14,6 +14,7 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private lateinit var goalsListFragment: Fragment
     private lateinit var doneGoalsListFragment: Fragment
+    private lateinit var activeFragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,14 +22,14 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         navigation.setOnNavigationItemSelectedListener(this)
 
         savedInstanceState?.let {
-            goalsListFragment = supportFragmentManager.findFragmentByTag(KEY_GOALS_LIST) as GoalsListFragment
+            goalsListFragment =
+                supportFragmentManager.findFragmentByTag(GoalsListFragment.javaClass.simpleName) as GoalsListFragment
             doneGoalsListFragment =
-                supportFragmentManager.findFragmentByTag(KEY_DONE_GOALS_LIST) as DoneGoalsListFragment
+                supportFragmentManager.findFragmentByTag(DoneGoalsListFragment.javaClass.simpleName) as DoneGoalsListFragment
         } ?: run {
             initFragments()
-            supportFragmentManager.beginTransaction().add(R.id.container, doneGoalsListFragment, KEY_DONE_GOALS_LIST)
-                .hide(doneGoalsListFragment).commit()
-            supportFragmentManager.beginTransaction().add(R.id.container, goalsListFragment, KEY_GOALS_LIST).commit()
+            activeFragment = goalsListFragment
+            changeFragment(goalsListFragment)
         }
     }
 
@@ -49,13 +50,11 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navigation_goals -> {
-                supportFragmentManager.beginTransaction().addToBackStack(null).hide(doneGoalsListFragment)
-                    .show(goalsListFragment).commit()
+                changeFragment(goalsListFragment)
                 return true
             }
             R.id.navigation_done -> {
-                supportFragmentManager.beginTransaction().addToBackStack(null).hide(goalsListFragment)
-                    .show(doneGoalsListFragment).commit()
+                changeFragment(doneGoalsListFragment)
                 return true
             }
             R.id.navigation_help -> {
@@ -75,9 +74,20 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         doneGoalsListFragment = DoneGoalsListFragment.newInstance()
     }
 
-    companion object {
-        private const val KEY_GOALS_LIST = "GOALS_LIST"
-        private const val KEY_DONE_GOALS_LIST = "DONE_GOALS_LIST"
+    private fun changeFragment(fragment: Fragment) {
+        val tag = fragment.javaClass.simpleName
+        if (supportFragmentManager.findFragmentByTag(tag) == null) {
+            if (activeFragment != fragment) {
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container, fragment, tag).addToBackStack(tag).hide(activeFragment).commit()
+            } else {
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container, fragment, tag).commit()
+            }
+        } else {
+            supportFragmentManager.beginTransaction().addToBackStack(null).hide(activeFragment)
+                .show(fragment).commit()
+        }
+        activeFragment = fragment
     }
-
 }

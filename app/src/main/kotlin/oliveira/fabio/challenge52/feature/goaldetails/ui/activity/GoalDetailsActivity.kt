@@ -3,6 +3,8 @@ package oliveira.fabio.challenge52.feature.goaldetails.ui.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,7 @@ import oliveira.fabio.challenge52.feature.goalslist.ui.fragment.GoalsListFragmen
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.viewModel
+
 
 class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListener {
 
@@ -44,6 +47,26 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
 
     override fun onBackPressed() {
         closeDetails()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.goal_details_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.details_edit -> {
+                true
+            }
+            R.id.details_remove -> {
+                true
+            }
+            R.id.details_done -> {
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onClickWeek(week: Week, position: Int) {
