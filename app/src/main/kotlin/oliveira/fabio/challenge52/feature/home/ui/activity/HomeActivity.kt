@@ -10,7 +10,13 @@ import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.donegoalslist.ui.fragment.DoneGoalsListFragment
 import oliveira.fabio.challenge52.feature.goalslist.ui.fragment.GoalsListFragment
 
-class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+
+class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
+    GoalsListFragment.OnFragmentInteractionListener {
+
+    override fun onFragmentInteraction() {
+        (doneGoalsListFragment as DoneGoalsListFragment).listDoneGoals()
+    }
 
     private lateinit var goalsListFragment: Fragment
     private lateinit var doneGoalsListFragment: Fragment

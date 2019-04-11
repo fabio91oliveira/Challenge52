@@ -2,6 +2,7 @@ package oliveira.fabio.challenge52.feature.goalslist.ui.fragment
 
 import android.animation.ValueAnimator
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,13 +27,25 @@ import oliveira.fabio.challenge52.feature.goalslist.viewmodel.GoalsListViewModel
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.viewModel
 
+
 class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
 
+    private var onFragmentInteractionListener: OnFragmentInteractionListener? = null
     private val goalsListViewModel: GoalsListViewModel by viewModel()
     private val goalsAdapter by lazy { GoalsAdapter(this) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_goals_list, container, false)
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        try {
+            onFragmentInteractionListener = activity as OnFragmentInteractionListener
+        } catch (e: ClassCastException) {
+            throw ClassCastException(activity.toString() + " must implement OnFragmentInteractionListener")
+        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,7 +72,10 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
                 }
                 REQUEST_CODE_DETAILS -> {
                     data?.getBooleanExtra(HAS_CHANGED, false)?.let {
-                        if (it) listGoals()
+                        if (it) {
+                            listGoals()
+                            onFragmentInteractionListener?.onFragmentInteraction()
+                        }
                     }
                 }
             }
@@ -343,4 +359,7 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         }
     }
 
+    interface OnFragmentInteractionListener {
+        fun onFragmentInteraction()
+    }
 }

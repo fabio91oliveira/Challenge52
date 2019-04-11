@@ -2,6 +2,7 @@ package oliveira.fabio.challenge52.feature.donegoalslist.ui.fragment
 
 import android.animation.ValueAnimator
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -72,10 +73,6 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun onRotateHasGoalSelected() {
         if (doneGoalsListViewModel.isDeleteShown) {
             fabRemove.show()
@@ -88,6 +85,12 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
             fabRemove.hide()
             doneGoalsListViewModel.isDeleteShown = false
         }
+    }
+
+    override fun onClickAdd(goal: GoalWithWeeks) {
+        doneGoalsListViewModel.doneGoalWithWeeksToRemove.add(goal)
+        fabRemove.show()
+        doneGoalsListViewModel.isDeleteShown = true
     }
 
     override fun onLongClick(goal: GoalWithWeeks) {
@@ -230,7 +233,7 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
         valueAnimator.start()
     }
 
-    private fun listDoneGoals() {
+    fun listDoneGoals() {
         hideError()
         hideNoDoneGoals()
         showLoading()

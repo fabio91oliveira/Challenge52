@@ -134,6 +134,7 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                                 R.color.colorSofterGrey
                             )
                         )
+                        onClickGoalListener.onClickAdd(goalsList[position])
                     } else {
                         onClickGoalListener.onClickGoal(goalsList[position])
                     }
@@ -157,6 +158,7 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
     interface OnClickGoalListener {
         fun onClickGoal(goal: GoalWithWeeks)
         fun onLongClick(goal: GoalWithWeeks)
+        fun onClickAdd(goal: GoalWithWeeks)
         fun onClickRemove(goal: GoalWithWeeks)
         fun onRotateHasGoalSelected()
     }
