@@ -1,19 +1,14 @@
 package oliveira.fabio.challenge52.feature.home.ui.activity
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.view_navigation_count.view.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.donegoalslist.ui.fragment.DoneGoalsListFragment
 import oliveira.fabio.challenge52.feature.goalslist.ui.fragment.GoalsListFragment
-
 
 class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -35,7 +30,6 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 .hide(doneGoalsListFragment).commit()
             supportFragmentManager.beginTransaction().add(R.id.container, goalsListFragment, KEY_GOALS_LIST).commit()
         }
-        test()
     }
 
     override fun onBackPressed() {
@@ -79,18 +73,6 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private fun initFragments() {
         goalsListFragment = GoalsListFragment.newInstance()
         doneGoalsListFragment = DoneGoalsListFragment.newInstance()
-    }
-
-    private fun test() {
-//        val bottomNavigationMenuView = navigation.getChildAt(0) as BottomNavigationMenuView
-//        val v = bottomNavigationMenuView.getChildAt(0)
-//        val itemView = v as BottomNavigationItemView
-//
-//        val badge = LayoutInflater.from(this)
-//            .inflate(R.layout.view_navigation_count, bottomNavigationMenuView, false)
-//        val tv = badge.notification_badge
-//        tv.text = "22"
-//        itemView.addView(badge)
     }
 
     companion object {
