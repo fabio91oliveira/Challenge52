@@ -22,6 +22,7 @@ import kotlin.coroutines.CoroutineContext
 class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRepository) : ViewModel(), CoroutineScope {
 
     val mutableLiveDataUpdated by lazy { MutableLiveData<Event<Boolean>>() }
+    val mutableLiveDataCompleted by lazy { MutableLiveData<Event<Boolean>>() }
     val mutableLiveDataRemoved by lazy { MutableLiveData<Event<Boolean>>() }
     val mutableLiveDataItemList by lazy { MutableLiveData<MutableList<Item>>() }
 
@@ -77,6 +78,31 @@ class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRep
 
                 }, failure = {
                     mutableLiveDataRemoved.postValue(Event(false))
+                })
+        }
+    }
+
+    fun completeGoal(goalWithWeeks: GoalWithWeeks) {
+        launch {
+            val weeksToComplete = arrayListOf<Week>()
+
+            goalWithWeeks.weeks.forEach {
+                it.isDeposited = true
+                weeksToComplete.add(it)
+            }
+
+            SuspendableResult.of<Unit, Exception> { goalWithWeeksRepository.updateWeeks(weeksToComplete) }.fold(
+                success = {
+                    goalWithWeeks.goal.isDone = true
+                    SuspendableResult.of<Unit, Exception> { goalWithWeeksRepository.updateGoal(goalWithWeeks.goal) }
+                        .fold(success = {
+                            mutableLiveDataCompleted.postValue(Event(true))
+                        }, failure = {
+                            mutableLiveDataCompleted.postValue(Event(false))
+                        })
+
+                }, failure = {
+                    mutableLiveDataCompleted.postValue(Event(false))
                 })
         }
     }

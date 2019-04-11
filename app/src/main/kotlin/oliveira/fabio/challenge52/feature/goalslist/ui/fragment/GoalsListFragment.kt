@@ -329,45 +329,7 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         startActivityForResult(this, REQUEST_CODE_DETAILS)
     }
 
-    private fun revealButton() {
-//        activity?.revealView?.let {
-//            it.visibility = View.VISIBLE
-//            fabAdd.hide()
-//
-//            val cx = it.width
-//            val cy = it.height
-//
-//
-//            val x = (getButtonSize() / 2 + fabAdd.x)
-//            val y = (getButtonSize() / 2 + fabAdd.y)
-//
-//            val finalRadius = Math.max(cx, cy) * 1.2f
-//
-//            val reveal = ViewAnimationUtils
-//                .createCircularReveal(
-//                    it,
-//                    x.toInt(),
-//                    y.toInt(),
-//                    getButtonSize(), finalRadius
-//                )
-//
-//            reveal.duration = 350
-//            reveal.addListener(object : AnimatorListenerAdapter() {
-//                override fun onAnimationEnd(animation: Animator) {
-//                    openGoalCreateActivity()
-//                }
-//            })
-//            reveal.start()
-//        }
-
-    }
-
-    private fun resetAnimation() {
-//        activity?.revealView?.visibility = View.INVISIBLE
-        fabAdd.show()
-    }
-
-    private fun getButtonSize() = resources.getDimension(R.dimen.button_height)
+    private fun resetAnimation() = fabAdd.show()
 
     companion object {
         private const val REQUEST_CODE_CREATE = 300

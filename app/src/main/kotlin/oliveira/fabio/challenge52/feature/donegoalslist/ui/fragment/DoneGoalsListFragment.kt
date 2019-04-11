@@ -72,6 +72,10 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
     override fun onRotateHasGoalSelected() {
         if (doneGoalsListViewModel.isDeleteShown) {
             fabRemove.show()

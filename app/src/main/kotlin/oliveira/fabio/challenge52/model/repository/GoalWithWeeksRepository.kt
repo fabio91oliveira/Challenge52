@@ -12,6 +12,10 @@ class GoalWithWeeksRepository(private val goalDao: GoalDao, private val weekDao:
         goalDao.addGoal(goal)
     }
 
+    suspend fun updateGoal(goal: Goal) = withContext(Dispatchers.Default) {
+        goalDao.updateGoal(goal)
+    }
+
     suspend fun removeGoal(goal: Goal) = withContext(Dispatchers.Default) {
         goalDao.deleteGoal(goal)
     }
@@ -30,6 +34,10 @@ class GoalWithWeeksRepository(private val goalDao: GoalDao, private val weekDao:
 
     suspend fun updateWeek(week: Week) = withContext(Dispatchers.Default) {
         weekDao.updateWeek(week)
+    }
+
+    suspend fun updateWeeks(weeks: List<Week>) = withContext(Dispatchers.Default) {
+        weekDao.updateWeeks(weeks)
     }
 
     suspend fun getAllGoalsWithWeeks() = withContext(Dispatchers.Default) {

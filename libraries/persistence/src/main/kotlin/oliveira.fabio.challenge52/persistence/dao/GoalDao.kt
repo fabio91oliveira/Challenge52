@@ -9,13 +9,16 @@ interface GoalDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addGoal(goal: Goal): Long
 
+    @Update
+    fun updateGoal(goal: Goal)
+
     @Delete
     fun deleteGoal(goal: Goal): Int
 
     @Delete
     fun deleteGoals(goalsList: List<Goal>): Int
 
-    @Query("SELECT * FROM goal")
+    @Query("SELECT * FROM goal WHERE goal.isDone = 0")
     fun getAllGoalsWithWeeks(): List<GoalWithWeeks>
 
     @Query("SELECT * FROM goal WHERE goal.isDone = 1")

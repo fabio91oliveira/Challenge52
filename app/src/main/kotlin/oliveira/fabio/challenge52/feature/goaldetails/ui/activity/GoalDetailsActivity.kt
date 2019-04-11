@@ -61,6 +61,12 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
                 true
             }
             R.id.details_done -> {
+                showConfirmDialog(
+                    resources.getString(R.string.goal_details_are_you_sure_done),
+                    DialogInterface.OnClickListener { dialog, _ ->
+                        completeGoal()
+                        dialog.dismiss()
+                    })
                 true
             }
             R.id.details_remove -> {
@@ -133,6 +139,17 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
                 }
             }
         })
+        goalDetailsViewModel.mutableLiveDataCompleted.observe(this, Observer { event ->
+            event.getContentIfNotHandled()?.let {
+                when (it) {
+                    true -> {
+                        newIntent.putExtra(HAS_CHANGED, true)
+                        closeDetails()
+                    }
+                    else -> showErrorDialog(resources.getString(R.string.goal_details_make_done_error_message))
+                }
+            }
+        })
     }
 
     private fun setupToolbar() {
@@ -158,6 +175,8 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
     }
 
     private fun deleteGoal() = goalDetailsViewModel.removeGoal(goalWithWeeks)
+
+    private fun completeGoal() = goalDetailsViewModel.completeGoal(goalWithWeeks)
 
     private fun showLoading() {
         loading.visibility = View.VISIBLE

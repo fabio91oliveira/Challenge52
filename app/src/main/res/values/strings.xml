@@ -44,6 +44,7 @@
     <string name="goal_details_make_it_done">Make it done</string>
 
     <string name="goal_details_are_you_sure_remove">Are you sure to remove goal?</string>
+    <string name="goal_details_are_you_sure_done">Are you sure to make goal done?</string>
 
     <!-- Patterns -->
     <string name="currency_mask">[$,.]</string>
@@ -64,6 +65,9 @@
         the developer.
     </string>
     <string name="goal_details_remove_error_message">An error has occurred when try to remove goal, try again or contact
+        the developer.
+    </string>
+    <string name="goal_details_make_done_error_message">An error has occurred when try to make goal done, try again or contact
         the developer.
     </string>
 </resources>
