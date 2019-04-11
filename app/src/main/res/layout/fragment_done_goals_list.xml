@@ -67,13 +67,6 @@
                 tools:visibility="visible"/>
 
         <!-- No results to show -->
-        <androidx.constraintlayout.widget.Group
-                android:id="@+id/noDoneGoalsGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="txtNoDoneGoalsFirst,imgNoDoneGoals "
-                android:visibility="gone"/>
-
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtNoDoneGoalsFirst"
                 android:layout_width="0dp"
@@ -104,13 +97,6 @@
                 tools:visibility="gone"/>
 
         <!-- Error show -->
-        <androidx.constraintlayout.widget.Group
-                android:id="@+id/errorGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="txtError,imgError "
-                android:visibility="gone"/>
-
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtError"
                 android:layout_width="0dp"

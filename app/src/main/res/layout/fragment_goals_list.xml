@@ -67,12 +67,6 @@
                 tools:visibility="visible"/>
 
         <!-- No Goals show -->
-        <androidx.constraintlayout.widget.Group
-                android:id="@+id/noGoalsGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="txtNoGoalsFirst,imgNoGoals "
-                android:visibility="gone"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtNoGoalsFirst"
@@ -104,13 +98,6 @@
                 tools:visibility="gone"/>
 
         <!-- Error show -->
-        <androidx.constraintlayout.widget.Group
-                android:id="@+id/errorGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="txtError,imgError "
-                android:visibility="gone"/>
-
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtError"
                 android:layout_width="0dp"

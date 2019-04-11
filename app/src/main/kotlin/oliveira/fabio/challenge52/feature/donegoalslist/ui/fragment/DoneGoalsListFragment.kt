@@ -191,16 +191,16 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
 
         val animation = AnimationSet(false)
         animation.addAnimation(fadeIn)
-        txtNoDoneGoalsFirst.animation = animation
-        imgNoDoneGoals.animation = animation
+        txtNoDoneGoalsFirst?.animation = animation
+        imgNoDoneGoals?.animation = animation
 
         val valueAnimator = ValueAnimator.ofFloat(-100f, 0f)
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
         valueAnimator.duration = 1000
         valueAnimator.addUpdateListener {
             val progress = it.animatedValue as Float
-            txtNoDoneGoalsFirst.translationY = progress
-            imgNoDoneGoals.translationY = progress
+            txtNoDoneGoalsFirst?.translationY = progress
+            imgNoDoneGoals?.translationY = progress
         }
         valueAnimator.start()
     }
@@ -212,16 +212,16 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
 
         val animation = AnimationSet(false)
         animation.addAnimation(fadeIn)
-        txtError.animation = animation
-        imgError.animation = animation
+        txtError?.animation = animation
+        imgError?.animation = animation
 
         val valueAnimator = ValueAnimator.ofFloat(-100f, 0f)
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
         valueAnimator.duration = 1000
         valueAnimator.addUpdateListener {
             val progress = it.animatedValue as Float
-            txtError.translationY = progress
-            imgError.translationY = progress
+            txtError?.translationY = progress
+            imgError?.translationY = progress
         }
         valueAnimator.start()
     }
@@ -247,11 +247,13 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
 
     private fun showNoDoneGoals() {
         initAnimationsNoDoneGoals()
-        noDoneGoalsGroup.visibility = View.VISIBLE
+        txtNoDoneGoalsFirst.visibility = View.VISIBLE
+        imgNoDoneGoals.visibility = View.VISIBLE
     }
 
     private fun hideNoDoneGoals() {
-        noDoneGoalsGroup.visibility = View.GONE
+        txtNoDoneGoalsFirst.visibility = View.GONE
+        imgNoDoneGoals.visibility = View.GONE
     }
 
     private fun showLoading() {
@@ -264,11 +266,13 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
 
     private fun showError() {
         initAnimationsError()
-        errorGroup.visibility = View.VISIBLE
+        txtError.visibility = View.VISIBLE
+        imgError.visibility = View.VISIBLE
     }
 
     private fun hideError() {
-        errorGroup.visibility = View.GONE
+        txtError.visibility = View.GONE
+        imgError.visibility = View.GONE
     }
 
     private fun showErrorDialog(message: String) = AlertDialog.Builder(requireContext()).apply {

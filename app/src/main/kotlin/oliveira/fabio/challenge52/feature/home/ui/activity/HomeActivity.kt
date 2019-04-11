@@ -82,15 +82,15 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private fun test() {
-        val bottomNavigationMenuView = navigation.getChildAt(0) as BottomNavigationMenuView
-        val v = bottomNavigationMenuView.getChildAt(0)
-        val itemView = v as BottomNavigationItemView
-
-        val badge = LayoutInflater.from(this)
-            .inflate(R.layout.view_navigation_count, bottomNavigationMenuView, false)
-        val tv = badge.notification_badge
-        tv.text = "22"
-        itemView.addView(badge)
+//        val bottomNavigationMenuView = navigation.getChildAt(0) as BottomNavigationMenuView
+//        val v = bottomNavigationMenuView.getChildAt(0)
+//        val itemView = v as BottomNavigationItemView
+//
+//        val badge = LayoutInflater.from(this)
+//            .inflate(R.layout.view_navigation_count, bottomNavigationMenuView, false)
+//        val tv = badge.notification_badge
+//        tv.text = "22"
+//        itemView.addView(badge)
     }
 
     companion object {

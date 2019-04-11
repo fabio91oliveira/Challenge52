@@ -4,7 +4,6 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,11 +45,6 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         } ?: run {
             init()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("kkkkk", "auheuaheau")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -232,16 +226,16 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
 
         val animation = AnimationSet(false)
         animation.addAnimation(fadeIn)
-        txtNoGoalsFirst.animation = animation
-        imgNoGoals.animation = animation
+        txtNoGoalsFirst?.animation = animation
+        imgNoGoals?.animation = animation
 
         val valueAnimator = ValueAnimator.ofFloat(-100f, 0f)
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
         valueAnimator.duration = 1000
         valueAnimator.addUpdateListener {
             val progress = it.animatedValue as Float
-            txtNoGoalsFirst.translationY = progress
-            imgNoGoals.translationY = progress
+            txtNoGoalsFirst?.translationY = progress
+            imgNoGoals?.translationY = progress
         }
         valueAnimator.start()
     }
@@ -253,16 +247,16 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
 
         val animation = AnimationSet(false)
         animation.addAnimation(fadeIn)
-        txtError.animation = animation
-        imgError.animation = animation
+        txtError?.animation = animation
+        imgError?.animation = animation
 
         val valueAnimator = ValueAnimator.ofFloat(-100f, 0f)
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
         valueAnimator.duration = 1000
         valueAnimator.addUpdateListener {
             val progress = it.animatedValue as Float
-            txtError.translationY = progress
-            imgError.translationY = progress
+            txtError?.translationY = progress
+            imgError?.translationY = progress
         }
         valueAnimator.start()
     }
@@ -288,11 +282,13 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
 
     private fun showNoGoals() {
         initAnimationsNoGoals()
-        noGoalsGroup.visibility = View.VISIBLE
+        txtNoGoalsFirst.visibility = View.VISIBLE
+        imgNoGoals.visibility = View.VISIBLE
     }
 
     private fun hideNoGoals() {
-        noGoalsGroup.visibility = View.GONE
+        txtNoGoalsFirst.visibility = View.GONE
+        imgNoGoals.visibility = View.GONE
     }
 
     private fun showLoading() {
@@ -305,12 +301,14 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
 
     private fun showError() {
         initAnimationsError()
-        errorGroup.visibility = View.VISIBLE
+        txtError.visibility = View.VISIBLE
+        imgError.visibility = View.VISIBLE
         fabAdd.hide()
     }
 
     private fun hideError() {
-        errorGroup.visibility = View.GONE
+        txtError.visibility = View.GONE
+        imgError.visibility = View.GONE
     }
 
     private fun showErrorDialog(message: String) = AlertDialog.Builder(requireContext()).apply {
