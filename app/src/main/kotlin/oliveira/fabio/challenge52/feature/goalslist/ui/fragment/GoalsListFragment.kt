@@ -23,7 +23,7 @@ import oliveira.fabio.challenge52.feature.goalcreate.ui.activity.GoalCreateActiv
 import oliveira.fabio.challenge52.feature.goaldetails.ui.activity.GoalDetailsActivity
 import oliveira.fabio.challenge52.feature.goalslist.ui.adapter.GoalsAdapter
 import oliveira.fabio.challenge52.feature.goalslist.viewmodel.GoalsListViewModel
-import oliveira.fabio.challenge52.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.persistence.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {

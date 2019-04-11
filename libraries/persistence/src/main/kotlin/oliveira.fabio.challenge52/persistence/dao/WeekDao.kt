@@ -1,7 +1,7 @@
-package oliveira.fabio.challenge52.model.persistence.dao
+package oliveira.fabio.challenge52.persistence.dao
 
 import androidx.room.*
-import oliveira.fabio.challenge52.model.entity.Week
+import oliveira.fabio.challenge52.persistence.model.entity.Week
 
 @Dao
 interface WeekDao {

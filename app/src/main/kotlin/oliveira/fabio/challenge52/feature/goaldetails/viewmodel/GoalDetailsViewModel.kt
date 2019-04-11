@@ -11,9 +11,9 @@ import oliveira.fabio.challenge52.feature.goaldetails.vo.HeaderItem
 import oliveira.fabio.challenge52.feature.goaldetails.vo.Item
 import oliveira.fabio.challenge52.feature.goaldetails.vo.SubItemDetails
 import oliveira.fabio.challenge52.feature.goaldetails.vo.SubItemWeek
-import oliveira.fabio.challenge52.model.entity.Week
 import oliveira.fabio.challenge52.model.repository.GoalWithWeeksRepository
-import oliveira.fabio.challenge52.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.persistence.model.entity.Week
+import oliveira.fabio.challenge52.persistence.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.util.Event
 import oliveira.fabio.challenge52.util.extension.getMonthName
 import oliveira.fabio.challenge52.util.extension.getMonthNumber

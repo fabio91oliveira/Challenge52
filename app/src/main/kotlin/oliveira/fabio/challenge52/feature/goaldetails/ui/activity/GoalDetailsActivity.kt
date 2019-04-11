@@ -15,8 +15,8 @@ import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.goaldetails.ui.adapter.WeeksAdapter
 import oliveira.fabio.challenge52.feature.goaldetails.viewmodel.GoalDetailsViewModel
 import oliveira.fabio.challenge52.feature.goalslist.ui.fragment.GoalsListFragment
-import oliveira.fabio.challenge52.model.entity.Week
-import oliveira.fabio.challenge52.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.persistence.model.entity.Week
+import oliveira.fabio.challenge52.persistence.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListener {

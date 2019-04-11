@@ -1,10 +1,10 @@
-package oliveira.fabio.challenge52.model.vo
+package oliveira.fabio.challenge52.persistence.vo
 
 import androidx.room.Embedded
 import androidx.room.Ignore
 import androidx.room.Relation
-import oliveira.fabio.challenge52.model.entity.Goal
-import oliveira.fabio.challenge52.model.entity.Week
+import oliveira.fabio.challenge52.persistence.model.entity.Goal
+import oliveira.fabio.challenge52.persistence.model.entity.Week
 import java.io.Serializable
 
 class GoalWithWeeks : Serializable {

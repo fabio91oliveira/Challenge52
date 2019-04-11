@@ -2,10 +2,10 @@ package oliveira.fabio.challenge52.model.repository
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import oliveira.fabio.challenge52.model.entity.Goal
-import oliveira.fabio.challenge52.model.entity.Week
-import oliveira.fabio.challenge52.model.persistence.dao.GoalDao
-import oliveira.fabio.challenge52.model.persistence.dao.WeekDao
+import oliveira.fabio.challenge52.persistence.dao.GoalDao
+import oliveira.fabio.challenge52.persistence.dao.WeekDao
+import oliveira.fabio.challenge52.persistence.model.entity.Goal
+import oliveira.fabio.challenge52.persistence.model.entity.Week
 
 class GoalWithWeeksRepository(private val goalDao: GoalDao, private val weekDao: WeekDao) {
     suspend fun addGoal(goal: Goal) = withContext(Dispatchers.Default) {

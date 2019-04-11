@@ -1,0 +1,14 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+    // Kotlin
+    implementation deps.kotlin.stdlib
+
+    // Room
+    api deps.room.runtime
+    kapt deps.room.compiler
+    kapt deps.room.compiler
+}

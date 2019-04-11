@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.model.entity
+package oliveira.fabio.challenge52.persistence.model.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

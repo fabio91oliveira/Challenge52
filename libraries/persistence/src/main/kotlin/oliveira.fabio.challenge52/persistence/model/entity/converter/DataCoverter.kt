@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.model.persistence.converter
+package oliveira.fabio.challenge52.persistence.model.entity.converter
 
 import androidx.room.TypeConverter
 import java.util.*

@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_goal_create.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.goalcreate.viewmodel.GoalCreateViewModel
 import oliveira.fabio.challenge52.feature.goalslist.ui.fragment.GoalsListFragment
-import oliveira.fabio.challenge52.model.entity.Goal
+import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.util.extension.callFunctionAfterTextChanged
 import oliveira.fabio.challenge52.util.extension.toCurrencyFormat
 import oliveira.fabio.challenge52.util.extension.toCurrentFormat

@@ -7,11 +7,8 @@ android {
     compileSdkVersion build_versions.target_sdk
     defaultConfig {
         applicationId "oliveira.fabio.challenge52"
-        minSdkVersion build_versions.min_sdk
-        targetSdkVersion build_versions.target_sdk
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -19,26 +16,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
-        androidTest.java.srcDirs += 'src/androidTest/kotlin'
-    }
-    androidExtensions {
-        experimental = true
-    }
-    testOptions {
-        execution 'ANDROIDX_TEST_ORCHESTRATOR'
-        animationsDisabled = true
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':libraries:persistence')
 
     // Kotlin
     implementation deps.kotlin.stdlib
@@ -53,11 +36,6 @@ dependencies {
     implementation deps.lifecycle.extensions
     implementation deps.lifecycle.runtime
     kapt deps.lifecycle.compiler
-
-    // Room
-    implementation deps.room.runtime
-    kapt deps.room.compiler
-    kapt deps.room.compiler
 
     // Koin
     implementation deps.koin.android

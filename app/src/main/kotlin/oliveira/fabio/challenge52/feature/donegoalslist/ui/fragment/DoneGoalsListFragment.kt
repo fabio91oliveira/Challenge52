@@ -22,7 +22,7 @@ import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.donegoalslist.ui.adapter.DoneGoalsAdapter
 import oliveira.fabio.challenge52.feature.donegoalslist.viewmodel.DoneGoalsListViewModel
 import oliveira.fabio.challenge52.feature.goaldetails.ui.activity.GoalDetailsActivity
-import oliveira.fabio.challenge52.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.persistence.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
