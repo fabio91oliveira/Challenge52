@@ -12,6 +12,10 @@ class GoalWithWeeksRepository(private val goalDao: GoalDao, private val weekDao:
         goalDao.addGoal(goal)
     }
 
+    suspend fun removeGoal(goal: Goal) = withContext(Dispatchers.Default) {
+        goalDao.deleteGoal(goal)
+    }
+
     suspend fun removeGoals(goalsList: List<Goal>) = withContext(Dispatchers.Default) {
         goalDao.deleteGoals(goalsList)
     }

@@ -10,6 +10,9 @@ interface GoalDao {
     fun addGoal(goal: Goal): Long
 
     @Delete
+    fun deleteGoal(goal: Goal): Int
+
+    @Delete
     fun deleteGoals(goalsList: List<Goal>): Int
 
     @Query("SELECT * FROM goal")

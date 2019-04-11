@@ -276,7 +276,7 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
     }
 
     private fun showErrorDialog(message: String) = AlertDialog.Builder(requireContext()).apply {
-        setTitle(resources.getString(R.string.goal_error_title))
+        setTitle(resources.getString(R.string.goal_warning_title))
         setMessage(message)
         setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
     }.show()

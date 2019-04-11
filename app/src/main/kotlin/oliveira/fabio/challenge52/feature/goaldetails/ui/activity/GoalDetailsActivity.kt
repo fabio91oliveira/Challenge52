@@ -1,6 +1,7 @@
 package oliveira.fabio.challenge52.feature.goaldetails.ui.activity
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -59,10 +60,16 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
             R.id.details_edit -> {
                 true
             }
-            R.id.details_remove -> {
+            R.id.details_done -> {
                 true
             }
-            R.id.details_done -> {
+            R.id.details_remove -> {
+                showConfirmDialog(
+                    resources.getString(R.string.goal_details_are_you_sure_remove),
+                    DialogInterface.OnClickListener { dialog, _ ->
+                        deleteGoal()
+                        dialog.dismiss()
+                    })
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -115,6 +122,17 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
                 }
             }
         })
+        goalDetailsViewModel.mutableLiveDataRemoved.observe(this, Observer { event ->
+            event.getContentIfNotHandled()?.let {
+                when (it) {
+                    true -> {
+                        newIntent.putExtra(HAS_CHANGED, true)
+                        closeDetails()
+                    }
+                    else -> showErrorDialog(resources.getString(R.string.goal_details_remove_error_message))
+                }
+            }
+        })
     }
 
     private fun setupToolbar() {
@@ -139,6 +157,8 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
         finish()
     }
 
+    private fun deleteGoal() = goalDetailsViewModel.removeGoal(goalWithWeeks)
+
     private fun showLoading() {
         loading.visibility = View.VISIBLE
     }
@@ -152,10 +172,18 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
     }
 
     private fun showErrorDialog(message: String) = AlertDialog.Builder(this).apply {
-        setTitle(resources.getString(R.string.goal_error_title))
+        setTitle(resources.getString(R.string.goal_warning_title))
         setMessage(message)
         setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
     }.show()
+
+    private fun showConfirmDialog(message: String, listener: DialogInterface.OnClickListener) =
+        AlertDialog.Builder(this).apply {
+            setTitle(resources.getString(R.string.goal_warning_title))
+            setMessage(message)
+            setPositiveButton(android.R.string.ok, listener)
+            setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+        }.show()
 
     private fun expandBar(hasToExpand: Boolean) = appBarLayout.setExpanded(hasToExpand)
 
