@@ -18,6 +18,7 @@ import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.goaldetails.ui.adapter.WeeksAdapter
 import oliveira.fabio.challenge52.feature.goaldetails.viewmodel.GoalDetailsViewModel
 import oliveira.fabio.challenge52.feature.goalslist.ui.fragment.GoalsListFragment
+import oliveira.fabio.challenge52.feature.goalslist.vo.ActivityResultVO
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -25,7 +26,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListener {
 
-    private val newIntent by lazy { Intent().apply { putExtra(HAS_CHANGED, false) } }
+    private val newIntent by lazy { Intent().apply { putExtra(HAS_CHANGED, ActivityResultVO()) } }
     private val goalDetailsViewModel: GoalDetailsViewModel by viewModel()
     private val weeksAdapter by lazy { WeeksAdapter(this) }
     private val goalWithWeeks by lazy { intent?.extras?.getSerializable(GOAL_TAG) as GoalWithWeeks }
@@ -121,7 +122,7 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
         goalDetailsViewModel.mutableLiveDataUpdated.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let {
                 when (it) {
-                    true -> newIntent.putExtra(HAS_CHANGED, true)
+                    true -> newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeUpdated() })
                     else -> showErrorDialog(resources.getString(R.string.goal_details_update_error_message))
                 }
             }
@@ -130,7 +131,7 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
             event.getContentIfNotHandled()?.let {
                 when (it) {
                     true -> {
-                        newIntent.putExtra(HAS_CHANGED, true)
+                        newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeRemoved() })
                         closeDetails()
                     }
                     else -> showErrorDialog(resources.getString(R.string.goal_details_remove_error_message))
@@ -141,7 +142,7 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
             event.getContentIfNotHandled()?.let {
                 when (it) {
                     true -> {
-                        newIntent.putExtra(HAS_CHANGED, true)
+                        newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeCompleted() })
                         closeDetails()
                     }
                     else -> showErrorDialog(resources.getString(R.string.goal_details_make_done_error_message))

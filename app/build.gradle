@@ -34,6 +34,13 @@ dependencies {
     implementation deps.lifecycle.runtime
     kapt deps.lifecycle.compiler
 
+    // Coroutines
+    implementation deps.coroutines.core
+    implementation deps.coroutines.android
+
+    implementation deps.result.core
+    implementation deps.result.coroutines
+
     // Koin
     implementation deps.koin.android
     implementation deps.koin.lifecycle
@@ -50,10 +57,4 @@ dependencies {
     androidTestImplementation deps.espresso.contrib
     androidTestImplementation deps.espresso.core
     androidTestImplementation deps.espresso.intent
-
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
-
-    implementation 'com.github.kittinunf.result:result:2.1.0'
-    implementation 'com.github.kittinunf.result:result-coroutines:2.0.0'
 }

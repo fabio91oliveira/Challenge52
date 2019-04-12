@@ -85,7 +85,10 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return false
     }
 
-    override fun onListChanged() = doneGoalsListFragment.listDoneGoals()
+    override fun onListChanged() {
+        supportFragmentManager.findFragmentByTag(DoneGoalsListFragment::class.java.simpleName)
+            ?.let { doneGoalsListFragment.listDoneGoals()}
+    }
 
     private fun initFragments() {
         goalsListFragment = GoalsListFragment.newInstance()

@@ -8,22 +8,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AlphaAnimation
-import android.view.animation.AnimationSet
-import android.view.animation.DecelerateInterpolator
+import android.view.animation.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.dialog_animated_message.view.*
 import kotlinx.android.synthetic.main.fragment_goals_list.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.goalcreate.ui.activity.GoalCreateActivity
 import oliveira.fabio.challenge52.feature.goaldetails.ui.activity.GoalDetailsActivity
 import oliveira.fabio.challenge52.feature.goalslist.ui.adapter.GoalsAdapter
 import oliveira.fabio.challenge52.feature.goalslist.viewmodel.GoalsListViewModel
+import oliveira.fabio.challenge52.feature.goalslist.vo.ActivityResultTypeEnum
+import oliveira.fabio.challenge52.feature.goalslist.vo.ActivityResultVO
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -64,12 +64,25 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
                 REQUEST_CODE_CREATE -> {
                     resetAnimation()
                     listGoals()
+                    showAnimatedDialog(resources.getString(R.string.goals_list_a_goal_has_been_created))
                 }
                 REQUEST_CODE_DETAILS -> {
-                    data?.getBooleanExtra(HAS_CHANGED, false)?.let {
-                        if (it) {
-                            listGoals()
-                            onGoalsListChangeListener?.onListChanged()
+                    (data?.getSerializableExtra(HAS_CHANGED) as ActivityResultVO).let {
+                        if (it.hasChanged) {
+                            when (it.type) {
+                                ActivityResultTypeEnum.REMOVED -> {
+                                    showAnimatedDialog(resources.getString(R.string.goals_list_a_goal_has_been_deleted))
+                                    listGoals()
+                                }
+                                ActivityResultTypeEnum.UPDATED -> listGoals()
+                                ActivityResultTypeEnum.COMPLETED -> {
+                                    listGoals()
+                                    onGoalsListChangeListener?.onListChanged()
+                                    showAnimatedDialog(resources.getString(R.string.goals_list_a_goal_has_been_moved_to_done))
+                                }
+                                ActivityResultTypeEnum.NONE -> {
+                                }
+                            }
                         }
                     }
                 }
@@ -79,8 +92,8 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
                     resetAnimation()
                 }
                 REQUEST_CODE_DETAILS -> {
-                    data?.getBooleanExtra(HAS_CHANGED, false)?.let {
-                        if (it) listGoals()
+                    (data?.getSerializableExtra(HAS_CHANGED) as ActivityResultVO).let {
+                        if (it.hasChanged) listGoals()
                     }
                 }
             }
@@ -278,6 +291,19 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         hideNoGoals()
         showLoading()
         goalsListViewModel.listGoals()
+    }
+
+    private fun showAnimatedDialog(message: String) {
+        val animChecked = AnimationUtils.loadAnimation(context, R.anim.scale_fab_in)
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        val layoutView = layoutInflater.inflate(R.layout.dialog_animated_message, null)
+        dialogBuilder.setView(layoutView)
+        val alertDialog = dialogBuilder.create()
+        alertDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        alertDialog.show()
+        layoutView.txtMessage.text = message
+        layoutView.imgMessage.startAnimation(animChecked)
+        layoutView.txtMessage.startAnimation(animChecked)
     }
 
     private fun removeGoals() {
