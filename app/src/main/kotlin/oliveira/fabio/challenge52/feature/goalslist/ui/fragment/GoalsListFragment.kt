@@ -30,9 +30,9 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
 
-    private var onFragmentInteractionListener: OnFragmentInteractionListener? = null
     private val goalsListViewModel: GoalsListViewModel by viewModel()
     private val goalsAdapter by lazy { GoalsAdapter(this) }
+    private var onGoalsListChangeListener: OnGoalsListChangeListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_goals_list, container, false)
@@ -40,12 +40,7 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        try {
-            onFragmentInteractionListener = activity as OnFragmentInteractionListener
-        } catch (e: ClassCastException) {
-            throw ClassCastException(activity.toString() + " must implement OnFragmentInteractionListener")
-        }
-
+        onGoalsListChangeListener = activity as OnGoalsListChangeListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,7 +69,7 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
                     data?.getBooleanExtra(HAS_CHANGED, false)?.let {
                         if (it) {
                             listGoals()
-                            onFragmentInteractionListener?.onFragmentInteraction()
+                            onGoalsListChangeListener?.onListChanged()
                         }
                     }
                 }
@@ -354,12 +349,10 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         private const val HAS_CHANGED = "HAS_CHANGED"
         const val ACTIVITY_ERROR = -3
 
-        fun newInstance(): Fragment {
-            return GoalsListFragment()
-        }
+        fun newInstance() = GoalsListFragment()
     }
 
-    interface OnFragmentInteractionListener {
-        fun onFragmentInteraction()
+    interface OnGoalsListChangeListener {
+        fun onListChanged()
     }
 }

@@ -2,7 +2,6 @@ package oliveira.fabio.challenge52.feature.donegoalslist.ui.fragment
 
 import android.animation.ValueAnimator
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -301,9 +300,7 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
         private const val HAS_CHANGED = "HAS_CHANGED"
         const val ACTIVITY_ERROR = -3
 
-        fun newInstance(): Fragment {
-            return DoneGoalsListFragment()
-        }
+        fun newInstance() = DoneGoalsListFragment()
     }
 
 }

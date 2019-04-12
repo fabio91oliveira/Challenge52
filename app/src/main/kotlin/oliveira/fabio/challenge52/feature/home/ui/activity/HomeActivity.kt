@@ -12,14 +12,10 @@ import oliveira.fabio.challenge52.feature.goalslist.ui.fragment.GoalsListFragmen
 
 
 class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
-    GoalsListFragment.OnFragmentInteractionListener {
+    GoalsListFragment.OnGoalsListChangeListener {
 
-    override fun onFragmentInteraction() {
-        (doneGoalsListFragment as DoneGoalsListFragment).listDoneGoals()
-    }
-
-    private lateinit var goalsListFragment: Fragment
-    private lateinit var doneGoalsListFragment: Fragment
+    private lateinit var goalsListFragment: GoalsListFragment
+    private lateinit var doneGoalsListFragment: DoneGoalsListFragment
     private lateinit var activeFragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,15 +24,31 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         navigation.setOnNavigationItemSelectedListener(this)
 
         savedInstanceState?.let {
-            goalsListFragment =
-                supportFragmentManager.findFragmentByTag(GoalsListFragment.javaClass.simpleName) as GoalsListFragment
-            doneGoalsListFragment =
-                supportFragmentManager.findFragmentByTag(DoneGoalsListFragment.javaClass.simpleName) as DoneGoalsListFragment
+            initFragments()
+
+            supportFragmentManager.findFragmentByTag(GoalsListFragment::class.java.simpleName)
+                ?.let { goalsListFragment = it as GoalsListFragment }
+            supportFragmentManager.findFragmentByTag(DoneGoalsListFragment::class.java.simpleName)
+                ?.let { doneGoalsListFragment = it as DoneGoalsListFragment }
+
+            val tag = savedInstanceState.getString(CURRENT_TAB)
+            when (supportFragmentManager.findFragmentByTag(tag)) {
+                is GoalsListFragment -> activeFragment =
+                    supportFragmentManager.findFragmentByTag(tag) as GoalsListFragment
+                is DoneGoalsListFragment -> activeFragment =
+                    supportFragmentManager.findFragmentByTag(tag) as DoneGoalsListFragment
+            }
+
         } ?: run {
             initFragments()
             activeFragment = goalsListFragment
             changeFragment(goalsListFragment)
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(CURRENT_TAB, activeFragment::class.java.simpleName)
     }
 
     override fun onBackPressed() {
@@ -64,16 +76,16 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.navigation_help -> {
-                supportFragmentManager.beginTransaction().addToBackStack(null).show(goalsListFragment).commit()
-                return true
+                return false
             }
             R.id.navigation_options -> {
-                supportFragmentManager.beginTransaction().addToBackStack(null).show(goalsListFragment).commit()
-                return true
+                return false
             }
         }
         return false
     }
+
+    override fun onListChanged() = doneGoalsListFragment.listDoneGoals()
 
     private fun initFragments() {
         goalsListFragment = GoalsListFragment.newInstance()
@@ -81,7 +93,7 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private fun changeFragment(fragment: Fragment) {
-        val tag = fragment.javaClass.simpleName
+        val tag = fragment::class.java.simpleName
         if (supportFragmentManager.findFragmentByTag(tag) == null) {
             if (activeFragment != fragment) {
                 supportFragmentManager.beginTransaction()
@@ -95,5 +107,9 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 .show(fragment).commit()
         }
         activeFragment = fragment
+    }
+
+    companion object {
+        private const val CURRENT_TAB = "CURRENT_TAB"
     }
 }

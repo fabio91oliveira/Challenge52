@@ -46,9 +46,7 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
         }
     }
 
-    override fun onBackPressed() {
-        closeDetails()
-    }
+    override fun onBackPressed() = closeDetails()
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.goal_details_menu, menu)
