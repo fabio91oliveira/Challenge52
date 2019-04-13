@@ -154,8 +154,8 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         goalsListViewModel.isDeleteShown = true
     }
 
-    override fun onClickGoal(goal: GoalWithWeeks, view: View, position: Int) {
-        openGoalDetailsActivity(goal, view, position)
+    override fun onClickGoal(goal: GoalWithWeeks) {
+        openGoalDetailsActivity(goal)
     }
 
     private fun init() {
@@ -383,12 +383,11 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         startActivityForResult(this, REQUEST_CODE_CREATE)
     }
 
-    private fun openGoalDetailsActivity(goal: GoalWithWeeks, view: View, position: Int) =
+    private fun openGoalDetailsActivity(goal: GoalWithWeeks) =
         Intent(context, GoalDetailsActivity::class.java).apply {
             activity?.let {
-                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(it, view, "transition$position")
                 putExtra(GOAL_TAG, goal)
-                startActivityForResult(this, REQUEST_CODE_DETAILS, options.toBundle())
+                startActivityForResult(this, REQUEST_CODE_DETAILS)
             }
         }
 
