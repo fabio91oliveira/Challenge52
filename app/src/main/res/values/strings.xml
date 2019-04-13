@@ -21,7 +21,7 @@
     <!-- Done List -->
     <string name="done_goals_list_title">Done goals</string>
     <string name="done_goals_list_none_result">There are no done goals for a while. When you reach a goal, then you can put the completed one here.</string>
-    <string name="done_goals_list_error">An error has occurred, try again clicking here or contact the developer.</string>
+    <string name="done_goals_list_error">An error has occurred when try to load list, try again clicking here or contact the developer.</string>
     <string name="done_goals_list_start_date">Start date:</string>
     <string name="done_goals_list_end_date">End date:</string>
     <string name="done_goals_list_progress">Progress:</string>
@@ -56,6 +56,10 @@
 
     <!-- Error -->
     <string name="goal_warning_title">Warning</string>
+    <string name="goal_error_button_go_back">Go back</string>
+    <string name="goals_generic_error">An error has occurred, try again or contact the
+        developer.
+    </string>
     <string name="goals_list_error_delete">An error has occurred when try to remove goal, try again or contact the
         developer.
     </string>

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_goal_details.*
 import oliveira.fabio.challenge52.R
+import oliveira.fabio.challenge52.feature.errorscreen.ui.dialog.ErrorDialogFragment
 import oliveira.fabio.challenge52.feature.goaldetails.ui.adapter.WeeksAdapter
 import oliveira.fabio.challenge52.feature.goaldetails.viewmodel.GoalDetailsViewModel
 import oliveira.fabio.challenge52.feature.goalslist.ui.fragment.GoalsListFragment
@@ -123,7 +124,7 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
             event.getContentIfNotHandled()?.let {
                 when (it) {
                     true -> newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeUpdated() })
-                    else -> showErrorDialog(resources.getString(R.string.goal_details_update_error_message))
+                    else -> showErrorScreen(resources.getString(R.string.goal_details_update_error_message))
                 }
             }
         })
@@ -134,7 +135,7 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
                         newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeRemoved() })
                         closeDetails()
                     }
-                    else -> showErrorDialog(resources.getString(R.string.goal_details_remove_error_message))
+                    else -> showErrorScreen(resources.getString(R.string.goal_details_remove_error_message))
                 }
             }
         })
@@ -145,7 +146,7 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
                         newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeCompleted() })
                         closeDetails()
                     }
-                    else -> showErrorDialog(resources.getString(R.string.goal_details_make_done_error_message))
+                    else -> showErrorScreen(resources.getString(R.string.goal_details_make_done_error_message))
                 }
             }
         })
@@ -189,11 +190,12 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
         rvWeeks.visibility = View.VISIBLE
     }
 
-    private fun showErrorDialog(message: String) = AlertDialog.Builder(this).apply {
-        setTitle(resources.getString(R.string.goal_warning_title))
-        setMessage(message)
-        setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
-    }.show()
+    private fun showErrorScreen(message: String) = ErrorDialogFragment().apply {
+        val b = Bundle()
+        b.putString(ErrorDialogFragment.MESSAGE, message)
+        arguments = b
+        show(supportFragmentManager, ErrorDialogFragment.TAG)
+    }
 
     private fun showConfirmDialog(message: String, listener: DialogInterface.OnClickListener) =
         AlertDialog.Builder(this).apply {

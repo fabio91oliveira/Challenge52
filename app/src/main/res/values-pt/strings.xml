@@ -23,7 +23,7 @@
     <string name="done_goals_list_none_result">Não existe nenhum meta concluída por enquanto. Quando você atingir uma,
         você pode colocá-la aqui.
     </string>
-    <string name="done_goals_list_error">Ocorreu um erro, tente novamente clicando aqui ou contate o desenvolvedor.
+    <string name="done_goals_list_error">Ocorreu um erro ao tentar carregar lista, tente novamente clicando aqui ou contate o desenvolvedor.
     </string>
     <string name="done_goals_list_start_date">Data de Início:</string>
     <string name="done_goals_list_end_date">Data de encerramento:</string>
@@ -59,6 +59,10 @@
 
     <!-- Error -->
     <string name="goal_warning_title">Atenção</string>
+    <string name="goal_error_button_go_back">Voltar</string>
+    <string name="goals_generic_error">Ocorreu um erro, tente novamente ou contate o
+        desenvolvedor.
+    </string>
     <string name="goals_list_error_delete">Ocorreu um erro ao tentar deletar meta(s), tente novamente ou contate o
         desenvolvedor.
     </string>

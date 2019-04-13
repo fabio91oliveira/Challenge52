@@ -8,16 +8,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.*
-import androidx.appcompat.app.AlertDialog
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AlphaAnimation
+import android.view.animation.AnimationSet
+import android.view.animation.DecelerateInterpolator
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.dialog_animated_message.view.*
 import kotlinx.android.synthetic.main.fragment_goals_list.*
 import oliveira.fabio.challenge52.R
+import oliveira.fabio.challenge52.feature.errorscreen.ui.dialog.ErrorDialogFragment
 import oliveira.fabio.challenge52.feature.goalcreate.ui.activity.GoalCreateActivity
 import oliveira.fabio.challenge52.feature.goaldetails.ui.activity.GoalDetailsActivity
 import oliveira.fabio.challenge52.feature.goalslist.ui.adapter.GoalsAdapter
@@ -33,6 +36,7 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
     private val goalsListViewModel: GoalsListViewModel by viewModel()
     private val goalsAdapter by lazy { GoalsAdapter(this) }
     private var onGoalsListChangeListener: OnGoalsListChangeListener? = null
+    private lateinit var supportFragmentManager: FragmentManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_goals_list, container, false)
@@ -41,6 +45,7 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         onGoalsListChangeListener = activity as OnGoalsListChangeListener
+        activity?.supportFragmentManager?.let { supportFragmentManager = it }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,21 +69,21 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
                 REQUEST_CODE_CREATE -> {
                     resetAnimation()
                     listGoals()
-                    showAnimatedDialog(resources.getString(R.string.goals_list_a_goal_has_been_created))
+//                    showAnimatedDialog(resources.getString(R.string.goals_list_a_goal_has_been_created))
                 }
                 REQUEST_CODE_DETAILS -> {
                     (data?.getSerializableExtra(HAS_CHANGED) as ActivityResultVO).let {
                         if (it.hasChanged) {
                             when (it.type) {
                                 ActivityResultTypeEnum.REMOVED -> {
-                                    showAnimatedDialog(resources.getString(R.string.goals_list_a_goal_has_been_deleted))
+//                                    showAnimatedDialog(resources.getString(R.string.goals_list_a_goal_has_been_deleted))
                                     listGoals()
                                 }
                                 ActivityResultTypeEnum.UPDATED -> listGoals()
                                 ActivityResultTypeEnum.COMPLETED -> {
                                     listGoals()
                                     onGoalsListChangeListener?.onListChanged()
-                                    showAnimatedDialog(resources.getString(R.string.goals_list_a_goal_has_been_moved_to_done))
+//                                    showAnimatedDialog(resources.getString(R.string.goals_list_a_goal_has_been_moved_to_done))
                                 }
                                 ActivityResultTypeEnum.NONE -> {
                                 }
@@ -101,10 +106,10 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
                 resetAnimation()
                 when (requestCode) {
                     REQUEST_CODE_CREATE -> {
-                        showErrorDialog(resources.getString(R.string.goal_create_error_message))
+                        showErrorScreen(resources.getString(R.string.goal_create_error_message))
                     }
                     REQUEST_CODE_DETAILS -> {
-                        showErrorDialog(resources.getString(R.string.goal_details_list_error_message))
+                        showErrorScreen(resources.getString(R.string.goal_details_list_error_message))
                     }
                 }
             }
@@ -209,7 +214,7 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
                             showGoalsList()
                         }
                     }
-                    false -> showErrorDialog(resources.getString(R.string.goals_list_error_delete))
+                    false -> showErrorScreen(resources.getString(R.string.goals_list_error_delete))
                 }
             }
         })
@@ -293,18 +298,18 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         goalsListViewModel.listGoals()
     }
 
-    private fun showAnimatedDialog(message: String) {
-        val animChecked = AnimationUtils.loadAnimation(context, R.anim.scale_fab_in)
-        val dialogBuilder = AlertDialog.Builder(requireContext())
-        val layoutView = layoutInflater.inflate(R.layout.dialog_animated_message, null)
-        dialogBuilder.setView(layoutView)
-        val alertDialog = dialogBuilder.create()
-        alertDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        alertDialog.show()
-        layoutView.txtMessage.text = message
-        layoutView.imgMessage.startAnimation(animChecked)
-        layoutView.txtMessage.startAnimation(animChecked)
-    }
+//    private fun showAnimatedDialog(message: String) {
+//        val animChecked = AnimationUtils.loadAnimation(context, R.anim.scale_fab_in)
+//        val dialogBuilder = AlertDialog.Builder(requireContext())
+//        val layoutView = layoutInflater.inflate(R.layout.dialog_animated_message, null)
+//        dialogBuilder.setView(layoutView)
+//        val alertDialog = dialogBuilder.create()
+//        alertDialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+//        alertDialog.show()
+//        layoutView.txtMessage.text = message
+//        layoutView.imgMessage.startAnimation(animChecked)
+//        layoutView.txtMessage.startAnimation(animChecked)
+//    }
 
     private fun removeGoals() {
         goalsListViewModel.removeGoals()
@@ -349,11 +354,12 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         imgError.visibility = View.GONE
     }
 
-    private fun showErrorDialog(message: String) = AlertDialog.Builder(requireContext()).apply {
-        setTitle(resources.getString(R.string.goal_warning_title))
-        setMessage(message)
-        setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
-    }.show()
+    private fun showErrorScreen(message: String) = ErrorDialogFragment().apply {
+        val b = Bundle()
+        b.putString(ErrorDialogFragment.MESSAGE, message)
+        arguments = b
+        show(supportFragmentManager, ErrorDialogFragment.TAG)
+    }
 
     private fun expandBar(hasToExpand: Boolean) = appBar.setExpanded(hasToExpand)
 
