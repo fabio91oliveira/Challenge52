@@ -12,12 +12,14 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_goals_list.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.errorscreen.ui.dialog.ErrorDialogFragment
@@ -69,21 +71,24 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
                 REQUEST_CODE_CREATE -> {
                     resetAnimation()
                     listGoals()
-//                    showAnimatedDialog(resources.getString(R.string.goals_list_a_goal_has_been_created))
+                    showSnackBar(resources.getString(R.string.goals_list_a_goal_has_been_created))
                 }
                 REQUEST_CODE_DETAILS -> {
                     (data?.getSerializableExtra(HAS_CHANGED) as ActivityResultVO).let {
                         if (it.hasChanged) {
                             when (it.type) {
                                 ActivityResultTypeEnum.REMOVED -> {
-//                                    showAnimatedDialog(resources.getString(R.string.goals_list_a_goal_has_been_deleted))
                                     listGoals()
+                                    showSnackBar(resources.getString(R.string.goals_list_a_goal_has_been_deleted))
                                 }
-                                ActivityResultTypeEnum.UPDATED -> listGoals()
+                                ActivityResultTypeEnum.UPDATED -> {
+                                    listGoals()
+                                    showSnackBar(resources.getString(R.string.goals_list_a_goal_has_been_updated))
+                                }
                                 ActivityResultTypeEnum.COMPLETED -> {
                                     listGoals()
                                     onGoalsListChangeListener?.onListChanged()
-//                                    showAnimatedDialog(resources.getString(R.string.goals_list_a_goal_has_been_moved_to_done))
+                                    showSnackBar(resources.getString(R.string.goals_list_a_goal_has_been_moved_to_done))
                                 }
                                 ActivityResultTypeEnum.NONE -> {
                                 }
@@ -98,7 +103,10 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
                 }
                 REQUEST_CODE_DETAILS -> {
                     (data?.getSerializableExtra(HAS_CHANGED) as ActivityResultVO).let {
-                        if (it.hasChanged) listGoals()
+                        if (it.hasChanged) {
+                            listGoals()
+                            showSnackBar(resources.getString(R.string.goals_list_a_goal_has_been_updated))
+                        }
                     }
                 }
             }
@@ -146,8 +154,8 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         goalsListViewModel.isDeleteShown = true
     }
 
-    override fun onClickGoal(goal: GoalWithWeeks) {
-        openGoalDetailsActivity(goal)
+    override fun onClickGoal(goal: GoalWithWeeks, view: View, position: Int) {
+        openGoalDetailsActivity(goal, view, position)
     }
 
     private fun init() {
@@ -201,6 +209,12 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
                     true -> {
                         hideLoading()
                         goalsAdapter.remove(goalsListViewModel.goalWithWeeksToRemove)
+                        showSnackBar(
+                            resources.getQuantityString(
+                                R.plurals.goals_list_goals_has_has_been_deleted,
+                                goalsListViewModel.goalWithWeeksToRemove.size
+                            )
+                        )
                         goalsListViewModel.goalWithWeeksToRemove.clear()
                         fabRemove.hide()
                         fabAdd.show()
@@ -298,6 +312,8 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         goalsListViewModel.listGoals()
     }
 
+    private fun showSnackBar(message: String) = Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_SHORT).show()
+
 //    private fun showAnimatedDialog(message: String) {
 //        val animChecked = AnimationUtils.loadAnimation(context, R.anim.scale_fab_in)
 //        val dialogBuilder = AlertDialog.Builder(requireContext())
@@ -367,10 +383,14 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         startActivityForResult(this, REQUEST_CODE_CREATE)
     }
 
-    private fun openGoalDetailsActivity(goal: GoalWithWeeks) = Intent(context, GoalDetailsActivity::class.java).apply {
-        putExtra(GOAL_TAG, goal)
-        startActivityForResult(this, REQUEST_CODE_DETAILS)
-    }
+    private fun openGoalDetailsActivity(goal: GoalWithWeeks, view: View, position: Int) =
+        Intent(context, GoalDetailsActivity::class.java).apply {
+            activity?.let {
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(it, view, "transition$position")
+                putExtra(GOAL_TAG, goal)
+                startActivityForResult(this, REQUEST_CODE_DETAILS, options.toBundle())
+            }
+        }
 
     private fun resetAnimation() = fabAdd.show()
 

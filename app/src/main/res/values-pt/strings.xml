@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Desafio 52</string>
     <string name="action_settings">Opções</string>
 
@@ -16,14 +16,20 @@
 
     <string name="goals_list_a_goal_has_been_created">A meta foi criada.</string>
     <string name="goals_list_a_goal_has_been_deleted">A meta foi removida.</string>
-    <string name="goals_list_a_goal_has_been_moved_to_done">A meta foi removida para concluída.</string>
+    <plurals name="goals_list_goals_has_has_been_deleted">
+        <item quantity="one" tools:ignore="ImpliedQuantity">A meta selecionada foi removida.</item>
+        <item quantity="other">As metas selecionadas foram removidas.</item>
+    </plurals>
+    <string name="goals_list_a_goal_has_been_updated">A meta foi atualizada.</string>
+    <string name="goals_list_a_goal_has_been_moved_to_done">A meta foi movida para concluída.</string>
 
     <!-- Done List -->
     <string name="done_goals_list_title">Metas concluídas</string>
     <string name="done_goals_list_none_result">Não existe nenhum meta concluída por enquanto. Quando você atingir uma,
         você pode colocá-la aqui.
     </string>
-    <string name="done_goals_list_error">Ocorreu um erro ao tentar carregar lista, tente novamente clicando aqui ou contate o desenvolvedor.
+    <string name="done_goals_list_error">Ocorreu um erro ao tentar carregar lista, tente novamente clicando aqui ou
+        contate o desenvolvedor.
     </string>
     <string name="done_goals_list_start_date">Data de Início:</string>
     <string name="done_goals_list_end_date">Data de encerramento:</string>
