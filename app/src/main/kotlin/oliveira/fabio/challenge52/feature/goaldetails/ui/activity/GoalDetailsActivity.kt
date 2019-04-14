@@ -27,17 +27,17 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListener {
 
-    private val newIntent by lazy { Intent().apply { putExtra(HAS_CHANGED, ActivityResultVO()) } }
     private val goalDetailsViewModel: GoalDetailsViewModel by viewModel()
     private val isDoneGoals by lazy { intent.extras?.getBoolean(IS_FROM_DONE_GOALS, false) ?: run { false } }
     private lateinit var goalWithWeeks: GoalWithWeeks
     private lateinit var weeksAdapter: WeeksAdapter
+    private lateinit var newIntent: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_goal_details)
 
-        initGoalWithWeeks(savedInstanceState)
+        initSavedValues(savedInstanceState)
         savedInstanceState?.let {
             setupToolbar()
             showLoading()
@@ -50,6 +50,7 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putSerializable(GOAL_TAG, goalWithWeeks)
+        outState.putSerializable(HAS_CHANGED, newIntent.getSerializableExtra(HAS_CHANGED))
         super.onSaveInstanceState(outState)
     }
 
@@ -110,11 +111,13 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
 
     }
 
-    private fun initGoalWithWeeks(savedInstanceState: Bundle? = null) {
+    private fun initSavedValues(savedInstanceState: Bundle? = null) {
         savedInstanceState?.let {
             goalWithWeeks = it.getSerializable(GOAL_TAG) as GoalWithWeeks
+            newIntent = Intent().apply { putExtra(HAS_CHANGED, it.getSerializable(HAS_CHANGED)) }
         } ?: run {
             goalWithWeeks = intent.extras?.getSerializable(GOAL_TAG) as GoalWithWeeks
+            newIntent = Intent().apply { putExtra(HAS_CHANGED, ActivityResultVO()) }
         }
     }
 
