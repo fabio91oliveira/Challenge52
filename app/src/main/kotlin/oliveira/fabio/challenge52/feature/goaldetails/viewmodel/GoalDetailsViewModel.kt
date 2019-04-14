@@ -11,9 +11,9 @@ import oliveira.fabio.challenge52.feature.goaldetails.vo.HeaderItem
 import oliveira.fabio.challenge52.feature.goaldetails.vo.Item
 import oliveira.fabio.challenge52.feature.goaldetails.vo.SubItemDetails
 import oliveira.fabio.challenge52.feature.goaldetails.vo.SubItemWeek
-import oliveira.fabio.challenge52.repository.GoalWithWeeksRepository
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.repository.GoalWithWeeksRepository
 import oliveira.fabio.challenge52.util.Event
 import oliveira.fabio.challenge52.util.extension.getMonthName
 import oliveira.fabio.challenge52.util.extension.getMonthNumber
@@ -105,6 +105,15 @@ class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRep
                     mutableLiveDataCompleted.postValue(Event(false))
                 })
         }
+    }
+
+    fun isAllWeeksDeposited(goalWithWeeks: GoalWithWeeks): Boolean {
+        goalWithWeeks.weeks.forEach {
+            if (!it.isDeposited) {
+                return false
+            }
+        }
+        return true
     }
 
     private fun parseToDetailsList(goalWithWeeks: GoalWithWeeks, week: Week? = null) = mutableListOf<Item>().apply {

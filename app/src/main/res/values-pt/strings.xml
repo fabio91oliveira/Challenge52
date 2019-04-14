@@ -57,7 +57,14 @@
     <string name="goal_details_make_it_done">Marcar como realizado</string>
 
     <string name="goal_details_are_you_sure_remove">Você tem certeza que deseja remover meta?</string>
+    <plurals name="goal_details_are_you_sure_removes">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Você tem certeza que deseja remover meta selecionada?</item>
+        <item quantity="other">Você tem certeza que deseja remover metas selecionadas?</item>
+    </plurals>
     <string name="goal_details_are_you_sure_done">Você tem certeza que deseja marcar meta como realizada?</string>
+    <string name="goal_details_cannot_move_to_done">Você não pode mover a meta para realizada até completar todas as
+        semanas.
+    </string>
 
     <!-- Patterns -->
     <string name="currency_mask">[R$,.]</string>

@@ -61,12 +61,17 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
                 true
             }
             R.id.details_done -> {
-                showConfirmDialog(
-                    resources.getString(R.string.goal_details_are_you_sure_done),
-                    DialogInterface.OnClickListener { dialog, _ ->
-                        completeGoal()
-                        dialog.dismiss()
-                    })
+                when (goalDetailsViewModel.isAllWeeksDeposited(goalWithWeeks)) {
+                    true -> {
+                        showConfirmDialog(
+                            resources.getString(R.string.goal_details_are_you_sure_done),
+                            DialogInterface.OnClickListener { dialog, _ ->
+                                completeGoal()
+                                dialog.dismiss()
+                            })
+                    }
+                    false -> showDialog(resources.getString(R.string.goal_details_cannot_move_to_done))
+                }
                 true
             }
             R.id.details_remove -> {
@@ -203,6 +208,13 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
             setMessage(message)
             setPositiveButton(android.R.string.ok, listener)
             setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+        }.show()
+
+    private fun showDialog(message: String) =
+        AlertDialog.Builder(this).apply {
+            setTitle(resources.getString(R.string.goal_warning_title))
+            setMessage(message)
+            setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
         }.show()
 
     private fun expandBar(hasToExpand: Boolean) = appBarLayout.setExpanded(hasToExpand)

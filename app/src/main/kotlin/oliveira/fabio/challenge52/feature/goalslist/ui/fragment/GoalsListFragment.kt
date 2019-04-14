@@ -3,6 +3,7 @@ package oliveira.fabio.challenge52.feature.goalslist.ui.fragment
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +13,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
-import androidx.core.app.ActivityOptionsCompat
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -252,7 +253,17 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
             openGoalCreateActivity()
             fabAdd.hide()
         }
-        fabRemove.setOnClickListener { removeGoals() }
+        fabRemove.setOnClickListener {
+            showConfirmDialog(
+                resources.getQuantityString(
+                    R.plurals.goal_details_are_you_sure_removes,
+                    goalsListViewModel.goalWithWeeksToRemove.size
+                ),
+                DialogInterface.OnClickListener { dialog, _ ->
+                    removeGoals()
+                    dialog.dismiss()
+                })
+        }
         txtError.setOnClickListener {
             hideError()
             listGoals()
@@ -390,6 +401,14 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
                 startActivityForResult(this, REQUEST_CODE_DETAILS)
             }
         }
+
+    private fun showConfirmDialog(message: String, listener: DialogInterface.OnClickListener) =
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(resources.getString(R.string.goal_warning_title))
+            setMessage(message)
+            setPositiveButton(android.R.string.ok, listener)
+            setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+        }.show()
 
     private fun resetAnimation() = fabAdd.show()
 
