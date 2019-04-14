@@ -14,6 +14,7 @@
     </string>
     <string name="goals_list_error">An error has occurred, try again clicking here or contact the developer.</string>
     <string name="goals_list_weeks_remaining">Remaining weeks:</string>
+    <string name="goals_list_how_much">How much:</string>
     <string name="goals_list_start_date">Start date:</string>
     <string name="goals_list_end_date">End date:</string>
     <string name="goals_list_progress">Progress:</string>
@@ -70,6 +71,9 @@
     <string name="goal_details_cannot_move_to_done">You cannot move goal to done until you complete all weeks.</string>
     <string name="goal_details_move_to_done_first_dialog">All the weeks has been completed and the money has been deposited. Do you want to move this
         goal to done?
+    </string>
+    <string name="goal_details_date_after_today">This date is posterior than today. Do you even want to confirm the
+        money is deposited for this week?
     </string>
 
     <!-- Patterns -->

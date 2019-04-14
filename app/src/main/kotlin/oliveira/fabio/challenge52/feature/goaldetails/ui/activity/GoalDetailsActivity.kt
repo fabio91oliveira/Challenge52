@@ -95,10 +95,19 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
         }
     }
 
-    override fun onClickWeek(week: Week, position: Int) {
-        goalDetailsViewModel.updateWeek(week)
-        goalWithWeeks.lastPosition = position
-        goalDetailsViewModel.getParsedDetailsList(goalWithWeeks, week)
+    override fun onClickWeek(week: Week, position: Int, func: () -> Unit) {
+        when (goalDetailsViewModel.isDateAfterTodayWhenWeekIsNotDeposited(week)) {
+            true -> {
+                showConfirmDialog(
+                    resources.getString(R.string.goal_details_date_after_today),
+                    DialogInterface.OnClickListener { dialog, _ ->
+                        updateWeek(week, position, func)
+                        dialog.dismiss()
+                    })
+            }
+            false -> updateWeek(week, position, func)
+        }
+
     }
 
     private fun initGoalWithWeeks(savedInstanceState: Bundle? = null) {
@@ -133,9 +142,9 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
                 showContent()
                 if (goalDetailsViewModel.firstTime) {
                     rvWeeks.scheduleLayoutAnimation()
-                    expandBar(true)
-                    goalDetailsViewModel.firstTime = false
                     if (!isDoneGoals) shouldShowMoveToDoneDialog()
+                    goalDetailsViewModel.firstTime = false
+                    expandBar(true)
                 }
             } ?: run {
                 setResult(GoalsListFragment.ACTIVITY_ERROR)
@@ -208,6 +217,17 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
                     goalDetailsViewModel.completeGoal(goalWithWeeks)
                 })
         }
+    }
+
+    private fun updateWeek(
+        week: Week,
+        position: Int,
+        func: () -> Unit
+    ) {
+        goalDetailsViewModel.updateWeek(week)
+        goalWithWeeks.lastPosition = position
+        goalDetailsViewModel.getParsedDetailsList(goalWithWeeks, week)
+        func.invoke()
     }
 
     private fun deleteGoal() = goalDetailsViewModel.removeGoal(goalWithWeeks)

@@ -18,6 +18,7 @@ import oliveira.fabio.challenge52.repository.GoalWithWeeksRepository
 import oliveira.fabio.challenge52.util.Event
 import oliveira.fabio.challenge52.util.extension.getMonthName
 import oliveira.fabio.challenge52.util.extension.getMonthNumber
+import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRepository) : ViewModel(), CoroutineScope {
@@ -28,7 +29,6 @@ class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRep
     val mutableLiveDataItemList by lazy { MutableLiveData<MutableList<Item>>() }
     var firstTime = true
 
-    private var goalWithWeeks: GoalWithWeeks? = null
     private val job = SupervisorJob()
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
@@ -36,6 +36,11 @@ class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRep
     public override fun onCleared() {
         super.onCleared()
         if (job.isActive) job.cancel()
+    }
+
+    fun isDateAfterTodayWhenWeekIsNotDeposited(week: Week): Boolean {
+        if (!week.isDeposited) return week.date.after(Date())
+        return false
     }
 
     fun updateWeek(week: Week) {

@@ -60,7 +60,6 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
             initRecyclerView()
         } ?: run {
             init()
-            retainInstance = true
         }
     }
 
@@ -187,8 +186,11 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
                         hideError()
                         hideNoGoals()
                         showGoalsList()
-                        expandBar(true)
                         hideLoading()
+                        if (goalsListViewModel.firstTime) {
+                            goalsListViewModel.firstTime = false
+                            expandBar(true)
+                        }
                     }
                     false -> {
                         hideGoalsList()

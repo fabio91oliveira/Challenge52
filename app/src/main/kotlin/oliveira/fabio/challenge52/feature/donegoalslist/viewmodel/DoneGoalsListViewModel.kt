@@ -7,10 +7,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import oliveira.fabio.challenge52.repository.GoalWithWeeksRepository
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.repository.GoalWithWeeksRepository
 import oliveira.fabio.challenge52.util.Event
 import kotlin.coroutines.CoroutineContext
 
@@ -25,6 +25,7 @@ class DoneGoalsListViewModel(private val goalWithWeeksRepository: GoalWithWeeksR
     val mutableLiveDataRemoved by lazy { MutableLiveData<Event<Boolean>>() }
     val doneGoalWithWeeksToRemove by lazy { mutableListOf<GoalWithWeeks>() }
     var isDeleteShown = false
+    var firstTime = true
 
     public override fun onCleared() {
         super.onCleared()

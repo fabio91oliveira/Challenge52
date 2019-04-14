@@ -27,24 +27,30 @@
                 android:id="@+id/txtName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_eighteen"
-                android:ellipsize="end"
-                android:maxLines="1"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold"
-                android:layout_marginStart="@dimen/margin_six"
+                android:textSize="@dimen/text_eighteen"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/txtValue"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:text="Nome da metaasjkdhasjdkahsdkjasdjaskdh"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtValueTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_ten"
+                app:layout_constraintTop_toBottomOf="@+id/txtName"
+                app:layout_constraintStart_toStartOf="@id/txtName"
+                android:textColor="@color/colorBlack"
+                android:text="@string/goals_list_how_much"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtStartDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_twenty_four"
-                app:layout_constraintTop_toBottomOf="@+id/txtName"
-                app:layout_constraintStart_toStartOf="@id/txtName"
+                app:layout_constraintTop_toBottomOf="@+id/txtValueTitle"
+                app:layout_constraintStart_toStartOf="@id/txtValueTitle"
                 android:textColor="@color/colorBlack"
                 android:text="@string/goals_list_start_date"/>
 
@@ -61,9 +67,8 @@
                 android:id="@+id/txtValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@+id/txtName"
-                app:layout_constraintStart_toEndOf="@id/txtName"
-                app:layout_constraintBottom_toBottomOf="@+id/txtName"
+                android:layout_marginTop="@dimen/margin_ten"
+                app:layout_constraintTop_toBottomOf="@+id/txtName"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textStyle="bold"
                 android:layout_marginEnd="@dimen/margin_six"
@@ -74,7 +79,6 @@
                 android:id="@+id/txtStartDateValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_twenty_four"
                 app:layout_constraintTop_toBottomOf="@+id/txtValue"
                 app:layout_constraintEnd_toEndOf="@id/txtValue"
                 tools:text="01/02/2019"/>

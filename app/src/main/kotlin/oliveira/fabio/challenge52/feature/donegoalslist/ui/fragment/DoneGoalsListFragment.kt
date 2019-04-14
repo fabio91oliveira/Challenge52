@@ -128,8 +128,11 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
                         hideError()
                         hideNoDoneGoals()
                         showDoneGoalsList()
-                        expandBar(true)
                         hideLoading()
+                        if (doneGoalsListViewModel.firstTime) {
+                            doneGoalsListViewModel.firstTime = false
+                            expandBar(true)
+                        }
                     }
                     false -> {
                         hideDoneGoalsList()
