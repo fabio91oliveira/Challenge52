@@ -29,8 +29,9 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
 
     private val newIntent by lazy { Intent().apply { putExtra(HAS_CHANGED, ActivityResultVO()) } }
     private val goalDetailsViewModel: GoalDetailsViewModel by viewModel()
-    private val weeksAdapter by lazy { WeeksAdapter(this) }
-    private val goalWithWeeks by lazy { intent?.extras?.getSerializable(GOAL_TAG) as GoalWithWeeks }
+    private val goalWithWeeks by lazy { intent.extras?.getSerializable(GOAL_TAG) as GoalWithWeeks }
+    private val isDoneGoals by lazy { intent.extras?.getBoolean(IS_FROM_DONE_GOALS, false) ?: run { false } }
+    private lateinit var weeksAdapter: WeeksAdapter
 
     private var firstTime = true
 
@@ -51,7 +52,10 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
     override fun onBackPressed() = closeDetails()
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.goal_details_menu, menu)
+        when (isDoneGoals) {
+            true -> menuInflater.inflate(R.menu.goal_details_menu_from_done, menu)
+            else -> menuInflater.inflate(R.menu.goal_details_menu, menu)
+        }
         return true
     }
 
@@ -170,6 +174,7 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
 
     private fun initRecyclerView() {
         rvWeeks.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        weeksAdapter = WeeksAdapter(this, isDoneGoals)
         rvWeeks.adapter = weeksAdapter
         rvWeeks.itemAnimator = null
     }
@@ -222,6 +227,7 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
     companion object {
         private const val GOAL_TAG = "GOAL"
         private const val HAS_CHANGED = "HAS_CHANGED"
+        private const val IS_FROM_DONE_GOALS = "IS_FROM_DONE_GOALS"
         private const val FIRST_POSITION = 0
     }
 }

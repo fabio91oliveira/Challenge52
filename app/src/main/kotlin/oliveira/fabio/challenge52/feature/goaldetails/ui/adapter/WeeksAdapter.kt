@@ -19,7 +19,7 @@ import oliveira.fabio.challenge52.util.extension.toCurrency
 import oliveira.fabio.challenge52.util.extension.toCurrentFormat
 
 
-class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
+class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener, private val isDoneGoal: Boolean) :
     RecyclerView.Adapter<WeeksAdapter.WeekViewHolder>() {
 
     private var list: MutableList<Item> = mutableListOf()
@@ -120,32 +120,36 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
             txtDate.text =
                 item.getWeek().week.date.toCurrentFormat(containerView.context.getString(R.string.date_pattern))
 
-            containerView.setOnClickListener {
-                val isDeposited = !item.getWeek().week.isDeposited
+            when (isDoneGoal) {
+                false -> {
+                    containerView.setOnClickListener {
+                        val isDeposited = !item.getWeek().week.isDeposited
 
-                when (isDeposited) {
-                    true -> {
-                        if (imgNotChecked.visibility != View.INVISIBLE) {
-                            imgNotChecked.startAnimation(animNotChecked)
-                            imgNotChecked.visibility = View.INVISIBLE
+                        when (isDeposited) {
+                            true -> {
+                                if (imgNotChecked.visibility != View.INVISIBLE) {
+                                    imgNotChecked.startAnimation(animNotChecked)
+                                    imgNotChecked.visibility = View.INVISIBLE
+                                }
+                                if (imgChecked.visibility != View.VISIBLE) {
+                                    imgChecked.startAnimation(animChecked)
+                                    imgChecked.visibility = View.VISIBLE
+                                }
+                            }
+                            else -> {
+                                if (imgChecked.visibility != View.INVISIBLE) {
+                                    imgChecked.startAnimation(animNotChecked)
+                                    imgChecked.visibility = View.INVISIBLE
+                                }
+                                if (imgNotChecked.visibility != View.VISIBLE) {
+                                    imgNotChecked.startAnimation(animChecked)
+                                    imgNotChecked.visibility = View.VISIBLE
+                                }
+                            }
                         }
-                        if (imgChecked.visibility != View.VISIBLE) {
-                            imgChecked.startAnimation(animChecked)
-                            imgChecked.visibility = View.VISIBLE
-                        }
-                    }
-                    else -> {
-                        if (imgChecked.visibility != View.INVISIBLE) {
-                            imgChecked.startAnimation(animNotChecked)
-                            imgChecked.visibility = View.INVISIBLE
-                        }
-                        if (imgNotChecked.visibility != View.VISIBLE) {
-                            imgNotChecked.startAnimation(animChecked)
-                            imgNotChecked.visibility = View.VISIBLE
-                        }
+                        onClickWeekListener.onClickWeek(item.getWeek().week, adapterPosition)
                     }
                 }
-                onClickWeekListener.onClickWeek(item.getWeek().week, adapterPosition)
             }
         }
     }

@@ -24,6 +24,7 @@ import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.donegoalslist.ui.adapter.DoneGoalsAdapter
 import oliveira.fabio.challenge52.feature.donegoalslist.viewmodel.DoneGoalsListViewModel
 import oliveira.fabio.challenge52.feature.goaldetails.ui.activity.GoalDetailsActivity
+import oliveira.fabio.challenge52.feature.goalslist.vo.ActivityResultVO
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -50,19 +51,14 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         when (resultCode) {
             Activity.RESULT_OK -> when (requestCode) {
                 REQUEST_CODE_DETAILS -> {
-                    data?.getBooleanExtra(HAS_CHANGED, false)?.let {
-                        if (it) listDoneGoals()
-                    }
-                }
-            }
-            Activity.RESULT_CANCELED -> when (requestCode) {
-                REQUEST_CODE_DETAILS -> {
-                    data?.getBooleanExtra(HAS_CHANGED, false)?.let {
-                        if (it) listDoneGoals()
+                    (data?.getSerializableExtra(HAS_CHANGED) as ActivityResultVO).let {
+                        if (it.hasChanged) {
+                            listDoneGoals()
+                            showSnackBar(resources.getString(R.string.goals_list_a_goal_has_been_deleted))
+                        }
                     }
                 }
             }
@@ -319,6 +315,7 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
 
     private fun openGoalDetailsActivity(goal: GoalWithWeeks) = Intent(context, GoalDetailsActivity::class.java).apply {
         putExtra(GOAL_TAG, goal)
+        putExtra(IS_FROM_DONE_GOALS, true)
         startActivityForResult(this, REQUEST_CODE_DETAILS)
     }
 
@@ -326,6 +323,7 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
         private const val REQUEST_CODE_DETAILS = 400
         private const val GOAL_TAG = "GOAL"
         private const val HAS_CHANGED = "HAS_CHANGED"
+        private const val IS_FROM_DONE_GOALS = "IS_FROM_DONE_GOALS"
         const val ACTIVITY_ERROR = -3
 
         fun newInstance() = DoneGoalsListFragment()
