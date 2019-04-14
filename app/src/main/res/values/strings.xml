@@ -68,6 +68,9 @@
     </plurals>
     <string name="goal_details_are_you_sure_done">Are you sure to make goal done?</string>
     <string name="goal_details_cannot_move_to_done">You cannot move goal to done until you complete all weeks.</string>
+    <string name="goal_details_move_to_done_first_dialog">All the weeks has been completed and the money has been deposited. Do you want to move this
+        goal to done?
+    </string>
 
     <!-- Patterns -->
     <string name="currency_mask">[$,.]</string>

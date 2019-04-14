@@ -1,5 +1,6 @@
 package oliveira.fabio.challenge52.feature.goaldetails.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.kittinunf.result.coroutines.SuspendableResult
@@ -25,7 +26,9 @@ class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRep
     val mutableLiveDataCompleted by lazy { MutableLiveData<Event<Boolean>>() }
     val mutableLiveDataRemoved by lazy { MutableLiveData<Event<Boolean>>() }
     val mutableLiveDataItemList by lazy { MutableLiveData<MutableList<Item>>() }
+    var firstTime = true
 
+    private var goalWithWeeks: GoalWithWeeks? = null
     private val job = SupervisorJob()
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
@@ -41,6 +44,7 @@ class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRep
             SuspendableResult.of<Unit, Exception> { goalWithWeeksRepository.updateWeek(week) }
                 .fold(
                     success = {
+                        Log.d("aqui", "atualizou " + week.position)
                         mutableLiveDataUpdated.postValue(Event(true))
                     },
                     failure = {

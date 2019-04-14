@@ -29,16 +29,15 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
 
     private val newIntent by lazy { Intent().apply { putExtra(HAS_CHANGED, ActivityResultVO()) } }
     private val goalDetailsViewModel: GoalDetailsViewModel by viewModel()
-    private val goalWithWeeks by lazy { intent.extras?.getSerializable(GOAL_TAG) as GoalWithWeeks }
     private val isDoneGoals by lazy { intent.extras?.getBoolean(IS_FROM_DONE_GOALS, false) ?: run { false } }
+    private lateinit var goalWithWeeks: GoalWithWeeks
     private lateinit var weeksAdapter: WeeksAdapter
-
-    private var firstTime = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_goal_details)
 
+        initGoalWithWeeks(savedInstanceState)
         savedInstanceState?.let {
             setupToolbar()
             showLoading()
@@ -47,6 +46,11 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
         } ?: run {
             init()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putSerializable(GOAL_TAG, goalWithWeeks)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onBackPressed() = closeDetails()
@@ -97,6 +101,14 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
         goalDetailsViewModel.getParsedDetailsList(goalWithWeeks, week)
     }
 
+    private fun initGoalWithWeeks(savedInstanceState: Bundle? = null) {
+        savedInstanceState?.let {
+            goalWithWeeks = it.getSerializable(GOAL_TAG) as GoalWithWeeks
+        } ?: run {
+            goalWithWeeks = intent.extras?.getSerializable(GOAL_TAG) as GoalWithWeeks
+        }
+    }
+
     private fun init() {
         setupToolbar()
         showLoading()
@@ -119,10 +131,11 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
                 }
 
                 showContent()
-                if (firstTime) {
+                if (goalDetailsViewModel.firstTime) {
                     rvWeeks.scheduleLayoutAnimation()
                     expandBar(true)
-                    firstTime = false
+                    goalDetailsViewModel.firstTime = false
+                    if (!isDoneGoals) shouldShowMoveToDoneDialog()
                 }
             } ?: run {
                 setResult(GoalsListFragment.ACTIVITY_ERROR)
@@ -132,7 +145,10 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
         goalDetailsViewModel.mutableLiveDataUpdated.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let {
                 when (it) {
-                    true -> newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeUpdated() })
+                    true -> {
+                        newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeUpdated() })
+                        shouldShowMoveToDoneDialog()
+                    }
                     else -> showErrorScreen(resources.getString(R.string.goal_details_update_error_message))
                 }
             }
@@ -182,6 +198,16 @@ class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListene
     private fun closeDetails() {
         setResult(Activity.RESULT_OK, newIntent)
         finish()
+    }
+
+    private fun shouldShowMoveToDoneDialog() {
+        if (goalDetailsViewModel.isAllWeeksDeposited(goalWithWeeks)) {
+            showConfirmDialog(
+                resources.getString(R.string.goal_details_move_to_done_first_dialog),
+                DialogInterface.OnClickListener { _, _ ->
+                    goalDetailsViewModel.completeGoal(goalWithWeeks)
+                })
+        }
     }
 
     private fun deleteGoal() = goalDetailsViewModel.removeGoal(goalWithWeeks)

@@ -70,6 +70,7 @@
     <string name="goal_details_cannot_move_to_done">Você não pode mover a meta para realizada até completar todas as
         semanas.
     </string>
+    <string name="goal_details_move_to_done_first_dialog">Todas as semanas tiveram suas quantias depositadas. Deseja mover a meta para realizada?</string>
 
     <!-- Patterns -->
     <string name="currency_mask">[R$,.]</string>
