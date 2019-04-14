@@ -2,28 +2,8 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent" android:layout_height="match_parent"
         android:background="@color/colorSofterGreyTwo">
-
-    <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            android:stateListAnimator="@null"
-            app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                app:navigationIcon="@drawable/ic_close"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:title="@string/goal_warning_title"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
-
-    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -44,13 +24,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintVertical_bias="0.2"/>
+                    app:layout_constraintVertical_bias="0.1"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtMessage"
-                    android:layout_width="0dp"
+                    android:id="@+id/txtMessageTitle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/colorBlack"
                     android:textStyle="bold"
                     android:textSize="@dimen/text_twenty"
                     android:layout_marginTop="@dimen/margin_forty_five"
@@ -59,7 +39,23 @@
                     app:layout_constraintTop_toBottomOf="@+id/imgError"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="@string/goals_generic_error"/>
+                    android:text="@string/goal_oops_title"/>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtMessage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_twenty"
+                    android:layout_marginTop="@dimen/margin_four"
+                    android:layout_marginStart="@dimen/margin_thirty_eight"
+                    android:layout_marginEnd="@dimen/margin_thirty_eight"
+                    app:layout_constraintTop_toBottomOf="@+id/txtMessageTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/goals_generic_error"/>
 
             <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnGoBack"

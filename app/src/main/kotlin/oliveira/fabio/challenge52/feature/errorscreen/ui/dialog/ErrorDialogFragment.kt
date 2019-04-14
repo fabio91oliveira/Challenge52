@@ -52,17 +52,12 @@ class ErrorDialogFragment : DialogFragment() {
     }
 
     private fun init() {
-        setupToolbar()
         setupMessage()
         setupClickListener()
     }
 
     private fun setupMessage() {
         txtMessage.text = message
-    }
-
-    private fun setupToolbar() {
-        toolbar.setNavigationOnClickListener { dismiss() }
     }
 
     private fun setupClickListener() {
