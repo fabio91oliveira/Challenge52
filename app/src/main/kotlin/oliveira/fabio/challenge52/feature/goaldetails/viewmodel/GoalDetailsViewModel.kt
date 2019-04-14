@@ -84,14 +84,7 @@ class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRep
 
     fun completeGoal(goalWithWeeks: GoalWithWeeks) {
         launch {
-            val weeksToComplete = arrayListOf<Week>()
-
-            goalWithWeeks.weeks.forEach {
-                it.isDeposited = true
-                weeksToComplete.add(it)
-            }
-
-            SuspendableResult.of<Unit, Exception> { goalWithWeeksRepository.updateWeeks(weeksToComplete) }.fold(
+            SuspendableResult.of<Unit, Exception> { goalWithWeeksRepository.updateWeeks(goalWithWeeks.weeks) }.fold(
                 success = {
                     goalWithWeeks.goal.isDone = true
                     SuspendableResult.of<Unit, Exception> { goalWithWeeksRepository.updateGoal(goalWithWeeks.goal) }

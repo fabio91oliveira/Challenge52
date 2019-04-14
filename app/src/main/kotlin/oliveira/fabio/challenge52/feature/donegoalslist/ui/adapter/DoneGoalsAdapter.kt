@@ -1,17 +1,15 @@
 package oliveira.fabio.challenge52.feature.donegoalslist.ui.adapter
 
-import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_goal.*
-import kotlinx.android.synthetic.main.item_goal.view.*
+import kotlinx.android.synthetic.main.item_done_goal.*
+import kotlinx.android.synthetic.main.item_done_goal.view.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.util.extension.toCurrency
@@ -27,7 +25,7 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
     override fun getItemCount() = goalsList.size
     override fun onBindViewHolder(holder: GoalViewHolder, position: Int) = holder.bind(position)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = GoalViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.item_goal, parent, false)
+        LayoutInflater.from(parent.context).inflate(R.layout.item_done_goal, parent, false)
     )
 
     fun addList(goalsList: List<GoalWithWeeks>) {
@@ -67,27 +65,10 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
             }
             txtName.text = goalsList[position].goal.name
             txtValue.text = goalsList[position].goal.totalValue.toCurrency()
-            txtWeeksValue.text = goalsList[position].getRemainingWeeksCount().toString()
             txtStartDateValue.text = goalsList[position].getStartDate()
                 .toCurrentFormat(containerView.context.getString(R.string.date_pattern))
             txtEndDateValue.text =
                 goalsList[position].getEndDate().toCurrentFormat(containerView.context.getString(R.string.date_pattern))
-
-            val progress = goalsList[position].getPercentOfConclusion()
-            when (progress > 0) {
-                true -> txtDoneValue.setTextColor(ContextCompat.getColor(containerView.context, R.color.colorGreen))
-                false -> txtDoneValue.setTextColor(ContextCompat.getColor(containerView.context, R.color.colorBlack))
-            }
-
-            val animation = ObjectAnimator.ofInt(progressBar, "progress", 0, progress)
-            animation.duration = 1000
-            animation.interpolator = DecelerateInterpolator()
-            animation.addUpdateListener {
-                val prog = it.animatedValue as Int
-                txtDoneValue.text =
-                    prog.toString() + containerView.context.getString(R.string.goals_list_progress_value_percent)
-            }
-            animation.start()
 
             if (position >= lastPosition) animate()
 

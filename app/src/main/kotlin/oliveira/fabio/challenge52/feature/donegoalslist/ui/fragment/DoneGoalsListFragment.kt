@@ -2,6 +2,7 @@ package oliveira.fabio.challenge52.feature.donegoalslist.ui.fragment
 
 import android.animation.ValueAnimator
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_done_goals_list.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.donegoalslist.ui.adapter.DoneGoalsAdapter
@@ -153,6 +155,12 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
                     true -> {
                         hideLoading()
                         doneGoalsAdapter.remove(doneGoalsListViewModel.doneGoalWithWeeksToRemove)
+                        showSnackBar(
+                            resources.getQuantityString(
+                                R.plurals.goals_list_goals_has_has_been_deleted,
+                                doneGoalsListViewModel.doneGoalWithWeeksToRemove.size
+                            )
+                        )
                         doneGoalsListViewModel.doneGoalWithWeeksToRemove.clear()
                         fabRemove.hide()
                         doneGoalsListViewModel.isDeleteShown = false
@@ -185,7 +193,17 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
     }
 
     private fun initClickListener() {
-        fabRemove.setOnClickListener { removeDoneGoals() }
+        fabRemove.setOnClickListener {
+            showConfirmDialog(
+                resources.getQuantityString(
+                    R.plurals.goal_details_are_you_sure_removes,
+                    doneGoalsListViewModel.doneGoalWithWeeksToRemove.size
+                ),
+                DialogInterface.OnClickListener { dialog, _ ->
+                    removeDoneGoals()
+                    dialog.dismiss()
+                })
+        }
         txtError.setOnClickListener { listDoneGoals() }
         imgError.setOnClickListener { listDoneGoals() }
     }
@@ -286,6 +304,16 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
         setMessage(message)
         setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
     }.show()
+
+    private fun showSnackBar(message: String) = Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_SHORT).show()
+
+    private fun showConfirmDialog(message: String, listener: DialogInterface.OnClickListener) =
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(resources.getString(R.string.goal_warning_title))
+            setMessage(message)
+            setPositiveButton(android.R.string.ok, listener)
+            setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+        }.show()
 
     private fun expandBar(hasToExpand: Boolean) = appBar.setExpanded(hasToExpand)
 

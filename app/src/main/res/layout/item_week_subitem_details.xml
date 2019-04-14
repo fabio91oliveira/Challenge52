@@ -54,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/goal_details_weeks"
                 android:textSize="@dimen/text_sixteen"
+                android:textStyle=""
                 android:textColor="@color/colorBlack"
                 android:layout_marginStart="@dimen/margin_sixteen"
                 app:layout_constraintTop_toTopOf="parent"
