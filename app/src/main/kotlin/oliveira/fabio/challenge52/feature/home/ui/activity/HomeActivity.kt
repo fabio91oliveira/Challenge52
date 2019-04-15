@@ -52,17 +52,18 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onBackPressed() {
-        supportFragmentManager.fragments.forEach { fragment ->
-            if (fragment != null && fragment.isVisible) {
-                with(fragment.childFragmentManager) {
-                    if (backStackEntryCount > 0) {
-                        popBackStack()
-                        return
-                    }
-                }
-            }
-        }
-        super.onBackPressed()
+        finish()
+//        supportFragmentManager.fragments.forEach { fragment ->
+//            if (fragment != null && fragment.isVisible) {
+//                with(fragment.childFragmentManager) {
+//                    if (backStackEntryCount > 0) {
+//                        popBackStack()
+//                        return
+//                    }
+//                }
+//            }
+//        }
+//        super.onBackPressed()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -87,7 +88,7 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onListChanged() {
         supportFragmentManager.findFragmentByTag(DoneGoalsListFragment::class.java.simpleName)
-            ?.let { doneGoalsListFragment.listDoneGoals()}
+            ?.let { doneGoalsListFragment.listDoneGoals() }
     }
 
     private fun initFragments() {
