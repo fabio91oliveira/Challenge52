@@ -12,16 +12,20 @@ import oliveira.fabio.challenge52.feature.goaldetails.vo.HeaderItem
 import oliveira.fabio.challenge52.feature.goaldetails.vo.Item
 import oliveira.fabio.challenge52.feature.goaldetails.vo.SubItemDetails
 import oliveira.fabio.challenge52.feature.goaldetails.vo.SubItemWeek
+import oliveira.fabio.challenge52.model.repository.GoalRepository
+import oliveira.fabio.challenge52.model.repository.WeekRepository
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-import oliveira.fabio.challenge52.repository.GoalWithWeeksRepository
-import oliveira.fabio.challenge52.util.Event
+import oliveira.fabio.challenge52.model.vo.Event
 import oliveira.fabio.challenge52.util.extension.getMonthName
 import oliveira.fabio.challenge52.util.extension.getMonthNumber
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
-class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRepository) : ViewModel(), CoroutineScope {
+class GoalDetailsViewModel(
+    private val goalRepository: GoalRepository,
+    private val weekRepository: WeekRepository
+) : ViewModel(), CoroutineScope {
 
     val mutableLiveDataUpdated by lazy { MutableLiveData<Event<Boolean>>() }
     val mutableLiveDataCompleted by lazy { MutableLiveData<Event<Boolean>>() }
@@ -46,7 +50,7 @@ class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRep
     fun updateWeek(week: Week) {
         week.isDeposited = !week.isDeposited
         launch {
-            SuspendableResult.of<Unit, Exception> { goalWithWeeksRepository.updateWeek(week) }
+            SuspendableResult.of<Unit, Exception> { weekRepository.updateWeek(week) }
                 .fold(
                     success = {
                         Log.d("aqui", "atualizou " + week.position)
@@ -76,9 +80,9 @@ class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRep
 
     fun removeGoal(goalWithWeeks: GoalWithWeeks) {
         launch {
-            SuspendableResult.of<Int, Exception> { goalWithWeeksRepository.removeGoal(goalWithWeeks.goal) }.fold(
+            SuspendableResult.of<Int, Exception> { goalRepository.removeGoal(goalWithWeeks.goal) }.fold(
                 success = {
-                    SuspendableResult.of<Int, Exception> { goalWithWeeksRepository.removeWeeks(goalWithWeeks.weeks) }
+                    SuspendableResult.of<Int, Exception> { weekRepository.removeWeeks(goalWithWeeks.weeks) }
                         .fold(success = {
                             mutableLiveDataRemoved.postValue(Event(true))
                         }, failure = {
@@ -93,10 +97,10 @@ class GoalDetailsViewModel(private val goalWithWeeksRepository: GoalWithWeeksRep
 
     fun completeGoal(goalWithWeeks: GoalWithWeeks) {
         launch {
-            SuspendableResult.of<Unit, Exception> { goalWithWeeksRepository.updateWeeks(goalWithWeeks.weeks) }.fold(
+            SuspendableResult.of<Unit, Exception> { weekRepository.updateWeeks(goalWithWeeks.weeks) }.fold(
                 success = {
                     goalWithWeeks.goal.isDone = true
-                    SuspendableResult.of<Unit, Exception> { goalWithWeeksRepository.updateGoal(goalWithWeeks.goal) }
+                    SuspendableResult.of<Unit, Exception> { goalRepository.updateGoal(goalWithWeeks.goal) }
                         .fold(success = {
                             mutableLiveDataCompleted.postValue(Event(true))
                         }, failure = {

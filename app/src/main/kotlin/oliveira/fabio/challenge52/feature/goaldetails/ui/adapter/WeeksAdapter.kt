@@ -124,9 +124,7 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener, private
                 false -> {
                     containerView.setOnClickListener {
                         onClickWeekListener.onClickWeek(item.getWeek().week, adapterPosition) {
-                            val isDeposited = item.getWeek().week.isDeposited
-
-                            when (isDeposited) {
+                            when (item.getWeek().week.isDeposited) {
                                 true -> {
                                     if (imgNotChecked.visibility != View.INVISIBLE) {
                                         imgNotChecked.startAnimation(animNotChecked)

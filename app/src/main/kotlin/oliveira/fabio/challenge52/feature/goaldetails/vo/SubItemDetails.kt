@@ -6,4 +6,4 @@ data class SubItemDetails(
     var totalWeeks: Int,
     var totalAccumulated: Float,
     var totalMoney: Float
-) : Item(Item.SUB_ITEM_DETAILS)
+) : Item(SUB_ITEM_DETAILS)

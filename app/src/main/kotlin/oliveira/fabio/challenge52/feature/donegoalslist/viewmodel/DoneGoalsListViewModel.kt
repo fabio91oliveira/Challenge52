@@ -7,14 +7,20 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import oliveira.fabio.challenge52.model.repository.GoalRepository
+import oliveira.fabio.challenge52.model.repository.GoalWithWeeksRepository
+import oliveira.fabio.challenge52.model.repository.WeekRepository
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-import oliveira.fabio.challenge52.repository.GoalWithWeeksRepository
-import oliveira.fabio.challenge52.util.Event
+import oliveira.fabio.challenge52.model.vo.Event
 import kotlin.coroutines.CoroutineContext
 
-class DoneGoalsListViewModel(private val goalWithWeeksRepository: GoalWithWeeksRepository) : ViewModel(),
+class DoneGoalsListViewModel(
+    private val goalWithWeeksRepository: GoalWithWeeksRepository,
+    private val goalRepository: GoalRepository,
+    private val weekRepository: WeekRepository
+) : ViewModel(),
     CoroutineScope {
 
     private val job = SupervisorJob()
@@ -56,9 +62,9 @@ class DoneGoalsListViewModel(private val goalWithWeeksRepository: GoalWithWeeksR
                 weeksToRemove.addAll(it.weeks)
             }
 
-            SuspendableResult.of<Int, Exception> { goalWithWeeksRepository.removeGoals(goalsToRemove) }.fold(
+            SuspendableResult.of<Int, Exception> { goalRepository.removeGoals(goalsToRemove) }.fold(
                 success = {
-                    SuspendableResult.of<Int, Exception> { goalWithWeeksRepository.removeWeeks(weeksToRemove) }
+                    SuspendableResult.of<Int, Exception> { weekRepository.removeWeeks(weeksToRemove) }
                         .fold(success = {
                             mutableLiveDataDoneGoals.value?.removeAll(doneGoalWithWeeksToRemove)
                             mutableLiveDataRemoved.postValue(Event(true))

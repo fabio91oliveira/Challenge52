@@ -8,8 +8,8 @@ import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 
 val viewModelModule = module {
-    viewModel { GoalCreateViewModel(get()) }
-    viewModel { GoalsListViewModel(get()) }
-    viewModel { DoneGoalsListViewModel(get()) }
-    viewModel { GoalDetailsViewModel(get()) }
+    viewModel { GoalCreateViewModel(get(), get()) }
+    viewModel { GoalsListViewModel(get(), get(), get()) }
+    viewModel { DoneGoalsListViewModel(get(), get(), get()) }
+    viewModel { GoalDetailsViewModel(get(), get()) }
 }

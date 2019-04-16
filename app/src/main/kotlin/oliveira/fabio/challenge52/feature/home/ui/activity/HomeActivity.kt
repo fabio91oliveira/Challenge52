@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.donegoalslist.ui.fragment.DoneGoalsListFragment
 import oliveira.fabio.challenge52.feature.goalslist.ui.fragment.GoalsListFragment
+import oliveira.fabio.challenge52.feature.help.ui.fragment.HelpFragment
 
 
 class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
@@ -16,6 +17,7 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private lateinit var goalsListFragment: GoalsListFragment
     private lateinit var doneGoalsListFragment: DoneGoalsListFragment
+    private lateinit var helpFragment: HelpFragment
     private lateinit var activeFragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +32,8 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 ?.let { goalsListFragment = it as GoalsListFragment }
             supportFragmentManager.findFragmentByTag(DoneGoalsListFragment::class.java.simpleName)
                 ?.let { doneGoalsListFragment = it as DoneGoalsListFragment }
+            supportFragmentManager.findFragmentByTag(HelpFragment::class.java.simpleName)
+                ?.let { helpFragment = it as HelpFragment }
 
             val tag = savedInstanceState.getString(CURRENT_TAB)
             when (supportFragmentManager.findFragmentByTag(tag)) {
@@ -37,6 +41,8 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     supportFragmentManager.findFragmentByTag(tag) as GoalsListFragment
                 is DoneGoalsListFragment -> activeFragment =
                     supportFragmentManager.findFragmentByTag(tag) as DoneGoalsListFragment
+                is HelpFragment -> activeFragment =
+                    supportFragmentManager.findFragmentByTag(tag) as HelpFragment
             }
 
         } ?: run {
@@ -77,7 +83,8 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.navigation_help -> {
-                return false
+                changeFragment(helpFragment)
+                return true
             }
             R.id.navigation_options -> {
                 return false
@@ -94,6 +101,7 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private fun initFragments() {
         goalsListFragment = GoalsListFragment.newInstance()
         doneGoalsListFragment = DoneGoalsListFragment.newInstance()
+        helpFragment = HelpFragment.newInstance()
     }
 
     private fun changeFragment(fragment: Fragment) {

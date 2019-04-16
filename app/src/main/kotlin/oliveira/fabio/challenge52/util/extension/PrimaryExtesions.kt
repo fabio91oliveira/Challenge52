@@ -15,25 +15,11 @@ fun Date.toCurrentFormat(pattern: String): String {
     return sdf.format(time)
 }
 
-fun Date.getYearNumber(): Int {
-    val cal = Calendar.getInstance()
-    cal.time = this
-
-    return cal.get(Calendar.YEAR)
-}
-
 fun Date.getMonthNumber(): Int {
     val cal = Calendar.getInstance()
     cal.time = this
 
     return cal.get(Calendar.MONTH) + 1
-}
-
-fun Date.getDayNumber(): Int {
-    val cal = Calendar.getInstance()
-    cal.time = this
-
-    return cal.get(Calendar.DAY_OF_MONTH)
 }
 
 fun Date.getMonthName(): String {

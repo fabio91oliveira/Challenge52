@@ -25,7 +25,7 @@ class ErrorDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.ErrorDialogFragment)
+        setStyle(STYLE_NORMAL, R.style.ErrorDialogFragment)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

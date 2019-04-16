@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.util
+package oliveira.fabio.challenge52.model.vo
 
 open class Event<T>(private var content: T) {
     private var hasBeenHandled = false
