@@ -11,49 +11,38 @@
         app:layout_constraintTop_toTopOf="parent">
 
     <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tint="@color/colorSoftGrey"
-            android:layout_marginStart="@dimen/margin_ten"
-            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/btnAction"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:srcCompat="@drawable/ic_add_circle"
+            android:layout_marginStart="@dimen/margin_twenty_four"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_help"/>
+            app:layout_constraintStart_toStartOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtQuestion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_ten"
+            android:layout_marginStart="@dimen/margin_sixteen"
+            android:layout_marginEnd="@dimen/margin_twenty_four"
             android:layout_marginBottom="3dp"
             android:textSize="@dimen/text_fourteen"
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/imgArrow"
-            app:layout_constraintStart_toEndOf="@id/imgIcon"
-            app:layout_constraintTop_toTopOf="@+id/imgIcon"
-            app:layout_constraintBottom_toBottomOf="@+id/imgIcon"
-            tools:text="O quê é o desafio de 52 semanas?"/>
-
-    <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgArrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_sixteen"
-            app:layout_constraintBottom_toBottomOf="@id/txtQuestion"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/txtQuestion"
-            app:srcCompat="@drawable/ic_arrow"/>
+            app:layout_constraintStart_toEndOf="@id/btnAction"
+            app:layout_constraintTop_toTopOf="@+id/btnAction"
+            app:layout_constraintBottom_toBottomOf="@+id/btnAction"
+            tools:text="O quê é o desafio de 52 semanas?"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtAnswer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_fourteen"
-            android:layout_marginStart="@dimen/margin_six"
-            app:layout_constraintEnd_toStartOf="@id/imgArrow"
+            app:layout_constraintEnd_toEndOf="@id/txtQuestion"
             app:layout_constraintStart_toStartOf="@id/txtQuestion"
-            android:layout_marginTop="@dimen/margin_sixteen"
+            android:layout_marginTop="@dimen/margin_ten"
             app:layout_constraintTop_toBottomOf="@+id/txtQuestion"
             android:visibility="gone"
             tools:visibility="visible"
@@ -64,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorSofterGreyThree"
-            android:layout_marginTop="@dimen/margin_thirty_eight"
+            android:layout_marginTop="@dimen/margin_twenty_four"
             app:layout_constraintTop_toBottomOf="@+id/txtAnswer"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
