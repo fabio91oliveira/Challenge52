@@ -26,7 +26,7 @@
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtName"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="44dp"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold"
                 android:textSize="@dimen/text_eighteen"
@@ -43,7 +43,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtName"
                 app:layout_constraintStart_toStartOf="@id/txtName"
                 android:textColor="@color/colorBlack"
-                android:text="@string/goals_list_how_much"/>
+                android:text="@string/done_goals_list_how_much"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtStartDate"
@@ -52,7 +52,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtValueTitle"
                 app:layout_constraintStart_toStartOf="@id/txtValueTitle"
                 android:textColor="@color/colorBlack"
-                android:text="@string/goals_list_start_date"/>
+                android:text="@string/done_goals_list_start_date"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtEndDate"
@@ -61,7 +61,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtStartDate"
                 app:layout_constraintStart_toStartOf="@id/txtStartDate"
                 android:textColor="@color/colorBlack"
-                android:text="@string/goals_list_end_date"/>
+                android:text="@string/done_goals_list_end_date"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtValue"

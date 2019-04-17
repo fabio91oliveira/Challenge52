@@ -16,7 +16,8 @@ import oliveira.fabio.challenge52.feature.goaldetails.vo.Item
 import oliveira.fabio.challenge52.feature.goaldetails.vo.SubItemDetails
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.util.extension.toCurrency
-import oliveira.fabio.challenge52.util.extension.toCurrentFormat
+import oliveira.fabio.challenge52.util.extension.toCurrentDateSystemString
+import java.text.DateFormat
 
 
 class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener, private val isDoneGoal: Boolean) :
@@ -87,7 +88,7 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener, private
             animation.addUpdateListener {
                 val progress = it.animatedValue as Int
                 txtPercent.text =
-                    progress.toString() + containerView.context.getString(R.string.goals_list_progress_value_percent)
+                    progress.toString() + containerView.context.getString(R.string.progress_value_percent)
             }
             animation.start()
         }
@@ -118,7 +119,7 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener, private
                 containerView.context.getString(R.string.goal_details_week, item.getWeek().week.position.toString())
             txtMoney.text = item.getWeek().week.spittedValue.toCurrency()
             txtDate.text =
-                item.getWeek().week.date.toCurrentFormat(containerView.context.getString(R.string.date_pattern))
+                item.getWeek().week.date.toCurrentDateSystemString(DateFormat.SHORT)
 
             when (isDoneGoal) {
                 false -> {

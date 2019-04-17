@@ -1,6 +1,5 @@
 package oliveira.fabio.challenge52.feature.goalcreate.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.kittinunf.result.coroutines.SuspendableResult
@@ -12,7 +11,6 @@ import oliveira.fabio.challenge52.model.repository.GoalRepository
 import oliveira.fabio.challenge52.model.repository.WeekRepository
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.persistence.model.entity.Week
-import oliveira.fabio.challenge52.util.extension.toCurrentFormat
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
@@ -66,7 +64,6 @@ class GoalCreateViewModel(private val goalRepository: GoalRepository, private va
                 this.date = calendar.time
                 this.idGoal = goal.id
                 this.isDeposited = false
-                Log.d("DATA: ", calendar.toCurrentFormat("dd/MM/yyyy"))
                 weeks.add(this)
             }
             calendar.add(Calendar.DAY_OF_YEAR, 7)

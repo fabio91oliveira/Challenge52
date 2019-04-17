@@ -17,8 +17,7 @@
     <string name="goals_list_how_much">Valor a depositar:</string>
     <string name="goals_list_start_date">Data de Início:</string>
     <string name="goals_list_end_date">Data de encerramento:</string>
-    <string name="goals_list_progress">Progresso:</string>
-    <string name="goals_list_progress_value_percent">%</string>
+    <string name="progress_value_percent">%</string>
 
     <string name="goals_list_a_goal_has_been_created">A meta foi criada.</string>
     <string name="goals_list_a_goal_has_been_deleted">A meta foi removida.</string>
@@ -39,8 +38,7 @@
     </string>
     <string name="done_goals_list_start_date">Data de Início:</string>
     <string name="done_goals_list_end_date">Data de encerramento:</string>
-    <string name="done_goals_list_progress">Progresso:</string>
-    <string name="done_goals_list_progress_value_percent">%</string>
+    <string name="done_goals_list_how_much">Valor depositado:</string>
 
     <!-- Goal Create -->
     <string name="goal_create_new_goal">Nova meta</string>
@@ -77,10 +75,6 @@
     <string name="goal_details_date_after_today">Esta data é posterior a data atual. Você quer realmente confirmar o
         depósito do dinheira para esta semana?
     </string>
-
-    <!-- Patterns -->
-    <string name="currency_mask">[R$,.]</string>
-    <string name="date_pattern">dd/MM/yyyy</string>
 
     <!-- Error -->
     <string name="goal_warning_title">Atenção</string>

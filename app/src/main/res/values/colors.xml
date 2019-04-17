@@ -4,11 +4,10 @@
     <color name="colorPrimaryDark">#FFC400</color>
     <color name="colorAccent">#FF9100</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorWhiteTransparent">#8BFFFFFF</color>
     <color name="colorBlack">#000000</color>
     <color name="colorSoftGrey">#8B8B8B</color>
     <color name="colorSofterGrey">#689B9B9B</color>
-    <color name="colorSofterGreyTwo">#0A9B9B9B</color>
+    <color name="colorSofterGreyTwo">#F5F5F5</color>
     <color name="colorSofterGreyThree">#289B9B9B</color>
     <color name="colorGreen">#4CAF50</color>
     <color name="colorRed">#FF0000</color>

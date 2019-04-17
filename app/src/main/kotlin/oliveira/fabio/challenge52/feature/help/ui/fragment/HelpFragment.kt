@@ -4,15 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_help.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.help.ui.adapter.QuestionsAdapter
-import oliveira.fabio.challenge52.feature.help.vo.Question
+import oliveira.fabio.challenge52.feature.help.viewmodel.HelpViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class HelpFragment : Fragment() {
+
+    private val questionAdapter by lazy { QuestionsAdapter() }
+    private val helpViewModel: HelpViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_help, container, false)
@@ -20,165 +26,71 @@ class HelpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
+
+        savedInstanceState?.let {
+            setupToolbar()
+            initRecyclerView()
+            initLiveDatas()
+            showLoading()
+        } ?: run {
+            init()
+        }
     }
 
     private fun init() {
         setupToolbar()
         initRecyclerView()
+        initLiveDatas()
+        showLoading()
+        helpViewModel.getQuestions()
     }
 
     private fun setupToolbar() {
-//        toolbar
-//
-//
-//        collapsingToolbar.apply {
-//            val tf = ResourcesCompat.getFont(requireContext(), R.font.ubuntu_bold)
-//            setCollapsedTitleTypeface(tf)
-//            setExpandedTitleTypeface(tf)
-//        }
+        collapsingToolbar.apply {
+            val tf = ResourcesCompat.getFont(context, R.font.ubuntu_bold)
+            setCollapsedTitleTypeface(tf)
+            setExpandedTitleTypeface(tf)
+        }
     }
 
     private fun initRecyclerView() {
-        val adapter = QuestionsAdapter()
-        adapter.addList(getQuestions())
-        recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        recyclerView.adapter = adapter
+        rvQuestions.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        rvQuestions.adapter = questionAdapter
     }
 
-    private fun getQuestions() = mutableListOf<Question>().apply {
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
+    private fun initLiveDatas() {
+        helpViewModel.mutableLiveDataQuestions.observe(this, Observer {
+            hideLoading()
+            when (it.isNotEmpty()) {
+                true -> {
+                    questionAdapter.addList(it)
+                    showContent()
+                    expandBar(true)
+                }
+                false -> {//handle error}
+                    hideContent()
+                    expandBar(false)
+                }
+            }
+        })
+    }
+
+    private fun expandBar(hasToExpand: Boolean) = appBarLayout.setExpanded(hasToExpand)
+
+    private fun showContent() {
+        rvQuestions.visibility = View.VISIBLE
+    }
+
+    private fun hideContent() {
+        rvQuestions.visibility = View.GONE
+    }
+
+    private fun showLoading() {
+        loading.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        loading.visibility = View.GONE
     }
 
     companion object {

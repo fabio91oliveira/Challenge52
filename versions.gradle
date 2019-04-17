@@ -15,7 +15,7 @@ versions.koin = "1.0.2"
 versions.junit = "4.12"
 versions.espresso = "3.1.0-alpha3"
 versions.test = "1.1.0-alpha3"
-versions.android_gradle_plugin = '3.3.2'
+versions.android_gradle_plugin = '3.4.0'
 
 def deps = [:]
 

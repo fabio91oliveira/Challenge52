@@ -14,9 +14,10 @@ import oliveira.fabio.challenge52.feature.goalslist.ui.fragment.GoalsListFragmen
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.util.extension.callFunctionAfterTextChanged
 import oliveira.fabio.challenge52.util.extension.toCurrencyFormat
-import oliveira.fabio.challenge52.util.extension.toCurrentFormat
+import oliveira.fabio.challenge52.util.extension.toCurrentDateSystemString
 import oliveira.fabio.challenge52.util.extension.toDate
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.text.DateFormat
 import java.util.*
 
 class GoalCreateActivity : AppCompatActivity() {
@@ -39,7 +40,7 @@ class GoalCreateActivity : AppCompatActivity() {
             this.calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH))
             this.calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH))
 
-            setData(this.calendar.toCurrentFormat(resources.getString(R.string.date_pattern)))
+            setData(this.calendar.toCurrentDateSystemString(DateFormat.SHORT))
             content.requestFocus()
         }
     }
@@ -88,7 +89,7 @@ class GoalCreateActivity : AppCompatActivity() {
     }
 
     private fun initFields() {
-        setData(calendar.toCurrentFormat(resources.getString(R.string.date_pattern)))
+        setData(calendar.toCurrentDateSystemString(DateFormat.SHORT))
         txtName.callFunctionAfterTextChanged { validateCreateButton() }
         txtValue.toCurrencyFormat {
             validateCreateButton()
@@ -128,12 +129,17 @@ class GoalCreateActivity : AppCompatActivity() {
         txtName.text.toString().isNotEmpty() && (!goalCreateViewModel.isZero(removeMoneyMask(txtValue.text.toString())))
 
     private fun getFilledGoal() = Goal().apply {
-        initialDate = txtDate.toDate()
+        initialDate = txtDate.toDate(DateFormat.SHORT)
         name = txtName.text.toString()
         totalValue = removeMoneyMask(txtValue.text.toString()).toFloat() * TOTAL_WEEKS
     }
 
-    private fun removeMoneyMask(value: String) = Regex(resources.getString(R.string.currency_mask)).replace(value, "")
+    private fun removeMoneyMask(value: String): String {
+        val defaultCurrencySymbol = Currency.getInstance(Locale.getDefault()).symbol
+        val regexPattern = "[$defaultCurrencySymbol,.]"
+
+        return Regex(regexPattern).replace(value, "")
+    }
 
     companion object {
         private const val REQUEST_CODE_CALENDAR = 200

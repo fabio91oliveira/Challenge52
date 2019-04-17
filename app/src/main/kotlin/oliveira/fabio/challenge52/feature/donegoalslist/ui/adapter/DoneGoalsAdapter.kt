@@ -13,7 +13,8 @@ import kotlinx.android.synthetic.main.item_done_goal.view.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.util.extension.toCurrency
-import oliveira.fabio.challenge52.util.extension.toCurrentFormat
+import oliveira.fabio.challenge52.util.extension.toCurrentDateSystemString
+import java.text.DateFormat
 
 
 class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
@@ -66,9 +67,9 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
             txtName.text = goalsList[position].goal.name
             txtValue.text = goalsList[position].goal.totalValue.toCurrency()
             txtStartDateValue.text = goalsList[position].getStartDate()
-                .toCurrentFormat(containerView.context.getString(R.string.date_pattern))
+                .toCurrentDateSystemString(DateFormat.SHORT)
             txtEndDateValue.text =
-                goalsList[position].getEndDate().toCurrentFormat(containerView.context.getString(R.string.date_pattern))
+                goalsList[position].getEndDate().toCurrentDateSystemString(DateFormat.SHORT)
 
             if (position >= lastPosition) animate()
 

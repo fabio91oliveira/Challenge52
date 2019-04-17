@@ -21,6 +21,7 @@ class QuestionsAdapter :
 
     fun addList(list: List<Question>) {
         this.list.addAll(list)
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
