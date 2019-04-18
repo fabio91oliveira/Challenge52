@@ -13,9 +13,10 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_goal.*
 import kotlinx.android.synthetic.main.item_goal.view.*
 import oliveira.fabio.challenge52.R
-import oliveira.fabio.challenge52.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.util.extension.toCurrency
-import oliveira.fabio.challenge52.util.extension.toCurrentFormat
+import oliveira.fabio.challenge52.util.extension.toCurrentDateSystemString
+import java.text.DateFormat
 
 
 class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
@@ -69,9 +70,9 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
             txtValue.text = goalsList[position].goal.totalValue.toCurrency()
             txtWeeksValue.text = goalsList[position].getRemainingWeeksCount().toString()
             txtStartDateValue.text = goalsList[position].getStartDate()
-                .toCurrentFormat(containerView.context.getString(R.string.date_pattern))
+                .toCurrentDateSystemString(DateFormat.SHORT)
             txtEndDateValue.text =
-                goalsList[position].getEndDate().toCurrentFormat(containerView.context.getString(R.string.date_pattern))
+                goalsList[position].getEndDate().toCurrentDateSystemString(DateFormat.SHORT)
 
             val progress = goalsList[position].getPercentOfConclusion()
             when (progress > 0) {
@@ -85,7 +86,7 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
             animation.addUpdateListener {
                 val prog = it.animatedValue as Int
                 txtDoneValue.text =
-                    prog.toString() + containerView.context.getString(R.string.goal_list_progress_value_percent)
+                    prog.toString() + containerView.context.getString(R.string.progress_value_percent)
             }
             animation.start()
 

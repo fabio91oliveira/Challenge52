@@ -14,6 +14,45 @@ allprojects {
     addRepos(repositories)
 }
 
+subprojects {
+    afterEvaluate { project ->
+        if (project.plugins.findPlugin('android') ?: project.plugins.findPlugin('android-library')) {
+            android {
+                buildToolsVersion build_versions.build_tools
+                compileSdkVersion build_versions.target_sdk
+
+                defaultConfig {
+                    minSdkVersion build_versions.min_sdk
+                    targetSdkVersion build_versions.target_sdk
+                    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+                }
+                androidExtensions {
+                    experimental = true
+                }
+                testOptions {
+                    execution 'ANDROIDX_TEST_ORCHESTRATOR'
+                    animationsDisabled = true
+                }
+                sourceSets {
+                    main.java.srcDirs += 'src/main/kotlin'
+                    test.java.srcDirs += 'src/test/kotlin'
+                    androidTest.java.srcDirs += 'src/androidTest/kotlin'
+                }
+                compileOptions {
+                    sourceCompatibility build_versions.java_version
+                    targetCompatibility build_versions.java_version
+                }
+            }
+
+            dependencies {
+                implementation fileTree(dir: 'libs', include: ['*.jar'])
+                implementation deps.kotlin.stdlib
+            }
+        }
+    }
+}
+
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

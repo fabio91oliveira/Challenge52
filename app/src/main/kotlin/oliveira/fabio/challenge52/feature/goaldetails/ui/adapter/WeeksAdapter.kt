@@ -14,12 +14,13 @@ import kotlinx.android.synthetic.main.item_week_subitem_week.*
 import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.goaldetails.vo.Item
 import oliveira.fabio.challenge52.feature.goaldetails.vo.SubItemDetails
-import oliveira.fabio.challenge52.model.entity.Week
+import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.util.extension.toCurrency
-import oliveira.fabio.challenge52.util.extension.toCurrentFormat
+import oliveira.fabio.challenge52.util.extension.toCurrentDateSystemString
+import java.text.DateFormat
 
 
-class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
+class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener, private val isDoneGoal: Boolean) :
     RecyclerView.Adapter<WeeksAdapter.WeekViewHolder>() {
 
     private var list: MutableList<Item> = mutableListOf()
@@ -87,7 +88,7 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
             animation.addUpdateListener {
                 val progress = it.animatedValue as Int
                 txtPercent.text =
-                    progress.toString() + containerView.context.getString(R.string.goal_list_progress_value_percent)
+                    progress.toString() + containerView.context.getString(R.string.progress_value_percent)
             }
             animation.start()
         }
@@ -118,34 +119,37 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
                 containerView.context.getString(R.string.goal_details_week, item.getWeek().week.position.toString())
             txtMoney.text = item.getWeek().week.spittedValue.toCurrency()
             txtDate.text =
-                item.getWeek().week.date.toCurrentFormat(containerView.context.getString(R.string.date_pattern))
+                item.getWeek().week.date.toCurrentDateSystemString(DateFormat.SHORT)
 
-            containerView.setOnClickListener {
-                val isDeposited = !item.getWeek().week.isDeposited
-
-                when (isDeposited) {
-                    true -> {
-                        if (imgNotChecked.visibility != View.INVISIBLE) {
-                            imgNotChecked.startAnimation(animNotChecked)
-                            imgNotChecked.visibility = View.INVISIBLE
-                        }
-                        if (imgChecked.visibility != View.VISIBLE) {
-                            imgChecked.startAnimation(animChecked)
-                            imgChecked.visibility = View.VISIBLE
-                        }
-                    }
-                    else -> {
-                        if (imgChecked.visibility != View.INVISIBLE) {
-                            imgChecked.startAnimation(animNotChecked)
-                            imgChecked.visibility = View.INVISIBLE
-                        }
-                        if (imgNotChecked.visibility != View.VISIBLE) {
-                            imgNotChecked.startAnimation(animChecked)
-                            imgNotChecked.visibility = View.VISIBLE
+            when (isDoneGoal) {
+                false -> {
+                    containerView.setOnClickListener {
+                        onClickWeekListener.onClickWeek(item.getWeek().week, adapterPosition) {
+                            when (item.getWeek().week.isDeposited) {
+                                true -> {
+                                    if (imgNotChecked.visibility != View.INVISIBLE) {
+                                        imgNotChecked.startAnimation(animNotChecked)
+                                        imgNotChecked.visibility = View.INVISIBLE
+                                    }
+                                    if (imgChecked.visibility != View.VISIBLE) {
+                                        imgChecked.startAnimation(animChecked)
+                                        imgChecked.visibility = View.VISIBLE
+                                    }
+                                }
+                                else -> {
+                                    if (imgChecked.visibility != View.INVISIBLE) {
+                                        imgChecked.startAnimation(animNotChecked)
+                                        imgChecked.visibility = View.INVISIBLE
+                                    }
+                                    if (imgNotChecked.visibility != View.VISIBLE) {
+                                        imgNotChecked.startAnimation(animChecked)
+                                        imgNotChecked.visibility = View.VISIBLE
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-                onClickWeekListener.onClickWeek(item.getWeek().week, position)
             }
         }
     }
@@ -157,6 +161,6 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener) :
     }
 
     interface OnClickWeekListener {
-        fun onClickWeek(week: Week, position: Int)
+        fun onClickWeek(week: Week, position: Int, func: () -> Unit)
     }
 }

@@ -1,40 +1,105 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Desafio 52</string>
-    <string name="action_settings">Opções</string>
 
-    <string name="goal_List_my_goals">Minhas metas</string>
-    <string name="goal_list_no_goals">Nenhuma meta foi cadastrada até o momento. O quê você acha de criar uma
+    <!-- Menu -->
+    <string name="navigation_menu_goals">Metas</string>
+    <string name="navigation_menu_done">Realizadas</string>
+    <string name="navigation_menu_help">Ajuda</string>
+    <string name="navigation_menu_options">Opções</string>
+
+    <!-- Goals List -->
+    <string name="goals_list_my_goals">Minhas metas</string>
+    <string name="goals_list_no_goals">Nenhuma meta foi cadastrada até o momento. O quê você acha de criar uma
         agora?
     </string>
-    <string name="goal_list_error">Ocorreu um erro, tente novamente clicando aqui ou contate o desenvolvedor.</string>
-    <string name="goal_list_weeks_remaining">Semanas restantes:</string>
-    <string name="goal_list_start_date">Data de Início:</string>
-    <string name="goal_list_end_date">Data de encerramento:</string>
-    <string name="goal_list_progress">Progresso:</string>
-    <string name="goal_list_progress_value_percent">%</string>
+    <string name="goals_list_error">Ocorreu um erro, tente novamente clicando aqui ou contate o desenvolvedor.</string>
+    <string name="goals_list_weeks_remaining">Semanas restantes:</string>
+    <string name="goals_list_how_much">Valor a depositar:</string>
+    <string name="goals_list_start_date">Data de Início:</string>
+    <string name="goals_list_end_date">Data de encerramento:</string>
+    <string name="progress_value_percent">%</string>
 
+    <string name="goals_list_a_goal_has_been_created">A meta foi criada.</string>
+    <string name="goals_list_a_goal_has_been_deleted">A meta foi removida.</string>
+    <plurals name="goals_list_goals_has_has_been_deleted">
+        <item quantity="one" tools:ignore="ImpliedQuantity">A meta selecionada foi removida.</item>
+        <item quantity="other">As metas selecionadas foram removidas.</item>
+    </plurals>
+    <string name="goals_list_a_goal_has_been_updated">A meta foi atualizada.</string>
+    <string name="goals_list_a_goal_has_been_moved_to_done">A meta foi movida para realizado.</string>
+
+    <!-- Done List -->
+    <string name="done_goals_list_title">Metas realizadas</string>
+    <string name="done_goals_list_none_result">Não existe nenhum meta concluída por enquanto. Quando você atingir uma,
+        você pode colocá-la aqui.
+    </string>
+    <string name="done_goals_list_error">Ocorreu um erro ao tentar carregar lista, tente novamente clicando aqui ou
+        contate o desenvolvedor.
+    </string>
+    <string name="done_goals_list_start_date">Data de Início:</string>
+    <string name="done_goals_list_end_date">Data de encerramento:</string>
+    <string name="done_goals_list_how_much">Valor depositado:</string>
+
+    <!-- Goal Create -->
     <string name="goal_create_new_goal">Nova meta</string>
     <string name="goal_create_goal_name">Qual é o nome da sua meta?</string>
     <string name="goal_create_goal_value">Qual é valor para começar?</string>
     <string name="goal_create_goal_data">Qual a data para começar?</string>
     <string name="goal_create_create_goal">Criar meta</string>
-
     <string name="goal_create_calendar_choose_date">Escolher data</string>
     <string name="goal_create_calendar_select_date">Selecionar data</string>
 
-
+    <!-- Goal Details -->
     <string name="goal_details_week">Semana %s</string>
     <string name="goal_details_weeks">Semanas:</string>
     <string name="goal_details_goal">Meta alcançada:</string>
     <string name="goal_details_of_weeks">de %s semanas</string>
     <string name="goal_details_of_money">de %s</string>
 
-    <string name="currency_mask">[R$,.]</string>
-    <string name="date_pattern">dd/MM/yyyy</string>
+    <string name="goal_details_edit_name">Editar nome</string>
+    <string name="goal_details_remove">Remover</string>
+    <string name="goal_details_make_it_done">Marcar como realizado</string>
 
-    <string name="goal_error_title">Atenção</string>
-    <string name="goal_list_error_delete">Ocorreu um erro ao tentar deletar meta(s), tente novamente ou contate o desenvolvedor.</string>
-    <string name="goal_create_error_message">Ocorreu um erro ao tentar criar meta, tente novamente ou contate o desenvolvedor.</string>
-    <string name="goal_details_list_error_message">Ocorreu um erro ao tentar detalhar meta, tente novamente ou contate o desenvolvedor.</string>
-    <string name="goal_details_update_error_message">Ocorreu um erro ao atualizar semana, tente novamente ou contate o desenvolvedor.</string>
+    <string name="goal_details_are_you_sure_remove">Você tem certeza que deseja remover meta?</string>
+    <plurals name="goal_details_are_you_sure_removes">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Você tem certeza que deseja remover meta selecionada?</item>
+        <item quantity="other">Você tem certeza que deseja remover metas selecionadas?</item>
+    </plurals>
+    <string name="goal_details_are_you_sure_done">Você tem certeza que deseja marcar meta como realizada?</string>
+    <string name="goal_details_cannot_move_to_done">Você não pode mover a meta para realizada até completar todas as
+        semanas.
+    </string>
+    <string name="goal_details_move_to_done_first_dialog">Todas as semanas tiveram suas quantias depositadas. Deseja
+        mover a meta para realizada?
+    </string>
+    <string name="goal_details_date_after_today">Esta data é posterior a data atual. Você quer realmente confirmar o
+        depósito do dinheira para esta semana?
+    </string>
+
+    <!-- Error -->
+    <string name="goal_warning_title">Atenção</string>
+    <string name="goal_oops_title">Oops!</string>
+    <string name="goal_error_button_go_back">Voltar</string>
+    <string name="goals_generic_error">Ocorreu um erro, tente novamente ou contate o
+        desenvolvedor.
+    </string>
+    <string name="goals_list_error_delete">Ocorreu um erro ao tentar deletar meta(s), tente novamente ou contate o
+        desenvolvedor.
+    </string>
+    <string name="goal_create_error_message">Ocorreu um erro ao tentar criar meta, tente novamente ou contate o
+        desenvolvedor.
+    </string>
+    <string name="goal_details_list_error_message">Ocorreu um erro ao tentar detalhar meta, tente novamente ou contate o
+        desenvolvedor.
+    </string>
+    <string name="goal_details_update_error_message">Ocorreu um erro ao atualizar semana, tente novamente ou contate o
+        desenvolvedor.
+    </string>
+    <string name="goal_details_remove_error_message">Ocorreu um erro ao remover meta, tente novamente ou contate o
+        desenvolvedor.
+    </string>
+    <string name="goal_details_make_done_error_message">Ocorreu um erro ao marcar meta como realizada, tente novamente
+        ou contate o
+        desenvolvedor.
+    </string>
 </resources>

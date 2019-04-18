@@ -1,6 +1,5 @@
 package oliveira.fabio.challenge52.feature.goalcreate.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.kittinunf.result.coroutines.SuspendableResult
@@ -8,14 +7,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import oliveira.fabio.challenge52.model.entity.Goal
-import oliveira.fabio.challenge52.model.entity.Week
-import oliveira.fabio.challenge52.model.repository.GoalWithWeeksRepository
-import oliveira.fabio.challenge52.util.extension.toCurrentFormat
+import oliveira.fabio.challenge52.model.repository.GoalRepository
+import oliveira.fabio.challenge52.model.repository.WeekRepository
+import oliveira.fabio.challenge52.persistence.model.entity.Goal
+import oliveira.fabio.challenge52.persistence.model.entity.Week
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
-class GoalCreateViewModel(private val goalWithWeeksRepository: GoalWithWeeksRepository) :
+class GoalCreateViewModel(private val goalRepository: GoalRepository, private val weekRepository: WeekRepository) :
     ViewModel(), CoroutineScope {
 
     private val job by lazy { SupervisorJob() }
@@ -31,10 +30,10 @@ class GoalCreateViewModel(private val goalWithWeeksRepository: GoalWithWeeksRepo
 
     fun createGoal(goal: Goal) {
         launch {
-            SuspendableResult.of<Long, Exception> { goalWithWeeksRepository.addGoal(goal) }.fold(
+            SuspendableResult.of<Long, Exception> { goalRepository.addGoal(goal) }.fold(
                 success = {
                     goal.id = it
-                    SuspendableResult.of<List<Long>, Exception> { goalWithWeeksRepository.addWeeks(createWeeks(goal)) }
+                    SuspendableResult.of<List<Long>, Exception> { weekRepository.addWeeks(createWeeks(goal)) }
                         .fold(success = {
                             mutableLiveData.postValue(true)
                         }, failure = {
@@ -65,7 +64,6 @@ class GoalCreateViewModel(private val goalWithWeeksRepository: GoalWithWeeksRepo
                 this.date = calendar.time
                 this.idGoal = goal.id
                 this.isDeposited = false
-                Log.d("DATA: ", calendar.toCurrentFormat("dd/MM/yyyy"))
                 weeks.add(this)
             }
             calendar.add(Calendar.DAY_OF_YEAR, 7)

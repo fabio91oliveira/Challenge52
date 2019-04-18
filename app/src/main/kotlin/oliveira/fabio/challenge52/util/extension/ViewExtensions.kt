@@ -3,9 +3,8 @@ package oliveira.fabio.challenge52.util.extension
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
-import oliveira.fabio.challenge52.R
+import java.text.DateFormat
 import java.text.NumberFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -18,7 +17,10 @@ fun EditText.toCurrencyFormat(func: (() -> Unit?)? = null) {
             if (s.toString() != current) {
                 removeTextChangedListener(this)
 
-                val regex = Regex(context.getString(R.string.currency_mask))
+                val defaultCurrencySymbol = Currency.getInstance(Locale.getDefault()).symbol
+                val regexPattern = "[$defaultCurrencySymbol,.]"
+
+                val regex = Regex(regexPattern)
                 val cleanString = regex.replace(s.toString(), "")
 
                 val parsed = cleanString.toDouble()
@@ -43,7 +45,8 @@ fun EditText.callFunctionAfterTextChanged(func: () -> Unit) {
     })
 }
 
-fun EditText.toDate(): Date {
-    val sdf = SimpleDateFormat(context.resources.getString(R.string.date_pattern))
+fun EditText.toDate(dateFormat: Int): Date {
+    val sdf = DateFormat.getDateInstance(dateFormat)
+    sdf.isLenient = false
     return sdf.parse(text.toString())
 }

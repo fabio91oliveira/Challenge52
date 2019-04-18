@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".feature.goalslist.ui.fragment.GoalsListFragment">
+    <item android:id="@+id/navigation_goals"
+          android:title="@string/navigation_menu_goals"
+          android:icon="@drawable/ic_goals"
+          android:orderInCategory="100"
+          app:showAsAction="never"/>
+
+    <item android:id="@+id/navigation_done"
+          android:title="@string/navigation_menu_done"
+          android:icon="@drawable/ic_done"
+          android:orderInCategory="100"
+          app:showAsAction="never"/>
+
+    <item android:id="@+id/navigation_help"
+          android:title="@string/navigation_menu_help"
+          android:icon="@drawable/ic_help"
+          android:orderInCategory="100"
+          app:showAsAction="never"/>
+
+    <item android:id="@+id/navigation_options"
+          android:title="@string/navigation_menu_options"
+          android:icon="@drawable/ic_options"
+          android:orderInCategory="100"
+          app:showAsAction="never"/>
+</menu>
