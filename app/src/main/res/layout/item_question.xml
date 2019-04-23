@@ -42,15 +42,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_sixteen"
                 android:layout_marginEnd="@dimen/margin_twenty_four"
-                android:layout_marginBottom="3dp"
                 android:textSize="@dimen/text_fourteen"
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/btnAction"
                 app:layout_constraintTop_toTopOf="@+id/btnAction"
-                app:layout_constraintBottom_toBottomOf="@+id/btnAction"
-                tools:text="O quê é o desafio de 52 semanas?"/>
+                tools:text="O quê é o desafio de 52 semanas sdfsfsfsfsfsfsfssdfs?"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtAnswer"
