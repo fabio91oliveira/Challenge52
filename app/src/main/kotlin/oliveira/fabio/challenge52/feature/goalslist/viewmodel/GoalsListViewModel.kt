@@ -1,5 +1,6 @@
 package oliveira.fabio.challenge52.feature.goalslist.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.kittinunf.result.coroutines.SuspendableResult
@@ -42,6 +43,15 @@ class GoalsListViewModel(
             SuspendableResult.of<List<GoalWithWeeks>, Exception> { goalWithWeeksRepository.getAllGoalsWithWeeks() }
                 .fold(
                     success = {
+                        it.forEach {
+                            Log.d("kk", it.goal.valueToStart.toString())
+
+                            it.weeks.forEach {
+                                Log.d("kkkk", it.spittedValue.toString())
+                            }
+
+                            Log.d("kk", it.getTotal().toString())
+                        }
                         mutableLiveDataGoals.postValue(it.toMutableList())
                     },
                     failure = {

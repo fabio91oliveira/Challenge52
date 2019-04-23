@@ -34,6 +34,15 @@ class GoalWithWeeks : Serializable {
     fun getPercentOfConclusion() =
         (((weeks.size.toFloat() - getRemainingWeeksCount().toFloat()) / weeks.size.toFloat()) * PERCENT).toInt()
 
+    fun getTotal(): Float {
+        var total = 0f
+        weeks.forEach {
+            total += it.spittedValue
+        }
+
+        return total
+    }
+
     fun getTotalAccumulated(): Float {
         var total = 0f
         weeks.forEach {

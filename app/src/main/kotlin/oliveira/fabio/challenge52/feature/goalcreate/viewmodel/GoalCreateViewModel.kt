@@ -11,6 +11,9 @@ import oliveira.fabio.challenge52.model.repository.GoalRepository
 import oliveira.fabio.challenge52.model.repository.WeekRepository
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.persistence.model.entity.Week
+import oliveira.fabio.challenge52.util.extension.toFloatCurrency
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
@@ -46,34 +49,37 @@ class GoalCreateViewModel(private val goalRepository: GoalRepository, private va
         }
     }
 
-    fun isZero(value: String): Boolean {
-        return value == PATTERN_ZERO
+    fun isMoreOrEqualsOne(value: String): Boolean {
+        if (value.isNotEmpty()) {
+            return value.toFloatCurrency() >= MONEY_MIN
+        }
+        return false
     }
 
     private fun createWeeks(goal: Goal): MutableList<Week> {
         val weeks = mutableListOf<Week>()
 
-        val spittedValue = goal.totalValue / TOTAL_WEEKS
         val calendar = Calendar.getInstance()
         calendar.time = goal.initialDate
+        var total = goal.valueToStart
 
         for (i in 1..TOTAL_WEEKS) {
-            Week(i, spittedValue, calendar.time, false, goal.id).apply {
-                this.position = i
-                this.spittedValue = spittedValue
-                this.date = calendar.time
-                this.idGoal = goal.id
-                this.isDeposited = false
+            Week(i, round(total.toDouble(), 2), calendar.time, false, goal.id).apply {
                 weeks.add(this)
             }
+            total += goal.valueToStart
             calendar.add(Calendar.DAY_OF_YEAR, 7)
         }
 
         return weeks
     }
 
+    private fun round(value: Double, div: Int): Float {
+        return BigDecimal(value).setScale(div, RoundingMode.HALF_EVEN).toFloat()
+    }
+
     companion object {
-        private const val PATTERN_ZERO = "000"
+        private const val MONEY_MIN = 1.0
         private const val TOTAL_WEEKS = 52
     }
 }

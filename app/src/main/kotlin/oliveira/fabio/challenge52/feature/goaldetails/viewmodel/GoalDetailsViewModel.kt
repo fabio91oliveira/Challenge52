@@ -14,9 +14,9 @@ import oliveira.fabio.challenge52.feature.goaldetails.vo.SubItemDetails
 import oliveira.fabio.challenge52.feature.goaldetails.vo.SubItemWeek
 import oliveira.fabio.challenge52.model.repository.GoalRepository
 import oliveira.fabio.challenge52.model.repository.WeekRepository
+import oliveira.fabio.challenge52.model.vo.Event
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-import oliveira.fabio.challenge52.model.vo.Event
 import oliveira.fabio.challenge52.util.extension.getMonthName
 import oliveira.fabio.challenge52.util.extension.getMonthNumber
 import java.util.*
@@ -140,7 +140,7 @@ class GoalDetailsViewModel(
                 (goalWithWeeks.weeks.size - goalWithWeeks.getRemainingWeeksCount()),
                 goalWithWeeks.weeks.size,
                 goalWithWeeks.getTotalAccumulated(),
-                goalWithWeeks.goal.totalValue
+                goalWithWeeks.getTotal()
             )
         )
 

@@ -10,7 +10,7 @@ import java.util.*
 class Goal :
     Serializable {
     lateinit var name: String
-    var totalValue: Float = 0f
+    var valueToStart: Float = 0f
     var isDone = false
     @Ignore
     lateinit var initialDate: Date

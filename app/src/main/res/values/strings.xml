@@ -14,7 +14,7 @@
     </string>
     <string name="goals_list_error">An error has occurred, try again clicking here or contact the developer.</string>
     <string name="goals_list_weeks_remaining">Remaining weeks:</string>
-    <string name="goals_list_how_much">How much:</string>
+    <string name="goals_list_how_much">Money to save:</string>
     <string name="goals_list_start_date">Start date:</string>
     <string name="goals_list_end_date">End date:</string>
     <string name="progress_value_percent">%</string>
@@ -43,7 +43,7 @@
     <!-- Goal Create -->
     <string name="goal_create_new_goal">New goal</string>
     <string name="goal_create_goal_name">What is the name of your goal?</string>
-    <string name="goal_create_goal_value">How much to offer?</string>
+    <string name="goal_create_goal_value">How much to offer? (Min: %s)</string>
     <string name="goal_create_goal_data">When do you want to start?</string>
     <string name="goal_create_create_goal">Create goal</string>
     <string name="goal_create_calendar_choose_date">Choose date</string>
@@ -74,6 +74,16 @@
     <string name="goal_details_date_after_today">This date is posterior than today. Do you even want to confirm the
         money is deposited for this week?
     </string>
+
+    <!-- Help Questions -->
+    <string name="help_first_question">O que é o Desafio 52 semanas?</string>
+    <string name="help_first_question_answer">O que é o Desafio 52 semanas?</string>
+
+    <string name="help_second_question">O que é o Desafio 52 semanas?</string>
+    <string name="help_second_question_answer">O que é o Desafio 52 semanas?</string>
+
+    <string name="help_third_question">O meu principal desafio é acumular?</string>
+    <string name="help_third_question_answer">O que é o Desafio 52 semanas?</string>
 
     <!-- Error -->
     <string name="goal_warning_title">Warning</string>

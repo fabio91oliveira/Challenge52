@@ -2,7 +2,7 @@
     <dimen name="button_height">56dp</dimen>
     <dimen name="collapsing_size_goals_list">280dp</dimen>
     <dimen name="collapsing_size_goal_details">240dp</dimen>
-    <dimen name="collapsing_size_help">280dp</dimen>
+    <dimen name="collapsing_size_help">200dp</dimen>
 
     <dimen name="text_twelve">12sp</dimen>
     <dimen name="text_fourteen">14sp</dimen>
@@ -17,6 +17,7 @@
     <dimen name="margin_eight">8dp</dimen>
     <dimen name="margin_ten">10dp</dimen>
     <dimen name="margin_sixteen">16dp</dimen>
+    <dimen name="margin_twenty">20dp</dimen>
     <dimen name="margin_twenty_four">24dp</dimen>
     <dimen name="margin_thirty_eight">32dp</dimen>
     <dimen name="margin_forty">40dp</dimen>

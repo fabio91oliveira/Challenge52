@@ -12,10 +12,7 @@ import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.goalcreate.viewmodel.GoalCreateViewModel
 import oliveira.fabio.challenge52.feature.goalslist.ui.fragment.GoalsListFragment
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
-import oliveira.fabio.challenge52.util.extension.callFunctionAfterTextChanged
-import oliveira.fabio.challenge52.util.extension.toCurrencyFormat
-import oliveira.fabio.challenge52.util.extension.toCurrentDateSystemString
-import oliveira.fabio.challenge52.util.extension.toDate
+import oliveira.fabio.challenge52.util.extension.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.DateFormat
 import java.util.*
@@ -94,6 +91,7 @@ class GoalCreateActivity : AppCompatActivity() {
         txtValue.toCurrencyFormat {
             validateCreateButton()
         }
+        tilValue.hint = resources.getString(R.string.goal_create_goal_value, MONEY_MIN.toCurrency())
     }
 
     private fun initAnimations() {
@@ -126,12 +124,12 @@ class GoalCreateActivity : AppCompatActivity() {
     }
 
     private fun isAllFieldsFilled() =
-        txtName.text.toString().isNotEmpty() && (!goalCreateViewModel.isZero(removeMoneyMask(txtValue.text.toString())))
+        txtName.text.toString().isNotEmpty() && (goalCreateViewModel.isMoreOrEqualsOne(removeMoneyMask(txtValue.text.toString())))
 
     private fun getFilledGoal() = Goal().apply {
         initialDate = txtDate.toDate(DateFormat.SHORT)
         name = txtName.text.toString()
-        totalValue = removeMoneyMask(txtValue.text.toString()).toFloat() * TOTAL_WEEKS
+        valueToStart = removeMoneyMask(txtValue.text.toString()).toFloatCurrency()
     }
 
     private fun removeMoneyMask(value: String): String {
@@ -142,8 +140,8 @@ class GoalCreateActivity : AppCompatActivity() {
     }
 
     companion object {
+        private const val MONEY_MIN = 1f
         private const val REQUEST_CODE_CALENDAR = 200
         private const val CALENDAR_TAG = "CALENDAR"
-        private const val TOTAL_WEEKS = 52
     }
 }

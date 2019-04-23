@@ -1,5 +1,6 @@
 package oliveira.fabio.challenge52.feature.help.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.kittinunf.result.coroutines.SuspendableResult
@@ -7,6 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import oliveira.fabio.challenge52.R
 import oliveira.fabio.challenge52.feature.help.vo.Question
 import kotlin.coroutines.CoroutineContext
 
@@ -23,9 +25,9 @@ class HelpViewModel : ViewModel(), CoroutineScope {
         if (job.isActive) job.cancel()
     }
 
-    fun getQuestions() {
+    fun getQuestions(context: Context) {
         launch {
-            SuspendableResult.of<MutableList<Question>, Exception> { createQuestions() }.fold(
+            SuspendableResult.of<MutableList<Question>, Exception> { createQuestions(context) }.fold(
                 success = {
                     mutableLiveDataQuestions.postValue(it)
                 },
@@ -36,137 +38,23 @@ class HelpViewModel : ViewModel(), CoroutineScope {
         }
     }
 
-    private fun createQuestions() = mutableListOf<Question>().apply {
+    private fun createQuestions(context: Context) = mutableListOf<Question>().apply {
         add(
             Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
+                context.getString(R.string.help_first_question),
+                context.getString(R.string.help_first_question_answer)
             )
         )
         add(
             Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
+                context.getString(R.string.help_second_question),
+                context.getString(R.string.help_second_question_answer)
             )
         )
         add(
             Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
-            )
-        )
-        add(
-            Question(
-                "Question question question?",
-                "Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer Answer "
+                context.getString(R.string.help_third_question),
+                context.getString(R.string.help_third_question_answer)
             )
         )
     }

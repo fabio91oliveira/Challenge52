@@ -32,4 +32,6 @@ fun Date.getMonthName(): String {
     return firstString + restOfAll
 }
 
-fun Float.toCurrency(): String = NumberFormat.getCurrencyInstance().format((this / 100))
+fun Float.toCurrency(): String = NumberFormat.getCurrencyInstance().format((this))
+
+fun String.toFloatCurrency(): Float = (this.toFloat() / 100)

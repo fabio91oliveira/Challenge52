@@ -42,7 +42,7 @@ class HelpFragment : Fragment() {
         initRecyclerView()
         initLiveDatas()
         showLoading()
-        helpViewModel.getQuestions()
+        helpViewModel.getQuestions(requireContext())
     }
 
     private fun setupToolbar() {

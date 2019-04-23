@@ -69,7 +69,6 @@ class QuestionsAdapter :
                     txtAnswer.visibility = View.VISIBLE
                     fadeText(txtAnswer, 0f, 1f, 700)
                     transformationY(txtAnswer, -50f, 0f, 200)
-                    transformationY(viewDivisor, -50f, 0f, 200)
                     question.isOpen = true
                     changeTextQuestionColor(
                         ContextCompat.getColor(containerView.context, R.color.colorBlack),

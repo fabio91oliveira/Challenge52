@@ -67,7 +67,7 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                 )
             }
             txtName.text = goalsList[position].goal.name
-            txtValue.text = goalsList[position].goal.totalValue.toCurrency()
+            txtValue.text = goalsList[position].getTotal().toCurrency()
             txtWeeksValue.text = goalsList[position].getRemainingWeeksCount().toString()
             txtStartDateValue.text = goalsList[position].getStartDate()
                 .toCurrentDateSystemString(DateFormat.SHORT)

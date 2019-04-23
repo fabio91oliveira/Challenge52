@@ -14,7 +14,7 @@
     </string>
     <string name="goals_list_error">Ocorreu um erro, tente novamente clicando aqui ou contate o desenvolvedor.</string>
     <string name="goals_list_weeks_remaining">Semanas restantes:</string>
-    <string name="goals_list_how_much">Valor a depositar:</string>
+    <string name="goals_list_how_much">Valor a acumular:</string>
     <string name="goals_list_start_date">Data de Início:</string>
     <string name="goals_list_end_date">Data de encerramento:</string>
     <string name="progress_value_percent">%</string>
@@ -43,7 +43,7 @@
     <!-- Goal Create -->
     <string name="goal_create_new_goal">Nova meta</string>
     <string name="goal_create_goal_name">Qual é o nome da sua meta?</string>
-    <string name="goal_create_goal_value">Qual é valor para começar?</string>
+    <string name="goal_create_goal_value">Qual é valor para começar? (Min: %s)</string>
     <string name="goal_create_goal_data">Qual a data para começar?</string>
     <string name="goal_create_create_goal">Criar meta</string>
     <string name="goal_create_calendar_choose_date">Escolher data</string>
@@ -75,6 +75,24 @@
     <string name="goal_details_date_after_today">Esta data é posterior a data atual. Você quer realmente confirmar o
         depósito do dinheira para esta semana?
     </string>
+
+    <!-- Help Questions -->
+    <string name="help_first_question">O que é o Desafio 52 semanas?</string>
+    <string name="help_first_question_answer">O desafio consiste em um jeito bem simples de poupar, mas que exige muita
+        disciplina. Basicamente, você vai precisar guardar um pouquinho de dinheiro toda semana e
+        controlar o que é guardado, mas pode deixar que nesse controle a gente te ajuda. O dinheiro pode ir para um
+        cofrinho ou para a poupança, mas recomendados você dar uma olhada a fundo caso prefira investir.
+    </string>
+
+    <string name="help_second_question">Qual é o propósito do desafio?</string>
+    <string name="help_second_question_answer">O objetivo maior não é que você acumule, o grande objetivo aqui é que
+        você adquira o hábito de poupar,
+        que é o primeiro passo para você acumular patrimônio e alcançar seus maiores objetivos financeiros.
+    </string>
+
+    <string name="help_third_question">O meu principal desafio é acumular?</string>
+    <string name="help_third_question_answer">O que é o Desafio 52 semanas?</string>
+
 
     <!-- Error -->
     <string name="goal_warning_title">Atenção</string>
