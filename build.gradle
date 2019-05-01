@@ -1,37 +1,36 @@
 buildscript {
-    apply from: 'versions.gradle'
-    addRepos(repositories)
-    dependencies {
-        classpath deps.android_gradle_plugin
-        classpath deps.kotlin.plugin
-    }
     repositories {
+        jcenter()
         google()
+    }
+    dependencies {
+        classpath Deps.tools_android_gradle_plugin
+        classpath Deps.tools_kotlin_plugin
     }
 }
 
 allprojects {
-    addRepos(repositories)
+    repositories {
+        maven { url Repo.jitpack }
+        jcenter()
+        google()
+    }
 }
 
 subprojects {
     afterEvaluate { project ->
         if (project.plugins.findPlugin('android') ?: project.plugins.findPlugin('android-library')) {
             android {
-                buildToolsVersion build_versions.build_tools
-                compileSdkVersion build_versions.target_sdk
+                buildToolsVersion Config.buildTools
+                compileSdkVersion Config.compileSdk
 
                 defaultConfig {
-                    minSdkVersion build_versions.min_sdk
-                    targetSdkVersion build_versions.target_sdk
-                    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+                    minSdkVersion Config.minSdk
+                    targetSdkVersion Config.targetSdk
+                    testInstrumentationRunner Config.runner
                 }
                 androidExtensions {
                     experimental = true
-                }
-                testOptions {
-                    execution 'ANDROIDX_TEST_ORCHESTRATOR'
-                    animationsDisabled = true
                 }
                 sourceSets {
                     main.java.srcDirs += 'src/main/kotlin'
@@ -39,14 +38,19 @@ subprojects {
                     androidTest.java.srcDirs += 'src/androidTest/kotlin'
                 }
                 compileOptions {
-                    sourceCompatibility build_versions.java_version
-                    targetCompatibility build_versions.java_version
+                    sourceCompatibility Config.javaVersion
+                    targetCompatibility Config.javaVersion
+                }
+                buildTypes {
+                    release {
+                        minifyEnabled false
+                        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+                    }
                 }
             }
-
             dependencies {
-                implementation fileTree(dir: 'libs', include: ['*.jar'])
-                implementation deps.kotlin.stdlib
+                api fileTree(dir: 'libs', include: ['*.jar'])
+                api Deps.kotlin_stdlib
             }
         }
     }

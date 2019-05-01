@@ -1,0 +1,19 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+    api project(':core:base')
+    api project(':core:actions')
+
+    api project(':features:error')
+
+    // Support
+    api Deps.support_material
+    api Deps.support_recyclerview
+    api Deps.support_constraint_layout
+
+    // Koin
+    api Deps.koin_viewmodel
+}

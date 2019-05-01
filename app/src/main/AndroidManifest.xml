@@ -3,7 +3,7 @@
           xmlns:tools="http://schemas.android.com/tools" package="oliveira.fabio.challenge52">
 
     <application
-            android:name=".util.base.Challenge52Application"
+            android:name=".Challenge52Application"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
@@ -12,18 +12,11 @@
             android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning"
             android:fullBackupContent="@xml/backup_descriptor">
         <activity
-                android:name=".feature.home.ui.activity.HomeActivity">
+                android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".feature.goalcreate.ui.activity.GoalCreateActivity"
-                  android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".feature.goalcreate.ui.activity.CalendarActivity"
-                  android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".feature.goaldetails.ui.activity.GoalDetailsActivity"/>
-        <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
     </application>
-
 </manifest>

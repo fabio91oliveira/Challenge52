@@ -1,60 +1,39 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion build_versions.target_sdk
     defaultConfig {
-        applicationId "oliveira.fabio.challenge52"
-        versionCode 1
-        versionName "1.0"
+        applicationId Config.applicationId
+        versionCode Config.versionCode
+        versionName Config.versionName
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
+//    testOptions {
+//        execution Config.orchestrator
+//        animationsDisabled = true
+//    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api project(':core:base')
+    api project(':core:actions')
 
-    implementation project(':libraries:persistence')
-
-    // Support
-    implementation deps.support.app_compat
-    implementation deps.support.material
-    implementation deps.support.recyclerview
-    implementation deps.support.constraint_layout
-
-    // Lifecycle
-    implementation deps.lifecycle.extensions
-    implementation deps.lifecycle.runtime
-    kapt deps.lifecycle.compiler
-
-    // Coroutines
-    implementation deps.coroutines.core
-    implementation deps.coroutines.android
-
-    implementation deps.result.core
-    implementation deps.result.coroutines
+    api project(':features:goalcreate')
+    api project(':features:goaldetails')
+    api project(':features:goalhome')
 
     // Koin
-    implementation deps.koin.android
-    implementation deps.koin.lifecycle
-    implementation deps.koin.viewmodel
+    api Deps.koin_android
 
     // Tests
-    testImplementation deps.junit
-    testImplementation deps.mockito.core
-    testImplementation deps.koin.test
-    androidTestUtil deps.espresso.orchestrator
-    androidTestImplementation deps.koin.test
-    androidTestImplementation deps.espresso.runner
-    androidTestImplementation deps.espresso.rules
-    androidTestImplementation deps.espresso.contrib
-    androidTestImplementation deps.espresso.core
-    androidTestImplementation deps.espresso.intent
+//    testImplementation deps.junit
+//    testImplementation deps.mockito.core
+//    testImplementation deps.koin.test
+//    androidTestUtil deps.espresso.orchestrator
+//    androidTestImplementation deps.koin.test
+//    androidTestImplementation deps.espresso.runner
+//    androidTestImplementation deps.espresso.rules
+//    androidTestImplementation deps.espresso.contrib
+//    androidTestImplementation deps.espresso.core
+//    androidTestImplementation deps.espresso.intent
 }

@@ -1,1 +1,2 @@
-include ':app', ':libraries:persistence'
+include ':app', 'core:base', 'core:actions', ':core:persistence'
+include ':features:error', ':features:goalcreate', ':features:goaldetails', ':features:goalhome'
