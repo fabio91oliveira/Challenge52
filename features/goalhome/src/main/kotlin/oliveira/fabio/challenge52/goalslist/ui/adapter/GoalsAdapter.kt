@@ -90,7 +90,7 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
             }
             animation.start()
 
-            if (position >= lastPosition) animate()
+//            if (position >= lastPosition) animate()
 
             containerView.setOnLongClickListener {
                 if (!goalsList[position].isSelected) {

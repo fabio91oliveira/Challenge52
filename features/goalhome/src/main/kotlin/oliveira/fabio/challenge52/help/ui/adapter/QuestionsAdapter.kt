@@ -51,7 +51,7 @@ class QuestionsAdapter :
                 btnAction.setBackgroundResource(R.drawable.ic_remove_circle)
             }
 
-            if (adapterPosition >= lastPosition) animate()
+//            if (adapterPosition >= lastPosition) animate()
 
             containerView.setOnClickListener {
                 if (question.isOpen) {

@@ -187,6 +187,7 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
                         hideLoading()
                         if (goalsListViewModel.firstTime) {
                             goalsListViewModel.firstTime = false
+                            rvGoalsList.scheduleLayoutAnimation()
                             expandBar(true)
                         }
                     }
@@ -238,6 +239,7 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
     private fun initRecyclerView() {
         rvGoalsList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         rvGoalsList.adapter = goalsAdapter
+        rvGoalsList.itemAnimator = null
         rvGoalsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0)

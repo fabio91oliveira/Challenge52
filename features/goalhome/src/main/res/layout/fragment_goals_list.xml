@@ -60,6 +60,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvGoalsList"
+                    android:layoutAnimation="@anim/layout_animation_slide_from_bottom"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:layout_constraintTop_toTopOf="parent"

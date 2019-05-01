@@ -56,6 +56,7 @@ class HelpFragment : Fragment() {
     private fun initRecyclerView() {
         rvQuestions.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         rvQuestions.adapter = questionAdapter
+        rvQuestions.itemAnimator = null
     }
 
     private fun initLiveDatas() {
@@ -66,6 +67,7 @@ class HelpFragment : Fragment() {
                     questionAdapter.addList(it)
                     showContent()
                     expandBar(true)
+                    rvQuestions.scheduleLayoutAnimation()
                 }
                 false -> {//handle error}
                     hideContent()

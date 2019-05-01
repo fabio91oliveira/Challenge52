@@ -71,7 +71,7 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
             txtEndDateValue.text =
                 goalsList[position].getEndDate().toCurrentDateSystemString(DateFormat.SHORT)
 
-            if (position >= lastPosition) animate()
+//            if (position >= lastPosition) animate()
 
             containerView.setOnLongClickListener {
                 if (!goalsList[position].isSelected) {
