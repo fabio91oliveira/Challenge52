@@ -12,11 +12,12 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_week_header.*
 import kotlinx.android.synthetic.main.item_week_subitem_details.*
 import kotlinx.android.synthetic.main.item_week_subitem_week.*
-import oliveira.fabio.challenge52.vo.Item
-import oliveira.fabio.challenge52.vo.SubItemDetails
+import oliveira.fabio.challenge52.extensions.doPopAnimation
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.util.extension.toCurrency
 import oliveira.fabio.challenge52.util.extension.toCurrentDateSystemString
+import oliveira.fabio.challenge52.vo.Item
+import oliveira.fabio.challenge52.vo.SubItemDetails
 import java.text.DateFormat
 
 
@@ -124,26 +125,28 @@ class WeeksAdapter(private val onClickWeekListener: OnClickWeekListener, private
             when (isDoneGoal) {
                 false -> {
                     containerView.setOnClickListener {
-                        onClickWeekListener.onClickWeek(item.getWeek().week, adapterPosition) {
-                            when (item.getWeek().week.isDeposited) {
-                                true -> {
-                                    if (imgNotChecked.visibility != View.INVISIBLE) {
-                                        imgNotChecked.startAnimation(animNotChecked)
-                                        imgNotChecked.visibility = View.INVISIBLE
+                        it.doPopAnimation(100) {
+                            onClickWeekListener.onClickWeek(item.getWeek().week, adapterPosition) {
+                                when (item.getWeek().week.isDeposited) {
+                                    true -> {
+                                        if (imgNotChecked.visibility != View.INVISIBLE) {
+                                            imgNotChecked.startAnimation(animNotChecked)
+                                            imgNotChecked.visibility = View.INVISIBLE
+                                        }
+                                        if (imgChecked.visibility != View.VISIBLE) {
+                                            imgChecked.startAnimation(animChecked)
+                                            imgChecked.visibility = View.VISIBLE
+                                        }
                                     }
-                                    if (imgChecked.visibility != View.VISIBLE) {
-                                        imgChecked.startAnimation(animChecked)
-                                        imgChecked.visibility = View.VISIBLE
-                                    }
-                                }
-                                else -> {
-                                    if (imgChecked.visibility != View.INVISIBLE) {
-                                        imgChecked.startAnimation(animNotChecked)
-                                        imgChecked.visibility = View.INVISIBLE
-                                    }
-                                    if (imgNotChecked.visibility != View.VISIBLE) {
-                                        imgNotChecked.startAnimation(animChecked)
-                                        imgNotChecked.visibility = View.VISIBLE
+                                    else -> {
+                                        if (imgChecked.visibility != View.INVISIBLE) {
+                                            imgChecked.startAnimation(animNotChecked)
+                                            imgChecked.visibility = View.INVISIBLE
+                                        }
+                                        if (imgNotChecked.visibility != View.VISIBLE) {
+                                            imgNotChecked.startAnimation(animChecked)
+                                            imgNotChecked.visibility = View.VISIBLE
+                                        }
                                     }
                                 }
                             }

@@ -10,9 +10,14 @@ import androidx.lifecycle.Observer
 import features.goalcreate.R
 import kotlinx.android.synthetic.main.activity_goal_create.*
 import oliveira.fabio.challenge52.actions.Actions
-import oliveira.fabio.challenge52.viewmodel.GoalCreateViewModel
+import oliveira.fabio.challenge52.extensions.callFunctionAfterTextChanged
+import oliveira.fabio.challenge52.extensions.toCurrencyFormat
+import oliveira.fabio.challenge52.extensions.toDate
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
-import oliveira.fabio.challenge52.util.extension.*
+import oliveira.fabio.challenge52.util.extension.toCurrency
+import oliveira.fabio.challenge52.util.extension.toCurrentDateSystemString
+import oliveira.fabio.challenge52.util.extension.toFloatCurrency
+import oliveira.fabio.challenge52.viewmodel.GoalCreateViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.DateFormat
 import java.util.*
