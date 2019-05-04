@@ -14,8 +14,8 @@ import kotlinx.android.synthetic.main.item_week_subitem_details.*
 import kotlinx.android.synthetic.main.item_week_subitem_week.*
 import oliveira.fabio.challenge52.extensions.doPopAnimation
 import oliveira.fabio.challenge52.persistence.model.entity.Week
-import oliveira.fabio.challenge52.util.extension.toCurrency
-import oliveira.fabio.challenge52.util.extension.toCurrentDateSystemString
+import oliveira.fabio.challenge52.extensions.toCurrency
+import oliveira.fabio.challenge52.extensions.toCurrentDateSystemString
 import oliveira.fabio.challenge52.vo.Item
 import oliveira.fabio.challenge52.vo.SubItemDetails
 import java.text.DateFormat

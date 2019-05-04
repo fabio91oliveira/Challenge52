@@ -56,8 +56,8 @@ fun View.doPopAnimation(duration: Long, func: () -> Unit) {
     animate()
         .apply {
             this.duration = duration
-            scaleX(1.1f)
-            scaleY(1.1f)
+            scaleX(1.04f)
+            scaleY(1.04f)
             withEndAction {
                 this.duration = duration
                 scaleX(1f)

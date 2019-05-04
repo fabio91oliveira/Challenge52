@@ -11,7 +11,7 @@ import oliveira.fabio.challenge52.model.repository.GoalRepository
 import oliveira.fabio.challenge52.model.repository.WeekRepository
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.persistence.model.entity.Week
-import oliveira.fabio.challenge52.util.extension.toFloatCurrency
+import oliveira.fabio.challenge52.extensions.toFloatCurrency
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.*

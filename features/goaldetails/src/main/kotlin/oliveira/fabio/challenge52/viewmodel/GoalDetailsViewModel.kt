@@ -16,8 +16,8 @@ import oliveira.fabio.challenge52.model.repository.GoalRepository
 import oliveira.fabio.challenge52.model.repository.WeekRepository
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-import oliveira.fabio.challenge52.util.extension.getMonthName
-import oliveira.fabio.challenge52.util.extension.getMonthNumber
+import oliveira.fabio.challenge52.extensions.getMonthName
+import oliveira.fabio.challenge52.extensions.getMonthNumber
 import oliveira.fabio.challenge52.vo.Event
 import java.util.*
 import kotlin.coroutines.CoroutineContext

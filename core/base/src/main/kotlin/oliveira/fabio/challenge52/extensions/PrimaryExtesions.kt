@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.util.extension
+package oliveira.fabio.challenge52.extensions
 
 import java.text.DateFormat
 import java.text.DateFormatSymbols

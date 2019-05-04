@@ -14,8 +14,8 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_goal.*
 import kotlinx.android.synthetic.main.item_goal.view.*
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-import oliveira.fabio.challenge52.util.extension.toCurrency
-import oliveira.fabio.challenge52.util.extension.toCurrentDateSystemString
+import oliveira.fabio.challenge52.extensions.toCurrency
+import oliveira.fabio.challenge52.extensions.toCurrentDateSystemString
 import java.text.DateFormat
 
 
