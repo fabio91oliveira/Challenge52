@@ -1,9 +1,8 @@
-package br.com.brmalls.store.androidapp
+package oliveira.fabio.challenge52
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import br.com.brmalls.store.androidapp.vo.ErrorVO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -15,7 +14,8 @@ open class BaseViewModel(application: Application) : AndroidViewModel(applicatio
     private val job by lazy { SupervisorJob() }
 
     val mutableLiveDataLoading by lazy { MutableLiveData<Boolean>() }
-    val mutableLiveDataError by lazy { MutableLiveData<ErrorVO>() }
+    val mutableLiveDataEmpty by lazy { MutableLiveData<Boolean>() }
+    val mutableLiveDataError by lazy { MutableLiveData<Boolean>() }
     val resources by lazy { getApplication<Application>().resources }
 
 

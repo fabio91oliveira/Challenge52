@@ -13,7 +13,7 @@ import oliveira.fabio.challenge52.model.repository.WeekRepository
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-import oliveira.fabio.challenge52.vo.Event
+import oliveira.fabio.challenge52.model.vo.EventVO
 import kotlin.coroutines.CoroutineContext
 
 class DoneGoalsListViewModel(
@@ -28,7 +28,7 @@ class DoneGoalsListViewModel(
         get() = job + Dispatchers.Main
 
     val mutableLiveDataDoneGoals by lazy { MutableLiveData<MutableList<GoalWithWeeks>?>() }
-    val mutableLiveDataRemoved by lazy { MutableLiveData<Event<Boolean>>() }
+    val mutableLiveDataRemoved by lazy { MutableLiveData<EventVO<Boolean>>() }
     val doneGoalWithWeeksToRemove by lazy { mutableListOf<GoalWithWeeks>() }
     var isDeleteShown = false
     var firstTime = true
@@ -67,13 +67,13 @@ class DoneGoalsListViewModel(
                     SuspendableResult.of<Int, Exception> { weekRepository.removeWeeks(weeksToRemove) }
                         .fold(success = {
                             mutableLiveDataDoneGoals.value?.removeAll(doneGoalWithWeeksToRemove)
-                            mutableLiveDataRemoved.postValue(Event(true))
+                            mutableLiveDataRemoved.postValue(EventVO(true))
                         }, failure = {
-                            mutableLiveDataRemoved.postValue(Event(false))
+                            mutableLiveDataRemoved.postValue(EventVO(false))
                         })
 
                 }, failure = {
-                    mutableLiveDataRemoved.postValue(Event(false))
+                    mutableLiveDataRemoved.postValue(EventVO(false))
                 })
         }
     }

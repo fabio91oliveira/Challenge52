@@ -18,7 +18,7 @@ import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.extensions.getMonthName
 import oliveira.fabio.challenge52.extensions.getMonthNumber
-import oliveira.fabio.challenge52.vo.Event
+import oliveira.fabio.challenge52.model.vo.EventVO
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
@@ -27,9 +27,9 @@ class GoalDetailsViewModel(
     private val weekRepository: WeekRepository
 ) : ViewModel(), CoroutineScope {
 
-    val mutableLiveDataUpdated by lazy { MutableLiveData<Event<Boolean>>() }
-    val mutableLiveDataCompleted by lazy { MutableLiveData<Event<Boolean>>() }
-    val mutableLiveDataRemoved by lazy { MutableLiveData<Event<Boolean>>() }
+    val mutableLiveDataUpdated by lazy { MutableLiveData<EventVO<Boolean>>() }
+    val mutableLiveDataCompleted by lazy { MutableLiveData<EventVO<Boolean>>() }
+    val mutableLiveDataRemoved by lazy { MutableLiveData<EventVO<Boolean>>() }
     val mutableLiveDataItemList by lazy { MutableLiveData<MutableList<Item>>() }
     var firstTime = true
 
@@ -54,11 +54,11 @@ class GoalDetailsViewModel(
                 .fold(
                     success = {
                         Log.d("aqui", "atualizou " + week.position)
-                        mutableLiveDataUpdated.postValue(Event(true))
+                        mutableLiveDataUpdated.postValue(EventVO(true))
                     },
                     failure = {
                         week.isDeposited = !week.isDeposited
-                        mutableLiveDataUpdated.postValue(Event(false))
+                        mutableLiveDataUpdated.postValue(EventVO(false))
                     }
                 )
         }
@@ -84,13 +84,13 @@ class GoalDetailsViewModel(
                 success = {
                     SuspendableResult.of<Int, Exception> { weekRepository.removeWeeks(goalWithWeeks.weeks) }
                         .fold(success = {
-                            mutableLiveDataRemoved.postValue(Event(true))
+                            mutableLiveDataRemoved.postValue(EventVO(true))
                         }, failure = {
-                            mutableLiveDataRemoved.postValue(Event(false))
+                            mutableLiveDataRemoved.postValue(EventVO(false))
                         })
 
                 }, failure = {
-                    mutableLiveDataRemoved.postValue(Event(false))
+                    mutableLiveDataRemoved.postValue(EventVO(false))
                 })
         }
     }
@@ -102,13 +102,13 @@ class GoalDetailsViewModel(
                     goalWithWeeks.goal.isDone = true
                     SuspendableResult.of<Unit, Exception> { goalRepository.updateGoal(goalWithWeeks.goal) }
                         .fold(success = {
-                            mutableLiveDataCompleted.postValue(Event(true))
+                            mutableLiveDataCompleted.postValue(EventVO(true))
                         }, failure = {
-                            mutableLiveDataCompleted.postValue(Event(false))
+                            mutableLiveDataCompleted.postValue(EventVO(false))
                         })
 
                 }, failure = {
-                    mutableLiveDataCompleted.postValue(Event(false))
+                    mutableLiveDataCompleted.postValue(EventVO(false))
                 })
         }
     }

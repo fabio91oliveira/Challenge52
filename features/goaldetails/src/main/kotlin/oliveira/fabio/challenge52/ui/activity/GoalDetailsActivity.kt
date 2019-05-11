@@ -8,13 +8,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import features.goaldetails.R
 import kotlinx.android.synthetic.main.activity_goal_details.*
+import oliveira.fabio.challenge52.BaseActivity
 import oliveira.fabio.challenge52.model.vo.ActivityResultVO
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
@@ -24,7 +24,7 @@ import oliveira.fabio.challenge52.viewmodel.GoalDetailsViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class GoalDetailsActivity : AppCompatActivity(), WeeksAdapter.OnClickWeekListener {
+class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
 
     private val goalDetailsViewModel: GoalDetailsViewModel by viewModel()
     private val isDoneGoals by lazy { intent.extras?.getBoolean(IS_FROM_DONE_GOALS, false) ?: run { false } }

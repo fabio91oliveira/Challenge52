@@ -7,9 +7,10 @@ import android.widget.CalendarView
 import androidx.appcompat.app.AppCompatActivity
 import features.goalcreate.R
 import kotlinx.android.synthetic.main.activity_calendar.*
+import oliveira.fabio.challenge52.BaseActivity
 import java.util.*
 
-class CalendarActivity : AppCompatActivity(), CalendarView.OnDateChangeListener {
+class CalendarActivity : BaseActivity(), CalendarView.OnDateChangeListener {
 
     private val calendar by lazy { intent?.extras?.getSerializable(CALENDAR_TAG) as Calendar }
 

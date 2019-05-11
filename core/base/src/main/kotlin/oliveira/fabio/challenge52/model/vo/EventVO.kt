@@ -1,6 +1,6 @@
-package oliveira.fabio.challenge52.vo
+package oliveira.fabio.challenge52.model.vo
 
-open class Event<T>(private var content: T) {
+open class EventVO<T>(private var content: T) {
     private var hasBeenHandled = false
 
     fun getContentIfNotHandled(): T? {

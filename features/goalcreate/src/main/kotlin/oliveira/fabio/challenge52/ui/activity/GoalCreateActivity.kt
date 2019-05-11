@@ -5,24 +5,19 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AccelerateDecelerateInterpolator
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import features.goalcreate.R
 import kotlinx.android.synthetic.main.activity_goal_create.*
+import oliveira.fabio.challenge52.BaseActivity
 import oliveira.fabio.challenge52.actions.Actions
-import oliveira.fabio.challenge52.extensions.callFunctionAfterTextChanged
-import oliveira.fabio.challenge52.extensions.toCurrencyFormat
-import oliveira.fabio.challenge52.extensions.toDate
+import oliveira.fabio.challenge52.extensions.*
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
-import oliveira.fabio.challenge52.extensions.toCurrency
-import oliveira.fabio.challenge52.extensions.toCurrentDateSystemString
-import oliveira.fabio.challenge52.extensions.toFloatCurrency
 import oliveira.fabio.challenge52.viewmodel.GoalCreateViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.DateFormat
 import java.util.*
 
-class GoalCreateActivity : AppCompatActivity() {
+class GoalCreateActivity : BaseActivity() {
 
     private val goalCreateViewModel: GoalCreateViewModel by viewModel()
     private val calendar by lazy { Calendar.getInstance() }
@@ -119,7 +114,10 @@ class GoalCreateActivity : AppCompatActivity() {
         valueAnimator2.start()
     }
 
-    private fun openCalendar() = startActivityForResult(Actions.openGoalCreateCalendar(this).putExtra(CALENDAR_TAG, calendar), REQUEST_CODE_CALENDAR)
+    private fun openCalendar() = startActivityForResult(
+        Actions.openGoalCreateCalendar(this).putExtra(CALENDAR_TAG, calendar),
+        REQUEST_CODE_CALENDAR
+    )
 
     private fun validateCreateButton() {
         btnCreate.isEnabled = isAllFieldsFilled()

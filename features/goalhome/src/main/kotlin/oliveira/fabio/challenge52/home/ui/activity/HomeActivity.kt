@@ -2,16 +2,16 @@ package oliveira.fabio.challenge52.home.ui.activity
 
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import features.goalhome.R
 import kotlinx.android.synthetic.main.activity_home.*
+import oliveira.fabio.challenge52.BaseActivity
 import oliveira.fabio.challenge52.donegoalslist.ui.fragment.DoneGoalsListFragment
 import oliveira.fabio.challenge52.goalslist.ui.fragment.GoalsListFragment
 import oliveira.fabio.challenge52.help.ui.fragment.HelpFragment
 
-class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
+class HomeActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
     GoalsListFragment.OnGoalsListChangeListener {
 
     private lateinit var goalsListFragment: GoalsListFragment
@@ -56,21 +56,7 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         outState.putString(CURRENT_TAB, activeFragment::class.java.simpleName)
     }
 
-    override fun onBackPressed() {
-        finish()
-//        supportFragmentManager.fragments.forEach { fragment ->
-//            if (fragment != null && fragment.isVisible) {
-//                with(fragment.childFragmentManager) {
-//                    if (backStackEntryCount > 0) {
-//                        popBackStack()
-//                        return
-//                    }
-//                }
-//            }
-//        }
-//        super.onBackPressed()
-    }
-
+    override fun onBackPressed() = finish()
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navigation_goals -> {
