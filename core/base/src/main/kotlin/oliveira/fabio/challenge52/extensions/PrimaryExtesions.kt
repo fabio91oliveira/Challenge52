@@ -32,6 +32,13 @@ fun Date.getMonthName(): String {
     return firstString + restOfAll
 }
 
+fun Date.getCurrentYear() = Calendar.getInstance().let {
+    val cal = Calendar.getInstance()
+    cal.time = this
+
+    cal.get(Calendar.YEAR).toString()
+}
+
 fun Float.toCurrency(): String = NumberFormat.getCurrencyInstance().format((this))
 
 fun String.toFloatCurrency(): Float = (this.toFloat() / 100)

@@ -65,9 +65,6 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.details_edit -> {
-                true
-            }
             R.id.details_done -> {
                 when (goalDetailsViewModel.isAllWeeksDeposited(goalWithWeeks)) {
                     true -> {

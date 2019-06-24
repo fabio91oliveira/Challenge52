@@ -8,17 +8,18 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import oliveira.fabio.challenge52.extensions.getCurrentYear
+import oliveira.fabio.challenge52.extensions.getMonthName
+import oliveira.fabio.challenge52.extensions.getMonthNumber
+import oliveira.fabio.challenge52.model.repository.GoalRepository
+import oliveira.fabio.challenge52.model.repository.WeekRepository
+import oliveira.fabio.challenge52.model.vo.EventVO
+import oliveira.fabio.challenge52.persistence.model.entity.Week
+import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.vo.HeaderItem
 import oliveira.fabio.challenge52.vo.Item
 import oliveira.fabio.challenge52.vo.SubItemDetails
 import oliveira.fabio.challenge52.vo.SubItemWeek
-import oliveira.fabio.challenge52.model.repository.GoalRepository
-import oliveira.fabio.challenge52.model.repository.WeekRepository
-import oliveira.fabio.challenge52.persistence.model.entity.Week
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-import oliveira.fabio.challenge52.extensions.getMonthName
-import oliveira.fabio.challenge52.extensions.getMonthNumber
-import oliveira.fabio.challenge52.model.vo.EventVO
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
@@ -149,11 +150,13 @@ class GoalDetailsViewModel(
             if (it.date.getMonthNumber() != lastMonth) {
                 lastMonth = it.date.getMonthNumber()
 
-                add(HeaderItem(it.date.getMonthName()))
+                add(HeaderItem(formatHeaderTitle(it.date)))
                 add(SubItemWeek(it))
             } else {
                 add(SubItemWeek(it))
             }
         }
     }
+
+    private fun formatHeaderTitle(date: Date) = "${date.getMonthName()}/${date.getCurrentYear()}"
 }
