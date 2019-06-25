@@ -1,6 +1,6 @@
-package oliveira.fabio.challenge52.viewmodel
+package oliveira.fabio.challenge52.presentation.viewmodel
 
-import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.kittinunf.result.coroutines.SuspendableResult
@@ -8,18 +8,19 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import oliveira.fabio.challenge52.domain.model.vo.HeaderItem
+import oliveira.fabio.challenge52.domain.model.vo.Item
+import oliveira.fabio.challenge52.domain.model.vo.SubItemDetails
+import oliveira.fabio.challenge52.domain.model.vo.SubItemWeek
 import oliveira.fabio.challenge52.extensions.getCurrentYear
 import oliveira.fabio.challenge52.extensions.getMonthName
 import oliveira.fabio.challenge52.extensions.getMonthNumber
 import oliveira.fabio.challenge52.model.repository.GoalRepository
 import oliveira.fabio.challenge52.model.repository.WeekRepository
-import oliveira.fabio.challenge52.model.vo.EventVO
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-import oliveira.fabio.challenge52.vo.HeaderItem
-import oliveira.fabio.challenge52.vo.Item
-import oliveira.fabio.challenge52.vo.SubItemDetails
-import oliveira.fabio.challenge52.vo.SubItemWeek
+import oliveira.fabio.challenge52.presentation.state.GoalDetailsState
+import oliveira.fabio.challenge52.presentation.state.GoalDetailsStateLoading
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
@@ -28,10 +29,15 @@ class GoalDetailsViewModel(
     private val weekRepository: WeekRepository
 ) : ViewModel(), CoroutineScope {
 
-    val mutableLiveDataUpdated by lazy { MutableLiveData<EventVO<Boolean>>() }
-    val mutableLiveDataCompleted by lazy { MutableLiveData<EventVO<Boolean>>() }
-    val mutableLiveDataRemoved by lazy { MutableLiveData<EventVO<Boolean>>() }
-    val mutableLiveDataItemList by lazy { MutableLiveData<MutableList<Item>>() }
+    private val _goalDetailsState by lazy { MutableLiveData<GoalDetailsState>() }
+    private val _goalDetailsStateLoading by lazy { MutableLiveData<GoalDetailsStateLoading>() }
+
+    val goalDetailsState: LiveData<GoalDetailsState>
+        get() = _goalDetailsState
+
+    val goalDetailsStateLoading: LiveData<GoalDetailsStateLoading>
+        get() = _goalDetailsStateLoading
+
     var firstTime = true
 
     private val job = SupervisorJob()
@@ -48,32 +54,34 @@ class GoalDetailsViewModel(
         return false
     }
 
+    fun getParsedDetailsList(goalWithWeeks: GoalWithWeeks, week: Week? = null) {
+        _goalDetailsStateLoading.postValue(GoalDetailsStateLoading.ShowLoading)
+        launch {
+            SuspendableResult.of<MutableList<Item>, Exception> { parseToDetailsList(goalWithWeeks, week) }
+                .fold(
+                    success = {
+                        _goalDetailsState.postValue(GoalDetailsState.ShowAddedGoals(it))
+                        _goalDetailsStateLoading.postValue(GoalDetailsStateLoading.HideLoading)
+                    },
+                    failure = {
+                        _goalDetailsState.postValue(GoalDetailsState.ShowAddedGoals(null))
+                        _goalDetailsStateLoading.postValue(GoalDetailsStateLoading.HideLoading)
+                    }
+                )
+        }
+    }
+
     fun updateWeek(week: Week) {
         week.isDeposited = !week.isDeposited
         launch {
             SuspendableResult.of<Unit, Exception> { weekRepository.updateWeek(week) }
                 .fold(
                     success = {
-                        Log.d("aqui", "atualizou " + week.position)
-                        mutableLiveDataUpdated.postValue(EventVO(true))
+                        _goalDetailsState.postValue(GoalDetailsState.ShowUpdatedGoal(true))
                     },
                     failure = {
                         week.isDeposited = !week.isDeposited
-                        mutableLiveDataUpdated.postValue(EventVO(false))
-                    }
-                )
-        }
-    }
-
-    fun getParsedDetailsList(goalWithWeeks: GoalWithWeeks, week: Week? = null) {
-        launch {
-            SuspendableResult.of<MutableList<Item>, Exception> { parseToDetailsList(goalWithWeeks, week) }
-                .fold(
-                    success = {
-                        mutableLiveDataItemList.postValue(it)
-                    },
-                    failure = {
-                        mutableLiveDataItemList.postValue(null)
+                        _goalDetailsState.postValue(GoalDetailsState.ShowUpdatedGoal(false))
                     }
                 )
         }
@@ -85,13 +93,13 @@ class GoalDetailsViewModel(
                 success = {
                     SuspendableResult.of<Int, Exception> { weekRepository.removeWeeks(goalWithWeeks.weeks) }
                         .fold(success = {
-                            mutableLiveDataRemoved.postValue(EventVO(true))
+                            _goalDetailsState.postValue(GoalDetailsState.ShowRemovedGoal(true))
                         }, failure = {
-                            mutableLiveDataRemoved.postValue(EventVO(false))
+                            _goalDetailsState.postValue(GoalDetailsState.ShowRemovedGoal(false))
                         })
 
                 }, failure = {
-                    mutableLiveDataRemoved.postValue(EventVO(false))
+                    _goalDetailsState.postValue(GoalDetailsState.ShowRemovedGoal(false))
                 })
         }
     }
@@ -103,13 +111,13 @@ class GoalDetailsViewModel(
                     goalWithWeeks.goal.isDone = true
                     SuspendableResult.of<Unit, Exception> { goalRepository.updateGoal(goalWithWeeks.goal) }
                         .fold(success = {
-                            mutableLiveDataCompleted.postValue(EventVO(true))
+                            _goalDetailsState.postValue(GoalDetailsState.ShowCompletedGoal(true))
                         }, failure = {
-                            mutableLiveDataCompleted.postValue(EventVO(false))
+                            _goalDetailsState.postValue(GoalDetailsState.ShowCompletedGoal(false))
                         })
 
                 }, failure = {
-                    mutableLiveDataCompleted.postValue(EventVO(false))
+                    _goalDetailsState.postValue(GoalDetailsState.ShowCompletedGoal(false))
                 })
         }
     }

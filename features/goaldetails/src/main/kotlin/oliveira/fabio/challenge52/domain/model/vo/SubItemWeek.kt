@@ -1,7 +1,6 @@
-package oliveira.fabio.challenge52.vo
+package oliveira.fabio.challenge52.domain.model.vo
 
 import oliveira.fabio.challenge52.persistence.model.entity.Week
-import oliveira.fabio.challenge52.vo.Item
 
 data class SubItemWeek(
     var week: Week

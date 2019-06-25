@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.vo
+package oliveira.fabio.challenge52.domain.model.vo
 
 data class SubItemDetails(
     var totalPercent: Int,

@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.ui.adapter
+package oliveira.fabio.challenge52.presentation.ui.adapter
 
 import android.animation.ObjectAnimator
 import android.view.LayoutInflater
@@ -16,8 +16,8 @@ import oliveira.fabio.challenge52.extensions.doPopAnimation
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.extensions.toCurrency
 import oliveira.fabio.challenge52.extensions.toCurrentDateSystemString
-import oliveira.fabio.challenge52.vo.Item
-import oliveira.fabio.challenge52.vo.SubItemDetails
+import oliveira.fabio.challenge52.domain.model.vo.Item
+import oliveira.fabio.challenge52.domain.model.vo.SubItemDetails
 import java.text.DateFormat
 
 

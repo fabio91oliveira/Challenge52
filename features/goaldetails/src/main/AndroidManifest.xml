@@ -3,7 +3,7 @@
           package="features.goaldetails">
 
     <application android:theme="@style/AppTheme">
-        <activity android:name="oliveira.fabio.challenge52.ui.activity.GoalDetailsActivity"
+        <activity android:name="oliveira.fabio.challenge52.presentation.ui.activity.GoalDetailsActivity"
                   android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="oliveira.fabio.challenge52.goaldetails"/>

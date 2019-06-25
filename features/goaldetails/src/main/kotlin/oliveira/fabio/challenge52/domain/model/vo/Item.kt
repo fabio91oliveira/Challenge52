@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.vo
+package oliveira.fabio.challenge52.domain.model.vo
 
 open class Item(var viewType: Int) {
     fun getHeader() = this as HeaderItem
