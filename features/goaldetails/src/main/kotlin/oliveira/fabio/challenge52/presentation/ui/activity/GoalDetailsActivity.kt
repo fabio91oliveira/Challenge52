@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
@@ -137,72 +136,74 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
     }
 
     private fun initLiveData() {
-        goalDetailsViewModel.goalDetailsStateLoading.observe(this, Observer {
-            when (it) {
-                is GoalDetailsStateLoading.ShowLoading -> showLoading(true)
-                is GoalDetailsStateLoading.HideLoading -> showLoading(false)
-            }
-        })
-        goalDetailsViewModel.goalDetailsState.observe(this, Observer {
-            when (it) {
-                is GoalDetailsState.ShowError -> showErrorScreen(resources.getString(R.string.goal_details_make_done_error_message))
-                is GoalDetailsState.ShowAddedGoals -> {
-                    it.itemsList?.let { list ->
-                        goalWithWeeks.lastPosition?.let { position ->
-                            weeksAdapter.addSingleItem(
-                                list[FIRST_POSITION],
-                                FIRST_POSITION
-                            )
-                            weeksAdapter.addSingleItem(list[position], position)
-                            goalWithWeeks.lastPosition = null
-                        } ?: run {
-                            weeksAdapter.clearList()
-                            weeksAdapter.addList(list)
-                        }
+        with(goalDetailsViewModel) {
+            goalDetailsStateLoading.observe(this@GoalDetailsActivity, Observer {
+                when (it) {
+                    is GoalDetailsStateLoading.ShowLoading -> showLoading(true)
+                    is GoalDetailsStateLoading.HideLoading -> showLoading(false)
+                }
+            })
+            goalDetailsState.observe(this@GoalDetailsActivity, Observer {
+                when (it) {
+                    is GoalDetailsState.ShowError -> showErrorScreen(resources.getString(R.string.goal_details_make_done_error_message))
+                    is GoalDetailsState.ShowAddedGoals -> {
+                        it.itemsList?.let { list ->
+                            goalWithWeeks.lastPosition?.let { position ->
+                                weeksAdapter.addSingleItem(
+                                    list[FIRST_POSITION],
+                                    FIRST_POSITION
+                                )
+                                weeksAdapter.addSingleItem(list[position], position)
+                                goalWithWeeks.lastPosition = null
+                            } ?: run {
+                                weeksAdapter.clearList()
+                                weeksAdapter.addList(list)
+                            }
 
-                        showContent()
-                        if (goalDetailsViewModel.firstTime) {
-                            rvWeeks.scheduleLayoutAnimation()
-                            if (!isDoneGoals) shouldShowMoveToDoneDialog()
-                            goalDetailsViewModel.firstTime = false
-                            expandBar(true)
-                        } else {
-                            expandBar(false)
+                            showContent()
+                            if (goalDetailsViewModel.firstTime) {
+                                rvWeeks.scheduleLayoutAnimation()
+                                if (!isDoneGoals) shouldShowMoveToDoneDialog()
+                                goalDetailsViewModel.firstTime = false
+                                expandBar(true)
+                            } else {
+                                expandBar(false)
+                            }
+                        } ?: run {
+                            setResult(ACTIVITY_ERROR)
+                            finish()
                         }
-                    } ?: run {
-                        setResult(ACTIVITY_ERROR)
-                        finish()
+                    }
+                    is GoalDetailsState.ShowUpdatedGoal -> {
+                        when (it.hasBeenUpdated) {
+                            true -> {
+                                newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeUpdated() })
+                                shouldShowMoveToDoneDialog()
+                            }
+                            else -> showErrorScreen(resources.getString(R.string.goal_details_update_error_message))
+                        }
+                    }
+                    is GoalDetailsState.ShowRemovedGoal -> {
+                        when (it.hasBeenRemoved) {
+                            true -> {
+                                newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeRemoved() })
+                                closeDetails()
+                            }
+                            else -> showErrorScreen(resources.getString(R.string.goal_details_remove_error_message))
+                        }
+                    }
+                    is GoalDetailsState.ShowCompletedGoal -> {
+                        when (it.hasBeenCompleted) {
+                            true -> {
+                                newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeCompleted() })
+                                closeDetails()
+                            }
+                            else -> showErrorScreen(resources.getString(R.string.goal_details_make_done_error_message))
+                        }
                     }
                 }
-                is GoalDetailsState.ShowUpdatedGoal -> {
-                    when (it.hasBeenUpdated) {
-                        true -> {
-                            newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeUpdated() })
-                            shouldShowMoveToDoneDialog()
-                        }
-                        else -> showErrorScreen(resources.getString(R.string.goal_details_update_error_message))
-                    }
-                }
-                is GoalDetailsState.ShowRemovedGoal -> {
-                    when (it.hasBeenRemoved) {
-                        true -> {
-                            newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeRemoved() })
-                            closeDetails()
-                        }
-                        else -> showErrorScreen(resources.getString(R.string.goal_details_remove_error_message))
-                    }
-                }
-                is GoalDetailsState.ShowCompletedGoal -> {
-                    when (it.hasBeenCompleted) {
-                        true -> {
-                            newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeCompleted() })
-                            closeDetails()
-                        }
-                        else -> showErrorScreen(resources.getString(R.string.goal_details_make_done_error_message))
-                    }
-                }
-            }
-        })
+            })
+        }
     }
 
     private fun setupToolbar() {
@@ -217,10 +218,12 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
     }
 
     private fun initRecyclerView() {
-        rvWeeks.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        weeksAdapter = WeeksAdapter(this, isDoneGoals)
-        rvWeeks.adapter = weeksAdapter
-        rvWeeks.itemAnimator = null
+        with(rvWeeks) {
+            layoutManager = LinearLayoutManager(this@GoalDetailsActivity, RecyclerView.VERTICAL, false)
+            weeksAdapter = WeeksAdapter(this@GoalDetailsActivity, isDoneGoals)
+            adapter = weeksAdapter
+            itemAnimator = null
+        }
     }
 
     private fun closeDetails() {
@@ -250,14 +253,9 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
     }
 
     private fun deleteGoal() = goalDetailsViewModel.removeGoal(goalWithWeeks)
-
     private fun completeGoal() = goalDetailsViewModel.completeGoal(goalWithWeeks)
-
     private fun showLoading(hasToShow: Boolean) = loading.showView(hasToShow)
-
-    private fun showContent() {
-        rvWeeks.visibility = View.VISIBLE
-    }
+    private fun showContent() = rvWeeks.showView(true)
 
     private fun showErrorScreen(message: String) = ErrorDialogFragment().apply {
         val b = Bundle()
