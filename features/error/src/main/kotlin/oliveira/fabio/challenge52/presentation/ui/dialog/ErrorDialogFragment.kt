@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.ui.dialog
+package oliveira.fabio.challenge52.presentation.ui.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -36,8 +36,8 @@ class ErrorDialogFragment : DialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        dialog.window?.let {
-            it.attributes.windowAnimations = R.style.ErrorDialogFragment
+        dialog.window?.apply {
+            attributes.windowAnimations = R.style.ErrorDialogFragment
         }
     }
 

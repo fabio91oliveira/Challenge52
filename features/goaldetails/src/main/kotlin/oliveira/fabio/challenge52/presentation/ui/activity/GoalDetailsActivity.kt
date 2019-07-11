@@ -22,7 +22,7 @@ import oliveira.fabio.challenge52.presentation.state.GoalDetailsState
 import oliveira.fabio.challenge52.presentation.state.GoalDetailsStateLoading
 import oliveira.fabio.challenge52.presentation.ui.adapter.WeeksAdapter
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
-import oliveira.fabio.challenge52.ui.dialog.ErrorDialogFragment
+import oliveira.fabio.challenge52.presentation.ui.dialog.ErrorDialogFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
 

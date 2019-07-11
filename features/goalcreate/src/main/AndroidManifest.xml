@@ -3,14 +3,14 @@
           package="features.goalcreate">
 
     <application android:theme="@style/AppTheme">
-        <activity android:name="oliveira.fabio.challenge52.ui.activity.GoalCreateActivity"
+        <activity android:name="oliveira.fabio.challenge52.presentation.ui.activity.GoalCreateActivity"
                   android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="oliveira.fabio.challenge52.goalcreate"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name="oliveira.fabio.challenge52.ui.activity.CalendarActivity"
+        <activity android:name="oliveira.fabio.challenge52.presentation.ui.activity.CalendarActivity"
                   android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="oliveira.fabio.challenge52.goalcreate.calendar"/>

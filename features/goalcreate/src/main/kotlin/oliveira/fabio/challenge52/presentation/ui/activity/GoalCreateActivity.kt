@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.ui.activity
+package oliveira.fabio.challenge52.presentation.ui.activity
 
 import android.animation.ValueAnimator
 import android.app.Activity
@@ -12,7 +12,8 @@ import oliveira.fabio.challenge52.BaseActivity
 import oliveira.fabio.challenge52.actions.Actions
 import oliveira.fabio.challenge52.extensions.*
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
-import oliveira.fabio.challenge52.viewmodel.GoalCreateViewModel
+import oliveira.fabio.challenge52.presentation.state.GoalCreateState
+import oliveira.fabio.challenge52.presentation.viewmodel.GoalCreateViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.DateFormat
 import java.util.*
@@ -52,18 +53,20 @@ class GoalCreateActivity : BaseActivity() {
     }
 
     private fun initLiveData() {
-        goalCreateViewModel.mutableLiveData.observe(this, Observer {
-            when (it) {
-                true -> {
-                    setResult(Activity.RESULT_OK)
-                    finish()
+        with(goalCreateViewModel) {
+            goalCreateState.observe(this@GoalCreateActivity, Observer {
+                when (it) {
+                    GoalCreateState.Success -> {
+                        setResult(Activity.RESULT_OK)
+                        finish()
+                    }
+                    GoalCreateState.Error -> {
+                        setResult(ACTIVITY_ERROR)
+                        finish()
+                    }
                 }
-                false -> {
-                    setResult(ACTIVITY_ERROR)
-                    finish()
-                }
-            }
-        })
+            })
+        }
     }
 
     private fun setupToolbar() {

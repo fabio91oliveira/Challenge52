@@ -24,7 +24,7 @@ import com.google.android.material.snackbar.Snackbar
 import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_goals_list.*
 import oliveira.fabio.challenge52.actions.Actions
-import oliveira.fabio.challenge52.ui.dialog.ErrorDialogFragment
+import oliveira.fabio.challenge52.presentation.ui.dialog.ErrorDialogFragment
 import oliveira.fabio.challenge52.goalslist.ui.adapter.GoalsAdapter
 import oliveira.fabio.challenge52.goalslist.viewmodel.GoalsListViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultTypeEnum

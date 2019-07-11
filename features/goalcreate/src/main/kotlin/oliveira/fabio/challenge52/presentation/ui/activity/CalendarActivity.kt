@@ -1,10 +1,9 @@
-package oliveira.fabio.challenge52.ui.activity
+package oliveira.fabio.challenge52.presentation.ui.activity
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.CalendarView
-import androidx.appcompat.app.AppCompatActivity
 import features.goalcreate.R
 import kotlinx.android.synthetic.main.activity_calendar.*
 import oliveira.fabio.challenge52.BaseActivity
