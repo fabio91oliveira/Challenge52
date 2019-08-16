@@ -6,18 +6,17 @@ import core.base.R
 
 open class BaseActivity : AppCompatActivity() {
 
-    private var onStartCount = 0
+    private var onStartCount = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        onStartCount = 1
-        if (savedInstanceState == null) {
+        savedInstanceState?.also {
+            onStartCount = 2
+        } ?: run {
             this.overridePendingTransition(
                 R.anim.anim_slide_in_left,
                 R.anim.anim_slide_out_left
             )
-        } else {
-            onStartCount = 2
         }
     }
 

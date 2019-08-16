@@ -8,13 +8,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import oliveira.fabio.challenge52.domain.interactor.GoalCreateInteractorImpl
+import oliveira.fabio.challenge52.domain.usecase.GoalCreateUseCase
 import oliveira.fabio.challenge52.extensions.toFloatCurrency
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.presentation.state.GoalCreateState
+import java.util.*
 import kotlin.coroutines.CoroutineContext
 
-class GoalCreateViewModel(private val goalCreateInteractor: GoalCreateInteractorImpl) :
+class GoalCreateViewModel(private val goalCreateUseCase: GoalCreateUseCase) :
     ViewModel(), CoroutineScope {
 
     private val _goalCreateState by lazy { MutableLiveData<GoalCreateState>() }
@@ -33,10 +34,9 @@ class GoalCreateViewModel(private val goalCreateInteractor: GoalCreateInteractor
 
     fun createGoal(goal: Goal) {
         launch {
-            SuspendableResult.of<Long, Exception> { goalCreateInteractor.addGoal(goal) }.fold(
+            SuspendableResult.of<Long, Exception> { goalCreateUseCase.addGoal(goal) }.fold(
                 success = {
-                    goal.id = it
-                    SuspendableResult.of<List<Long>, Exception> { goalCreateInteractor.addWeeks(goal, TOTAL_WEEKS) }
+                    SuspendableResult.of<List<Long>, Exception> { goalCreateUseCase.addWeeks(goal, it) }
                         .fold(success = {
                             _goalCreateState.postValue(GoalCreateState.Success)
                         }, failure = {
@@ -49,7 +49,19 @@ class GoalCreateViewModel(private val goalCreateInteractor: GoalCreateInteractor
         }
     }
 
-    fun isMoreOrEqualsOne(value: String): Boolean {
+    fun isAllFieldsFilled(name: String, value: String) =
+        name.isNotEmpty() && (isMoreOrEqualsOne(removeMoneyMask(value)))
+
+    fun getFloatCurrencyValue(value: String) = removeMoneyMask(value).toFloatCurrency()
+
+    private fun removeMoneyMask(value: String): String {
+        val defaultCurrencySymbol = Currency.getInstance(Locale.getDefault()).symbol
+        val regexPattern = "[$defaultCurrencySymbol,.]"
+
+        return Regex(regexPattern).replace(value, "")
+    }
+
+    private fun isMoreOrEqualsOne(value: String): Boolean {
         if (value.isNotEmpty()) {
             return value.toFloatCurrency() >= MONEY_MIN
         }
@@ -58,6 +70,5 @@ class GoalCreateViewModel(private val goalCreateInteractor: GoalCreateInteractor
 
     companion object {
         private const val MONEY_MIN = 1.0
-        private const val TOTAL_WEEKS = 52
     }
 }

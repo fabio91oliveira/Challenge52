@@ -25,7 +25,6 @@ class GoalCreateActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_goal_create)
         init()
     }
 
@@ -34,16 +33,20 @@ class GoalCreateActivity : BaseActivity() {
 
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_CALENDAR) {
             val calendar = data?.getSerializableExtra(CALENDAR_TAG) as Calendar
-            this.calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR))
-            this.calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH))
-            this.calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH))
 
-            setData(this.calendar.toCurrentDateSystemString(DateFormat.SHORT))
+            with(this.calendar) {
+                set(Calendar.YEAR, calendar.get(Calendar.YEAR))
+                set(Calendar.MONTH, calendar.get(Calendar.MONTH))
+                set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH))
+                setData(this.toCurrentDateSystemString(DateFormat.SHORT))
+            }
+
             content.requestFocus()
         }
     }
 
     private fun init() {
+        setupView()
         setupToolbar()
         initFields()
         initLiveData()
@@ -69,10 +72,14 @@ class GoalCreateActivity : BaseActivity() {
         }
     }
 
+    private fun setupView() = setContentView(R.layout.activity_goal_create)
+
     private fun setupToolbar() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = resources.getString(R.string.goal_create_new_goal)
-        toolbar.setNavigationOnClickListener { finish() }
+        with(toolbar) {
+            setSupportActionBar(this)
+            supportActionBar?.title = resources.getString(R.string.goal_create_new_goal)
+            setNavigationOnClickListener { finish() }
+        }
     }
 
     private fun setData(date: String) = txtDate.setText(date)
@@ -123,23 +130,14 @@ class GoalCreateActivity : BaseActivity() {
     )
 
     private fun validateCreateButton() {
-        btnCreate.isEnabled = isAllFieldsFilled()
+        btnCreate.isEnabled =
+            goalCreateViewModel.isAllFieldsFilled(txtName.text.toString(), txtValue.text.toString())
     }
-
-    private fun isAllFieldsFilled() =
-        txtName.text.toString().isNotEmpty() && (goalCreateViewModel.isMoreOrEqualsOne(removeMoneyMask(txtValue.text.toString())))
 
     private fun getFilledGoal() = Goal().apply {
         initialDate = txtDate.toDate(DateFormat.SHORT)
         name = txtName.text.toString()
-        valueToStart = removeMoneyMask(txtValue.text.toString()).toFloatCurrency()
-    }
-
-    private fun removeMoneyMask(value: String): String {
-        val defaultCurrencySymbol = Currency.getInstance(Locale.getDefault()).symbol
-        val regexPattern = "[$defaultCurrencySymbol,.]"
-
-        return Regex(regexPattern).replace(value, "")
+        valueToStart = goalCreateViewModel.getFloatCurrencyValue(txtValue.text.toString())
     }
 
     companion object {

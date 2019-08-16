@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.domain.interactor
+package oliveira.fabio.challenge52.domain.usecase
 
 import oliveira.fabio.challenge52.domain.model.vo.HeaderItem
 import oliveira.fabio.challenge52.domain.model.vo.Item
@@ -14,12 +14,12 @@ import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import java.util.*
 
-class GoalDetailsInteractorImpl(
+class GoalDetailsUseCaseImpl(
     private val goalRepository: GoalRepository,
     private val weekRepository: WeekRepository
-) : GoalDetailsInteractor {
+) : GoalDetailsUseCase {
 
-    override fun parseToDetailsList(goalWithWeeks: GoalWithWeeks, week: Week?) = mutableListOf<Item>().apply {
+    override fun getItemList(goalWithWeeks: GoalWithWeeks, week: Week?) = mutableListOf<Item>().apply {
         var lastMonth = 1
 
         week?.let {
@@ -42,7 +42,6 @@ class GoalDetailsInteractorImpl(
         )
 
         goalWithWeeks.weeks.forEach {
-
             if (it.date.getMonthNumber() != lastMonth) {
                 lastMonth = it.date.getMonthNumber()
 
@@ -52,6 +51,14 @@ class GoalDetailsInteractorImpl(
                 add(SubItemWeek(it))
             }
         }
+    }
+
+    override fun changeWeekDepositStatus(week: Week) {
+        week.isDeposited = !week.isDeposited
+    }
+
+    override fun setGoalAsDone(goalWithWeeks: GoalWithWeeks) {
+        goalWithWeeks.goal.isDone = true
     }
 
     override suspend fun updateWeek(week: Week) = weekRepository.updateWeek(week)

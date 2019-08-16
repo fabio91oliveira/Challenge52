@@ -8,8 +8,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import oliveira.fabio.challenge52.domain.interactor.GoalDetailsInteractorImpl
 import oliveira.fabio.challenge52.domain.model.vo.Item
+import oliveira.fabio.challenge52.domain.usecase.GoalDetailsUseCase
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.presentation.state.GoalDetailsState
@@ -18,7 +18,7 @@ import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class GoalDetailsViewModel(
-    private val goalDetailsInteractor: GoalDetailsInteractorImpl
+    private val goalDetailsUseCase: GoalDetailsUseCase
 ) : ViewModel(), CoroutineScope {
 
     private val _goalDetailsState by lazy { MutableLiveData<GoalDetailsState>() }
@@ -42,10 +42,10 @@ class GoalDetailsViewModel(
     }
 
     fun getParsedDetailsList(goalWithWeeks: GoalWithWeeks, week: Week? = null) {
-        _goalDetailsStateLoading.postValue(GoalDetailsStateLoading.ShowLoading)
+        if (firstTime) _goalDetailsStateLoading.postValue(GoalDetailsStateLoading.ShowLoading)
         launch {
             SuspendableResult.of<MutableList<Item>, Exception> {
-                goalDetailsInteractor.parseToDetailsList(
+                goalDetailsUseCase.getItemList(
                     goalWithWeeks,
                     week
                 )
@@ -53,26 +53,28 @@ class GoalDetailsViewModel(
                 .fold(
                     success = {
                         _goalDetailsState.postValue(GoalDetailsState.ShowAddedGoals(it))
-                        _goalDetailsStateLoading.postValue(GoalDetailsStateLoading.HideLoading)
+                        if (firstTime) _goalDetailsStateLoading.postValue(GoalDetailsStateLoading.HideLoading)
                     },
                     failure = {
                         _goalDetailsState.postValue(GoalDetailsState.ShowAddedGoals(null))
-                        _goalDetailsStateLoading.postValue(GoalDetailsStateLoading.HideLoading)
+                        if (firstTime) _goalDetailsStateLoading.postValue(GoalDetailsStateLoading.HideLoading)
                     }
                 )
         }
     }
 
     fun updateWeek(week: Week) {
-        week.isDeposited = !week.isDeposited
+        goalDetailsUseCase.changeWeekDepositStatus(week)
         launch {
-            SuspendableResult.of<Unit, Exception> { goalDetailsInteractor.updateWeek(week) }
+            SuspendableResult.of<Unit, Exception> {
+                goalDetailsUseCase.updateWeek(week)
+            }
                 .fold(
                     success = {
                         _goalDetailsState.postValue(GoalDetailsState.ShowUpdatedGoal(true))
                     },
                     failure = {
-                        week.isDeposited = !week.isDeposited
+                        goalDetailsUseCase.changeWeekDepositStatus(week)
                         _goalDetailsState.postValue(GoalDetailsState.ShowUpdatedGoal(false))
                     }
                 )
@@ -81,9 +83,9 @@ class GoalDetailsViewModel(
 
     fun removeGoal(goalWithWeeks: GoalWithWeeks) {
         launch {
-            SuspendableResult.of<Int, Exception> { goalDetailsInteractor.removeGoal(goalWithWeeks.goal) }.fold(
+            SuspendableResult.of<Int, Exception> { goalDetailsUseCase.removeGoal(goalWithWeeks.goal) }.fold(
                 success = {
-                    SuspendableResult.of<Int, Exception> { goalDetailsInteractor.removeWeeks(goalWithWeeks.weeks) }
+                    SuspendableResult.of<Int, Exception> { goalDetailsUseCase.removeWeeks(goalWithWeeks.weeks) }
                         .fold(success = {
                             _goalDetailsState.postValue(GoalDetailsState.ShowRemovedGoal(true))
                         }, failure = {
@@ -98,10 +100,10 @@ class GoalDetailsViewModel(
 
     fun completeGoal(goalWithWeeks: GoalWithWeeks) {
         launch {
-            SuspendableResult.of<Unit, Exception> { goalDetailsInteractor.updateWeeks(goalWithWeeks.weeks) }.fold(
+            SuspendableResult.of<Unit, Exception> { goalDetailsUseCase.updateWeeks(goalWithWeeks.weeks) }.fold(
                 success = {
-                    goalWithWeeks.goal.isDone = true
-                    SuspendableResult.of<Unit, Exception> { goalDetailsInteractor.updateGoal(goalWithWeeks.goal) }
+                    goalDetailsUseCase.setGoalAsDone(goalWithWeeks)
+                    SuspendableResult.of<Unit, Exception> { goalDetailsUseCase.updateGoal(goalWithWeeks.goal) }
                         .fold(success = {
                             _goalDetailsState.postValue(GoalDetailsState.ShowCompletedGoal(true))
                         }, failure = {

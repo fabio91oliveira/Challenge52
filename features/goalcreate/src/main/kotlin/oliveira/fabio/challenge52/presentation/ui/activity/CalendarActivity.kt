@@ -15,32 +15,40 @@ class CalendarActivity : BaseActivity(), CalendarView.OnDateChangeListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_calendar)
         init()
     }
 
     override fun onSelectedDayChange(view: CalendarView, year: Int, month: Int, dayOfMonth: Int) {
-        calendar.set(Calendar.YEAR, year)
-        calendar.set(Calendar.MONTH, month)
-        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        with(calendar) {
+            set(Calendar.YEAR, year)
+            set(Calendar.MONTH, month)
+            set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        }
     }
 
     private fun init() {
+        setupView()
         setupToolbar()
         initCalendar()
         initClickListener()
     }
 
+    private fun setupView() = setContentView(R.layout.activity_calendar)
+
     private fun setupToolbar() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = resources.getString(R.string.goal_create_calendar_choose_date)
-        toolbar.setNavigationOnClickListener { finish() }
+        with(toolbar) {
+            setSupportActionBar(this)
+            supportActionBar?.title = resources.getString(R.string.goal_create_calendar_choose_date)
+            setNavigationOnClickListener { finish() }
+        }
     }
 
     private fun initCalendar() {
-        cldCalendar.minDate = Calendar.getInstance().timeInMillis
-        cldCalendar.date = calendar.timeInMillis
-        cldCalendar.setOnDateChangeListener(this)
+        with(cldCalendar) {
+            minDate = Calendar.getInstance().timeInMillis
+            date = calendar.timeInMillis
+            setOnDateChangeListener(this@CalendarActivity)
+        }
     }
 
     private fun initClickListener() {

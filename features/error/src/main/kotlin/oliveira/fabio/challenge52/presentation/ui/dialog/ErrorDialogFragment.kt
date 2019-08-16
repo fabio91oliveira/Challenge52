@@ -8,7 +8,6 @@ import androidx.fragment.app.DialogFragment
 import features.error.R
 import kotlinx.android.synthetic.main.dialog_fragment_error.*
 
-
 class ErrorDialogFragment : DialogFragment() {
 
     private val message: String by lazy {
@@ -35,7 +34,6 @@ class ErrorDialogFragment : DialogFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         dialog.window?.apply {
             attributes.windowAnimations = R.style.ErrorDialogFragment
         }
@@ -43,11 +41,8 @@ class ErrorDialogFragment : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        val dialog = dialog
-        if (dialog != null) {
-            val width = ViewGroup.LayoutParams.MATCH_PARENT
-            val height = ViewGroup.LayoutParams.MATCH_PARENT
-            dialog.window?.setLayout(width, height)
+        dialog?.apply {
+            window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         }
     }
 

@@ -21,8 +21,8 @@ import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.presentation.state.GoalDetailsState
 import oliveira.fabio.challenge52.presentation.state.GoalDetailsStateLoading
 import oliveira.fabio.challenge52.presentation.ui.adapter.WeeksAdapter
-import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
 import oliveira.fabio.challenge52.presentation.ui.dialog.ErrorDialogFragment
+import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -36,10 +36,9 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_goal_details)
-
         initSavedValues(savedInstanceState)
         savedInstanceState?.let {
+            setupView()
             setupToolbar()
             initRecyclerView()
             initLiveData()
@@ -49,13 +48,15 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putSerializable(GOAL_TAG, goalWithWeeks)
-        outState.putSerializable(
-            HAS_CHANGED, newIntent.getSerializableExtra(
-                HAS_CHANGED
+        with(outState) {
+            putSerializable(GOAL_TAG, goalWithWeeks)
+            putSerializable(
+                HAS_CHANGED, newIntent.getSerializableExtra(
+                    HAS_CHANGED
+                )
             )
-        )
-        super.onSaveInstanceState(outState)
+            super.onSaveInstanceState(this)
+        }
     }
 
     override fun onBackPressed() = closeDetails()
@@ -129,6 +130,7 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
     }
 
     private fun init() {
+        setupView()
         setupToolbar()
         initRecyclerView()
         initLiveData()
@@ -160,7 +162,7 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
                                 weeksAdapter.addList(list)
                             }
 
-                            showContent()
+                            showContent(true)
                             if (goalDetailsViewModel.firstTime) {
                                 rvWeeks.scheduleLayoutAnimation()
                                 if (!isDoneGoals) shouldShowMoveToDoneDialog()
@@ -206,10 +208,14 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
         }
     }
 
+    private fun setupView() = setContentView(R.layout.activity_goal_details)
+
     private fun setupToolbar() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = goalWithWeeks.goal.name
-        toolbar.setNavigationOnClickListener { closeDetails() }
+        with(toolbar) {
+            setSupportActionBar(this)
+            supportActionBar?.title = goalWithWeeks.goal.name
+            setNavigationOnClickListener { closeDetails() }
+        }
         collapsingToolbar.apply {
             val tf = ResourcesCompat.getFont(context, R.font.ubuntu_bold)
             setCollapsedTitleTypeface(tf)
@@ -249,19 +255,21 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
         goalDetailsViewModel.updateWeek(week)
         goalWithWeeks.lastPosition = position
         goalDetailsViewModel.getParsedDetailsList(goalWithWeeks, week)
-        func.invoke()
+        func()
     }
 
     private fun deleteGoal() = goalDetailsViewModel.removeGoal(goalWithWeeks)
     private fun completeGoal() = goalDetailsViewModel.completeGoal(goalWithWeeks)
+
     private fun showLoading(hasToShow: Boolean) = loading.showView(hasToShow)
-    private fun showContent() = rvWeeks.showView(true)
+    private fun showContent(hasToShow: Boolean) = rvWeeks.showView(hasToShow)
 
     private fun showErrorScreen(message: String) = ErrorDialogFragment().apply {
-        val b = Bundle()
-        b.putString(ErrorDialogFragment.MESSAGE, message)
-        arguments = b
-        show(supportFragmentManager, ErrorDialogFragment.TAG)
+        Bundle().also {
+            it.putString(ErrorDialogFragment.MESSAGE, message)
+            arguments = it
+            show(supportFragmentManager, ErrorDialogFragment.TAG)
+        }
     }
 
     private fun showConfirmDialog(message: String, listener: DialogInterface.OnClickListener) =
