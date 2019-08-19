@@ -64,9 +64,9 @@ class GoalDetailsViewModel(
     }
 
     fun updateWeek(week: Week) {
-        goalDetailsUseCase.changeWeekDepositStatus(week)
         launch {
             SuspendableResult.of<Unit, Exception> {
+                goalDetailsUseCase.changeWeekDepositStatus(week)
                 goalDetailsUseCase.updateWeek(week)
             }
                 .fold(
