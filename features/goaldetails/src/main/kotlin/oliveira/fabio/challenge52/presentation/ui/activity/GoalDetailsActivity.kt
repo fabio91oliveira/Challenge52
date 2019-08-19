@@ -179,6 +179,7 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
                     is GoalDetailsState.ShowUpdatedGoal -> {
                         when (it.hasBeenUpdated) {
                             true -> {
+                                goalDetailsViewModel.getParsedDetailsList(goalWithWeeks, it.week)
                                 newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeUpdated() })
                                 shouldShowMoveToDoneDialog()
                             }
@@ -254,7 +255,6 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
     ) {
         goalDetailsViewModel.updateWeek(week)
         goalWithWeeks.lastPosition = position
-        goalDetailsViewModel.getParsedDetailsList(goalWithWeeks, week)
         func()
     }
 

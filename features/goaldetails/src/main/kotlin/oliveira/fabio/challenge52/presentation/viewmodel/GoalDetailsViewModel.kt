@@ -71,11 +71,11 @@ class GoalDetailsViewModel(
             }
                 .fold(
                     success = {
-                        _goalDetailsState.postValue(GoalDetailsState.ShowUpdatedGoal(true))
+                        _goalDetailsState.postValue(GoalDetailsState.ShowUpdatedGoal(true, week))
                     },
                     failure = {
                         goalDetailsUseCase.changeWeekDepositStatus(week)
-                        _goalDetailsState.postValue(GoalDetailsState.ShowUpdatedGoal(false))
+                        _goalDetailsState.postValue(GoalDetailsState.ShowUpdatedGoal(false, null))
                     }
                 )
         }
