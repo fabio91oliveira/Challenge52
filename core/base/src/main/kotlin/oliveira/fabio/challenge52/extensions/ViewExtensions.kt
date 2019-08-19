@@ -24,7 +24,7 @@ fun EditText.toCurrencyFormat(func: (() -> Unit?)? = null) {
                 val regex = Regex(regexPattern)
                 val cleanString = regex.replace(s.toString(), "")
 
-                val parsed = cleanString.toDouble()
+                val parsed = Regex("[1-9]\\d*|0\\d+").find(cleanString)?.value.toString().toDouble()
                 val formatted = NumberFormat.getCurrencyInstance().format((parsed / 100))
 
                 current = formatted

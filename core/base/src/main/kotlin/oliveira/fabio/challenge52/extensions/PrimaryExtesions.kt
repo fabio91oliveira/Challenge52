@@ -41,4 +41,6 @@ fun Date.getCurrentYear() = Calendar.getInstance().let {
 
 fun Float.toCurrency(): String = NumberFormat.getCurrencyInstance().format((this))
 
-fun String.toFloatCurrency(): Float = (this.toFloat() / 100)
+fun String.toFloatCurrency() : Float {
+    return (Regex("[1-9]\\d*|0\\d+").find(this)?.value.toString().toFloat() / 100)
+}
