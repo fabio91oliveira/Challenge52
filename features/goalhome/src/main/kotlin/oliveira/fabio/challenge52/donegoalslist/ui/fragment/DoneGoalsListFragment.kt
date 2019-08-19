@@ -22,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_done_goals_list.*
 import oliveira.fabio.challenge52.actions.Actions
+import oliveira.fabio.challenge52.donegoalslist.di.injectDoneGoalsListDependencies
 import oliveira.fabio.challenge52.donegoalslist.ui.adapter.DoneGoalsAdapter
 import oliveira.fabio.challenge52.donegoalslist.viewmodel.DoneGoalsListViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultVO
@@ -101,6 +102,7 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
     }
 
     private fun init() {
+        injectDoneGoalsListDependencies()
         setupToolbar()
         initLiveData()
         initClickListener()

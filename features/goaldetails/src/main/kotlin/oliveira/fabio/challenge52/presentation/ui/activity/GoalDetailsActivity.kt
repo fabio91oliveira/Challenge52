@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import features.goaldetails.R
 import kotlinx.android.synthetic.main.activity_goal_details.*
 import oliveira.fabio.challenge52.BaseActivity
+import oliveira.fabio.challenge52.di.injectGoalDetailsDependencies
 import oliveira.fabio.challenge52.extensions.showView
 import oliveira.fabio.challenge52.model.vo.ActivityResultVO
 import oliveira.fabio.challenge52.persistence.model.entity.Week
@@ -130,6 +131,7 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
     }
 
     private fun init() {
+        injectGoalDetailsDependencies()
         setupView()
         setupToolbar()
         initRecyclerView()

@@ -10,6 +10,7 @@ import features.goalcreate.R
 import kotlinx.android.synthetic.main.activity_goal_create.*
 import oliveira.fabio.challenge52.BaseActivity
 import oliveira.fabio.challenge52.actions.Actions
+import oliveira.fabio.challenge52.di.injectGoalCreateDependencies
 import oliveira.fabio.challenge52.extensions.*
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.presentation.state.GoalCreateState
@@ -46,6 +47,7 @@ class GoalCreateActivity : BaseActivity() {
     }
 
     private fun init() {
+        injectGoalCreateDependencies()
         setupView()
         setupToolbar()
         initFields()

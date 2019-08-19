@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_help.*
-import oliveira.fabio.challenge52.help.viewmodel.HelpViewModel
+import oliveira.fabio.challenge52.help.di.injectHelpDependencies
 import oliveira.fabio.challenge52.help.ui.adapter.QuestionsAdapter
+import oliveira.fabio.challenge52.help.viewmodel.HelpViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class HelpFragment : Fragment() {
@@ -38,6 +39,7 @@ class HelpFragment : Fragment() {
     }
 
     private fun init() {
+        injectHelpDependencies()
         setupToolbar()
         initRecyclerView()
         initLiveDatas()
