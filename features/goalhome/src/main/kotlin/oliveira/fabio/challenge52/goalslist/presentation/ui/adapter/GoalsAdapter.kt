@@ -13,9 +13,10 @@ import features.goalhome.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_goal.*
 import kotlinx.android.synthetic.main.item_goal.view.*
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.extensions.doPopAnimation
 import oliveira.fabio.challenge52.extensions.toCurrency
 import oliveira.fabio.challenge52.extensions.toCurrentDateSystemString
+import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import java.text.DateFormat
 
 
@@ -101,7 +102,9 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                             R.color.colorSofterGrey
                         )
                     )
-                    onClickGoalListener.onLongClick(goalsList[position])
+                    it.doPopAnimation(100) {
+                        onClickGoalListener.onLongClick(goalsList[position])
+                    }
                     true
                 } else {
                     false
@@ -116,7 +119,9 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                             R.color.colorWhite
                         )
                     )
-                    onClickGoalListener.onClickRemove(goalsList[position])
+                    it.doPopAnimation(100) {
+                        onClickGoalListener.onClickRemove(goalsList[position])
+                    }
                     goalsList[position].isSelected = false
                 } else {
                     var hasAtLeastOneSelected = false
@@ -135,9 +140,13 @@ class GoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                                 R.color.colorSofterGrey
                             )
                         )
-                        onClickGoalListener.onClickAdd(goalsList[position])
+                        it.doPopAnimation(100) {
+                            onClickGoalListener.onClickAdd(goalsList[position])
+                        }
                     } else {
-                        onClickGoalListener.onClickGoal(goalsList[position])
+                        it.doPopAnimation(100) {
+                            onClickGoalListener.onClickGoal(goalsList[position])
+                        }
                     }
                 }
             }

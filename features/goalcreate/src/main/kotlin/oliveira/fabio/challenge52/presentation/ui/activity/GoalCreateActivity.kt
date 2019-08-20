@@ -107,18 +107,18 @@ class GoalCreateActivity : BaseActivity() {
     }
 
     private fun initAnimations() {
-        val valueAnimator = ValueAnimator.ofFloat(-300f, 0f)
+        val valueAnimator = ValueAnimator.ofFloat(-700f, 0f)
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
-        valueAnimator.duration = 500
+        valueAnimator.duration = 800
         valueAnimator.addUpdateListener {
             val progress = it.animatedValue as Float
             card.translationY = progress
         }
         valueAnimator.start()
 
-        val valueAnimator2 = ValueAnimator.ofFloat(-300f, 0f)
+        val valueAnimator2 = ValueAnimator.ofFloat(1100f, 0f)
         valueAnimator2.interpolator = AccelerateDecelerateInterpolator()
-        valueAnimator2.duration = 500
+        valueAnimator2.duration = 800
         valueAnimator2.addUpdateListener {
             val progress = it.animatedValue as Float
             btnCreate.translationX = progress
