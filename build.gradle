@@ -42,8 +42,9 @@ subprojects {
                     targetCompatibility Config.javaVersion
                 }
                 buildTypes {
+                    // TODO config buildtypes before release the final version
                     release {
-                        minifyEnabled false
+                        minifyEnabled true
                         proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
                     }
                 }

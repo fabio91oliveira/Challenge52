@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.goalslist.ui.adapter
+package oliveira.fabio.challenge52.goalslist.presentation.ui.adapter
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator

@@ -1,6 +1,6 @@
 package oliveira.fabio.challenge52.donegoalslist.di
 
-import oliveira.fabio.challenge52.donegoalslist.viewmodel.DoneGoalsListViewModel
+import oliveira.fabio.challenge52.donegoalslist.presentation.viewmodel.DoneGoalsListViewModel
 import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 import org.koin.standalone.StandAloneContext.loadKoinModules

@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.help.ui.adapter
+package oliveira.fabio.challenge52.help.presentation.ui.adapter
 
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import features.goalhome.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_question.*
-import oliveira.fabio.challenge52.help.vo.Question
+import oliveira.fabio.challenge52.help.domain.model.vo.Question
 
 
 class QuestionsAdapter :

@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.help.viewmodel
+package oliveira.fabio.challenge52.help.presentation.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import oliveira.fabio.challenge52.help.vo.Question
+import oliveira.fabio.challenge52.help.domain.model.vo.Question
 import kotlin.coroutines.CoroutineContext
 
 class HelpViewModel : ViewModel(), CoroutineScope {

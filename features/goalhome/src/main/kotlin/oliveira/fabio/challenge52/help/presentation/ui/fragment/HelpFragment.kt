@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.help.ui.fragment
+package oliveira.fabio.challenge52.help.presentation.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_help.*
 import oliveira.fabio.challenge52.help.di.injectHelpDependencies
-import oliveira.fabio.challenge52.help.ui.adapter.QuestionsAdapter
-import oliveira.fabio.challenge52.help.viewmodel.HelpViewModel
+import oliveira.fabio.challenge52.help.presentation.ui.adapter.QuestionsAdapter
+import oliveira.fabio.challenge52.help.presentation.viewmodel.HelpViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class HelpFragment : Fragment() {

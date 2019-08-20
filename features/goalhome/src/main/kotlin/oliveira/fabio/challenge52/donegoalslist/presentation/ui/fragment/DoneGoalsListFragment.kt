@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.donegoalslist.ui.fragment
+package oliveira.fabio.challenge52.donegoalslist.presentation.ui.fragment
 
 import android.animation.ValueAnimator
 import android.app.Activity
@@ -23,8 +23,8 @@ import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_done_goals_list.*
 import oliveira.fabio.challenge52.actions.Actions
 import oliveira.fabio.challenge52.donegoalslist.di.injectDoneGoalsListDependencies
-import oliveira.fabio.challenge52.donegoalslist.ui.adapter.DoneGoalsAdapter
-import oliveira.fabio.challenge52.donegoalslist.viewmodel.DoneGoalsListViewModel
+import oliveira.fabio.challenge52.donegoalslist.presentation.ui.adapter.DoneGoalsAdapter
+import oliveira.fabio.challenge52.donegoalslist.presentation.viewmodel.DoneGoalsListViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultVO
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.viewModel

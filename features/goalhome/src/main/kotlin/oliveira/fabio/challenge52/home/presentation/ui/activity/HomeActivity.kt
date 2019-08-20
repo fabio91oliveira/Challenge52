@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.home.ui.activity
+package oliveira.fabio.challenge52.home.presentation.ui.activity
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -7,9 +7,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import features.goalhome.R
 import kotlinx.android.synthetic.main.activity_home.*
 import oliveira.fabio.challenge52.BaseActivity
-import oliveira.fabio.challenge52.donegoalslist.ui.fragment.DoneGoalsListFragment
-import oliveira.fabio.challenge52.goalslist.ui.fragment.GoalsListFragment
-import oliveira.fabio.challenge52.help.ui.fragment.HelpFragment
+import oliveira.fabio.challenge52.donegoalslist.presentation.ui.fragment.DoneGoalsListFragment
+import oliveira.fabio.challenge52.goalslist.presentation.ui.fragment.GoalsListFragment
+import oliveira.fabio.challenge52.help.presentation.ui.fragment.HelpFragment
 
 class HomeActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
     GoalsListFragment.OnGoalsListChangeListener {

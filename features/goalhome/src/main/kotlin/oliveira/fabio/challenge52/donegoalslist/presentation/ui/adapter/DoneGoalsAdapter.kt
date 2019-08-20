@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.donegoalslist.ui.adapter
+package oliveira.fabio.challenge52.donegoalslist.presentation.ui.adapter
 
 import android.animation.ValueAnimator
 import android.view.LayoutInflater

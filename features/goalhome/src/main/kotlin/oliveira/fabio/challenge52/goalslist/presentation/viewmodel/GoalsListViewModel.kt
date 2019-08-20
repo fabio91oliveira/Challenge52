@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.goalslist.viewmodel
+package oliveira.fabio.challenge52.goalslist.presentation.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
