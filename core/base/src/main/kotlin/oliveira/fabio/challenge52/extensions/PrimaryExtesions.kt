@@ -32,6 +32,15 @@ fun Date.getMonthName(): String {
     return firstString + restOfAll
 }
 
+fun Date.getCurrentYear() = Calendar.getInstance().let {
+    val cal = Calendar.getInstance()
+    cal.time = this
+
+    cal.get(Calendar.YEAR).toString()
+}
+
 fun Float.toCurrency(): String = NumberFormat.getCurrencyInstance().format((this))
 
-fun String.toFloatCurrency(): Float = (this.toFloat() / 100)
+fun String.toFloatCurrency() : Float {
+    return (Regex("[1-9]\\d*|0\\d+").find(this)?.value.toString().toFloat() / 100)
+}

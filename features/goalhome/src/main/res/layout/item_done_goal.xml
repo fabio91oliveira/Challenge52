@@ -8,19 +8,17 @@
         android:layout_width="match_parent"
         app:cardCornerRadius="@dimen/margin_eight"
         android:layout_height="wrap_content"
-        android:foreground="?android:attr/selectableItemBackground"
         android:stateListAnimator="@anim/animation"
-        android:clickable="true"
         android:layout_marginTop="@dimen/margin_ten"
         android:layout_marginStart="@dimen/margin_ten"
         android:layout_marginEnd="@dimen/margin_ten"
-        android:layout_marginBottom="@dimen/margin_ten"
-        android:focusable="true">
+        android:layout_marginBottom="@dimen/margin_ten">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/contentCard"
+            android:foreground="?android:attr/selectableItemBackground"
             android:padding="@dimen/margin_sixteen">
 
         <androidx.appcompat.widget.AppCompatTextView

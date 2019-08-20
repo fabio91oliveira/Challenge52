@@ -8,10 +8,10 @@ android {
         versionCode Config.versionCode
         versionName Config.versionName
     }
-//    testOptions {
-//        execution Config.orchestrator
-//        animationsDisabled = true
-//    }
+    testOptions {
+        execution Config.orchestrator
+        animationsDisabled = true
+    }
 }
 
 dependencies {

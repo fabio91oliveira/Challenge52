@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <com.google.android.material.card.MaterialCardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
@@ -9,14 +8,11 @@
         android:layout_width="match_parent"
         app:cardCornerRadius="@dimen/margin_eight"
         android:layout_height="wrap_content"
-        android:foreground="?android:attr/selectableItemBackground"
         android:stateListAnimator="@anim/animation"
-        android:clickable="true"
         android:layout_marginTop="@dimen/margin_six"
         android:layout_marginStart="@dimen/margin_ten"
         android:layout_marginEnd="@dimen/margin_ten"
-        android:layout_marginBottom="@dimen/margin_ten"
-        android:focusable="true">
+        android:layout_marginBottom="@dimen/margin_ten">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/principal"
@@ -24,6 +20,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/margin_twenty_four"
             android:paddingBottom="@dimen/margin_twenty_four"
+            android:foreground="?android:attr/selectableItemBackground"
             android:background="@color/colorWhite"
             app:layout_constraintTop_toTopOf="parent">
 

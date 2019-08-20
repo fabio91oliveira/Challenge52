@@ -5,7 +5,6 @@ apply plugin: 'kotlin-kapt'
 
 dependencies {
     api project(':core:base')
-
     api project(':features:error')
 
     // Support
