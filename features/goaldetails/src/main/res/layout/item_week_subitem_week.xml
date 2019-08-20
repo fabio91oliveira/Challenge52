@@ -8,20 +8,16 @@
         android:layout_width="match_parent"
         app:cardCornerRadius="@dimen/margin_four"
         android:layout_height="wrap_content"
-        android:foreground="?android:attr/selectableItemBackground"
         android:stateListAnimator="@anim/animation"
-        android:clickable="true"
         android:layout_marginStart="@dimen/margin_six"
         android:layout_marginEnd="@dimen/margin_six"
-        android:layout_marginBottom="@dimen/margin_eight"
-        android:focusable="true">
+        android:layout_marginBottom="@dimen/margin_eight">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contentCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_sixteen"
-            android:layout_marginBottom="@dimen/margin_sixteen">
+            android:foreground="?android:attr/selectableItemBackground">
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtDate"
@@ -31,6 +27,7 @@
                 android:textSize="@dimen/text_fourteen"
                 android:textColor="@color/colorBlack"
                 android:layout_marginStart="@dimen/margin_sixteen"
+                android:layout_marginTop="@dimen/margin_sixteen"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/txtWeek"
@@ -42,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_twelve"
                 android:layout_marginTop="@dimen/margin_four"
+                android:paddingBottom="@dimen/margin_sixteen"
                 app:layout_constraintTop_toBottomOf="@+id/txtDate"
                 app:layout_constraintStart_toStartOf="@id/txtDate"
                 tools:text="Semana 1"/>
