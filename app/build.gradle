@@ -16,7 +16,11 @@ android {
 
 dependencies {
     api project(':core:base')
-    implementation project(':core:actions')
+    api project(':core:actions')
+
+    api project(':features:goalcreate')
+    api project(':features:goaldetails')
+    api project(':features:goalhome')
 
     // Koin
     api Deps.koin_android
