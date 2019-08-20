@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/margin_twenty_four"
             android:paddingBottom="@dimen/margin_twenty_four"
-            android:foreground="?android:attr/selectableItemBackground"
             android:background="@color/colorWhite"
             app:layout_constraintTop_toTopOf="parent">
 

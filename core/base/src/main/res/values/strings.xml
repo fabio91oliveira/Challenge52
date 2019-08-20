@@ -76,10 +76,17 @@
 
     <!-- Help Questions -->
     <string name="help_first_question">O que é o Desafio 52 semanas?</string>
-    <string name="help_first_question_answer">O que é o Desafio 52 semanas?</string>
+    <string name="help_first_question_answer">O desafio consiste em um jeito bem simples de poupar, mas que exige muita
+        disciplina. Basicamente, você vai precisar guardar um pouquinho de dinheiro toda semana e
+        controlar o que é guardado, mas pode deixar que nesse controle a gente te ajuda. O dinheiro pode ir para um
+        cofrinho ou para a poupança, mas recomendados você dar uma olhada a fundo caso prefira investir.
+    </string>
 
-    <string name="help_second_question">O que é o Desafio 52 semanas?</string>
-    <string name="help_second_question_answer">O que é o Desafio 52 semanas?</string>
+    <string name="help_second_question">Qual é o propósito do desafio?</string>
+    <string name="help_second_question_answer">O objetivo maior não é que você acumule, o grande objetivo aqui é que
+        você adquira o hábito de poupar,
+        que é o primeiro passo para você acumular patrimônio e alcançar seus maiores objetivos financeiros.
+    </string>
 
     <string name="help_third_question">O meu principal desafio é acumular?</string>
     <string name="help_third_question_answer">O que é o Desafio 52 semanas?</string>

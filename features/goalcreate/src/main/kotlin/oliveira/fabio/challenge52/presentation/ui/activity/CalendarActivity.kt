@@ -1,8 +1,10 @@
 package oliveira.fabio.challenge52.presentation.ui.activity
 
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.CalendarView
 import features.goalcreate.R
 import kotlinx.android.synthetic.main.activity_calendar.*
@@ -31,6 +33,7 @@ class CalendarActivity : BaseActivity(), CalendarView.OnDateChangeListener {
         setupToolbar()
         initCalendar()
         initClickListener()
+        initAnimations()
     }
 
     private fun setupView() = setContentView(R.layout.activity_calendar)
@@ -59,6 +62,26 @@ class CalendarActivity : BaseActivity(), CalendarView.OnDateChangeListener {
                 finish()
             }
         }
+    }
+
+    private fun initAnimations() {
+        val valueAnimator = ValueAnimator.ofFloat(-700f, 0f)
+        valueAnimator.interpolator = AccelerateDecelerateInterpolator()
+        valueAnimator.duration = 800
+        valueAnimator.addUpdateListener {
+            val progress = it.animatedValue as Float
+            cldCalendar.translationY = progress
+        }
+        valueAnimator.start()
+
+        val valueAnimator2 = ValueAnimator.ofFloat(1100f, 0f)
+        valueAnimator2.interpolator = AccelerateDecelerateInterpolator()
+        valueAnimator2.duration = 800
+        valueAnimator2.addUpdateListener {
+            val progress = it.animatedValue as Float
+            btnSelect.translationX = progress
+        }
+        valueAnimator2.start()
     }
 
     companion object {
