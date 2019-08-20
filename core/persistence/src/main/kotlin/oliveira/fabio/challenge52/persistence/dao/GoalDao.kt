@@ -18,9 +18,11 @@ interface GoalDao {
     @Delete
     fun deleteGoals(goalsList: List<Goal>): Int
 
+    @Transaction
     @Query("SELECT * FROM goal WHERE goal.isDone = 0")
     fun getAllGoalsWithWeeks(): List<GoalWithWeeks>
 
+    @Transaction
     @Query("SELECT * FROM goal WHERE goal.isDone = 1")
     fun getAllDoneGoalsWithWeeks(): List<GoalWithWeeks>
 }
