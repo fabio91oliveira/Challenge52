@@ -152,7 +152,7 @@ class DoneGoalsListFragment : Fragment(), DoneGoalsAdapter.OnClickGoalListener {
             }
         })
         doneGoalsListViewModel.mutableLiveDataRemoved.observe(this, Observer { event ->
-            event.getContentIfNotHandled()?.let {
+            event?.let {
                 when (it) {
                     true -> {
                         hideLoading()

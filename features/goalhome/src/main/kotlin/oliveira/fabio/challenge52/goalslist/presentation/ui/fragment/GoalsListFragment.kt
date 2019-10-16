@@ -24,13 +24,14 @@ import com.google.android.material.snackbar.Snackbar
 import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_goals_list.*
 import oliveira.fabio.challenge52.actions.Actions
+import oliveira.fabio.challenge52.extensions.showView
 import oliveira.fabio.challenge52.goalslist.di.injectGoalsListDependencies
-import oliveira.fabio.challenge52.presentation.ui.dialog.ErrorDialogFragment
 import oliveira.fabio.challenge52.goalslist.presentation.ui.adapter.GoalsAdapter
 import oliveira.fabio.challenge52.goalslist.presentation.viewmodel.GoalsListViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultTypeEnum
 import oliveira.fabio.challenge52.model.vo.ActivityResultVO
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.presentation.ui.dialog.ErrorDialogFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
@@ -40,7 +41,11 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
     private var onGoalsListChangeListener: OnGoalsListChangeListener? = null
     private lateinit var supportFragmentManager: FragmentManager
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_goals_list, container, false)
     }
 
@@ -208,7 +213,7 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
             }
         })
         goalsListViewModel.mutableLiveDataRemoved.observe(this, Observer { event ->
-            event.getContentIfNotHandled()?.let {
+            event?.let {
                 when (it) {
                     true -> {
                         hideLoading()
@@ -239,17 +244,19 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
     }
 
     private fun initRecyclerView() {
-        rvGoalsList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        rvGoalsList.adapter = goalsAdapter
-        rvGoalsList.itemAnimator = null
-        rvGoalsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0)
-                    if (goalsListViewModel.isDeleteShown) fabRemove.hide() else fabAdd.hide()
-                else if (dy < 0)
-                    if (goalsListViewModel.isDeleteShown) fabRemove.show() else fabAdd.show()
-            }
-        })
+        with(rvGoalsList) {
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            adapter = goalsAdapter
+            itemAnimator = null
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    if (dy > 0)
+                        if (goalsListViewModel.isDeleteShown) fabRemove.hide() else fabAdd.hide()
+                    else if (dy < 0)
+                        if (goalsListViewModel.isDeleteShown) fabRemove.show() else fabAdd.show()
+                }
+            })
+        }
     }
 
     private fun initClickListener() {
@@ -327,7 +334,8 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         goalsListViewModel.listGoals()
     }
 
-    private fun showSnackBar(message: String) = Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_SHORT).show()
+    private fun showSnackBar(message: String) =
+        Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_SHORT).show()
 
 //    private fun showAnimatedDialog(message: String) {
 //        val animChecked = AnimationUtils.loadAnimation(context, R.anim.scale_fab_in)
@@ -347,42 +355,42 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
     }
 
     private fun showGoalsList() {
-        rvGoalsList.visibility = View.VISIBLE
+        rvGoalsList.showView(true)
     }
 
     private fun hideGoalsList() {
-        rvGoalsList.visibility = View.GONE
+        rvGoalsList.showView(false)
     }
 
     private fun showNoGoals() {
         initAnimationsNoGoals()
-        txtNoGoalsFirst.visibility = View.VISIBLE
-        imgNoGoals.visibility = View.VISIBLE
+        txtNoGoalsFirst.showView(true)
+        imgNoGoals.showView(true)
     }
 
     private fun hideNoGoals() {
-        txtNoGoalsFirst.visibility = View.GONE
-        imgNoGoals.visibility = View.GONE
+        txtNoGoalsFirst.showView(false)
+        imgNoGoals.showView(false)
     }
 
     private fun showLoading() {
-        loading.visibility = View.VISIBLE
+        loading.showView(true)
     }
 
     private fun hideLoading() {
-        loading.visibility = View.GONE
+        loading.showView(false)
     }
 
     private fun showError() {
         initAnimationsError()
-        txtError.visibility = View.VISIBLE
-        imgError.visibility = View.VISIBLE
+        txtError.showView(true)
+        imgError.showView(true)
         fabAdd.hide()
     }
 
     private fun hideError() {
-        txtError.visibility = View.GONE
-        imgError.visibility = View.GONE
+        txtError.showView(false)
+        imgError.showView(false)
     }
 
     private fun showErrorScreen(message: String) = ErrorDialogFragment().apply {
@@ -394,9 +402,13 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
 
     private fun expandBar(hasToExpand: Boolean) = appBar.setExpanded(hasToExpand)
 
-    private fun openGoalCreateActivity() = startActivityForResult(Actions.openGoalCreate(requireContext()), REQUEST_CODE_CREATE)
+    private fun openGoalCreateActivity() =
+        startActivityForResult(Actions.openGoalCreate(requireContext()), REQUEST_CODE_CREATE)
 
-    private fun openGoalDetailsActivity(goal: GoalWithWeeks) = startActivityForResult(Actions.openGoalDetails(requireContext()).putExtra(GOAL_TAG, goal), REQUEST_CODE_DETAILS)
+    private fun openGoalDetailsActivity(goal: GoalWithWeeks) = startActivityForResult(
+        Actions.openGoalDetails(requireContext()).putExtra(GOAL_TAG, goal),
+        REQUEST_CODE_DETAILS
+    )
 
     private fun showConfirmDialog(message: String, listener: DialogInterface.OnClickListener) =
         AlertDialog.Builder(requireContext()).apply {

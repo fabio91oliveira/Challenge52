@@ -1,5 +1,6 @@
-package oliveira.fabio.challenge52.domain.usecase
+package oliveira.fabio.challenge52.domain.usecase.impl
 
+import oliveira.fabio.challenge52.domain.usecase.GoalCreateUseCase
 import oliveira.fabio.challenge52.model.repository.GoalRepository
 import oliveira.fabio.challenge52.model.repository.WeekRepository
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
