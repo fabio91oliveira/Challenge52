@@ -34,7 +34,7 @@ class ErrorDialogFragment : DialogFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        dialog.window?.apply {
+        dialog?.window?.apply {
             attributes.windowAnimations = R.style.ErrorDialogFragment
         }
     }

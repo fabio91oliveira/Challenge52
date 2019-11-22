@@ -1,9 +1,9 @@
 package oliveira.fabio.challenge52.goalslist.di
 
 import oliveira.fabio.challenge52.goalslist.presentation.viewmodel.GoalsListViewModel
-import org.koin.android.viewmodel.ext.koin.viewModel
-import org.koin.dsl.module.module
-import org.koin.standalone.StandAloneContext.loadKoinModules
+import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.core.context.loadKoinModules
+import org.koin.dsl.module
 
 private val goalsListModule = module {
     viewModel { GoalsListViewModel(get(), get(), get()) }

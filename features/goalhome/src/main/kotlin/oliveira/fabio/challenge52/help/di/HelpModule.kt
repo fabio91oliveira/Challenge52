@@ -1,9 +1,9 @@
 package oliveira.fabio.challenge52.help.di
 
 import oliveira.fabio.challenge52.help.presentation.viewmodel.HelpViewModel
-import org.koin.android.viewmodel.ext.koin.viewModel
-import org.koin.dsl.module.module
-import org.koin.standalone.StandAloneContext.loadKoinModules
+import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.core.context.loadKoinModules
+import org.koin.dsl.module
 
 private val helpListModule = module {
     viewModel { HelpViewModel() }

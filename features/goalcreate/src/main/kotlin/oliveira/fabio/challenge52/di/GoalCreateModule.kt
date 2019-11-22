@@ -3,9 +3,9 @@ package oliveira.fabio.challenge52.di
 import oliveira.fabio.challenge52.domain.usecase.GoalCreateUseCase
 import oliveira.fabio.challenge52.domain.usecase.impl.GoalCreateUseCaseImpl
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalCreateViewModel
-import org.koin.android.viewmodel.ext.koin.viewModel
-import org.koin.dsl.module.module
-import org.koin.standalone.StandAloneContext.loadKoinModules
+import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.core.context.loadKoinModules
+import org.koin.dsl.module
 
 private val goalCreateModule = module {
     factory<GoalCreateUseCase> {

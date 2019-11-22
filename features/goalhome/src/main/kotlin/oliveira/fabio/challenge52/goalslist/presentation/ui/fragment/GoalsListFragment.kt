@@ -49,7 +49,7 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         return inflater.inflate(R.layout.fragment_goals_list, container, false)
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         onGoalsListChangeListener = activity as OnGoalsListChangeListener
         activity?.supportFragmentManager?.let { supportFragmentManager = it }
