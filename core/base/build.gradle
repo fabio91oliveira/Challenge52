@@ -4,8 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    api project(':core:persistence')
-
     // Support
     api Deps.support_app_compat
 
@@ -13,11 +11,4 @@ dependencies {
     api Deps.lifecycle_extensions
     api Deps.lifecycle_runtime
     kapt Deps.lifecycle_compiler
-
-    // Coroutines
-    api Deps.coroutines_core
-    api Deps.coroutines_android
-
-    api Deps.result_core
-    api Deps.result_coroutines
 }

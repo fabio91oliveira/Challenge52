@@ -33,9 +33,9 @@ subprojects {
                     experimental = true
                 }
                 sourceSets {
-                    main.java.srcDirs += 'src/main/kotlin'
-                    test.java.srcDirs += 'src/test/kotlin'
-                    androidTest.java.srcDirs += 'src/androidTest/kotlin'
+                    main.java.srcDirs += Config.srcDirMain
+                    test.java.srcDirs += Config.srcDirTest
+                    androidTest.java.srcDirs += Config.srcDirAndroidTest
                 }
                 compileOptions {
                     sourceCompatibility Config.javaVersion

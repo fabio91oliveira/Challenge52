@@ -1,2 +1,2 @@
-include ':app', 'core:base', 'core:actions', ':core:persistence'
+include ':app', 'core:base', 'core:actions', ':core:persistence', 'core:models'
 include ':features:error', ':features:goalcreate', ':features:goaldetails', ':features:goalhome'

@@ -1,8 +1,8 @@
 package oliveira.fabio.challenge52.domain.usecase.impl
 
+import oliveira.fabio.challenge52.domain.repository.GoalRepository
+import oliveira.fabio.challenge52.domain.repository.WeekRepository
 import oliveira.fabio.challenge52.domain.usecase.GoalCreateUseCase
-import oliveira.fabio.challenge52.model.repository.GoalRepository
-import oliveira.fabio.challenge52.model.repository.WeekRepository
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import java.math.BigDecimal
@@ -15,26 +15,8 @@ class GoalCreateUseCaseImpl(
 ) : GoalCreateUseCase {
 
     override suspend fun addGoal(goal: Goal) = goalRepository.addGoal(goal)
-    override suspend fun addWeeks(goal: Goal, id: Long) = weekRepository.addWeeks(createWeeks(goal, id))
-
-//    private fun createWeeks(goal: Goal, id: Long): MutableList<Week> {
-//
-//        val weeks = mutableListOf<Week>()
-//
-//        val calendar = Calendar.getInstance()
-//        calendar.time = goal.initialDate
-//        var total = goal.valueToStart
-//
-//        for (i in 1..TOTAL_WEEKS) {
-//            Week(i, round(total.toDouble(), 2), calendar.time, false, goal.id).apply {
-//                weeks.add(this)
-//            }
-//            total += goal.valueToStart
-//            calendar.add(Calendar.DAY_OF_YEAR, 7)
-//        }
-//
-//        return weeks
-//    }
+    override suspend fun addWeeks(goal: Goal, id: Long) =
+        weekRepository.addWeeks(createWeeks(goal, id))
 
     private fun createWeeks(goal: Goal, id: Long) = mutableListOf<Week>().apply {
         goal.id = id
@@ -53,7 +35,8 @@ class GoalCreateUseCaseImpl(
         }
     }
 
-    private fun round(value: Double, div: Int) = BigDecimal(value).setScale(div, RoundingMode.HALF_EVEN).toFloat()
+    private fun round(value: Double, div: Int) =
+        BigDecimal(value).setScale(div, RoundingMode.HALF_EVEN).toFloat()
 
     companion object {
         private const val TOTAL_WEEKS = 52

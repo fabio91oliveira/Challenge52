@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import features.goaldetails.R
 import kotlinx.android.synthetic.main.activity_goal_details.*
 import oliveira.fabio.challenge52.BaseActivity
-import oliveira.fabio.challenge52.di.injectGoalDetailsDependencies
 import oliveira.fabio.challenge52.extensions.showView
 import oliveira.fabio.challenge52.model.vo.ActivityResultVO
 import oliveira.fabio.challenge52.persistence.model.entity.Week
@@ -24,13 +23,15 @@ import oliveira.fabio.challenge52.presentation.state.GoalDetailsStateLoading
 import oliveira.fabio.challenge52.presentation.ui.adapter.WeeksAdapter
 import oliveira.fabio.challenge52.presentation.ui.dialog.ErrorDialogFragment
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
+import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
-
 
 class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
 
-    private val goalDetailsViewModel: GoalDetailsViewModel by viewModel()
-    private val isDoneGoals by lazy { intent.extras?.getBoolean(IS_FROM_DONE_GOALS, false) ?: run { false } }
+    private val goalDetailsViewModel: GoalDetailsViewModel by currentScope.viewModel(this)
+    private val isDoneGoals by lazy {
+        intent.extras?.getBoolean(IS_FROM_DONE_GOALS, false) ?: false
+    }
     private lateinit var goalWithWeeks: GoalWithWeeks
     private lateinit var weeksAdapter: WeeksAdapter
     private lateinit var newIntent: Intent
@@ -131,7 +132,6 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
     }
 
     private fun init() {
-        injectGoalDetailsDependencies()
         setupView()
         setupToolbar()
         initRecyclerView()
@@ -182,7 +182,9 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
                         when (it.hasBeenUpdated) {
                             true -> {
                                 goalDetailsViewModel.getParsedDetailsList(goalWithWeeks, it.week)
-                                newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeUpdated() })
+                                newIntent.putExtra(
+                                    HAS_CHANGED,
+                                    ActivityResultVO().apply { setChangeUpdated() })
                                 shouldShowMoveToDoneDialog()
                             }
                             else -> showErrorScreen(resources.getString(R.string.goal_details_update_error_message))
@@ -191,7 +193,9 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
                     is GoalDetailsState.ShowRemovedGoal -> {
                         when (it.hasBeenRemoved) {
                             true -> {
-                                newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeRemoved() })
+                                newIntent.putExtra(
+                                    HAS_CHANGED,
+                                    ActivityResultVO().apply { setChangeRemoved() })
                                 closeDetails()
                             }
                             else -> showErrorScreen(resources.getString(R.string.goal_details_remove_error_message))
@@ -200,7 +204,9 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
                     is GoalDetailsState.ShowCompletedGoal -> {
                         when (it.hasBeenCompleted) {
                             true -> {
-                                newIntent.putExtra(HAS_CHANGED, ActivityResultVO().apply { setChangeCompleted() })
+                                newIntent.putExtra(
+                                    HAS_CHANGED,
+                                    ActivityResultVO().apply { setChangeCompleted() })
                                 closeDetails()
                             }
                             else -> showErrorScreen(resources.getString(R.string.goal_details_make_done_error_message))
@@ -228,7 +234,8 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
 
     private fun initRecyclerView() {
         with(rvWeeks) {
-            layoutManager = LinearLayoutManager(this@GoalDetailsActivity, RecyclerView.VERTICAL, false)
+            layoutManager =
+                LinearLayoutManager(this@GoalDetailsActivity, RecyclerView.VERTICAL, false)
             weeksAdapter = WeeksAdapter(this@GoalDetailsActivity, isDoneGoals)
             adapter = weeksAdapter
             itemAnimator = null

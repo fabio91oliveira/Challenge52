@@ -10,18 +10,22 @@ import features.goalcreate.R
 import kotlinx.android.synthetic.main.activity_goal_create.*
 import oliveira.fabio.challenge52.BaseActivity
 import oliveira.fabio.challenge52.actions.Actions
-import oliveira.fabio.challenge52.di.injectGoalCreateDependencies
-import oliveira.fabio.challenge52.extensions.*
+import oliveira.fabio.challenge52.extensions.callFunctionAfterTextChanged
+import oliveira.fabio.challenge52.extensions.toCurrency
+import oliveira.fabio.challenge52.extensions.toCurrencyFormat
+import oliveira.fabio.challenge52.extensions.toCurrentDateSystemString
+import oliveira.fabio.challenge52.extensions.toDate
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.presentation.state.GoalCreateState
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalCreateViewModel
+import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.DateFormat
 import java.util.*
 
 class GoalCreateActivity : BaseActivity() {
 
-    private val goalCreateViewModel: GoalCreateViewModel by viewModel()
+    private val goalCreateViewModel: GoalCreateViewModel by currentScope.viewModel(this)
     private val calendar by lazy { Calendar.getInstance() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +51,6 @@ class GoalCreateActivity : BaseActivity() {
     }
 
     private fun init() {
-        injectGoalCreateDependencies()
         setupView()
         setupToolbar()
         initFields()

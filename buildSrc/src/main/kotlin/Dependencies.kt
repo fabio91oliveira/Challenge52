@@ -5,7 +5,6 @@ import org.gradle.api.JavaVersion
 object Config {
     val javaVersion = JavaVersion.VERSION_1_8
 
-    const val sdk_tools_linux = "4333796"
     const val minSdk = 21
     const val compileSdk = 28
     const val targetSdk = 28
@@ -13,6 +12,10 @@ object Config {
     const val versionName = "1.0"
     const val buildTools = "28.0.3"
     const val applicationId = "oliveira.fabio.challenge52"
+
+    const val srcDirMain = "src/main/kotlin"
+    const val srcDirTest = "src/test/kotlin"
+    const val srcDirAndroidTest = "src/androidTest/kotlin"
 
     const val runner = "androidx.test.runner.AndroidJUnitRunner"
     const val orchestrator = "ANDROIDX_TEST_ORCHESTRATOR"
@@ -38,7 +41,8 @@ object Versions {
 }
 
 object Deps {
-    const val tools_android_gradle_plugin = "com.android.tools.build:gradle:${Versions.android_gradle_plugin}"
+    const val tools_android_gradle_plugin =
+        "com.android.tools.build:gradle:${Versions.android_gradle_plugin}"
     const val tools_kotlin_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
 
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
@@ -46,17 +50,21 @@ object Deps {
     const val support_app_compat = "androidx.appcompat:appcompat:${Versions.support}"
     const val support_material = "com.google.android.material:material:${Versions.material}"
     const val support_recyclerview = "androidx.recyclerview:recyclerview:${Versions.recyclerview}"
-    const val support_constraint_layout = "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout}"
+    const val support_constraint_layout =
+        "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout}"
 
     const val lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
     const val lifecycle_runtime = "androidx.lifecycle:lifecycle-runtime:${Versions.lifecycle}"
     const val lifecycle_compiler = "androidx.lifecycle:lifecycle-compiler:${Versions.lifecycle}"
 
-    const val coroutines_core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
-    const val coroutines_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+    const val coroutines_core =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+    const val coroutines_android =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
 
     const val result_core = "com.github.kittinunf.result:result:${Versions.resultcore}"
-    const val result_coroutines = "com.github.kittinunf.result:result-coroutines:${Versions.resultcoroutines}"
+    const val result_coroutines =
+        "com.github.kittinunf.result:result-coroutines:${Versions.resultcoroutines}"
 
     const val room_runtime = "androidx.room:room-runtime:${Versions.room}"
     const val room_compiler = "androidx.room:room-compiler:${Versions.room}"

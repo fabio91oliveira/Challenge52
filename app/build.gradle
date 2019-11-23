@@ -15,15 +15,16 @@ android {
 }
 
 dependencies {
-    api project(':core:base')
-    api project(':core:actions')
+    implementation project(Core.Base)
+    implementation project(Core.Actions)
+    implementation project(Core.Models)
 
-    api project(':features:goalcreate')
-    api project(':features:goaldetails')
-    api project(':features:goalhome')
+    implementation project(Features.GoalHome)
+    implementation project(Features.GoalCreate)
+    implementation project(Features.GoalDetails)
 
     // Koin
-    api Deps.koin_android
+    implementation Deps.koin_android
 
     // Tests
 //    testImplementation deps.junit
