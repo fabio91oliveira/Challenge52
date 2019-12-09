@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.presentation.ui.dialog
+package oliveira.fabio.challenge52.presentation.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater

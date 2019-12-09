@@ -1,10 +1,13 @@
 package oliveira.fabio.challenge52
 
 import android.os.Bundle
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import core.base.R
 
-open class BaseActivity : AppCompatActivity() {
+open class BaseActivity : AppCompatActivity {
+    constructor()
+    constructor(@LayoutRes layoutRes: Int) : super(layoutRes)
 
     private var onStartCount = 1
 

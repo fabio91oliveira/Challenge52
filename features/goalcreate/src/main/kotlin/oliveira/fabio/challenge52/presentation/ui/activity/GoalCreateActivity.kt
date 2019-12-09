@@ -14,19 +14,24 @@ import oliveira.fabio.challenge52.extensions.callFunctionAfterTextChanged
 import oliveira.fabio.challenge52.extensions.toCurrency
 import oliveira.fabio.challenge52.extensions.toCurrencyFormat
 import oliveira.fabio.challenge52.extensions.toCurrentDateSystemString
-import oliveira.fabio.challenge52.extensions.toDate
-import oliveira.fabio.challenge52.persistence.model.entity.Goal
-import oliveira.fabio.challenge52.presentation.state.GoalCreateState
+import oliveira.fabio.challenge52.presentation.action.GoalCreateActions
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalCreateViewModel
 import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.DateFormat
 import java.util.*
 
-class GoalCreateActivity : BaseActivity() {
+class GoalCreateActivity : BaseActivity(R.layout.activity_goal_create) {
 
     private val goalCreateViewModel: GoalCreateViewModel by currentScope.viewModel(this)
-    private val calendar by lazy { Calendar.getInstance() }
+    private val calendarToday by lazy { Calendar.getInstance() }
+
+    private val taskName: String
+        get() = txtName.text.toString()
+    private val taskValue: String
+        get() = txtValue.text.toString()
+    private val taskDate: String
+        get() = txtDate.text.toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +44,7 @@ class GoalCreateActivity : BaseActivity() {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_CALENDAR) {
             val calendar = data?.getSerializableExtra(CALENDAR_TAG) as Calendar
 
-            with(this.calendar) {
+            with(calendarToday) {
                 set(Calendar.YEAR, calendar.get(Calendar.YEAR))
                 set(Calendar.MONTH, calendar.get(Calendar.MONTH))
                 set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH))
@@ -51,24 +56,26 @@ class GoalCreateActivity : BaseActivity() {
     }
 
     private fun init() {
-        setupView()
         setupToolbar()
         initFields()
-        initLiveData()
+        initObservables()
         initClickListeners()
         initFocusListeners()
         initAnimations()
     }
 
-    private fun initLiveData() {
+    private fun initObservables() {
         with(goalCreateViewModel) {
-            goalCreateState.observe(this@GoalCreateActivity, Observer {
+            goalCreateViewState.observe(this@GoalCreateActivity, Observer {
+                btnCreate.isEnabled = it.isCreateButtonEnable
+            })
+            goalCreateActions.observe(this@GoalCreateActivity, Observer {
                 when (it) {
-                    GoalCreateState.Success -> {
+                    GoalCreateActions.ShowSuccess -> {
                         setResult(Activity.RESULT_OK)
                         finish()
                     }
-                    GoalCreateState.Error -> {
+                    GoalCreateActions.ShowError -> {
                         setResult(ACTIVITY_ERROR)
                         finish()
                     }
@@ -76,8 +83,6 @@ class GoalCreateActivity : BaseActivity() {
             })
         }
     }
-
-    private fun setupView() = setContentView(R.layout.activity_goal_create)
 
     private fun setupToolbar() {
         with(toolbar) {
@@ -92,7 +97,9 @@ class GoalCreateActivity : BaseActivity() {
     private fun initClickListeners() {
         tilData.setOnClickListener { openCalendar() }
         txtDate.setOnClickListener { openCalendar() }
-        btnCreate.setOnClickListener { goalCreateViewModel.createGoal(getFilledGoal()) }
+        btnCreate.setOnClickListener {
+            goalCreateViewModel.createGoal(taskDate, taskName, taskValue)
+        }
     }
 
     private fun initFocusListeners() {
@@ -101,7 +108,7 @@ class GoalCreateActivity : BaseActivity() {
     }
 
     private fun initFields() {
-        setData(calendar.toCurrentDateSystemString(DateFormat.SHORT))
+        setData(calendarToday.toCurrentDateSystemString(DateFormat.SHORT))
         txtName.callFunctionAfterTextChanged { validateCreateButton() }
         txtValue.toCurrencyFormat {
             validateCreateButton()
@@ -129,21 +136,12 @@ class GoalCreateActivity : BaseActivity() {
         valueAnimator2.start()
     }
 
+    private fun validateCreateButton() = goalCreateViewModel.validateFields(taskName, taskValue)
+
     private fun openCalendar() = startActivityForResult(
-        Actions.openGoalCreateCalendar(this).putExtra(CALENDAR_TAG, calendar),
+        Actions.openGoalCreateCalendar(this).putExtra(CALENDAR_TAG, calendarToday),
         REQUEST_CODE_CALENDAR
     )
-
-    private fun validateCreateButton() {
-        btnCreate.isEnabled =
-            goalCreateViewModel.isAllFieldsFilled(txtName.text.toString(), txtValue.text.toString())
-    }
-
-    private fun getFilledGoal() = Goal().apply {
-        initialDate = txtDate.toDate(DateFormat.SHORT)
-        name = txtName.text.toString()
-        valueToStart = goalCreateViewModel.getFloatCurrencyValue(txtValue.text.toString())
-    }
 
     companion object {
         private const val MONEY_MIN = 1f

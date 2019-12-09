@@ -21,7 +21,7 @@ import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.presentation.state.GoalDetailsState
 import oliveira.fabio.challenge52.presentation.state.GoalDetailsStateLoading
 import oliveira.fabio.challenge52.presentation.ui.adapter.WeeksAdapter
-import oliveira.fabio.challenge52.presentation.ui.dialog.ErrorDialogFragment
+import oliveira.fabio.challenge52.presentation.dialog.ErrorDialogFragment
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
 import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel

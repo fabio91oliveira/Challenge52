@@ -28,7 +28,7 @@ import oliveira.fabio.challenge52.extensions.showView
 import oliveira.fabio.challenge52.model.vo.ActivityResultTypeEnum
 import oliveira.fabio.challenge52.model.vo.ActivityResultVO
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-import oliveira.fabio.challenge52.presentation.ui.dialog.ErrorDialogFragment
+import oliveira.fabio.challenge52.presentation.dialog.ErrorDialogFragment
 import oliveira.fabio.challenge52.principal.goalslist.presentation.ui.adapter.GoalsAdapter
 import oliveira.fabio.challenge52.principal.goalslist.presentation.viewmodel.GoalsListViewModel
 import oliveira.fabio.challenge52.principal.home.presentation.ui.activity.HomeActivity

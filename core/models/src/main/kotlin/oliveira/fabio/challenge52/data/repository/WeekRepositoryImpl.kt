@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.data
+package oliveira.fabio.challenge52.data.repository
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

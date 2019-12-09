@@ -44,3 +44,16 @@ fun Float.toCurrency(): String = NumberFormat.getCurrencyInstance().format((this
 fun String.toFloatCurrency() : Float {
     return (Regex("[1-9]\\d*|0\\d+").find(this)?.value.toString().toFloat() / 100)
 }
+
+fun String.removeMoneyMask(): String {
+    val defaultCurrencySymbol = Currency.getInstance(Locale.getDefault()).symbol
+    val regexPattern = "[$defaultCurrencySymbol,.]"
+
+    return Regex(regexPattern).replace(this, "")
+}
+
+fun String.toDate(dateFormat: Int): Date {
+    val sdf = DateFormat.getDateInstance(dateFormat)
+    sdf.isLenient = false
+    return sdf.parse(this)
+}

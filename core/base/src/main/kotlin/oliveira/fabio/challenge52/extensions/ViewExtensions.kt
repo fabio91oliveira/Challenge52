@@ -4,7 +4,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
-import java.text.DateFormat
 import java.text.NumberFormat
 import java.util.*
 
@@ -44,12 +43,6 @@ fun EditText.callFunctionAfterTextChanged(func: () -> Unit) {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
     })
-}
-
-fun EditText.toDate(dateFormat: Int): Date {
-    val sdf = DateFormat.getDateInstance(dateFormat)
-    sdf.isLenient = false
-    return sdf.parse(text.toString())
 }
 
 fun View.doPopAnimation(duration: Long, func: () -> Unit) {

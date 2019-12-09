@@ -7,13 +7,13 @@ import java.io.Serializable
 import java.util.*
 
 @Entity(tableName = "goal")
-class Goal :
-    Serializable {
-    lateinit var name: String
-    var valueToStart: Float = 0f
-    var isDone = false
+data class Goal(
+    var name: String = "",
+    var valueToStart: Float = 0f,
+    var isDone: Boolean = false,
     @Ignore
-    lateinit var initialDate: Date
+    var initialDate: Date = Date(),
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
-}
+) :
+    Serializable
