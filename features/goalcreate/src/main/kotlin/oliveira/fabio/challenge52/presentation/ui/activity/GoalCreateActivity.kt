@@ -48,7 +48,7 @@ class GoalCreateActivity : BaseActivity(R.layout.activity_goal_create) {
                 set(Calendar.YEAR, calendar.get(Calendar.YEAR))
                 set(Calendar.MONTH, calendar.get(Calendar.MONTH))
                 set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH))
-                setData(this.toCurrentDateSystemString(DateFormat.SHORT))
+                setData(toCurrentDateSystemString(DateFormat.SHORT))
             }
 
             content.requestFocus()
@@ -116,6 +116,7 @@ class GoalCreateActivity : BaseActivity(R.layout.activity_goal_create) {
         tilValue.hint = resources.getString(R.string.goal_create_goal_value, MONEY_MIN.toCurrency())
     }
 
+    // TODO
     private fun initAnimations() {
         val valueAnimator = ValueAnimator.ofFloat(-700f, 0f)
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()

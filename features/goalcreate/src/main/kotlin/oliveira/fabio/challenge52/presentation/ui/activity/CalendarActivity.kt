@@ -11,7 +11,8 @@ import kotlinx.android.synthetic.main.activity_calendar.*
 import oliveira.fabio.challenge52.BaseActivity
 import java.util.*
 
-class CalendarActivity : BaseActivity(), CalendarView.OnDateChangeListener {
+class CalendarActivity : BaseActivity(R.layout.activity_calendar),
+    CalendarView.OnDateChangeListener {
 
     private val calendar by lazy { intent?.extras?.getSerializable(CALENDAR_TAG) as Calendar }
 
@@ -29,14 +30,11 @@ class CalendarActivity : BaseActivity(), CalendarView.OnDateChangeListener {
     }
 
     private fun init() {
-        setupView()
         setupToolbar()
         initCalendar()
         initClickListener()
         initAnimations()
     }
-
-    private fun setupView() = setContentView(R.layout.activity_calendar)
 
     private fun setupToolbar() {
         with(toolbar) {

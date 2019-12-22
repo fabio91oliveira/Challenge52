@@ -1,6 +1,10 @@
 package oliveira.fabio.challenge52.di
 
+import oliveira.fabio.challenge52.domain.mapper.ItemMapper
+import oliveira.fabio.challenge52.domain.mapper.impl.ItemsMapperImpl
+import oliveira.fabio.challenge52.domain.usecase.GetItemsListUseCase
 import oliveira.fabio.challenge52.domain.usecase.GoalDetailsUseCase
+import oliveira.fabio.challenge52.domain.usecase.impl.GetItemsListUseCaseImpl
 import oliveira.fabio.challenge52.domain.usecase.impl.GoalDetailsUseCaseImpl
 import oliveira.fabio.challenge52.presentation.ui.activity.GoalDetailsActivity
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
@@ -18,12 +22,20 @@ object GoalDetailsModule {
                     get()
                 )
             }
+            scope(named<GoalDetailsActivity>()) {
+                scoped<ItemMapper> {
+                    ItemsMapperImpl()
+                }
+                scoped<GetItemsListUseCase> {
+                    GetItemsListUseCaseImpl(get())
+                }
+            }
         }
     }
 
     private val presentationModule = module {
         scope(named<GoalDetailsActivity>()) {
-            viewModel { GoalDetailsViewModel(get()) }
+            viewModel { GoalDetailsViewModel(get(), get()) }
         }
     }
 

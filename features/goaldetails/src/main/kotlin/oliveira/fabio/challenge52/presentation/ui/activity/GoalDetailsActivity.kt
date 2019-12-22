@@ -14,14 +14,14 @@ import androidx.recyclerview.widget.RecyclerView
 import features.goaldetails.R
 import kotlinx.android.synthetic.main.activity_goal_details.*
 import oliveira.fabio.challenge52.BaseActivity
+import oliveira.fabio.challenge52.domain.model.vo.Item
 import oliveira.fabio.challenge52.extensions.showView
 import oliveira.fabio.challenge52.model.vo.ActivityResultVO
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-import oliveira.fabio.challenge52.presentation.state.GoalDetailsState
-import oliveira.fabio.challenge52.presentation.state.GoalDetailsStateLoading
-import oliveira.fabio.challenge52.presentation.ui.adapter.WeeksAdapter
 import oliveira.fabio.challenge52.presentation.dialog.ErrorDialogFragment
+import oliveira.fabio.challenge52.presentation.state.GoalDetailsAction
+import oliveira.fabio.challenge52.presentation.ui.adapter.WeeksAdapter
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
 import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -29,8 +29,8 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
 
     private val goalDetailsViewModel: GoalDetailsViewModel by currentScope.viewModel(this)
-    private val isDoneGoals by lazy {
-        intent.extras?.getBoolean(IS_FROM_DONE_GOALS, false) ?: false
+    private val isFromDoneGoals by lazy {
+        intent.extras?.getBoolean(IS_FROM_DONE_GOALS) ?: false
     }
     private lateinit var goalWithWeeks: GoalWithWeeks
     private lateinit var weeksAdapter: WeeksAdapter
@@ -64,7 +64,7 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
     override fun onBackPressed() = closeDetails()
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        when (isDoneGoals) {
+        when (isFromDoneGoals) {
             true -> menuInflater.inflate(R.menu.goal_details_menu_from_done, menu)
             else -> menuInflater.inflate(R.menu.goal_details_menu, menu)
         }
@@ -116,7 +116,7 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
     }
 
     private fun initSavedValues(savedInstanceState: Bundle? = null) {
-        savedInstanceState?.let {
+        savedInstanceState?.also {
             goalWithWeeks = it.getSerializable(GOAL_TAG) as GoalWithWeeks
             newIntent = Intent().apply {
                 putExtra(
@@ -136,52 +136,44 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
         setupToolbar()
         initRecyclerView()
         initLiveData()
-        goalDetailsViewModel.getParsedDetailsList(goalWithWeeks)
+        goalDetailsViewModel.getDetailsList(goalWithWeeks)
     }
 
     private fun initLiveData() {
         with(goalDetailsViewModel) {
-            goalDetailsStateLoading.observe(this@GoalDetailsActivity, Observer {
-                when (it) {
-                    is GoalDetailsStateLoading.ShowLoading -> showLoading(true)
-                    is GoalDetailsStateLoading.HideLoading -> showLoading(false)
-                }
+            goalDetailsViewState.observe(this@GoalDetailsActivity, Observer {
+                showLoading(it.isLoading)
             })
-            goalDetailsState.observe(this@GoalDetailsActivity, Observer {
+            goalDetailsAction.observe(this@GoalDetailsActivity, Observer {
                 when (it) {
-                    is GoalDetailsState.ShowError -> showErrorScreen(resources.getString(R.string.goal_details_make_done_error_message))
-                    is GoalDetailsState.ShowAddedGoals -> {
-                        it.itemsList?.let { list ->
-                            goalWithWeeks.lastPosition?.let { position ->
-                                weeksAdapter.addSingleItem(
-                                    list[FIRST_POSITION],
-                                    FIRST_POSITION
-                                )
-                                weeksAdapter.addSingleItem(list[position], position)
-                                goalWithWeeks.lastPosition = null
-                            } ?: run {
-                                weeksAdapter.clearList()
-                                weeksAdapter.addList(list)
-                            }
+                    is GoalDetailsAction.ShowError -> showErrorScreen(resources.getString(R.string.goal_details_make_done_error_message))
+                    is GoalDetailsAction.ShowAddedGoalsFirstTime -> {
+                        if(it.itemsList != null) {
+                            updateItemList(it.itemsList)
 
                             showContent(true)
-                            if (goalDetailsViewModel.firstTime) {
-                                rvWeeks.scheduleLayoutAnimation()
-                                if (!isDoneGoals) shouldShowMoveToDoneDialog()
-                                goalDetailsViewModel.firstTime = false
-                                expandBar(true)
-                            } else {
-                                expandBar(false)
-                            }
-                        } ?: run {
+                            rvWeeks.scheduleLayoutAnimation()
+                            if (!isFromDoneGoals) shouldShowMoveToDoneDialog()
+                            expandBar(true)
+                        } else {
                             setResult(ACTIVITY_ERROR)
                             finish()
                         }
                     }
-                    is GoalDetailsState.ShowUpdatedGoal -> {
+                    is GoalDetailsAction.ShowAddedGoals -> {
+                        if(it.itemsList != null) {
+                            updateItemList(it.itemsList)
+                            showContent(true)
+                            expandBar(false)
+                        } else {
+                            setResult(ACTIVITY_ERROR)
+                            finish()
+                        }
+                    }
+                    is GoalDetailsAction.ShowUpdatedGoal -> {
                         when (it.hasBeenUpdated) {
                             true -> {
-                                goalDetailsViewModel.getParsedDetailsList(goalWithWeeks, it.week)
+                                goalDetailsViewModel.getDetailsList(goalWithWeeks, it.week)
                                 newIntent.putExtra(
                                     HAS_CHANGED,
                                     ActivityResultVO().apply { setChangeUpdated() })
@@ -190,7 +182,7 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
                             else -> showErrorScreen(resources.getString(R.string.goal_details_update_error_message))
                         }
                     }
-                    is GoalDetailsState.ShowRemovedGoal -> {
+                    is GoalDetailsAction.ShowRemovedGoal -> {
                         when (it.hasBeenRemoved) {
                             true -> {
                                 newIntent.putExtra(
@@ -201,7 +193,7 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
                             else -> showErrorScreen(resources.getString(R.string.goal_details_remove_error_message))
                         }
                     }
-                    is GoalDetailsState.ShowCompletedGoal -> {
+                    is GoalDetailsAction.ShowCompletedGoal -> {
                         when (it.hasBeenCompleted) {
                             true -> {
                                 newIntent.putExtra(
@@ -236,7 +228,7 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
         with(rvWeeks) {
             layoutManager =
                 LinearLayoutManager(this@GoalDetailsActivity, RecyclerView.VERTICAL, false)
-            weeksAdapter = WeeksAdapter(this@GoalDetailsActivity, isDoneGoals)
+            weeksAdapter = WeeksAdapter(this@GoalDetailsActivity, isFromDoneGoals)
             adapter = weeksAdapter
             itemAnimator = null
         }
@@ -269,6 +261,20 @@ class GoalDetailsActivity : BaseActivity(), WeeksAdapter.OnClickWeekListener {
 
     private fun deleteGoal() = goalDetailsViewModel.removeGoal(goalWithWeeks)
     private fun completeGoal() = goalDetailsViewModel.completeGoal(goalWithWeeks)
+
+    private fun updateItemList(list: MutableList<Item>) {
+        goalWithWeeks.lastPosition?.also { position ->
+            weeksAdapter.addSingleItem(
+                list[FIRST_POSITION],
+                FIRST_POSITION
+            )
+            weeksAdapter.addSingleItem(list[position], position)
+            goalWithWeeks.lastPosition = null
+        } ?: run {
+            weeksAdapter.clearList()
+            weeksAdapter.addList(list)
+        }
+    }
 
     private fun showLoading(hasToShow: Boolean) = loading.showView(hasToShow)
     private fun showContent(hasToShow: Boolean) = rvWeeks.showView(hasToShow)
