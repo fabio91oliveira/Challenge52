@@ -8,6 +8,6 @@ import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 class GetItemsListUseCaseImpl(
     private val itemMapper: ItemMapper
 ) : GetItemsListUseCase {
-    override fun getItemList(goalWithWeeks: GoalWithWeeks, week: Week?) =
+    override operator fun invoke(goalWithWeeks: GoalWithWeeks, week: Week?) =
         itemMapper(goalWithWeeks, week)
 }

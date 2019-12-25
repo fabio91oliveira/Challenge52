@@ -4,13 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.kittinunf.result.coroutines.SuspendableResult
+import features.goaldetails.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import oliveira.fabio.challenge52.domain.model.vo.Item
+import oliveira.fabio.challenge52.domain.usecase.ChangeWeekDepositStatusUseCase
+import oliveira.fabio.challenge52.domain.usecase.CheckAllWeeksAreDepositedUseCase
 import oliveira.fabio.challenge52.domain.usecase.GetItemsListUseCase
-import oliveira.fabio.challenge52.domain.usecase.GoalDetailsUseCase
+import oliveira.fabio.challenge52.domain.usecase.RemoveGoalUseCase
+import oliveira.fabio.challenge52.domain.usecase.SetGoalAsDoneUseCase
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.presentation.state.GoalDetailsAction
@@ -19,10 +23,11 @@ import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class GoalDetailsViewModel(
-    // old use case
-    private val goalDetailsUseCase: GoalDetailsUseCase,
-
-    private val getItemsListUseCase: GetItemsListUseCase
+    private val getItemsListUseCase: GetItemsListUseCase,
+    private val changeWeekDepositStatusUseCase: ChangeWeekDepositStatusUseCase,
+    private val setGoalAsDoneUseCase: SetGoalAsDoneUseCase,
+    private val removeGoalUseCase: RemoveGoalUseCase,
+    private val checkAllWeeksAreDepositedUseCase: CheckAllWeeksAreDepositedUseCase
 ) : ViewModel(), CoroutineScope {
 
     private val _goalDetailsAction by lazy { MutableLiveData<GoalDetailsAction>() }
@@ -43,59 +48,58 @@ class GoalDetailsViewModel(
         if (job.isActive) job.cancel()
     }
 
-    fun getDetailsList(goalWithWeeks: GoalWithWeeks) {
+    fun getWeeksList(goalWithWeeks: GoalWithWeeks) {
         handleLoading(true)
         launch {
             SuspendableResult.of<MutableList<Item>, Exception> {
-                getItemsListUseCase.getItemList(
-                    goalWithWeeks
-                )
+                getItemsListUseCase(goalWithWeeks)
             }
                 .fold(
                     success = {
-                        _goalDetailsAction.postValue(GoalDetailsAction.ShowAddedGoalsFirstTime(it))
+                        GoalDetailsAction.ShowAddedGoalsFirstTime(it).run()
                         handleLoading(false)
                     },
                     failure = {
-                        _goalDetailsAction.postValue(GoalDetailsAction.ShowAddedGoalsFirstTime(null))
+                        GoalDetailsAction.ShowError(null).run()
                         handleLoading(false)
                     }
                 )
         }
     }
 
-    fun getDetailsList(goalWithWeeks: GoalWithWeeks, week: Week?) {
+    fun getWeeksList(goalWithWeeks: GoalWithWeeks, week: Week?) {
         launch {
             SuspendableResult.of<MutableList<Item>, Exception> {
-                getItemsListUseCase.getItemList(
+                getItemsListUseCase(
                     goalWithWeeks,
                     week
                 )
             }
                 .fold(
                     success = {
-                        _goalDetailsAction.postValue(GoalDetailsAction.ShowAddedGoals(it))
+                        GoalDetailsAction.ShowAddedGoals(it).run()
                     },
                     failure = {
-                        _goalDetailsAction.postValue(GoalDetailsAction.ShowAddedGoals(null))
+                        GoalDetailsAction.ShowError(null).run()
                     }
                 )
         }
     }
 
-    fun updateWeek(week: Week) {
+    fun changeWeekDepositStatus(week: Week) {
         launch {
             SuspendableResult.of<Unit, Exception> {
-                goalDetailsUseCase.changeWeekDepositStatus(week)
-                goalDetailsUseCase.updateWeek(week)
+                changeWeekDepositStatusUseCase(week)
             }
                 .fold(
                     success = {
-                        _goalDetailsAction.postValue(GoalDetailsAction.ShowUpdatedGoal(true, week))
+                        GoalDetailsAction.ShowUpdatedGoal(week).run()
                     },
                     failure = {
-                        goalDetailsUseCase.changeWeekDepositStatus(week)
-                        _goalDetailsAction.postValue(GoalDetailsAction.ShowUpdatedGoal(false, null))
+                        week.isDeposited = !week.isDeposited
+                        // TODO voltar estado de depositado, corrigir na view
+                        GoalDetailsAction.ShowError(R.string.goal_details_update_error_message)
+                            .run()
                     }
                 )
         }
@@ -103,64 +107,54 @@ class GoalDetailsViewModel(
 
     fun removeGoal(goalWithWeeks: GoalWithWeeks) {
         launch {
-            SuspendableResult.of<Int, Exception> { goalDetailsUseCase.removeGoal(goalWithWeeks.goal) }
-                .fold(
-                    success = {
-                        SuspendableResult.of<Int, Exception> {
-                            goalDetailsUseCase.removeWeeks(
-                                goalWithWeeks.weeks
-                            )
-                        }
-                            .fold(success = {
-                                _goalDetailsAction.postValue(GoalDetailsAction.ShowRemovedGoal(true))
-                            }, failure = {
-                                _goalDetailsAction.postValue(GoalDetailsAction.ShowRemovedGoal(false))
-                            })
-
-                    }, failure = {
-                        _goalDetailsAction.postValue(GoalDetailsAction.ShowRemovedGoal(false))
-                    })
+            SuspendableResult.of<Unit, Exception> { removeGoalUseCase(goalWithWeeks) }
+                .fold(success = {
+                    GoalDetailsAction.ShowRemovedGoal.run()
+                }, failure = {
+                    GoalDetailsAction.ShowError(R.string.goal_details_remove_error_message).run()
+                })
         }
     }
 
     fun completeGoal(goalWithWeeks: GoalWithWeeks) {
         launch {
-            SuspendableResult.of<Unit, Exception> { goalDetailsUseCase.updateWeeks(goalWithWeeks.weeks) }
-                .fold(
-                    success = {
-                        goalDetailsUseCase.setGoalAsDone(goalWithWeeks)
-                        SuspendableResult.of<Unit, Exception> {
-                            goalDetailsUseCase.updateGoal(
-                                goalWithWeeks.goal
-                            )
-                        }
-                            .fold(success = {
-                                _goalDetailsAction.postValue(GoalDetailsAction.ShowCompletedGoal(true))
-                            }, failure = {
-                                _goalDetailsAction.postValue(GoalDetailsAction.ShowCompletedGoal(false))
-                            })
-
-                    }, failure = {
-                        _goalDetailsAction.postValue(GoalDetailsAction.ShowCompletedGoal(false))
-                    })
+            SuspendableResult.of<Unit, Exception> { setGoalAsDoneUseCase(goalWithWeeks) }
+                .fold(success = {
+                    GoalDetailsAction.ShowCompletedGoal.run()
+                }, failure = {
+                    GoalDetailsAction.ShowError(R.string.goal_details_make_done_error_message).run()
+                })
         }
     }
 
-    fun isAllWeeksDeposited(goalWithWeeks: GoalWithWeeks): Boolean {
-        goalWithWeeks.weeks.forEach {
-            if (!it.isDeposited) {
-                return false
+    fun showConfirmationDialogDoneGoal(goalWithWeeks: GoalWithWeeks, hasUpdate: Boolean = false) {
+        launch {
+            SuspendableResult.of<Boolean, Exception> {
+                checkAllWeeksAreDepositedUseCase(
+                    goalWithWeeks
+                )
             }
+                .fold(success = {
+                    if (it) {
+                        val message =
+                            if (hasUpdate) R.string.goal_details_move_to_done_first_dialog else R.string.goal_details_are_you_sure_done
+                        GoalDetailsAction.ShowConfirmationDialogDoneGoal(it, message).run()
+                    } else {
+                        if (!hasUpdate) GoalDetailsAction.ShowCantMoveToDoneDialog.run()
+                    }
+                }, failure = {
+                    GoalDetailsAction.ShowError(R.string.goals_generic_error).run()
+                })
         }
-        return true
     }
+
+    fun showConfirmationDialogRemoveGoal() =
+        GoalDetailsAction.ShowConfirmationDialogRemoveGoal.run()
 
     fun isDateAfterTodayWhenWeekIsNotDeposited(week: Week): Boolean {
         if (!week.isDeposited) return week.date.after(Date())
         return false
     }
-
-    //
 
     private fun handleLoading(isLoading: Boolean) {
         _goalDetailsViewState.value = GoalDetailsViewState(isLoading = isLoading)

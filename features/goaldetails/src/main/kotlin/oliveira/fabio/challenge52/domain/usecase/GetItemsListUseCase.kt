@@ -5,5 +5,5 @@ import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 
 interface GetItemsListUseCase {
-    fun getItemList(goalWithWeeks: GoalWithWeeks, week: Week? = null): MutableList<Item>
+    operator fun invoke(goalWithWeeks: GoalWithWeeks, week: Week? = null): MutableList<Item>
 }
