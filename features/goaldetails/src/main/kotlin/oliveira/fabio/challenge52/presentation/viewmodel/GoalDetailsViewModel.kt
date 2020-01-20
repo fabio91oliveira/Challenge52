@@ -60,7 +60,7 @@ class GoalDetailsViewModel(
                         handleLoading(false)
                     },
                     failure = {
-                        GoalDetailsAction.ShowError(null).run()
+                        GoalDetailsAction.ShowError(R.string.goal_details_list_error_message).run()
                         handleLoading(false)
                     }
                 )
@@ -80,7 +80,7 @@ class GoalDetailsViewModel(
                         GoalDetailsAction.ShowAddedGoals(it).run()
                     },
                     failure = {
-                        GoalDetailsAction.ShowError(null).run()
+                        GoalDetailsAction.ShowError(R.string.goal_details_list_error_message).run()
                     }
                 )
         }
@@ -96,8 +96,6 @@ class GoalDetailsViewModel(
                         GoalDetailsAction.ShowUpdatedGoal(week).run()
                     },
                     failure = {
-                        week.isDeposited = !week.isDeposited
-                        // TODO voltar estado de depositado, corrigir na view
                         GoalDetailsAction.ShowError(R.string.goal_details_update_error_message)
                             .run()
                     }

@@ -28,7 +28,7 @@ import oliveira.fabio.challenge52.extensions.showView
 import oliveira.fabio.challenge52.model.vo.ActivityResultTypeEnum
 import oliveira.fabio.challenge52.model.vo.ActivityResultVO
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-import oliveira.fabio.challenge52.presentation.dialog.ErrorDialogFragment
+import oliveira.fabio.challenge52.presentation.dialog.AlertDialogFragment
 import oliveira.fabio.challenge52.principal.goalslist.presentation.ui.adapter.GoalsAdapter
 import oliveira.fabio.challenge52.principal.goalslist.presentation.viewmodel.GoalsListViewModel
 import oliveira.fabio.challenge52.principal.home.presentation.ui.activity.HomeActivity
@@ -87,23 +87,25 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
                     showSnackBar(resources.getString(R.string.goals_list_a_goal_has_been_created))
                 }
                 REQUEST_CODE_DETAILS -> {
-                    (data?.getSerializableExtra(HAS_CHANGED) as ActivityResultVO).let {
-                        if (it.hasChanged) {
-                            when (it.type) {
-                                ActivityResultTypeEnum.REMOVED -> {
-                                    listGoals()
-                                    showSnackBar(resources.getString(R.string.goals_list_a_goal_has_been_deleted))
-                                }
-                                ActivityResultTypeEnum.UPDATED -> {
-                                    listGoals()
-                                    showSnackBar(resources.getString(R.string.goals_list_a_goal_has_been_updated))
-                                }
-                                ActivityResultTypeEnum.COMPLETED -> {
-                                    listGoals()
-                                    onGoalsListChangeListener?.onListChanged()
-                                    showSnackBar(resources.getString(R.string.goals_list_a_goal_has_been_moved_to_done))
-                                }
-                                ActivityResultTypeEnum.NONE -> {
+                    data?.apply {
+                        (getSerializableExtra(HAS_CHANGED) as ActivityResultVO).let {
+                            if (it.hasChanged) {
+                                when (it.type) {
+                                    ActivityResultTypeEnum.REMOVED -> {
+                                        listGoals()
+                                        showSnackBar(resources.getString(R.string.goals_list_a_goal_has_been_deleted))
+                                    }
+                                    ActivityResultTypeEnum.UPDATED -> {
+                                        listGoals()
+                                        showSnackBar(resources.getString(R.string.goals_list_a_goal_has_been_updated))
+                                    }
+                                    ActivityResultTypeEnum.COMPLETED -> {
+                                        listGoals()
+                                        onGoalsListChangeListener?.onListChanged()
+                                        showSnackBar(resources.getString(R.string.goals_list_a_goal_has_been_moved_to_done))
+                                    }
+                                    ActivityResultTypeEnum.NONE -> {
+                                    }
                                 }
                             }
                         }
@@ -115,22 +117,13 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
                     resetAnimation()
                 }
                 REQUEST_CODE_DETAILS -> {
-                    (data?.getSerializableExtra(HAS_CHANGED) as ActivityResultVO).let {
-                        if (it.hasChanged) {
-                            listGoals()
-                            showSnackBar(resources.getString(R.string.goals_list_a_goal_has_been_updated))
+                    data?.apply {
+                        (getSerializableExtra(HAS_CHANGED) as ActivityResultVO).let {
+                            if (it.hasChanged) {
+                                listGoals()
+                                showSnackBar(resources.getString(R.string.goals_list_a_goal_has_been_updated))
+                            }
                         }
-                    }
-                }
-            }
-            ACTIVITY_ERROR -> {
-                resetAnimation()
-                when (requestCode) {
-                    REQUEST_CODE_CREATE -> {
-                        showErrorScreen(resources.getString(R.string.goal_create_error_message))
-                    }
-                    REQUEST_CODE_DETAILS -> {
-                        showErrorScreen(resources.getString(R.string.goal_details_list_error_message))
                     }
                 }
             }
@@ -245,7 +238,7 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
                             showGoalsList()
                         }
                     }
-                    false -> showErrorScreen(resources.getString(R.string.goals_list_error_delete))
+                    false -> showErrorScreen(R.string.goals_list_error_delete)
                 }
             }
         })
@@ -401,11 +394,12 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         imgError.showView(false)
     }
 
-    private fun showErrorScreen(message: String) = ErrorDialogFragment().apply {
-        val b = Bundle()
-        b.putString(ErrorDialogFragment.MESSAGE, message)
-        arguments = b
-        show(supportFragmentManager, ErrorDialogFragment.TAG)
+    private fun showErrorScreen(stringResource: Int) {
+        AlertDialogFragment.newInstance(
+            R.drawable.ic_error,
+            R.string.goal_oops_title,
+            stringResource
+        ).show(supportFragmentManager, AlertDialogFragment.TAG)
     }
 
     private fun expandBar(hasToExpand: Boolean) = appBar.setExpanded(hasToExpand)
@@ -436,7 +430,6 @@ class GoalsListFragment : Fragment(), GoalsAdapter.OnClickGoalListener {
         private const val REQUEST_CODE_DETAILS = 400
         private const val GOAL_TAG = "GOAL"
         private const val HAS_CHANGED = "HAS_CHANGED"
-        private const val ACTIVITY_ERROR = -3
 
         fun newInstance() =
             GoalsListFragment()

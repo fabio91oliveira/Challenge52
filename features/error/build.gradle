@@ -8,4 +8,5 @@ dependencies {
 
     // Support
     api Deps.support_constraint_layout
+    api Deps.support_material
 }

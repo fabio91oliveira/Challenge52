@@ -19,7 +19,7 @@ import oliveira.fabio.challenge52.extensions.showView
 import oliveira.fabio.challenge52.model.vo.ActivityResultVO
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-import oliveira.fabio.challenge52.presentation.dialog.ErrorDialogFragment
+import oliveira.fabio.challenge52.presentation.dialog.AlertDialogFragment
 import oliveira.fabio.challenge52.presentation.state.GoalDetailsAction
 import oliveira.fabio.challenge52.presentation.ui.adapter.WeeksAdapter
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
@@ -85,7 +85,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         }
     }
 
-    override fun onClickWeek(week: Week, position: Int, func: () -> Unit) {
+    override fun onClickWeek(week: Week, position: Int) {
         // TODO JOGAR PARA ShowConfirmationDialogWeekIsPosterior E DEPOIS DE CONFIRMADO MESMO, FAZER A ANIMACAO EM OUTRA ACTION COMO
         // TODO AnimateWeekChanged passando position, setando last position, e fazendo a animacao
         when (goalDetailsViewModel.isDateAfterTodayWhenWeekIsNotDeposited(week)) {
@@ -93,11 +93,11 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                 showConfirmDialog(
                     resources.getString(R.string.goal_details_date_after_today),
                     DialogInterface.OnClickListener { dialog, _ ->
-                        updateWeek(week, position, func)
+                        updateWeek(week, position)
                         dialog.dismiss()
                     })
             }
-            false -> updateWeek(week, position, func)
+            false -> updateWeek(week, position)
         }
     }
 
@@ -132,11 +132,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             goalDetailsAction.observe(this@GoalDetailsActivity, Observer {
                 when (it) {
                     is GoalDetailsAction.ShowError -> {
-                        it.errorMessageRes?.also { errorMessageResource ->
-                            showErrorScreen(errorMessageResource)
-                        } ?: run {
-                            closeDetailsWithError()
-                        }
+                        showErrorScreen(it.errorMessageRes)
                     }
                     is GoalDetailsAction.ShowAddedGoalsFirstTime -> {
                         updateItemList(it.itemsList)
@@ -229,19 +225,12 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         finish()
     }
 
-    private fun closeDetailsWithError() {
-        setResult(ACTIVITY_ERROR)
-        finish()
-    }
-
     private fun updateWeek(
         week: Week,
-        position: Int,
-        func: () -> Unit
+        position: Int
     ) {
         goalDetailsViewModel.changeWeekDepositStatus(week)
         goalWithWeeks.lastPosition = position
-        func()
     }
 
     private fun updateItemList(list: MutableList<Item>) {
@@ -261,12 +250,14 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     private fun showLoading(hasToShow: Boolean) = loading.showView(hasToShow)
     private fun showContent(hasToShow: Boolean) = rvWeeks.showView(hasToShow)
 
-    private fun showErrorScreen(stringResource: Int) = ErrorDialogFragment().apply {
-        Bundle().also {
-            it.putString(ErrorDialogFragment.MESSAGE, resources.getString(stringResource))
-            arguments = it
-            show(supportFragmentManager, ErrorDialogFragment.TAG)
-        }
+    private fun showErrorScreen(stringResource: Int) {
+        AlertDialogFragment.newInstance(
+            R.drawable.ic_error,
+            R.string.goal_oops_title,
+            stringResource
+        ) {
+            finish()
+        }.show(supportFragmentManager, AlertDialogFragment.TAG)
     }
 
     private fun showConfirmDialog(message: String, listener: DialogInterface.OnClickListener) =
@@ -291,6 +282,5 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         private const val HAS_CHANGED = "HAS_CHANGED"
         private const val IS_FROM_DONE_GOALS = "IS_FROM_DONE_GOALS"
         private const val FIRST_POSITION = 0
-        private const val ACTIVITY_ERROR = -3
     }
 }

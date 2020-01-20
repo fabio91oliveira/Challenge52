@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Challenge 52</string>
 
+    <!-- All -->
+    <string name="all_button_ok">Ok</string>
+    <string name="all_button_go_back">Back</string>
+
     <!-- Menu -->
     <string name="navigation_menu_goals">Goals</string>
     <string name="navigation_menu_done">Done</string>
@@ -94,7 +98,6 @@
     <!-- Error -->
     <string name="goal_warning_title">Warning</string>
     <string name="goal_oops_title">Oops!</string>
-    <string name="goal_error_button_go_back">Go back</string>
     <string name="goals_generic_error">An error has occurred, try again or contact the
         developer.
     </string>

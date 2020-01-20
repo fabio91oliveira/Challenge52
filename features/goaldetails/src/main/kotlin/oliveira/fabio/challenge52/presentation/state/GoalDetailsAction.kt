@@ -9,7 +9,7 @@ sealed class GoalDetailsAction {
     data class ShowUpdatedGoal(val week: Week) : GoalDetailsAction()
     object ShowRemovedGoal : GoalDetailsAction()
     object ShowCompletedGoal : GoalDetailsAction()
-    data class ShowError(val errorMessageRes: Int?) : GoalDetailsAction()
+    data class ShowError(val errorMessageRes: Int) : GoalDetailsAction()
 
     data class ShowConfirmationDialogDoneGoal(val hasToShow: Boolean, val messageRes: Int) :
         GoalDetailsAction()
