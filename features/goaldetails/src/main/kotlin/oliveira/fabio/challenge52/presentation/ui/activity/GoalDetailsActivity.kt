@@ -85,7 +85,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         }
     }
 
-    override fun onClickWeek(week: Week, position: Int) {
+    override fun onClickWeek(week: Week, position: Int, block: () -> Unit) {
         // TODO JOGAR PARA ShowConfirmationDialogWeekIsPosterior E DEPOIS DE CONFIRMADO MESMO, FAZER A ANIMACAO EM OUTRA ACTION COMO
         // TODO AnimateWeekChanged passando position, setando last position, e fazendo a animacao
         when (goalDetailsViewModel.isDateAfterTodayWhenWeekIsNotDeposited(week)) {
@@ -93,11 +93,11 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                 showConfirmDialog(
                     resources.getString(R.string.goal_details_date_after_today),
                     DialogInterface.OnClickListener { dialog, _ ->
-                        updateWeek(week, position)
+                        updateWeek(week, position, block)
                         dialog.dismiss()
                     })
             }
-            false -> updateWeek(week, position)
+            false -> updateWeek(week, position, block)
         }
     }
 
@@ -131,18 +131,13 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             })
             goalDetailsAction.observe(this@GoalDetailsActivity, Observer {
                 when (it) {
-                    is GoalDetailsAction.ShowError -> {
-                        showErrorScreen(it.errorMessageRes)
-                    }
                     is GoalDetailsAction.ShowAddedGoalsFirstTime -> {
                         updateItemList(it.itemsList)
 
                         showContent(true)
                         rvWeeks.scheduleLayoutAnimation()
-                        if (!isFromDoneGoals) goalDetailsViewModel.showConfirmationDialogDoneGoal(
-                            goalWithWeeks,
-                            true
-                        )
+                        if (!isFromDoneGoals)
+                            goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated(goalWithWeeks)
                         expandBar(true)
                     }
                     is GoalDetailsAction.ShowAddedGoals -> {
@@ -155,7 +150,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                         newIntent.putExtra(
                             HAS_CHANGED,
                             ActivityResultVO().apply { setChangeUpdated() })
-                        goalDetailsViewModel.showConfirmationDialogDoneGoal(goalWithWeeks, true)
+                        goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated(goalWithWeeks)
                     }
                     is GoalDetailsAction.ShowRemovedGoal -> {
                         newIntent.putExtra(
@@ -170,19 +165,15 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                         closeDetails()
                     }
                     is GoalDetailsAction.ShowConfirmationDialogDoneGoal -> {
-                        if (it.hasToShow) {
-                            showConfirmDialog(
-                                resources.getString(it.messageRes),
-                                DialogInterface.OnClickListener { dialog, _ ->
-                                    goalDetailsViewModel.completeGoal(goalWithWeeks)
-                                    dialog.dismiss()
-                                })
-                        } else {
-                            showDialog(resources.getString(R.string.goal_details_cannot_move_to_done))
-                        }
+                        showConfirmDialog(
+                            resources.getString(it.messageRes),
+                            DialogInterface.OnClickListener { dialog, _ ->
+                                goalDetailsViewModel.completeGoal(goalWithWeeks)
+                                dialog.dismiss()
+                            })
                     }
                     is GoalDetailsAction.ShowCantMoveToDoneDialog -> {
-                        showDialog(resources.getString(R.string.goal_details_cannot_move_to_done))
+                        showDefaultDialog(it.messageRes)
                     }
                     is GoalDetailsAction.ShowConfirmationDialogRemoveGoal -> {
                         showConfirmDialog(
@@ -191,6 +182,9 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                                 goalDetailsViewModel.removeGoal(goalWithWeeks)
                                 dialog.dismiss()
                             })
+                    }
+                    is GoalDetailsAction.ShowError -> {
+                        showErrorScreen(it.errorMessageRes)
                     }
                 }
             })
@@ -227,10 +221,12 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
 
     private fun updateWeek(
         week: Week,
-        position: Int
+        position: Int,
+        block: () -> Unit
     ) {
         goalDetailsViewModel.changeWeekDepositStatus(week)
         goalWithWeeks.lastPosition = position
+        block()
     }
 
     private fun updateItemList(list: MutableList<Item>) {
@@ -268,10 +264,10 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
         }.show()
 
-    private fun showDialog(message: String) =
+    private fun showDefaultDialog(resString: Int) =
         AlertDialog.Builder(this).apply {
             setTitle(resources.getString(R.string.goal_warning_title))
-            setMessage(message)
+            setMessage(resources.getString(resString))
             setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
         }.show()
 

@@ -125,20 +125,36 @@ class GoalDetailsViewModel(
         }
     }
 
-    fun showConfirmationDialogDoneGoal(goalWithWeeks: GoalWithWeeks, hasUpdate: Boolean = false) {
+    fun showConfirmationDialogDoneGoalWhenUpdated(goalWithWeeks: GoalWithWeeks) {
         launch {
             SuspendableResult.of<Boolean, Exception> {
                 checkAllWeeksAreDepositedUseCase(
                     goalWithWeeks
                 )
             }
-                .fold(success = {
-                    if (it) {
-                        val message =
-                            if (hasUpdate) R.string.goal_details_move_to_done_first_dialog else R.string.goal_details_are_you_sure_done
-                        GoalDetailsAction.ShowConfirmationDialogDoneGoal(it, message).run()
+                .fold(success = { areAllWeeksDeposited ->
+                    if (areAllWeeksDeposited)
+                        GoalDetailsAction.ShowConfirmationDialogDoneGoal(R.string.goal_details_move_to_done_first_dialog).run()
+                }, failure = {
+                    GoalDetailsAction.ShowError(R.string.goals_generic_error).run()
+                })
+        }
+    }
+
+    fun showConfirmationDialogDoneGoal(goalWithWeeks: GoalWithWeeks) {
+        launch {
+            SuspendableResult.of<Boolean, Exception> {
+                checkAllWeeksAreDepositedUseCase(
+                    goalWithWeeks
+                )
+            }
+                .fold(success = { areAllWeeksDeposited ->
+                    if (areAllWeeksDeposited) {
+                        GoalDetailsAction.ShowConfirmationDialogDoneGoal(R.string.goal_details_are_you_sure_done)
+                            .run()
                     } else {
-                        if (!hasUpdate) GoalDetailsAction.ShowCantMoveToDoneDialog.run()
+                        GoalDetailsAction.ShowCantMoveToDoneDialog(R.string.goal_details_cannot_move_to_done)
+                            .run()
                     }
                 }, failure = {
                     GoalDetailsAction.ShowError(R.string.goals_generic_error).run()
