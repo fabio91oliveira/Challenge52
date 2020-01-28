@@ -5,7 +5,7 @@
     <application android:theme="@style/AppTheme"
                  android:supportsRtl="true">
         <activity
-                android:name="oliveira.fabio.challenge52.principal.home.presentation.ui.activity.HomeActivity">
+                android:name="oliveira.fabio.challenge52.home.presentation.activity.HomeActivity">
             <intent-filter>
                 <action android:name="oliveira.fabio.challenge52.home"/>
                 <category android:name="android.intent.category.DEFAULT"/>

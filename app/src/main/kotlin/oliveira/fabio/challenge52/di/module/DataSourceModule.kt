@@ -14,8 +14,6 @@ object DataSourceModule {
         factory<GoalLocalDataSource> { GoalLocalDataSourceImpl(get()) }
         factory<GoalWithWeeksLocalDataSource> { GoalWithWeeksLocalDataSourceImpl(get()) }
         factory<WeekLocalDataSource> { WeekLocalDataSourceImpl(get()) }
-
-
     }
 
     fun load() = loadKoinModules(dataSourceModule)

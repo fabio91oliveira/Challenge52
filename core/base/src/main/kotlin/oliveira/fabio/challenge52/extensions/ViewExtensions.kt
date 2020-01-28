@@ -63,6 +63,8 @@ fun View.doPopAnimation(duration: Long, func: () -> Unit) {
         }
 }
 
-fun View.showView(hasToShow: Boolean) {
-    visibility = if (hasToShow) View.VISIBLE else View.GONE
-}
+inline var View.isVisible: Boolean
+    get() = visibility == View.VISIBLE
+    set(value) {
+        visibility = if (value) View.VISIBLE else View.GONE
+    }

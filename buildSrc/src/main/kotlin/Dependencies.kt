@@ -29,6 +29,7 @@ object Versions {
     const val material = "1.0.0"
     const val recyclerview = "1.0.0"
     const val constraint_layout = "1.1.3"
+    const val viewpager2 = "1.0.0"
 
     const val lifecycle = "2.1.0"
 
@@ -52,6 +53,7 @@ object Deps {
     const val support_recyclerview = "androidx.recyclerview:recyclerview:${Versions.recyclerview}"
     const val support_constraint_layout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout}"
+    const val viewpager2 = "androidx.viewpager2:viewpager2:${Versions.viewpager2}"
 
     const val lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
     const val lifecycle_runtime = "androidx.lifecycle:lifecycle-runtime:${Versions.lifecycle}"

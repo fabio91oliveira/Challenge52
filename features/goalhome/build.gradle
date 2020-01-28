@@ -14,6 +14,7 @@ dependencies {
     api Deps.support_material
     api Deps.support_recyclerview
     api Deps.support_constraint_layout
+    api Deps.viewpager2
 
     // Koin
     api Deps.koin_viewmodel

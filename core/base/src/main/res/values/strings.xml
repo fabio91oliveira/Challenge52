@@ -24,11 +24,7 @@
     <string name="progress_value_percent">%</string>
 
     <string name="goals_list_a_goal_has_been_created">Goal has been created.</string>
-    <string name="goals_list_a_goal_has_been_deleted">Goal has been deleted.</string>
-    <plurals name="goals_list_goals_has_has_been_deleted">
-        <item quantity="one">One goal has been deleted.</item>
-        <item quantity="other">Goals has been deleted.</item>
-    </plurals>
+    <string name="goals_list_a_goal_has_been_deleted">Goal(s) has been deleted.</string>
     <string name="goals_list_a_goal_has_been_updated">Goal has been updated.</string>
     <string name="goals_list_a_goal_has_been_moved_to_done">Goal has been moved to done.</string>
 

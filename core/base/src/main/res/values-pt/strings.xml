@@ -24,11 +24,7 @@
     <string name="progress_value_percent">%</string>
 
     <string name="goals_list_a_goal_has_been_created">A meta foi criada.</string>
-    <string name="goals_list_a_goal_has_been_deleted">A meta foi removida.</string>
-    <plurals name="goals_list_goals_has_has_been_deleted">
-        <item quantity="one" tools:ignore="ImpliedQuantity">A meta selecionada foi removida.</item>
-        <item quantity="other">As metas selecionadas foram removidas.</item>
-    </plurals>
+    <string name="goals_list_a_goal_has_been_deleted">Meta(s) removida(s).</string>
     <string name="goals_list_a_goal_has_been_updated">A meta foi atualizada.</string>
     <string name="goals_list_a_goal_has_been_moved_to_done">A meta foi movida para realizado.</string>
 

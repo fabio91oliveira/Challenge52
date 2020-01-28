@@ -16,14 +16,13 @@ import oliveira.fabio.challenge52.extensions.toCurrencyFormat
 import oliveira.fabio.challenge52.extensions.toCurrentDateSystemString
 import oliveira.fabio.challenge52.presentation.action.GoalCreateActions
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalCreateViewModel
-import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.DateFormat
 import java.util.*
 
 class GoalCreateActivity : BaseActivity(R.layout.activity_goal_create) {
 
-    private val goalCreateViewModel: GoalCreateViewModel by currentScope.viewModel(this)
+    private val goalCreateViewModel: GoalCreateViewModel by viewModel()
     private val calendarToday by lazy { Calendar.getInstance() }
 
     private val taskName: String

@@ -15,7 +15,7 @@ import features.goaldetails.R
 import kotlinx.android.synthetic.main.activity_goal_details.*
 import oliveira.fabio.challenge52.BaseActivity
 import oliveira.fabio.challenge52.domain.model.vo.Item
-import oliveira.fabio.challenge52.extensions.showView
+import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.model.vo.ActivityResultVO
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
@@ -23,13 +23,12 @@ import oliveira.fabio.challenge52.presentation.dialog.AlertDialogFragment
 import oliveira.fabio.challenge52.presentation.state.GoalDetailsAction
 import oliveira.fabio.challenge52.presentation.ui.adapter.WeeksAdapter
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
-import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     WeeksAdapter.OnClickWeekListener {
 
-    private val goalDetailsViewModel: GoalDetailsViewModel by currentScope.viewModel(this)
+    private val goalDetailsViewModel: GoalDetailsViewModel by viewModel()
     private val isFromDoneGoals by lazy {
         intent.extras?.getBoolean(IS_FROM_DONE_GOALS) ?: false
     }
@@ -137,7 +136,9 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                         showContent(true)
                         rvWeeks.scheduleLayoutAnimation()
                         if (!isFromDoneGoals)
-                            goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated(goalWithWeeks)
+                            goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated(
+                                goalWithWeeks
+                            )
                         expandBar(true)
                     }
                     is GoalDetailsAction.ShowAddedGoals -> {
@@ -243,8 +244,12 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         }
     }
 
-    private fun showLoading(hasToShow: Boolean) = loading.showView(hasToShow)
-    private fun showContent(hasToShow: Boolean) = rvWeeks.showView(hasToShow)
+    private fun showLoading(hasToShow: Boolean) {
+        loading.isVisible = hasToShow
+    }
+    private fun showContent(hasToShow: Boolean) {
+        rvWeeks.isVisible = hasToShow
+    }
 
     private fun showErrorScreen(stringResource: Int) {
         AlertDialogFragment.newInstance(
