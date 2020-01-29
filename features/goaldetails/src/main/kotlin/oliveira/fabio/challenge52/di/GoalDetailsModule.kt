@@ -30,7 +30,6 @@ object GoalDetailsModule {
         }
         factory<SetGoalAsDoneUseCase> {
             SetGoalAsDoneUseCaseImpl(
-                get(),
                 get()
             )
         }

@@ -8,9 +8,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import oliveira.fabio.challenge52.domain.GoalWithWeeksRepository
-import oliveira.fabio.challenge52.domain.repository.GoalRepository
-import oliveira.fabio.challenge52.domain.repository.WeekRepository
+import oliveira.fabio.challenge52.home.goalslists.domain.usecase.GetAllDoneGoals
+import oliveira.fabio.challenge52.home.goalslists.domain.usecase.GetAllOpenedGoals
+import oliveira.fabio.challenge52.home.goalslists.domain.usecase.RemoveGoals
+import oliveira.fabio.challenge52.home.goalslists.domain.usecase.RemoveWeeks
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.viewstate.DoneGoalsViewState
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
@@ -21,9 +22,10 @@ import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import kotlin.coroutines.CoroutineContext
 
 class GoalsListsViewModel(
-    private val goalWithWeeksRepository: GoalWithWeeksRepository,
-    private val goalRepository: GoalRepository,
-    private val weekRepository: WeekRepository
+    private val getAllOpenedGoals: GetAllOpenedGoals,
+    private val getAllDoneGoals: GetAllDoneGoals,
+    private val removeGoals: RemoveGoals,
+    private val removeWeeks: RemoveWeeks
 ) : ViewModel(), CoroutineScope {
 
     private val job = SupervisorJob()
@@ -48,17 +50,23 @@ class GoalsListsViewModel(
     }
 
     fun showAddButton() {
-        OpenedGoalsViewState(isAddButtonVisible = true, isOpenedGoalsListVisible = true).newState()
+        changeOpenedGoalsViewState {
+            it.copy(isAddButtonVisible = true)
+        }
     }
 
     fun hideAddButton() {
-        OpenedGoalsViewState(isAddButtonVisible = false, isOpenedGoalsListVisible = true).newState()
+        changeOpenedGoalsViewState {
+            it.copy(isAddButtonVisible = false)
+        }
     }
 
     fun listOpenedGoals() {
         launch {
             OpenedGoalsViewState(isLoading = true).newState()
-            SuspendableResult.of<List<GoalWithWeeks>, Exception> { goalWithWeeksRepository.getAllGoalsWithWeeks() }
+            SuspendableResult.of<List<GoalWithWeeks>, Exception> {
+                getAllOpenedGoals()
+            }
                 .fold(
                     success = {
                         if (it.isNotEmpty()) {
@@ -90,7 +98,9 @@ class GoalsListsViewModel(
     fun listDoneGoals() {
         launch {
             DoneGoalsViewState(isLoading = true).newState()
-            SuspendableResult.of<List<GoalWithWeeks>, Exception> { goalWithWeeksRepository.getDoneAllGoalsWithWeeks() }
+            SuspendableResult.of<List<GoalWithWeeks>, Exception> {
+                getAllDoneGoals()
+            }
                 .fold(
                     success = {
                         if (it.isNotEmpty()) {
@@ -117,17 +127,9 @@ class GoalsListsViewModel(
 
     fun removeOpenedGoals() {
         launch {
-            val goalsToRemove = arrayListOf<Goal>()
-            val weeksToRemove = arrayListOf<Week>()
-
-            openedGoalsRemoveList.forEach {
-                goalsToRemove.add(it.goal)
-                weeksToRemove.addAll(it.weeks)
-            }
-
-            SuspendableResult.of<Int, Exception> { goalRepository.removeGoals(goalsToRemove) }.fold(
+            SuspendableResult.of<Unit, Exception> { removeGoals(openedGoalsRemoveList) }.fold(
                 success = {
-                    SuspendableResult.of<Int, Exception> { weekRepository.removeWeeks(weeksToRemove) }
+                    SuspendableResult.of<Unit, Exception> { removeWeeks(openedGoalsRemoveList) }
                         .fold(success = {
                             openedGoalsRemoveList.clear()
                             OpenedGoalsActions.RefreshList.run()
@@ -159,9 +161,9 @@ class GoalsListsViewModel(
                 weeksToRemove.addAll(it.weeks)
             }
 
-            SuspendableResult.of<Int, Exception> { goalRepository.removeGoals(goalsToRemove) }.fold(
+            SuspendableResult.of<Unit, Exception> { removeGoals(doneGoalsRemoveList) }.fold(
                 success = {
-                    SuspendableResult.of<Int, Exception> { weekRepository.removeWeeks(weeksToRemove) }
+                    SuspendableResult.of<Unit, Exception> { removeWeeks(doneGoalsRemoveList) }
                         .fold(success = {
                             doneGoalsRemoveList.clear()
                             DoneGoalsActions.RefreshList.run()
@@ -266,5 +268,11 @@ class GoalsListsViewModel(
 
     private fun DoneGoalsViewState.newState() {
         _doneGoalsViewState.value = this
+    }
+
+    private fun changeOpenedGoalsViewState(state: (OpenedGoalsViewState) -> OpenedGoalsViewState) {
+        _openedGoalsViewState.value?.also {
+            _openedGoalsViewState.value = state(it)
+        }
     }
 }

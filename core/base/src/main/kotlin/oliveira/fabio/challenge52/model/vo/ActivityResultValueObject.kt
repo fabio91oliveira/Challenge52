@@ -2,7 +2,7 @@ package oliveira.fabio.challenge52.model.vo
 
 import java.io.Serializable
 
-data class ActivityResultVO(
+data class ActivityResultValueObject(
     var hasChanged: Boolean = false,
     var type: ActivityResultTypeEnum = ActivityResultTypeEnum.NONE
 ) :

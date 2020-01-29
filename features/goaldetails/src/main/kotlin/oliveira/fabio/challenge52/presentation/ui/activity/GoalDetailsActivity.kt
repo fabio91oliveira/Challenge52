@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_goal_details.*
 import oliveira.fabio.challenge52.BaseActivity
 import oliveira.fabio.challenge52.domain.model.vo.Item
 import oliveira.fabio.challenge52.extensions.isVisible
-import oliveira.fabio.challenge52.model.vo.ActivityResultVO
+import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.presentation.dialog.AlertDialogFragment
@@ -112,7 +112,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             }
         } ?: run {
             goalWithWeeks = intent.extras?.getSerializable(GOAL_TAG) as GoalWithWeeks
-            newIntent = Intent().apply { putExtra(HAS_CHANGED, ActivityResultVO()) }
+            newIntent = Intent().apply { putExtra(HAS_CHANGED, ActivityResultValueObject()) }
         }
     }
 
@@ -150,19 +150,19 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                         goalDetailsViewModel.getWeeksList(goalWithWeeks, it.week)
                         newIntent.putExtra(
                             HAS_CHANGED,
-                            ActivityResultVO().apply { setChangeUpdated() })
+                            ActivityResultValueObject().apply { setChangeUpdated() })
                         goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated(goalWithWeeks)
                     }
                     is GoalDetailsAction.ShowRemovedGoal -> {
                         newIntent.putExtra(
                             HAS_CHANGED,
-                            ActivityResultVO().apply { setChangeRemoved() })
+                            ActivityResultValueObject().apply { setChangeRemoved() })
                         closeDetails()
                     }
                     is GoalDetailsAction.ShowCompletedGoal -> {
                         newIntent.putExtra(
                             HAS_CHANGED,
-                            ActivityResultVO().apply { setChangeCompleted() })
+                            ActivityResultValueObject().apply { setChangeCompleted() })
                         closeDetails()
                     }
                     is GoalDetailsAction.ShowConfirmationDialogDoneGoal -> {

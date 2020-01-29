@@ -25,7 +25,7 @@ import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.a
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.adapter.OpenedGoalsAdapter
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultTypeEnum
-import oliveira.fabio.challenge52.model.vo.ActivityResultVO
+import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
@@ -61,7 +61,7 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
                 }
                 REQUEST_CODE_DETAILS -> {
                     data?.apply {
-                        (getSerializableExtra(HAS_CHANGED) as ActivityResultVO).let {
+                        (getSerializableExtra(HAS_CHANGED) as ActivityResultValueObject).let {
                             if (it.hasChanged) {
                                 when (it.type) {
                                     ActivityResultTypeEnum.REMOVED -> {
@@ -91,7 +91,7 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
                 }
                 REQUEST_CODE_DETAILS -> {
                     data?.apply {
-                        (getSerializableExtra(HAS_CHANGED) as ActivityResultVO).let {
+                        (getSerializableExtra(HAS_CHANGED) as ActivityResultValueObject).let {
                             if (it.hasChanged) goalsListsViewModel.showMessageHasOpenedGoalBeenUpdated()
                         }
                     }

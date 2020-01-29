@@ -24,7 +24,7 @@ import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.adapter.DoneGoalsAdapter
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
-import oliveira.fabio.challenge52.model.vo.ActivityResultVO
+import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
@@ -54,7 +54,7 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
         when (resultCode) {
             Activity.RESULT_OK -> when (requestCode) {
                 REQUEST_CODE_DETAILS -> {
-                    (data?.getSerializableExtra(HAS_CHANGED) as ActivityResultVO).let {
+                    (data?.getSerializableExtra(HAS_CHANGED) as ActivityResultValueObject).let {
                         if (it.hasChanged) goalsListsViewModel.showMessageHasOneDoneGoalDeleted()
                     }
                 }
@@ -97,6 +97,9 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
             })
             doneGoalsActions.observe(this@DoneGoalsListFragment, Observer {
                 when (it) {
+                    is DoneGoalsActions.ShowMessage -> {
+                        showSnackBar(resources.getString(it.stringRes))
+                    }
                     is DoneGoalsActions.RefreshList -> {
                         listDoneGoals()
                     }
