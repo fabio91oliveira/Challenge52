@@ -55,7 +55,10 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
             Activity.RESULT_OK -> when (requestCode) {
                 REQUEST_CODE_DETAILS -> {
                     (data?.getSerializableExtra(HAS_CHANGED) as ActivityResultValueObject).let {
-                        if (it.hasChanged) goalsListsViewModel.showMessageHasOneDoneGoalDeleted()
+                        if (it.hasChanged) with(goalsListsViewModel) {
+                            showMessageHasOneDoneGoalDeleted()
+                            listDoneGoals()
+                        }
                     }
                 }
             }
