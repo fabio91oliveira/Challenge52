@@ -33,12 +33,12 @@ class GoalCreateViewModel(
         name: String,
         valueToStart: String
     ) {
-        Goal(
-            initialDate = initialDate.toDate(DateFormat.SHORT),
-            name = name,
-            valueToStart = valueToStart.removeMoneyMask().toFloatCurrency()
-        ).apply {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            Goal(
+                initialDate = initialDate.toDate(DateFormat.SHORT),
+                name = name,
+                valueToStart = valueToStart.removeMoneyMask().toFloatCurrency()
+            ).apply {
                 SuspendableResult.of<Long, Exception> { addGoalUseCase(this@apply) }.fold(
                     success = {
                         SuspendableResult.of<List<Long>, Exception> {
