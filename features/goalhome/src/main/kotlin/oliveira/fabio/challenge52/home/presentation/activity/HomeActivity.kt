@@ -8,7 +8,7 @@ import features.goalhome.R
 import kotlinx.android.synthetic.main.activity_home.*
 import oliveira.fabio.challenge52.BaseActivity
 import oliveira.fabio.challenge52.home.goalslists.presentation.fragment.GoalsListsFragment
-import oliveira.fabio.challenge52.home.help.presentation.ui.fragment.HelpFragment
+import oliveira.fabio.challenge52.home.help.presentation.fragment.HelpFragment
 
 class HomeActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 

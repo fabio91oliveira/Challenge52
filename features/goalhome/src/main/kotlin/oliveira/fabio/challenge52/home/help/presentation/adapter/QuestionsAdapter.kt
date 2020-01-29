@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.home.help.presentation.ui.adapter
+package oliveira.fabio.challenge52.home.help.presentation.adapter
 
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
