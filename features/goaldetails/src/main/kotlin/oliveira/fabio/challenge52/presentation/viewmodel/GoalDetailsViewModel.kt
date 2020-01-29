@@ -17,8 +17,8 @@ import oliveira.fabio.challenge52.domain.usecase.RemoveGoalUseCase
 import oliveira.fabio.challenge52.domain.usecase.SetGoalAsDoneUseCase
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-import oliveira.fabio.challenge52.presentation.state.GoalDetailsAction
-import oliveira.fabio.challenge52.presentation.state.GoalDetailsViewState
+import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
+import oliveira.fabio.challenge52.presentation.viewstate.GoalDetailsViewState
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
@@ -30,10 +30,10 @@ class GoalDetailsViewModel(
     private val checkAllWeeksAreDepositedUseCase: CheckAllWeeksAreDepositedUseCase
 ) : ViewModel(), CoroutineScope {
 
-    private val _goalDetailsAction by lazy { MutableLiveData<GoalDetailsAction>() }
+    private val _goalDetailsAction by lazy { MutableLiveData<GoalDetailsActions>() }
     private val _goalDetailsViewState by lazy { MutableLiveData<GoalDetailsViewState>() }
 
-    val goalDetailsAction: LiveData<GoalDetailsAction>
+    val goalDetailsActions: LiveData<GoalDetailsActions>
         get() = _goalDetailsAction
 
     val goalDetailsViewState: LiveData<GoalDetailsViewState>
@@ -49,19 +49,19 @@ class GoalDetailsViewModel(
     }
 
     fun getWeeksList(goalWithWeeks: GoalWithWeeks) {
-        handleLoading(true)
+        GoalDetailsViewState(isLoading = true).newState()
         launch {
             SuspendableResult.of<MutableList<Item>, Exception> {
                 getItemsListUseCase(goalWithWeeks)
             }
                 .fold(
                     success = {
-                        GoalDetailsAction.ShowAddedGoalsFirstTime(it).run()
-                        handleLoading(false)
+                        GoalDetailsActions.ShowAddedGoalsFirstTime(it).run()
+                        GoalDetailsViewState(isLoading = false).newState()
                     },
                     failure = {
-                        GoalDetailsAction.ShowError(R.string.goal_details_list_error_message).run()
-                        handleLoading(false)
+                        GoalDetailsActions.ShowError(R.string.goal_details_list_error_message).run()
+                        GoalDetailsViewState(isLoading = false).newState()
                     }
                 )
         }
@@ -77,10 +77,10 @@ class GoalDetailsViewModel(
             }
                 .fold(
                     success = {
-                        GoalDetailsAction.ShowAddedGoals(it).run()
+                        GoalDetailsActions.ShowAddedGoals(it).run()
                     },
                     failure = {
-                        GoalDetailsAction.ShowError(R.string.goal_details_list_error_message).run()
+                        GoalDetailsActions.ShowError(R.string.goal_details_list_error_message).run()
                     }
                 )
         }
@@ -93,10 +93,10 @@ class GoalDetailsViewModel(
             }
                 .fold(
                     success = {
-                        GoalDetailsAction.ShowUpdatedGoal(week).run()
+                        GoalDetailsActions.ShowUpdatedGoal(week).run()
                     },
                     failure = {
-                        GoalDetailsAction.ShowError(R.string.goal_details_update_error_message)
+                        GoalDetailsActions.ShowError(R.string.goal_details_update_error_message)
                             .run()
                     }
                 )
@@ -107,9 +107,9 @@ class GoalDetailsViewModel(
         launch {
             SuspendableResult.of<Unit, Exception> { removeGoalUseCase(goalWithWeeks) }
                 .fold(success = {
-                    GoalDetailsAction.ShowRemovedGoal.run()
+                    GoalDetailsActions.ShowRemovedGoal.run()
                 }, failure = {
-                    GoalDetailsAction.ShowError(R.string.goal_details_remove_error_message).run()
+                    GoalDetailsActions.ShowError(R.string.goal_details_remove_error_message).run()
                 })
         }
     }
@@ -118,9 +118,10 @@ class GoalDetailsViewModel(
         launch {
             SuspendableResult.of<Unit, Exception> { setGoalAsDoneUseCase(goalWithWeeks) }
                 .fold(success = {
-                    GoalDetailsAction.ShowCompletedGoal.run()
+                    GoalDetailsActions.ShowCompletedGoal.run()
                 }, failure = {
-                    GoalDetailsAction.ShowError(R.string.goal_details_make_done_error_message).run()
+                    GoalDetailsActions.ShowError(R.string.goal_details_make_done_error_message)
+                        .run()
                 })
         }
     }
@@ -134,9 +135,9 @@ class GoalDetailsViewModel(
             }
                 .fold(success = { areAllWeeksDeposited ->
                     if (areAllWeeksDeposited)
-                        GoalDetailsAction.ShowConfirmationDialogDoneGoal(R.string.goal_details_move_to_done_first_dialog).run()
+                        GoalDetailsActions.ShowConfirmationDialogDoneGoal(R.string.goal_details_move_to_done_first_dialog).run()
                 }, failure = {
-                    GoalDetailsAction.ShowError(R.string.goals_generic_error).run()
+                    GoalDetailsActions.ShowError(R.string.goals_generic_error).run()
                 })
         }
     }
@@ -150,31 +151,31 @@ class GoalDetailsViewModel(
             }
                 .fold(success = { areAllWeeksDeposited ->
                     if (areAllWeeksDeposited) {
-                        GoalDetailsAction.ShowConfirmationDialogDoneGoal(R.string.goal_details_are_you_sure_done)
+                        GoalDetailsActions.ShowConfirmationDialogDoneGoal(R.string.goal_details_are_you_sure_done)
                             .run()
                     } else {
-                        GoalDetailsAction.ShowCantMoveToDoneDialog(R.string.goal_details_cannot_move_to_done)
+                        GoalDetailsActions.ShowCantMoveToDoneDialog(R.string.goal_details_cannot_move_to_done)
                             .run()
                     }
                 }, failure = {
-                    GoalDetailsAction.ShowError(R.string.goals_generic_error).run()
+                    GoalDetailsActions.ShowError(R.string.goals_generic_error).run()
                 })
         }
     }
 
     fun showConfirmationDialogRemoveGoal() =
-        GoalDetailsAction.ShowConfirmationDialogRemoveGoal.run()
+        GoalDetailsActions.ShowConfirmationDialogRemoveGoal.run()
 
     fun isDateAfterTodayWhenWeekIsNotDeposited(week: Week): Boolean {
         if (!week.isDeposited) return week.date.after(Date())
         return false
     }
 
-    private fun handleLoading(isLoading: Boolean) {
-        _goalDetailsViewState.value = GoalDetailsViewState(isLoading = isLoading)
+    private fun GoalDetailsActions.run() {
+        _goalDetailsAction.value = this
     }
 
-    private fun GoalDetailsAction.run() {
-        _goalDetailsAction.value = this
+    private fun GoalDetailsViewState.newState() {
+        _goalDetailsViewState.value = this
     }
 }

@@ -7,7 +7,6 @@ import com.github.kittinunf.result.coroutines.SuspendableResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import oliveira.fabio.challenge52.domain.usecase.AddGoalUseCase
 import oliveira.fabio.challenge52.domain.usecase.AddWeeksUseCase
@@ -16,7 +15,7 @@ import oliveira.fabio.challenge52.extensions.toDate
 import oliveira.fabio.challenge52.extensions.toFloatCurrency
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.presentation.action.GoalCreateActions
-import oliveira.fabio.challenge52.presentation.state.GoalCreateViewState
+import oliveira.fabio.challenge52.presentation.viewstate.GoalCreateViewState
 import java.text.DateFormat
 import kotlin.coroutines.CoroutineContext
 
@@ -38,7 +37,7 @@ class GoalCreateViewModel(
 
     public override fun onCleared() {
         super.onCleared()
-        job.takeIf { isActive }?.apply { cancel() }
+        if (job.isActive) job.cancel()
     }
 
     fun createGoal(
@@ -72,7 +71,7 @@ class GoalCreateViewModel(
 
     fun validateFields(name: String, value: String) = GoalCreateViewState(
         isCreateButtonEnable = (name.isNotEmpty() && isMoreOrEqualsOne(value.removeMoneyMask()))
-    ).run()
+    ).newState()
 
     private fun isMoreOrEqualsOne(value: String): Boolean {
         if (value.isNotEmpty()) {
@@ -85,7 +84,7 @@ class GoalCreateViewModel(
         _goalCreateActions.value = this
     }
 
-    private fun GoalCreateViewState.run() {
+    private fun GoalCreateViewState.newState() {
         _goalCreateViewState.value = this
     }
 

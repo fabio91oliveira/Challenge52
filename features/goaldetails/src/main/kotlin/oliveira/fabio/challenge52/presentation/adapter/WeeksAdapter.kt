@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.presentation.ui.adapter
+package oliveira.fabio.challenge52.presentation.adapter
 
 import android.animation.ObjectAnimator
 import android.view.LayoutInflater
