@@ -31,12 +31,12 @@ object Versions {
     const val constraint_layout = "1.1.3"
     const val viewpager2 = "1.0.0"
 
-    const val lifecycle = "2.1.0"
+    const val lifecycle = "2.2.0"
 
     const val coroutines = "1.3.2"
     const val resultcore = "2.2.0"
     const val resultcoroutines = "2.2.0"
-    const val room = "2.2.1"
+    const val room = "2.2.2"
 
     const val koin = "2.0.1"
 }
