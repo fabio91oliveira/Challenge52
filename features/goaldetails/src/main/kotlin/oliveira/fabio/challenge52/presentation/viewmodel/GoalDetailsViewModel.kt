@@ -3,11 +3,9 @@ package oliveira.fabio.challenge52.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import features.goaldetails.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import oliveira.fabio.challenge52.domain.model.vo.Item
 import oliveira.fabio.challenge52.domain.usecase.ChangeWeekDepositStatusUseCase
@@ -20,7 +18,6 @@ import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
 import oliveira.fabio.challenge52.presentation.viewstate.GoalDetailsViewState
 import java.util.*
-import kotlin.coroutines.CoroutineContext
 
 class GoalDetailsViewModel(
     private val getItemsListUseCase: GetItemsListUseCase,
@@ -28,7 +25,7 @@ class GoalDetailsViewModel(
     private val setGoalAsDoneUseCase: SetGoalAsDoneUseCase,
     private val removeGoalUseCase: RemoveGoalUseCase,
     private val checkAllWeeksAreDepositedUseCase: CheckAllWeeksAreDepositedUseCase
-) : ViewModel(), CoroutineScope {
+) : ViewModel() {
 
     private val _goalDetailsAction by lazy { MutableLiveData<GoalDetailsActions>() }
     private val _goalDetailsViewState by lazy { MutableLiveData<GoalDetailsViewState>() }
@@ -39,18 +36,9 @@ class GoalDetailsViewModel(
     val goalDetailsViewState: LiveData<GoalDetailsViewState>
         get() = _goalDetailsViewState
 
-    private val job = SupervisorJob()
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
-
-    public override fun onCleared() {
-        super.onCleared()
-        if (job.isActive) job.cancel()
-    }
-
     fun getWeeksList(goalWithWeeks: GoalWithWeeks) {
         GoalDetailsViewState(isLoading = true).newState()
-        launch {
+        viewModelScope.launch {
             SuspendableResult.of<MutableList<Item>, Exception> {
                 getItemsListUseCase(goalWithWeeks)
             }
@@ -68,7 +56,7 @@ class GoalDetailsViewModel(
     }
 
     fun getWeeksList(goalWithWeeks: GoalWithWeeks, week: Week?) {
-        launch {
+        viewModelScope.launch {
             SuspendableResult.of<MutableList<Item>, Exception> {
                 getItemsListUseCase(
                     goalWithWeeks,
@@ -87,7 +75,7 @@ class GoalDetailsViewModel(
     }
 
     fun changeWeekDepositStatus(week: Week) {
-        launch {
+        viewModelScope.launch {
             SuspendableResult.of<Unit, Exception> {
                 changeWeekDepositStatusUseCase(week)
             }
@@ -104,7 +92,7 @@ class GoalDetailsViewModel(
     }
 
     fun removeGoal(goalWithWeeks: GoalWithWeeks) {
-        launch {
+        viewModelScope.launch {
             SuspendableResult.of<Unit, Exception> { removeGoalUseCase(goalWithWeeks) }
                 .fold(success = {
                     GoalDetailsActions.ShowRemovedGoal.run()
@@ -115,7 +103,7 @@ class GoalDetailsViewModel(
     }
 
     fun completeGoal(goalWithWeeks: GoalWithWeeks) {
-        launch {
+        viewModelScope.launch {
             SuspendableResult.of<Unit, Exception> { setGoalAsDoneUseCase(goalWithWeeks) }
                 .fold(success = {
                     GoalDetailsActions.ShowCompletedGoal.run()
@@ -127,7 +115,7 @@ class GoalDetailsViewModel(
     }
 
     fun showConfirmationDialogDoneGoalWhenUpdated(goalWithWeeks: GoalWithWeeks) {
-        launch {
+        viewModelScope.launch {
             SuspendableResult.of<Boolean, Exception> {
                 checkAllWeeksAreDepositedUseCase(
                     goalWithWeeks
@@ -143,7 +131,7 @@ class GoalDetailsViewModel(
     }
 
     fun showConfirmationDialogDoneGoal(goalWithWeeks: GoalWithWeeks) {
-        launch {
+        viewModelScope.launch {
             SuspendableResult.of<Boolean, Exception> {
                 checkAllWeeksAreDepositedUseCase(
                     goalWithWeeks

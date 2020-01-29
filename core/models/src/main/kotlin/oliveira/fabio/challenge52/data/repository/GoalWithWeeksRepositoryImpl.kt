@@ -9,11 +9,11 @@ class GoalWithWeeksRepositoryImpl(
     private val goalWithWeeksLocalDataSource: GoalWithWeeksLocalDataSource
 ) :
     GoalWithWeeksRepository {
-    override suspend fun getAllOpenedGoalsWithWeeks() = withContext(Dispatchers.Default) {
+    override suspend fun getAllOpenedGoalsWithWeeks() = withContext(Dispatchers.IO) {
         goalWithWeeksLocalDataSource.getAllGoalsWithWeeks()
     }
 
-    override suspend fun getAllDoneGoalsWithWeeks() = withContext(Dispatchers.Default) {
+    override suspend fun getAllDoneGoalsWithWeeks() = withContext(Dispatchers.IO) {
         goalWithWeeksLocalDataSource.getDoneAllGoalsWithWeeks()
     }
 }

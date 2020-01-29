@@ -8,7 +8,7 @@ dependencies {
     api Deps.support_app_compat
 
     // Lifecycle
-    api Deps.lifecycle_extensions
-    api Deps.lifecycle_runtime
+    api Deps.lifecycle_viewmodel
+    api Deps.lifecycle_livedata
     kapt Deps.lifecycle_compiler
 }

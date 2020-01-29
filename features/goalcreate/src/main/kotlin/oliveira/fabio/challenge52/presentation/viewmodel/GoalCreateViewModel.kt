@@ -3,10 +3,8 @@ package oliveira.fabio.challenge52.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.github.kittinunf.result.coroutines.SuspendableResult
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import oliveira.fabio.challenge52.domain.usecase.AddGoalUseCase
 import oliveira.fabio.challenge52.domain.usecase.AddWeeksUseCase
@@ -17,28 +15,18 @@ import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.presentation.action.GoalCreateActions
 import oliveira.fabio.challenge52.presentation.viewstate.GoalCreateViewState
 import java.text.DateFormat
-import kotlin.coroutines.CoroutineContext
 
 class GoalCreateViewModel(
     private val addGoalUseCase: AddGoalUseCase,
     private val addWeeksUseCase: AddWeeksUseCase
 ) :
-    ViewModel(), CoroutineScope {
+    ViewModel() {
 
     private val _goalCreateActions by lazy { MutableLiveData<GoalCreateActions>() }
     val goalCreateActions: LiveData<GoalCreateActions> = _goalCreateActions
 
     private val _goalCreateViewState by lazy { MutableLiveData<GoalCreateViewState>() }
     val goalCreateViewState: LiveData<GoalCreateViewState> = _goalCreateViewState
-
-    private val job by lazy { SupervisorJob() }
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
-
-    public override fun onCleared() {
-        super.onCleared()
-        if (job.isActive) job.cancel()
-    }
 
     fun createGoal(
         initialDate: String,
@@ -50,7 +38,7 @@ class GoalCreateViewModel(
             name = name,
             valueToStart = valueToStart.removeMoneyMask().toFloatCurrency()
         ).apply {
-            launch {
+            viewModelScope.launch {
                 SuspendableResult.of<Long, Exception> { addGoalUseCase(this@apply) }.fold(
                     success = {
                         SuspendableResult.of<List<Long>, Exception> {

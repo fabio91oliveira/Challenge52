@@ -6,7 +6,7 @@ import oliveira.fabio.challenge52.domain.usecase.CheckAllWeeksAreDepositedUseCas
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 
 class CheckAllWeeksAreDepositedUseCaseImpl : CheckAllWeeksAreDepositedUseCase {
-    override suspend fun invoke(goalWithWeeks: GoalWithWeeks) = withContext(Dispatchers.Default) {
+    override suspend fun invoke(goalWithWeeks: GoalWithWeeks) = withContext(Dispatchers.Main) {
         goalWithWeeks.weeks.forEach {
             if (!it.isDeposited) return@withContext false
         }
