@@ -11,8 +11,7 @@ class GetItemsListUseCaseImpl(
     private val itemMapper: ItemMapper
 ) : GetItemsListUseCase {
     override suspend operator fun invoke(goalWithWeeks: GoalWithWeeks, week: Week?) =
-        withContext(Dispatchers.Main) {
+        withContext(Dispatchers.Default) {
             itemMapper(goalWithWeeks, week)
         }
-
 }

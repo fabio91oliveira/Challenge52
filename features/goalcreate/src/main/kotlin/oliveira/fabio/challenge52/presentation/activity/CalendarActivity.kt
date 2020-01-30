@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.presentation.ui.activity
+package oliveira.fabio.challenge52.presentation.activity
 
 import android.animation.ValueAnimator
 import android.app.Activity

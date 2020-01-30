@@ -7,18 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import kotlinx.coroutines.launch
 import oliveira.fabio.challenge52.domain.usecase.AddGoalUseCase
-import oliveira.fabio.challenge52.domain.usecase.AddWeeksUseCase
 import oliveira.fabio.challenge52.extensions.removeMoneyMask
-import oliveira.fabio.challenge52.extensions.toDate
 import oliveira.fabio.challenge52.extensions.toFloatCurrency
-import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.presentation.action.GoalCreateActions
 import oliveira.fabio.challenge52.presentation.viewstate.GoalCreateViewState
-import java.text.DateFormat
 
 class GoalCreateViewModel(
-    private val addGoalUseCase: AddGoalUseCase,
-    private val addWeeksUseCase: AddWeeksUseCase
+    private val addGoalUseCase: AddGoalUseCase
 ) :
     ViewModel() {
 
@@ -34,26 +29,18 @@ class GoalCreateViewModel(
         valueToStart: String
     ) {
         viewModelScope.launch {
-            Goal(
-                initialDate = initialDate.toDate(DateFormat.SHORT),
-                name = name,
-                valueToStart = valueToStart.removeMoneyMask().toFloatCurrency()
-            ).apply {
-                SuspendableResult.of<Long, Exception> { addGoalUseCase(this@apply) }.fold(
-                    success = {
-                        SuspendableResult.of<List<Long>, Exception> {
-                            addWeeksUseCase(this@apply, it)
-                        }
-                            .fold(success = {
-                                GoalCreateActions.ShowSuccess.run()
-                            }, failure = {
-                                GoalCreateActions.ShowError.run()
-                            })
-
-                    }, failure = {
-                        GoalCreateActions.ShowError.run()
-                    })
-            }
+            SuspendableResult.of<Unit, Exception> {
+                addGoalUseCase(
+                    initialDate,
+                    name,
+                    valueToStart
+                )
+            }.fold(
+                success = {
+                    GoalCreateActions.ShowSuccess.run()
+                }, failure = {
+                    GoalCreateActions.ShowError.run()
+                })
         }
     }
 
