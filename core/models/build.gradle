@@ -5,7 +5,4 @@ apply plugin: 'kotlin-kapt'
 
 dependencies {
     api project(Core.Persistence)
-
-    // Coroutines
-    implementation Deps.coroutines_core
 }
