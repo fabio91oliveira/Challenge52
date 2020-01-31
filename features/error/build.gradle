@@ -4,8 +4,9 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    api project(':core:base')
+    api project(Core.Base)
 
     // Support
     api Deps.support_constraint_layout
+    api Deps.support_material
 }

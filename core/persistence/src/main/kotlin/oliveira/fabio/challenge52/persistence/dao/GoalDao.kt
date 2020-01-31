@@ -1,8 +1,11 @@
 package oliveira.fabio.challenge52.persistence.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Update
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 
 @Dao
 interface GoalDao {
@@ -17,12 +20,4 @@ interface GoalDao {
 
     @Delete
     fun deleteGoals(goalsList: List<Goal>): Int
-
-    @Transaction
-    @Query("SELECT * FROM goal WHERE goal.isDone = 0")
-    fun getAllGoalsWithWeeks(): List<GoalWithWeeks>
-
-    @Transaction
-    @Query("SELECT * FROM goal WHERE goal.isDone = 1")
-    fun getAllDoneGoalsWithWeeks(): List<GoalWithWeeks>
 }

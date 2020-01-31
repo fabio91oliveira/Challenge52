@@ -1,6 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Desafio 52</string>
 
+    <!-- All -->
+    <string name="all_button_ok">Ok</string>
+    <string name="all_button_go_back">Voltar</string>
+
     <!-- Menu -->
     <string name="navigation_menu_goals">Metas</string>
     <string name="navigation_menu_done">Realizadas</string>
@@ -20,11 +24,7 @@
     <string name="progress_value_percent">%</string>
 
     <string name="goals_list_a_goal_has_been_created">A meta foi criada.</string>
-    <string name="goals_list_a_goal_has_been_deleted">A meta foi removida.</string>
-    <plurals name="goals_list_goals_has_has_been_deleted">
-        <item quantity="one" tools:ignore="ImpliedQuantity">A meta selecionada foi removida.</item>
-        <item quantity="other">As metas selecionadas foram removidas.</item>
-    </plurals>
+    <string name="goals_list_a_goal_has_been_deleted">Meta(s) removida(s).</string>
     <string name="goals_list_a_goal_has_been_updated">A meta foi atualizada.</string>
     <string name="goals_list_a_goal_has_been_moved_to_done">A meta foi movida para realizado.</string>
 
@@ -96,7 +96,6 @@
     <!-- Error -->
     <string name="goal_warning_title">Atenção</string>
     <string name="goal_oops_title">Oops!</string>
-    <string name="goal_error_button_go_back">Voltar</string>
     <string name="goals_generic_error">Ocorreu um erro, tente novamente ou contate o
         desenvolvedor.
     </string>

@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import oliveira.fabio.challenge52.actions.Actions
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         init()
@@ -15,5 +14,4 @@ class MainActivity : AppCompatActivity() {
         startActivity(Actions.openHome(this))
         finish()
     }
-
 }

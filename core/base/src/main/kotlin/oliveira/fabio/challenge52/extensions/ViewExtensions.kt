@@ -4,7 +4,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
-import java.text.DateFormat
 import java.text.NumberFormat
 import java.util.*
 
@@ -46,12 +45,6 @@ fun EditText.callFunctionAfterTextChanged(func: () -> Unit) {
     })
 }
 
-fun EditText.toDate(dateFormat: Int): Date {
-    val sdf = DateFormat.getDateInstance(dateFormat)
-    sdf.isLenient = false
-    return sdf.parse(text.toString())
-}
-
 fun View.doPopAnimation(duration: Long, func: () -> Unit) {
     animate()
         .apply {
@@ -70,6 +63,8 @@ fun View.doPopAnimation(duration: Long, func: () -> Unit) {
         }
 }
 
-fun View.showView(hasToShow: Boolean) {
-    visibility = if (hasToShow) View.VISIBLE else View.GONE
-}
+inline var View.isVisible: Boolean
+    get() = visibility == View.VISIBLE
+    set(value) {
+        visibility = if (value) View.VISIBLE else View.GONE
+    }

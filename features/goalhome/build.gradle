@@ -4,16 +4,26 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    api project(':core:base')
-    api project(':core:actions')
+    api project(Core.Base)
+    api project(Core.Actions)
+    api project(Core.Models)
 
-    api project(':features:error')
+    api project(Features.Error)
 
     // Support
     api Deps.support_material
     api Deps.support_recyclerview
     api Deps.support_constraint_layout
+    api Deps.viewpager2
 
     // Koin
     api Deps.koin_viewmodel
+
+    // Coroutines
+    api Deps.coroutines_core
+    api Deps.coroutines_android
+
+    // Result
+    api Deps.result_core
+    api Deps.result_coroutines
 }

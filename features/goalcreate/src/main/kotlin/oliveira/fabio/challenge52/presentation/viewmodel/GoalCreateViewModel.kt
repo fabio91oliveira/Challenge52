@@ -3,69 +3,66 @@ package oliveira.fabio.challenge52.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.github.kittinunf.result.coroutines.SuspendableResult
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import oliveira.fabio.challenge52.domain.usecase.GoalCreateUseCase
+import oliveira.fabio.challenge52.domain.usecase.AddGoalUseCase
+import oliveira.fabio.challenge52.extensions.removeMoneyMask
 import oliveira.fabio.challenge52.extensions.toFloatCurrency
-import oliveira.fabio.challenge52.persistence.model.entity.Goal
-import oliveira.fabio.challenge52.presentation.state.GoalCreateState
-import java.util.*
-import kotlin.coroutines.CoroutineContext
+import oliveira.fabio.challenge52.presentation.action.GoalCreateActions
+import oliveira.fabio.challenge52.presentation.viewstate.GoalCreateViewState
+import timber.log.Timber
 
-class GoalCreateViewModel(private val goalCreateUseCase: GoalCreateUseCase) :
-    ViewModel(), CoroutineScope {
+class GoalCreateViewModel(
+    private val addGoalUseCase: AddGoalUseCase
+) :
+    ViewModel() {
 
-    private val _goalCreateState by lazy { MutableLiveData<GoalCreateState>() }
+    private val _goalCreateActions by lazy { MutableLiveData<GoalCreateActions>() }
+    val goalCreateActions: LiveData<GoalCreateActions> = _goalCreateActions
 
-    val goalCreateState: LiveData<GoalCreateState>
-        get() = _goalCreateState
+    private val _goalCreateViewState by lazy { MutableLiveData<GoalCreateViewState>() }
+    val goalCreateViewState: LiveData<GoalCreateViewState> = _goalCreateViewState
 
-    private val job by lazy { SupervisorJob() }
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
-
-    public override fun onCleared() {
-        super.onCleared()
-        if (job.isActive) job.cancel()
-    }
-
-    fun createGoal(goal: Goal) {
-        launch {
-            SuspendableResult.of<Long, Exception> { goalCreateUseCase.addGoal(goal) }.fold(
+    fun createGoal(
+        initialDate: String,
+        name: String,
+        valueToStart: String
+    ) {
+        viewModelScope.launch {
+            SuspendableResult.of<Unit, Exception> {
+                addGoalUseCase(
+                    initialDate,
+                    name,
+                    valueToStart
+                )
+            }.fold(
                 success = {
-                    SuspendableResult.of<List<Long>, Exception> { goalCreateUseCase.addWeeks(goal, it) }
-                        .fold(success = {
-                            _goalCreateState.postValue(GoalCreateState.Success)
-                        }, failure = {
-                            _goalCreateState.postValue(GoalCreateState.Error)
-                        })
-
+                    GoalCreateActions.ShowSuccess.run()
                 }, failure = {
-                    _goalCreateState.postValue(GoalCreateState.Error)
+                    GoalCreateActions.ShowError.run()
+                    Timber.e(it)
                 })
         }
     }
 
-    fun isAllFieldsFilled(name: String, value: String) =
-        name.isNotEmpty() && (isMoreOrEqualsOne(removeMoneyMask(value)))
-
-    fun getFloatCurrencyValue(value: String) = removeMoneyMask(value).toFloatCurrency()
-
-    private fun removeMoneyMask(value: String): String {
-        val defaultCurrencySymbol = Currency.getInstance(Locale.getDefault()).symbol
-        val regexPattern = "[$defaultCurrencySymbol,.]"
-
-        return Regex(regexPattern).replace(value, "")
-    }
+    fun validateFields(name: String, value: String) = GoalCreateViewState(
+        isCreateButtonEnable = (name.isNotEmpty() && isMoreOrEqualsOne(value.removeMoneyMask()))
+    ).newState()
 
     private fun isMoreOrEqualsOne(value: String): Boolean {
         if (value.isNotEmpty()) {
             return value.toFloatCurrency() >= MONEY_MIN
         }
         return false
+    }
+
+    private fun GoalCreateActions.run() {
+        _goalCreateActions.value = this
+    }
+
+    private fun GoalCreateViewState.newState() {
+        _goalCreateViewState.value = this
     }
 
     companion object {
