@@ -39,6 +39,7 @@ object Versions {
     const val room = "2.2.2"
 
     const val koin = "2.0.1"
+    const val timber = "4.7.1"
 }
 
 object Deps {
@@ -55,7 +56,8 @@ object Deps {
         "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout}"
     const val viewpager2 = "androidx.viewpager2:viewpager2:${Versions.viewpager2}"
 
-    const val lifecycle_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+    const val lifecycle_viewmodel =
+        "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val lifecycle_livedata = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
     const val lifecycle_compiler = "androidx.lifecycle:lifecycle-compiler:${Versions.lifecycle}"
 
@@ -74,6 +76,8 @@ object Deps {
     const val koin_android = "org.koin:koin-android:${Versions.koin}"
     const val koin_lifecycle = "org.koin:koin-android-scope:${Versions.koin}"
     const val koin_viewmodel = "org.koin:koin-android-viewmodel:${Versions.koin}"
+
+    const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
     // Test
     // koin.test = "org.koin:koin-test:$versions.koin"

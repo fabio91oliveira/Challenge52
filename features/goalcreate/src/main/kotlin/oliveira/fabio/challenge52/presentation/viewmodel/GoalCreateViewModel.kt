@@ -11,6 +11,7 @@ import oliveira.fabio.challenge52.extensions.removeMoneyMask
 import oliveira.fabio.challenge52.extensions.toFloatCurrency
 import oliveira.fabio.challenge52.presentation.action.GoalCreateActions
 import oliveira.fabio.challenge52.presentation.viewstate.GoalCreateViewState
+import timber.log.Timber
 
 class GoalCreateViewModel(
     private val addGoalUseCase: AddGoalUseCase
@@ -40,6 +41,7 @@ class GoalCreateViewModel(
                     GoalCreateActions.ShowSuccess.run()
                 }, failure = {
                     GoalCreateActions.ShowError.run()
+                    Timber.e(it)
                 })
         }
     }

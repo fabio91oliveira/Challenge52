@@ -23,7 +23,6 @@ open class BaseActivity : AppCompatActivity {
         }
     }
 
-
     override fun onStart() {
         super.onStart()
         if (onStartCount > 1) {
@@ -35,6 +34,5 @@ open class BaseActivity : AppCompatActivity {
         } else if (onStartCount == 1) {
             onStartCount++
         }
-
     }
 }

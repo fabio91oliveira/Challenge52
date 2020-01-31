@@ -17,6 +17,7 @@ import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
 import oliveira.fabio.challenge52.presentation.viewstate.GoalDetailsViewState
+import timber.log.Timber
 import java.util.*
 
 class GoalDetailsViewModel(
@@ -50,6 +51,7 @@ class GoalDetailsViewModel(
                     failure = {
                         GoalDetailsActions.ShowError(R.string.goal_details_list_error_message).run()
                         GoalDetailsViewState(isLoading = false).newState()
+                        Timber.e(it)
                     }
                 )
         }
@@ -69,6 +71,7 @@ class GoalDetailsViewModel(
                     },
                     failure = {
                         GoalDetailsActions.ShowError(R.string.goal_details_list_error_message).run()
+                        Timber.e(it)
                     }
                 )
         }
@@ -86,6 +89,7 @@ class GoalDetailsViewModel(
                     failure = {
                         GoalDetailsActions.ShowError(R.string.goal_details_update_error_message)
                             .run()
+                        Timber.e(it)
                     }
                 )
         }
@@ -98,6 +102,7 @@ class GoalDetailsViewModel(
                     GoalDetailsActions.ShowRemovedGoal.run()
                 }, failure = {
                     GoalDetailsActions.ShowError(R.string.goal_details_remove_error_message).run()
+                    Timber.e(it)
                 })
         }
     }
@@ -110,6 +115,7 @@ class GoalDetailsViewModel(
                 }, failure = {
                     GoalDetailsActions.ShowError(R.string.goal_details_make_done_error_message)
                         .run()
+                    Timber.e(it)
                 })
         }
     }
@@ -126,6 +132,7 @@ class GoalDetailsViewModel(
                         GoalDetailsActions.ShowConfirmationDialogDoneGoal(R.string.goal_details_move_to_done_first_dialog).run()
                 }, failure = {
                     GoalDetailsActions.ShowError(R.string.goals_generic_error).run()
+                    Timber.e(it)
                 })
         }
     }
@@ -147,6 +154,7 @@ class GoalDetailsViewModel(
                     }
                 }, failure = {
                     GoalDetailsActions.ShowError(R.string.goals_generic_error).run()
+                    Timber.e(it)
                 })
         }
     }

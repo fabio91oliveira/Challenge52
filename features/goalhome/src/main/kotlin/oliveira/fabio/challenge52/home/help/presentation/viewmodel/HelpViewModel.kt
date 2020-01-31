@@ -12,6 +12,7 @@ import kotlinx.coroutines.withContext
 import oliveira.fabio.challenge52.home.help.domain.model.vo.Question
 import oliveira.fabio.challenge52.home.help.presentation.action.HelpActions
 import oliveira.fabio.challenge52.home.help.presentation.viewstate.HelpViewState
+import timber.log.Timber
 
 class HelpViewModel : ViewModel() {
 
@@ -34,6 +35,7 @@ class HelpViewModel : ViewModel() {
                     },
                     failure = {
                         HelpViewState(isErrorVisible = true).newState()
+                        Timber.e(it)
                     }
                 )
         }

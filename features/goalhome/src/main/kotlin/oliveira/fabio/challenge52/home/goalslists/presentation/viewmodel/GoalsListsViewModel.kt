@@ -17,6 +17,7 @@ import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.v
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
+import timber.log.Timber
 
 class GoalsListsViewModel(
     private val getAllOpenedGoals: GetAllOpenedGoals,
@@ -78,6 +79,7 @@ class GoalsListsViewModel(
                         OpenedGoalsViewState(
                             isErrorVisible = true
                         ).newState()
+                        Timber.e(it)
                     }
                 )
         }
@@ -108,6 +110,7 @@ class GoalsListsViewModel(
                     failure = {
                         DoneGoalsActions.Error(R.string.goals_list_error).run()
                         DoneGoalsViewState(isErrorVisible = true).newState()
+                        Timber.e(it)
                     }
                 )
         }
@@ -128,6 +131,7 @@ class GoalsListsViewModel(
                             OpenedGoalsViewState(
                                 isErrorVisible = true
                             ).newState()
+                            Timber.e(it)
                         })
 
                 }, failure = {
@@ -135,6 +139,7 @@ class GoalsListsViewModel(
                     OpenedGoalsViewState(
                         isErrorVisible = true
                     ).newState()
+                    Timber.e(it)
                 })
         }
     }
@@ -165,6 +170,7 @@ class GoalsListsViewModel(
                 }, failure = {
                     DoneGoalsActions.Error(R.string.goals_list_error_delete).run()
                     DoneGoalsViewState(isErrorVisible = true).newState()
+                    Timber.e(it)
                 })
         }
     }
