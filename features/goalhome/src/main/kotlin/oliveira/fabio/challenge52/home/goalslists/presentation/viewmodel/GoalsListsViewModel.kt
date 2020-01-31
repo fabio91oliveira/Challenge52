@@ -8,8 +8,7 @@ import features.goalhome.R
 import kotlinx.coroutines.launch
 import oliveira.fabio.challenge52.home.goalslists.domain.usecase.GetAllDoneGoals
 import oliveira.fabio.challenge52.home.goalslists.domain.usecase.GetAllOpenedGoals
-import oliveira.fabio.challenge52.home.goalslists.domain.usecase.RemoveGoals
-import oliveira.fabio.challenge52.home.goalslists.domain.usecase.RemoveWeeks
+import oliveira.fabio.challenge52.home.goalslists.domain.usecase.RemoveGoalsUseCase
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.viewstate.DoneGoalsViewState
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
@@ -22,8 +21,7 @@ import timber.log.Timber
 class GoalsListsViewModel(
     private val getAllOpenedGoals: GetAllOpenedGoals,
     private val getAllDoneGoals: GetAllDoneGoals,
-    private val removeGoals: RemoveGoals,
-    private val removeWeeks: RemoveWeeks
+    private val removeGoalsUseCase: RemoveGoalsUseCase
 ) : ViewModel() {
 
     private val openedGoalsRemoveList by lazy { mutableListOf<GoalWithWeeks>() }
@@ -118,29 +116,19 @@ class GoalsListsViewModel(
 
     fun removeOpenedGoals() {
         viewModelScope.launch {
-            SuspendableResult.of<Unit, Exception> { removeGoals(openedGoalsRemoveList) }.fold(
-                success = {
-                    SuspendableResult.of<Unit, Exception> { removeWeeks(openedGoalsRemoveList) }
-                        .fold(success = {
-                            openedGoalsRemoveList.clear()
-                            OpenedGoalsActions.RefreshList.run()
-                            OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_deleted)
-                                .run()
-                        }, failure = {
-                            OpenedGoalsActions.Error(R.string.goals_list_error_delete).run()
-                            OpenedGoalsViewState(
-                                isErrorVisible = true
-                            ).newState()
-                            Timber.e(it)
-                        })
-
-                }, failure = {
-                    OpenedGoalsActions.Error(R.string.goals_list_error_delete).run()
-                    OpenedGoalsViewState(
-                        isErrorVisible = true
-                    ).newState()
-                    Timber.e(it)
-                })
+            SuspendableResult.of<Unit, Exception> { removeGoalsUseCase(openedGoalsRemoveList) }
+                .fold(
+                    success = {
+                        openedGoalsRemoveList.clear()
+                        OpenedGoalsActions.RefreshList.run()
+                        OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_deleted)
+                    }, failure = {
+                        OpenedGoalsActions.Error(R.string.goals_list_error_delete).run()
+                        OpenedGoalsViewState(
+                            isErrorVisible = true
+                        ).newState()
+                        Timber.e(it)
+                    })
         }
     }
 
@@ -154,19 +142,12 @@ class GoalsListsViewModel(
                 weeksToRemove.addAll(it.weeks)
             }
 
-            SuspendableResult.of<Unit, Exception> { removeGoals(doneGoalsRemoveList) }.fold(
+            SuspendableResult.of<Unit, Exception> { removeGoalsUseCase(doneGoalsRemoveList) }.fold(
                 success = {
-                    SuspendableResult.of<Unit, Exception> { removeWeeks(doneGoalsRemoveList) }
-                        .fold(success = {
-                            doneGoalsRemoveList.clear()
-                            DoneGoalsActions.RefreshList.run()
-                            DoneGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_deleted)
-                                .run()
-                        }, failure = {
-                            DoneGoalsActions.Error(R.string.goals_list_error_delete).run()
-                            DoneGoalsViewState(isErrorVisible = true).newState()
-                        })
-
+                    doneGoalsRemoveList.clear()
+                    DoneGoalsActions.RefreshList.run()
+                    DoneGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_deleted)
+                        .run()
                 }, failure = {
                     DoneGoalsActions.Error(R.string.goals_list_error_delete).run()
                     DoneGoalsViewState(isErrorVisible = true).newState()
