@@ -36,6 +36,11 @@ class GoalsListsViewModel(
     private val _doneGoalsViewState by lazy { MutableLiveData<DoneGoalsViewState>() }
     val doneGoalsViewState by lazy { _doneGoalsViewState }
 
+    init {
+        listOpenedGoals()
+        listDoneGoals()
+    }
+
     fun showAddButton() {
         changeOpenedGoalsViewState {
             it.copy(isAddButtonVisible = true)

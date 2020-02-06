@@ -104,7 +104,6 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
         initObservables()
         initClickListener()
         initRecyclerView()
-        goalsListsViewModel.listOpenedGoals()
     }
 
     private fun initObservables() {

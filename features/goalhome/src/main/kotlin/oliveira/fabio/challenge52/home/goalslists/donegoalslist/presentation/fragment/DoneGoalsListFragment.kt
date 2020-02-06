@@ -86,7 +86,6 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
         initObservables()
         initClickListener()
         initRecyclerView()
-        goalsListsViewModel.listDoneGoals()
     }
 
     private fun initObservables() {
