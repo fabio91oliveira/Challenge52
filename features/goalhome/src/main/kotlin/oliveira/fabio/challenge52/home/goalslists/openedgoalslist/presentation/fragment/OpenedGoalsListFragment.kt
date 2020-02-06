@@ -42,7 +42,7 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         savedInstanceState?.let {
-            initLiveData()
+            initObservables()
             initClickListener()
             initRecyclerView()
         } ?: run {
@@ -101,13 +101,13 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
     }
 
     private fun init() {
-        initLiveData()
+        initObservables()
         initClickListener()
         initRecyclerView()
         goalsListsViewModel.listOpenedGoals()
     }
 
-    private fun initLiveData() {
+    private fun initObservables() {
         with(goalsListsViewModel) {
             openedGoalsViewState.observe(this@OpenedGoalsListFragment, Observer {
                 showAddButton(it.isAddButtonVisible)

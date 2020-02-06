@@ -42,7 +42,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         savedInstanceState?.let {
             setupToolbar()
             initRecyclerView()
-            initLiveData()
+            initObservables()
         } ?: run {
             init()
         }
@@ -119,11 +119,11 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     private fun init() {
         setupToolbar()
         initRecyclerView()
-        initLiveData()
+        initObservables()
         goalDetailsViewModel.getWeeksList(goalWithWeeks)
     }
 
-    private fun initLiveData() {
+    private fun initObservables() {
         with(goalDetailsViewModel) {
             goalDetailsViewState.observe(this@GoalDetailsActivity, Observer {
                 showLoading(it.isLoading)

@@ -41,7 +41,7 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         savedInstanceState?.let {
-            initLiveData()
+            initObservables()
             initClickListener()
             initRecyclerView()
         } ?: run {
@@ -83,13 +83,13 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
         openGoalDetailsActivity(goal)
 
     private fun init() {
-        initLiveData()
+        initObservables()
         initClickListener()
         initRecyclerView()
         goalsListsViewModel.listDoneGoals()
     }
 
-    private fun initLiveData() {
+    private fun initObservables() {
         with(goalsListsViewModel) {
             doneGoalsViewState.observe(this@DoneGoalsListFragment, Observer {
                 showRemoveButton(it.isDeleteButtonVisible)
