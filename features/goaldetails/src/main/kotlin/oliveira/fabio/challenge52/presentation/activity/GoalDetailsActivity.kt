@@ -248,6 +248,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                     resources.getString(dialogViewState.stringRes),
                     DialogInterface.OnClickListener { dialog, _ ->
                         goalDetailsViewModel.removeGoal(goalWithWeeks)
+                        goalDetailsViewModel.hideDialogs()
                         dialog.dismiss()
                     })
             }
@@ -277,14 +278,20 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             setTitle(resources.getString(R.string.goal_warning_title))
             setMessage(message)
             setPositiveButton(android.R.string.ok, listener)
-            setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+                goalDetailsViewModel.hideDialogs()
+            }
         }.show()
 
     private fun showDefaultDialog(resString: Int) =
         AlertDialog.Builder(this).apply {
             setTitle(resources.getString(R.string.goal_warning_title))
             setMessage(resources.getString(resString))
-            setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
+            setPositiveButton(android.R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+                goalDetailsViewModel.hideDialogs()
+            }
         }.show()
 
     private fun expandBar(hasToExpand: Boolean) = appBarLayout.setExpanded(hasToExpand)

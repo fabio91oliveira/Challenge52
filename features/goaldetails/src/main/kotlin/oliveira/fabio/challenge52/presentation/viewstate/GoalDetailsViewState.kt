@@ -5,7 +5,11 @@ import androidx.annotation.StringRes
 data class GoalDetailsViewState(
     val isLoading: Boolean = true,
     val dialog: Dialog = Dialog.NoDialog
-)
+) {
+    companion object {
+        fun init() = GoalDetailsViewState()
+    }
+}
 
 sealed class Dialog {
     object NoDialog : Dialog()

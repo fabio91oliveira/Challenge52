@@ -39,51 +39,60 @@ class GoalsListsViewModel(
     val doneGoalsViewState by lazy { _doneGoalsViewState }
 
     init {
+        initViewStates()
         listOpenedGoals()
         listDoneGoals()
     }
 
     fun showAddButton() {
-        changeOpenedGoalsViewState {
+        setOpenedGoalsViewState {
             it.copy(isAddButtonVisible = true)
         }
     }
 
     fun hideAddButton() {
-        changeOpenedGoalsViewState {
+        setOpenedGoalsViewState {
             it.copy(isAddButtonVisible = false)
         }
     }
 
     fun listOpenedGoals() {
         viewModelScope.launch {
-            OpenedGoalsViewState(isLoading = true).newState()
+            setOpenedGoalsViewState {
+                OpenedGoalsViewState(isLoading = true)
+            }
             SuspendableResult.of<List<GoalWithWeeks>, Exception> {
                 getAllOpenedGoals()
             }
                 .fold(
                     success = {
                         if (it.isNotEmpty()) {
-                            OpenedGoalsActions.OpenedGoalsList(it).run()
-                            OpenedGoalsViewState(
-                                isLoading = false,
-                                isOpenedGoalsListVisible = true,
-                                isAddButtonVisible = true
-                            ).newState()
+                            OpenedGoalsActions.OpenedGoalsList(it).sendAction()
+                            setOpenedGoalsViewState {
+                                OpenedGoalsViewState(
+                                    isLoading = false,
+                                    isOpenedGoalsListVisible = true,
+                                    isAddButtonVisible = true
+                                )
+                            }
                         } else {
-                            OpenedGoalsActions.ClearList.run()
-                            OpenedGoalsViewState(
-                                isLoading = false,
-                                isEmptyStateVisible = true,
-                                isAddButtonVisible = true
-                            ).newState()
+                            OpenedGoalsActions.ClearList.sendAction()
+                            setOpenedGoalsViewState {
+                                OpenedGoalsViewState(
+                                    isLoading = false,
+                                    isEmptyStateVisible = true,
+                                    isAddButtonVisible = true
+                                )
+                            }
                         }
                     },
                     failure = {
-                        OpenedGoalsActions.Error(R.string.goals_list_error).run()
-                        OpenedGoalsViewState(
-                            isErrorVisible = true
-                        ).newState()
+                        OpenedGoalsActions.Error(R.string.goals_list_error).sendAction()
+                        setOpenedGoalsViewState {
+                            OpenedGoalsViewState(
+                                isErrorVisible = true
+                            )
+                        }
                         Timber.e(it)
                     }
                 )
@@ -92,29 +101,39 @@ class GoalsListsViewModel(
 
     fun listDoneGoals() {
         viewModelScope.launch {
-            DoneGoalsViewState(isLoading = true).newState()
+            setDoneGoalsViewState {
+                DoneGoalsViewState(isLoading = true)
+            }
             SuspendableResult.of<List<GoalWithWeeks>, Exception> {
                 getAllDoneGoals()
             }
                 .fold(
                     success = {
                         if (it.isNotEmpty()) {
-                            DoneGoalsActions.DoneGoalsList(it).run()
-                            DoneGoalsViewState(
-                                isLoading = false,
-                                isDoneGoalsListVisible = true
-                            ).newState()
+                            DoneGoalsActions.DoneGoalsList(it).sendAction()
+                            setDoneGoalsViewState {
+                                DoneGoalsViewState(
+                                    isLoading = false,
+                                    isDoneGoalsListVisible = true
+                                )
+                            }
                         } else {
-                            DoneGoalsActions.ClearList.run()
-                            DoneGoalsViewState(
-                                isLoading = false,
-                                isEmptyStateVisible = true
-                            ).newState()
+                            DoneGoalsActions.ClearList.sendAction()
+                            setDoneGoalsViewState {
+                                DoneGoalsViewState(
+                                    isLoading = false,
+                                    isEmptyStateVisible = true
+                                )
+                            }
                         }
                     },
                     failure = {
-                        DoneGoalsActions.Error(R.string.goals_list_error).run()
-                        DoneGoalsViewState(isErrorVisible = true).newState()
+                        DoneGoalsActions.Error(R.string.goals_list_error).sendAction()
+                        setDoneGoalsViewState {
+                            DoneGoalsViewState(
+                                isErrorVisible = true
+                            )
+                        }
                         Timber.e(it)
                     }
                 )
@@ -127,13 +146,15 @@ class GoalsListsViewModel(
                 .fold(
                     success = {
                         openedGoalsRemoveList.clear()
-                        OpenedGoalsActions.RefreshList.run()
-                        OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_deleted)
+                        OpenedGoalsActions.RefreshList.sendAction()
+                        OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_deleted).sendAction()
                     }, failure = {
-                        OpenedGoalsActions.Error(R.string.goals_list_error_delete).run()
-                        OpenedGoalsViewState(
-                            isErrorVisible = true
-                        ).newState()
+                        OpenedGoalsActions.Error(R.string.goals_list_error_delete).sendAction()
+                        setOpenedGoalsViewState {
+                            OpenedGoalsViewState(
+                                isErrorVisible = true
+                            )
+                        }
                         Timber.e(it)
                     })
         }
@@ -152,75 +173,87 @@ class GoalsListsViewModel(
             SuspendableResult.of<Unit, Exception> { removeGoalsUseCase(doneGoalsRemoveList) }.fold(
                 success = {
                     doneGoalsRemoveList.clear()
-                    DoneGoalsActions.RefreshList.run()
+                    DoneGoalsActions.RefreshList.sendAction()
                     DoneGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_deleted)
-                        .run()
+                        .sendAction()
                 }, failure = {
-                    DoneGoalsActions.Error(R.string.goals_list_error_delete).run()
-                    DoneGoalsViewState(isErrorVisible = true).newState()
+                    DoneGoalsActions.Error(R.string.goals_list_error_delete).sendAction()
+                    setDoneGoalsViewState {
+                        DoneGoalsViewState(
+                            isErrorVisible = true
+                        )
+                    }
                     Timber.e(it)
                 })
         }
     }
 
     fun showMessageGoalHasBeenCreated() =
-        OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_created).run()
+        OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_created).sendAction()
 
     fun showMessageHasOneOpenedGoalDeleted() =
-        OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_deleted).run()
+        OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_deleted).sendAction()
 
     fun showMessageHasOpenedGoalBeenUpdated() =
-        OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_updated).run()
+        OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_updated).sendAction()
 
     fun showMessageHasOpenedGoalBeenCompleted() =
-        OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_moved_to_done).run()
+        OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_moved_to_done).sendAction()
 
     fun showMessageHasOneDoneGoalDeleted() =
-        DoneGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_deleted).run()
+        DoneGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_deleted).sendAction()
 
     fun addOpenedGoalToListToRemove(goalWithWeeks: GoalWithWeeks) {
         with(openedGoalsRemoveList) {
             add(goalWithWeeks)
-            OpenedGoalsViewState(
-                isDeleteButtonVisible = true,
-                isOpenedGoalsListVisible = true
-            ).newState()
+            setOpenedGoalsViewState {
+                OpenedGoalsViewState(
+                    isDeleteButtonVisible = true,
+                    isOpenedGoalsListVisible = true
+                )
+            }
         }
     }
 
     fun removeOpenedGoalFromListToRemove(goalWithWeeks: GoalWithWeeks) {
         with(openedGoalsRemoveList) {
             remove(goalWithWeeks)
-            OpenedGoalsViewState(
-                isDeleteButtonVisible = isEmpty().not(),
-                isAddButtonVisible = isEmpty(),
-                isOpenedGoalsListVisible = true
-            ).newState()
+            setOpenedGoalsViewState {
+                OpenedGoalsViewState(
+                    isDeleteButtonVisible = isEmpty().not(),
+                    isAddButtonVisible = isEmpty(),
+                    isOpenedGoalsListVisible = true
+                )
+            }
         }
     }
 
     fun addDoneGoalToListToRemove(goalWithWeeks: GoalWithWeeks) {
         with(doneGoalsRemoveList) {
             add(goalWithWeeks)
-            DoneGoalsViewState(
-                isDeleteButtonVisible = true,
-                isDoneGoalsListVisible = true
-            ).newState()
+            setDoneGoalsViewState {
+                DoneGoalsViewState(
+                    isDeleteButtonVisible = true,
+                    isDoneGoalsListVisible = true
+                )
+            }
         }
     }
 
     fun removeDoneGoalFromListToRemove(goalWithWeeks: GoalWithWeeks) {
         with(doneGoalsRemoveList) {
             remove(goalWithWeeks)
-            DoneGoalsViewState(
-                isDeleteButtonVisible = isEmpty().not(),
-                isDoneGoalsListVisible = true
-            ).newState()
+            setDoneGoalsViewState {
+                DoneGoalsViewState(
+                    isDeleteButtonVisible = isEmpty().not(),
+                    isDoneGoalsListVisible = true
+                )
+            }
         }
     }
 
     fun showRemoveOpenedGoalsConfirmationDialog() {
-        changeOpenedGoalsViewState {
+        setOpenedGoalsViewState {
             it.copy(
                 dialog = OpenedGoalsDialog.RemoveConfirmationDialog(
                     R.plurals.goal_details_are_you_sure_removes,
@@ -231,7 +264,7 @@ class GoalsListsViewModel(
     }
 
     fun showRemoveDoneGoalsConfirmationDialog() {
-        changeDoneGoalsViewState {
+        setDoneGoalsViewState {
             it.copy(
                 dialog = DoneGoalsDialog.RemoveConfirmationDialog(
                     R.plurals.goal_details_are_you_sure_removes,
@@ -242,31 +275,30 @@ class GoalsListsViewModel(
     }
 
     fun showErrorWhenTryToOpenDetails() =
-        DoneGoalsActions.Error(R.string.goal_details_list_error_message).run()
+        DoneGoalsActions.Error(R.string.goal_details_list_error_message).sendAction()
 
-    private fun OpenedGoalsActions.run() {
+    private fun initViewStates() {
+        _openedGoalsViewState.value = OpenedGoalsViewState.init()
+        _doneGoalsViewState.value = DoneGoalsViewState.init()
+    }
+
+    private fun OpenedGoalsActions.sendAction() {
         _openedGoalsActions.value = this
     }
 
-    private fun DoneGoalsActions.run() {
+    private fun DoneGoalsActions.sendAction() {
         _doneGoalsActions.value = this
     }
 
-    private fun OpenedGoalsViewState.newState() {
-        _openedGoalsViewState.value = this
-    }
-
-    private fun DoneGoalsViewState.newState() {
-        _doneGoalsViewState.value = this
-    }
-
-    private fun changeOpenedGoalsViewState(state: (OpenedGoalsViewState) -> OpenedGoalsViewState) {
+    private fun setOpenedGoalsViewState(state: (OpenedGoalsViewState) -> OpenedGoalsViewState) {
         _openedGoalsViewState.value?.also {
             _openedGoalsViewState.value = state(it)
+        } ?: run {
+
         }
     }
 
-    private fun changeDoneGoalsViewState(state: (DoneGoalsViewState) -> DoneGoalsViewState) {
+    private fun setDoneGoalsViewState(state: (DoneGoalsViewState) -> DoneGoalsViewState) {
         _doneGoalsViewState.value?.also {
             _doneGoalsViewState.value = state(it)
         }

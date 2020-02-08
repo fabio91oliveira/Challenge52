@@ -10,7 +10,11 @@ data class DoneGoalsViewState
     val isEmptyStateVisible: Boolean = false,
     val isErrorVisible: Boolean = false,
     val dialog: DoneGoalsDialog = DoneGoalsDialog.NoDialog
-)
+) {
+    companion object {
+        fun init() = DoneGoalsViewState()
+    }
+}
 
 sealed class DoneGoalsDialog {
     object NoDialog : DoneGoalsDialog()
