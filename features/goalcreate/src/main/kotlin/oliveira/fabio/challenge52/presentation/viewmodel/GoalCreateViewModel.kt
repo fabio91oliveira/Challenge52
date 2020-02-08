@@ -38,9 +38,9 @@ class GoalCreateViewModel(
                 )
             }.fold(
                 success = {
-                    GoalCreateActions.ShowSuccess.run()
+                    GoalCreateActions.Success.sendAction()
                 }, failure = {
-                    GoalCreateActions.ShowError.run()
+                    GoalCreateActions.Error.sendAction()
                     Timber.e(it)
                 })
         }
@@ -57,7 +57,7 @@ class GoalCreateViewModel(
         return false
     }
 
-    private fun GoalCreateActions.run() {
+    private fun GoalCreateActions.sendAction() {
         _goalCreateActions.value = this
     }
 
