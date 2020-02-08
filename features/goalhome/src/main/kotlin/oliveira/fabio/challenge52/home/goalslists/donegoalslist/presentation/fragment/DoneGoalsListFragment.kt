@@ -63,11 +63,11 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
                     }
                 }
             }
-            ACTIVITY_ERROR -> when (requestCode) {
-                REQUEST_CODE_DETAILS -> {
-                    goalsListsViewModel.showErrorWhenTryToOpenDetails()
-                }
-            }
+//            ACTIVITY_ERROR -> when (requestCode) {
+//                REQUEST_CODE_DETAILS -> {
+//                    goalsListsViewModel.showErrorWhenTryToOpenDetails()
+//                }
+//            }
         }
     }
 
@@ -115,7 +115,7 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
                         doneGoalsAdapter.clearList()
                     }
                     is DoneGoalsActions.Error -> {
-                        showErrorDialog(it.errorMessageRes)
+                        setErrorState(it.errorMessageRes)
                     }
                 }
             })
@@ -159,6 +159,10 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
         imgError.isVisible = hasToShow
     }
 
+    private fun setErrorState(@StringRes stringRes: Int) {
+        txtError.text = resources.getString(stringRes)
+    }
+
     private fun showSnackBar(message: String) =
         Snackbar.make(
             coordinatorLayout,
@@ -166,19 +170,15 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
             Snackbar.LENGTH_SHORT
         ).show()
 
-    private fun showErrorDialog(@StringRes stringRes: Int) =
-        AlertDialog.Builder(requireContext()).apply {
-            setTitle(resources.getString(R.string.goal_warning_title))
-            setMessage(resources.getString(stringRes))
-            setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
-        }.show()
-
     private fun showConfirmDialog(message: String, listener: DialogInterface.OnClickListener) =
         AlertDialog.Builder(requireContext()).apply {
             setTitle(resources.getString(R.string.goal_warning_title))
             setMessage(message)
             setPositiveButton(android.R.string.ok, listener)
-            setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+                goalsListsViewModel.hideDoneDialogs()
+            }
         }.show()
 
     private fun openGoalDetailsActivity(goal: GoalWithWeeks) = startActivityForResult(
@@ -196,6 +196,7 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
                 ),
                 DialogInterface.OnClickListener { dialog, _ ->
                     goalsListsViewModel.removeDoneGoals()
+                    goalsListsViewModel.hideDoneDialogs()
                     dialog.dismiss()
                 })
     }

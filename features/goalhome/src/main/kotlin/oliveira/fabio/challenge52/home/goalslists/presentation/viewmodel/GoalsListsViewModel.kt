@@ -147,7 +147,8 @@ class GoalsListsViewModel(
                     success = {
                         openedGoalsRemoveList.clear()
                         OpenedGoalsActions.RefreshList.sendAction()
-                        OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_deleted).sendAction()
+                        OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_deleted)
+                            .sendAction()
                     }, failure = {
                         OpenedGoalsActions.Error(R.string.goals_list_error_delete).sendAction()
                         setOpenedGoalsViewState {
@@ -274,8 +275,17 @@ class GoalsListsViewModel(
         }
     }
 
-    fun showErrorWhenTryToOpenDetails() =
-        DoneGoalsActions.Error(R.string.goal_details_list_error_message).sendAction()
+    fun hideOpenedDialogs() {
+        setOpenedGoalsViewState {
+            it.copy(dialog = OpenedGoalsDialog.NoDialog)
+        }
+    }
+
+    fun hideDoneDialogs() {
+        setDoneGoalsViewState {
+            it.copy(dialog = DoneGoalsDialog.NoDialog)
+        }
+    }
 
     private fun initViewStates() {
         _openedGoalsViewState.value = OpenedGoalsViewState.init()

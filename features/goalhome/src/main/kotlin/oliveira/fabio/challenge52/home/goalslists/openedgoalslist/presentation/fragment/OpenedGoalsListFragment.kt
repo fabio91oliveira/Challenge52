@@ -134,7 +134,7 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
                         openedGoalsAdapter.clearList()
                     }
                     is OpenedGoalsActions.Error -> {
-                        showErrorDialog(it.errorMessageRes)
+                        setErrorState(it.errorMessageRes)
                     }
                 }
             })
@@ -175,14 +175,6 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
     private fun showSnackBar(@StringRes stringRes: Int) =
         Snackbar.make(coordinatorLayout, resources.getText(stringRes), Snackbar.LENGTH_SHORT).show()
 
-
-    private fun showErrorDialog(@StringRes stringRes: Int) =
-        AlertDialog.Builder(requireContext()).apply {
-            setTitle(resources.getString(R.string.goal_warning_title))
-            setMessage(resources.getString(stringRes))
-            setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
-        }.show()
-
     private fun openGoalCreateActivity() =
         startActivityForResult(
             Actions.openGoalCreate(requireContext()),
@@ -199,7 +191,10 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
             setTitle(resources.getString(R.string.goal_warning_title))
             setMessage(message)
             setPositiveButton(android.R.string.ok, listener)
-            setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+                goalsListsViewModel.hideOpenedDialogs()
+            }
         }.show()
 
     override fun onClickRemove(goal: GoalWithWeeks) =
@@ -228,6 +223,10 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
         loading.isVisible = hasToShow
     }
 
+    private fun setErrorState(@StringRes stringRes: Int) {
+        txtError.text = resources.getString(stringRes)
+    }
+
     private fun showErrorState(hasToShow: Boolean) {
         if (hasToShow) initAnimationsError()
         txtError.isVisible = hasToShow
@@ -249,6 +248,7 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
                 ),
                 DialogInterface.OnClickListener { dialog, _ ->
                     goalsListsViewModel.removeOpenedGoals()
+                    goalsListsViewModel.hideOpenedDialogs()
                     dialog.dismiss()
                 })
     }

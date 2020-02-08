@@ -167,7 +167,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                         closeDetails()
                     }
                     is GoalDetailsActions.Error -> {
-                        showErrorScreen(it.errorMessageRes)
+                        showErrorDialog(it.errorMessageRes)
                     }
                 }
             })
@@ -262,7 +262,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         }
     }
 
-    private fun showErrorScreen(stringResource: Int) {
+    private fun showErrorDialog(stringResource: Int) {
         AlertDialogFragment.newInstance(
             R.drawable.ic_error,
             R.string.goal_oops_title,
