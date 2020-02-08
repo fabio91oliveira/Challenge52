@@ -10,8 +10,10 @@ import oliveira.fabio.challenge52.home.goalslists.domain.usecase.GetAllDoneGoals
 import oliveira.fabio.challenge52.home.goalslists.domain.usecase.GetAllOpenedGoals
 import oliveira.fabio.challenge52.home.goalslists.domain.usecase.RemoveGoalsUseCase
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
+import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.viewstate.DoneGoalsDialog
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.viewstate.DoneGoalsViewState
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
+import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.viewstate.OpenedGoalsDialog
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.viewstate.OpenedGoalsViewState
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
 import oliveira.fabio.challenge52.persistence.model.entity.Week
@@ -218,17 +220,25 @@ class GoalsListsViewModel(
     }
 
     fun showRemoveOpenedGoalsConfirmationDialog() {
-        OpenedGoalsActions.ShowRemoveConfirmationDialog(
-            R.plurals.goal_details_are_you_sure_removes,
-            openedGoalsRemoveList.size
-        ).run()
+        changeOpenedGoalsViewState {
+            it.copy(
+                dialog = OpenedGoalsDialog.RemoveConfirmationDialog(
+                    R.plurals.goal_details_are_you_sure_removes,
+                    openedGoalsRemoveList.size
+                )
+            )
+        }
     }
 
     fun showRemoveDoneGoalsConfirmationDialog() {
-        DoneGoalsActions.ShowRemoveConfirmationDialog(
-            R.plurals.goal_details_are_you_sure_removes,
-            doneGoalsRemoveList.size
-        ).run()
+        changeDoneGoalsViewState {
+            it.copy(
+                dialog = DoneGoalsDialog.RemoveConfirmationDialog(
+                    R.plurals.goal_details_are_you_sure_removes,
+                    doneGoalsRemoveList.size
+                )
+            )
+        }
     }
 
     fun showErrorWhenTryToOpenDetails() =
@@ -253,6 +263,12 @@ class GoalsListsViewModel(
     private fun changeOpenedGoalsViewState(state: (OpenedGoalsViewState) -> OpenedGoalsViewState) {
         _openedGoalsViewState.value?.also {
             _openedGoalsViewState.value = state(it)
+        }
+    }
+
+    private fun changeDoneGoalsViewState(state: (DoneGoalsViewState) -> DoneGoalsViewState) {
+        _doneGoalsViewState.value?.also {
+            _doneGoalsViewState.value = state(it)
         }
     }
 }

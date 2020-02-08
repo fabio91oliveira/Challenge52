@@ -10,11 +10,4 @@ sealed class GoalDetailsActions {
     object ShowRemovedGoal : GoalDetailsActions()
     object ShowCompletedGoal : GoalDetailsActions()
     data class ShowError(val errorMessageRes: Int) : GoalDetailsActions()
-
-    data class ShowConfirmationDialogDoneGoal(val messageRes: Int) :
-        GoalDetailsActions()
-
-    data class ShowCantMoveToDoneDialog(val messageRes: Int) : GoalDetailsActions()
-    object ShowConfirmationDialogRemoveGoal : GoalDetailsActions()
-    data class ShowConfirmationDialogWeekIsPosterior(val isPosterior: Boolean) : GoalDetailsActions()
 }

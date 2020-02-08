@@ -23,6 +23,7 @@ import oliveira.fabio.challenge52.actions.Actions
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.adapter.DoneGoalsAdapter
+import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.viewstate.DoneGoalsDialog
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
@@ -96,6 +97,7 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
                 showDoneGoalsList(it.isDoneGoalsListVisible)
                 showEmptyState(it.isEmptyStateVisible)
                 showErrorState(it.isErrorVisible)
+                handleDialog(it.dialog)
             })
             doneGoalsActions.observe(this@DoneGoalsListFragment, Observer {
                 when (it) {
@@ -111,17 +113,6 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
                     }
                     is DoneGoalsActions.ClearList -> {
                         doneGoalsAdapter.clearList()
-                    }
-                    is DoneGoalsActions.ShowRemoveConfirmationDialog -> {
-                        showConfirmDialog(
-                            resources.getQuantityString(
-                                it.pluralRes,
-                                it.doneGoalsRemovedSize
-                            ),
-                            DialogInterface.OnClickListener { dialog, _ ->
-                                removeDoneGoals()
-                                dialog.dismiss()
-                            })
                     }
                     is DoneGoalsActions.Error -> {
                         showErrorDialog(it.errorMessageRes)
@@ -195,6 +186,19 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
             .putExtra(IS_FROM_DONE_GOALS, true),
         REQUEST_CODE_DETAILS
     )
+
+    private fun handleDialog(doneGoalsDialog: DoneGoalsDialog) {
+        if (doneGoalsDialog is DoneGoalsDialog.RemoveConfirmationDialog)
+            showConfirmDialog(
+                resources.getQuantityString(
+                    doneGoalsDialog.pluralRes,
+                    doneGoalsDialog.doneGoalsRemovedSize
+                ),
+                DialogInterface.OnClickListener { dialog, _ ->
+                    goalsListsViewModel.removeDoneGoals()
+                    dialog.dismiss()
+                })
+    }
 
     // TODO REFAC
 

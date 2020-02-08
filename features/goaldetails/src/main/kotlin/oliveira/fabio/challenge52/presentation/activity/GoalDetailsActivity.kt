@@ -19,10 +19,11 @@ import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-import oliveira.fabio.challenge52.presentation.dialog.AlertDialogFragment
 import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
 import oliveira.fabio.challenge52.presentation.adapter.WeeksAdapter
+import oliveira.fabio.challenge52.presentation.dialog.AlertDialogFragment
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
+import oliveira.fabio.challenge52.presentation.viewstate.Dialog
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
@@ -127,6 +128,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         with(goalDetailsViewModel) {
             goalDetailsViewState.observe(this@GoalDetailsActivity, Observer {
                 showLoading(it.isLoading)
+                handleDialog(it.dialog)
             })
             goalDetailsActions.observe(this@GoalDetailsActivity, Observer {
                 when (it) {
@@ -164,25 +166,6 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                             HAS_CHANGED,
                             ActivityResultValueObject().apply { setChangeCompleted() })
                         closeDetails()
-                    }
-                    is GoalDetailsActions.ShowConfirmationDialogDoneGoal -> {
-                        showConfirmDialog(
-                            resources.getString(it.messageRes),
-                            DialogInterface.OnClickListener { dialog, _ ->
-                                goalDetailsViewModel.completeGoal(goalWithWeeks)
-                                dialog.dismiss()
-                            })
-                    }
-                    is GoalDetailsActions.ShowCantMoveToDoneDialog -> {
-                        showDefaultDialog(it.messageRes)
-                    }
-                    is GoalDetailsActions.ShowConfirmationDialogRemoveGoal -> {
-                        showConfirmDialog(
-                            resources.getString(R.string.goal_details_are_you_sure_remove),
-                            DialogInterface.OnClickListener { dialog, _ ->
-                                goalDetailsViewModel.removeGoal(goalWithWeeks)
-                                dialog.dismiss()
-                            })
                     }
                     is GoalDetailsActions.ShowError -> {
                         showErrorScreen(it.errorMessageRes)
@@ -250,8 +233,33 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     private fun showLoading(hasToShow: Boolean) {
         loading.isVisible = hasToShow
     }
+
     private fun showContent(hasToShow: Boolean) {
         rvWeeks.isVisible = hasToShow
+    }
+
+    private fun handleDialog(dialogViewState: Dialog) {
+        when (dialogViewState) {
+            is Dialog.DefaultDialogMoveToDone -> {
+                showDefaultDialog(dialogViewState.stringRes)
+            }
+            is Dialog.ConfirmationDialogRemoveGoal -> {
+                showConfirmDialog(
+                    resources.getString(dialogViewState.stringRes),
+                    DialogInterface.OnClickListener { dialog, _ ->
+                        goalDetailsViewModel.removeGoal(goalWithWeeks)
+                        dialog.dismiss()
+                    })
+            }
+            is Dialog.ConfirmationDialogDoneGoal -> {
+                showConfirmDialog(
+                    resources.getString(dialogViewState.stringRes),
+                    DialogInterface.OnClickListener { dialog, _ ->
+                        goalDetailsViewModel.completeGoal(goalWithWeeks)
+                        dialog.dismiss()
+                    })
+            }
+        }
     }
 
     private fun showErrorScreen(stringResource: Int) {

@@ -23,6 +23,7 @@ import oliveira.fabio.challenge52.actions.Actions
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.adapter.OpenedGoalsAdapter
+import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.viewstate.OpenedGoalsDialog
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultTypeEnum
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
@@ -115,6 +116,7 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
                 showOpenedGoalsList(it.isOpenedGoalsListVisible)
                 showEmptyState(it.isEmptyStateVisible)
                 showErrorState(it.isErrorVisible)
+                handleDialog(it.dialog)
             })
             openedGoalsActions.observe(this@OpenedGoalsListFragment, Observer {
                 when (it) {
@@ -130,17 +132,6 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
                     }
                     is OpenedGoalsActions.ClearList -> {
                         openedGoalsAdapter.clearList()
-                    }
-                    is OpenedGoalsActions.ShowRemoveConfirmationDialog -> {
-                        showConfirmDialog(
-                            resources.getQuantityString(
-                                it.pluralRes,
-                                it.doneGoalsRemovedSize
-                            ),
-                            DialogInterface.OnClickListener { dialog, _ ->
-                                removeOpenedGoals()
-                                dialog.dismiss()
-                            })
                     }
                     is OpenedGoalsActions.Error -> {
                         showErrorDialog(it.errorMessageRes)
@@ -248,6 +239,19 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
 
     private fun showRemoveButton(hasToShow: Boolean) =
         if (hasToShow) fabRemove.show() else fabRemove.hide()
+
+    private fun handleDialog(openedGoalsDialog: OpenedGoalsDialog) {
+        if (openedGoalsDialog is OpenedGoalsDialog.RemoveConfirmationDialog)
+            showConfirmDialog(
+                resources.getQuantityString(
+                    openedGoalsDialog.pluralRes,
+                    openedGoalsDialog.doneGoalsRemovedSize
+                ),
+                DialogInterface.OnClickListener { dialog, _ ->
+                    goalsListsViewModel.removeOpenedGoals()
+                    dialog.dismiss()
+                })
+    }
 
     // TODO
     private fun initAnimationsNoGoals() {

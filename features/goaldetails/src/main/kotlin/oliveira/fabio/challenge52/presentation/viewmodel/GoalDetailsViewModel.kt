@@ -16,6 +16,7 @@ import oliveira.fabio.challenge52.domain.usecase.SetGoalAsDoneUseCase
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
+import oliveira.fabio.challenge52.presentation.viewstate.Dialog
 import oliveira.fabio.challenge52.presentation.viewstate.GoalDetailsViewState
 import timber.log.Timber
 import java.util.*
@@ -129,7 +130,9 @@ class GoalDetailsViewModel(
             }
                 .fold(success = { areAllWeeksDeposited ->
                     if (areAllWeeksDeposited)
-                        GoalDetailsActions.ShowConfirmationDialogDoneGoal(R.string.goal_details_move_to_done_first_dialog).run()
+                        changeGoalDetailsViewState {
+                            it.copy(dialog = Dialog.ConfirmationDialogDoneGoal(R.string.goal_details_move_to_done_first_dialog))
+                        }
                 }, failure = {
                     GoalDetailsActions.ShowError(R.string.goals_generic_error).run()
                     Timber.e(it)
@@ -146,11 +149,13 @@ class GoalDetailsViewModel(
             }
                 .fold(success = { areAllWeeksDeposited ->
                     if (areAllWeeksDeposited) {
-                        GoalDetailsActions.ShowConfirmationDialogDoneGoal(R.string.goal_details_are_you_sure_done)
-                            .run()
+                        changeGoalDetailsViewState {
+                            it.copy(dialog = Dialog.ConfirmationDialogDoneGoal(R.string.goal_details_are_you_sure_done))
+                        }
                     } else {
-                        GoalDetailsActions.ShowCantMoveToDoneDialog(R.string.goal_details_cannot_move_to_done)
-                            .run()
+                        changeGoalDetailsViewState {
+                            it.copy(dialog = Dialog.DefaultDialogMoveToDone(R.string.goal_details_cannot_move_to_done))
+                        }
                     }
                 }, failure = {
                     GoalDetailsActions.ShowError(R.string.goals_generic_error).run()
@@ -160,7 +165,10 @@ class GoalDetailsViewModel(
     }
 
     fun showConfirmationDialogRemoveGoal() =
-        GoalDetailsActions.ShowConfirmationDialogRemoveGoal.run()
+        changeGoalDetailsViewState {
+            it.copy(dialog = Dialog.ConfirmationDialogRemoveGoal(R.string.goal_details_are_you_sure_remove))
+        }
+
 
     fun isDateAfterTodayWhenWeekIsNotDeposited(week: Week): Boolean {
         if (!week.isDeposited) return week.date.after(Date())
@@ -173,5 +181,11 @@ class GoalDetailsViewModel(
 
     private fun GoalDetailsViewState.newState() {
         _goalDetailsViewState.value = this
+    }
+
+    private fun changeGoalDetailsViewState(state: (GoalDetailsViewState) -> GoalDetailsViewState) {
+        _goalDetailsViewState.value?.also {
+            _goalDetailsViewState.value = state(it)
+        }
     }
 }
