@@ -3,7 +3,9 @@ package oliveira.fabio.challenge52.presentation.viewstate
 import androidx.annotation.StringRes
 
 data class GoalDetailsViewState(
-    val isLoading: Boolean = true,
+    val isLoading: Boolean = false,
+    val isContentVisible: Boolean = false,
+    val isBarExpanded: Boolean = false,
     val dialog: Dialog = Dialog.NoDialog
 ) {
     companion object {

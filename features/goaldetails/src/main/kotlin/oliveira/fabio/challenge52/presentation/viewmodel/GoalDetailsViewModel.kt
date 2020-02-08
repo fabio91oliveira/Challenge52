@@ -52,13 +52,17 @@ class GoalDetailsViewModel(
             }
                 .fold(
                     success = {
-                        GoalDetailsActions.ShowAddedGoalsFirstTime(it).sendAction()
+                        GoalDetailsActions.AddedGoalsFirstTime(it).sendAction()
                         setViewState {
-                            GoalDetailsViewState(isLoading = false)
+                            GoalDetailsViewState(
+                                isLoading = false,
+                                isContentVisible = true,
+                                isBarExpanded = true
+                            )
                         }
                     },
                     failure = {
-                        GoalDetailsActions.ShowError(R.string.goal_details_list_error_message)
+                        GoalDetailsActions.Error(R.string.goal_details_list_error_message)
                             .sendAction()
                         setViewState {
                             GoalDetailsViewState(isLoading = false)
@@ -79,13 +83,17 @@ class GoalDetailsViewModel(
             }
                 .fold(
                     success = {
-                        GoalDetailsActions.ShowAddedGoals(it).sendAction()
+                        GoalDetailsActions.AddedGoals(it).sendAction()
                         setViewState {
-                            GoalDetailsViewState(isLoading = false)
+                            GoalDetailsViewState(
+                                isLoading = false,
+                                isContentVisible = true,
+                                isBarExpanded = false
+                            )
                         }
                     },
                     failure = {
-                        GoalDetailsActions.ShowError(R.string.goal_details_list_error_message)
+                        GoalDetailsActions.Error(R.string.goal_details_list_error_message)
                             .sendAction()
                         setViewState {
                             GoalDetailsViewState(isLoading = false)
@@ -103,10 +111,10 @@ class GoalDetailsViewModel(
             }
                 .fold(
                     success = {
-                        GoalDetailsActions.ShowUpdatedGoal(week).sendAction()
+                        GoalDetailsActions.UpdatedGoal(week).sendAction()
                     },
                     failure = {
-                        GoalDetailsActions.ShowError(R.string.goal_details_update_error_message)
+                        GoalDetailsActions.Error(R.string.goal_details_update_error_message)
                             .sendAction()
                         Timber.e(it)
                     }
@@ -118,9 +126,9 @@ class GoalDetailsViewModel(
         viewModelScope.launch {
             SuspendableResult.of<Unit, Exception> { removeGoalUseCase(goalWithWeeks) }
                 .fold(success = {
-                    GoalDetailsActions.ShowRemovedGoal.sendAction()
+                    GoalDetailsActions.RemovedGoal.sendAction()
                 }, failure = {
-                    GoalDetailsActions.ShowError(R.string.goal_details_remove_error_message)
+                    GoalDetailsActions.Error(R.string.goal_details_remove_error_message)
                         .sendAction()
                     Timber.e(it)
                 })
@@ -131,9 +139,9 @@ class GoalDetailsViewModel(
         viewModelScope.launch {
             SuspendableResult.of<Unit, Exception> { setGoalAsDoneUseCase(goalWithWeeks) }
                 .fold(success = {
-                    GoalDetailsActions.ShowCompletedGoal.sendAction()
+                    GoalDetailsActions.CompletedGoal.sendAction()
                 }, failure = {
-                    GoalDetailsActions.ShowError(R.string.goal_details_make_done_error_message)
+                    GoalDetailsActions.Error(R.string.goal_details_make_done_error_message)
                         .sendAction()
                     Timber.e(it)
                 })
@@ -153,7 +161,7 @@ class GoalDetailsViewModel(
                             it.copy(dialog = Dialog.ConfirmationDialogDoneGoal(R.string.goal_details_move_to_done_first_dialog))
                         }
                 }, failure = {
-                    GoalDetailsActions.ShowError(R.string.goals_generic_error).sendAction()
+                    GoalDetailsActions.Error(R.string.goals_generic_error).sendAction()
                     Timber.e(it)
                 })
         }
@@ -177,7 +185,7 @@ class GoalDetailsViewModel(
                         }
                     }
                 }, failure = {
-                    GoalDetailsActions.ShowError(R.string.goals_generic_error).sendAction()
+                    GoalDetailsActions.Error(R.string.goals_generic_error).sendAction()
                     Timber.e(it)
                 })
         }

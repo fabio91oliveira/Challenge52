@@ -129,45 +129,44 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             goalDetailsViewState.observe(this@GoalDetailsActivity, Observer {
                 showLoading(it.isLoading)
                 handleDialog(it.dialog)
+                showContent(it.isContentVisible)
+                expandBar(it.isBarExpanded)
             })
             goalDetailsActions.observe(this@GoalDetailsActivity, Observer {
                 when (it) {
-                    is GoalDetailsActions.ShowAddedGoalsFirstTime -> {
+                    is GoalDetailsActions.AddedGoalsFirstTime -> {
                         updateItemList(it.itemsList)
-
-                        showContent(true)
                         rvWeeks.scheduleLayoutAnimation()
                         if (!isFromDoneGoals)
                             goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated(
                                 goalWithWeeks
                             )
-                        expandBar(true)
                     }
-                    is GoalDetailsActions.ShowAddedGoals -> {
+                    is GoalDetailsActions.AddedGoals -> {
                         updateItemList(it.itemsList)
                         showContent(true)
                         expandBar(false)
                     }
-                    is GoalDetailsActions.ShowUpdatedGoal -> {
+                    is GoalDetailsActions.UpdatedGoal -> {
                         goalDetailsViewModel.getWeeksList(goalWithWeeks, it.week)
                         newIntent.putExtra(
                             HAS_CHANGED,
                             ActivityResultValueObject().apply { setChangeUpdated() })
                         goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated(goalWithWeeks)
                     }
-                    is GoalDetailsActions.ShowRemovedGoal -> {
+                    is GoalDetailsActions.RemovedGoal -> {
                         newIntent.putExtra(
                             HAS_CHANGED,
                             ActivityResultValueObject().apply { setChangeRemoved() })
                         closeDetails()
                     }
-                    is GoalDetailsActions.ShowCompletedGoal -> {
+                    is GoalDetailsActions.CompletedGoal -> {
                         newIntent.putExtra(
                             HAS_CHANGED,
                             ActivityResultValueObject().apply { setChangeCompleted() })
                         closeDetails()
                     }
-                    is GoalDetailsActions.ShowError -> {
+                    is GoalDetailsActions.Error -> {
                         showErrorScreen(it.errorMessageRes)
                     }
                 }
