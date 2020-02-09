@@ -23,6 +23,7 @@ import oliveira.fabio.challenge52.actions.Actions
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.adapter.DoneGoalsAdapter
+import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.viewstate.DoneGoalsDialog
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
@@ -41,7 +42,7 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         savedInstanceState?.let {
-            initLiveData()
+            initObservables()
             initClickListener()
             initRecyclerView()
         } ?: run {
@@ -62,11 +63,11 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
                     }
                 }
             }
-            ACTIVITY_ERROR -> when (requestCode) {
-                REQUEST_CODE_DETAILS -> {
-                    goalsListsViewModel.showErrorWhenTryToOpenDetails()
-                }
-            }
+//            ACTIVITY_ERROR -> when (requestCode) {
+//                REQUEST_CODE_DETAILS -> {
+//                    goalsListsViewModel.showErrorWhenTryToOpenDetails()
+//                }
+//            }
         }
     }
 
@@ -83,13 +84,12 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
         openGoalDetailsActivity(goal)
 
     private fun init() {
-        initLiveData()
+        initObservables()
         initClickListener()
         initRecyclerView()
-        goalsListsViewModel.listDoneGoals()
     }
 
-    private fun initLiveData() {
+    private fun initObservables() {
         with(goalsListsViewModel) {
             doneGoalsViewState.observe(this@DoneGoalsListFragment, Observer {
                 showRemoveButton(it.isDeleteButtonVisible)
@@ -97,6 +97,7 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
                 showDoneGoalsList(it.isDoneGoalsListVisible)
                 showEmptyState(it.isEmptyStateVisible)
                 showErrorState(it.isErrorVisible)
+                handleDialog(it.dialog)
             })
             doneGoalsActions.observe(this@DoneGoalsListFragment, Observer {
                 when (it) {
@@ -113,19 +114,8 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
                     is DoneGoalsActions.ClearList -> {
                         doneGoalsAdapter.clearList()
                     }
-                    is DoneGoalsActions.ShowRemoveConfirmationDialog -> {
-                        showConfirmDialog(
-                            resources.getQuantityString(
-                                it.pluralRes,
-                                it.doneGoalsRemovedSize
-                            ),
-                            DialogInterface.OnClickListener { dialog, _ ->
-                                removeDoneGoals()
-                                dialog.dismiss()
-                            })
-                    }
                     is DoneGoalsActions.Error -> {
-                        showErrorDialog(it.errorMessageRes)
+                        setErrorState(it.errorMessageRes)
                     }
                 }
             })
@@ -169,6 +159,10 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
         imgError.isVisible = hasToShow
     }
 
+    private fun setErrorState(@StringRes stringRes: Int) {
+        txtError.text = resources.getString(stringRes)
+    }
+
     private fun showSnackBar(message: String) =
         Snackbar.make(
             coordinatorLayout,
@@ -176,19 +170,15 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
             Snackbar.LENGTH_SHORT
         ).show()
 
-    private fun showErrorDialog(@StringRes stringRes: Int) =
-        AlertDialog.Builder(requireContext()).apply {
-            setTitle(resources.getString(R.string.goal_warning_title))
-            setMessage(resources.getString(stringRes))
-            setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
-        }.show()
-
     private fun showConfirmDialog(message: String, listener: DialogInterface.OnClickListener) =
         AlertDialog.Builder(requireContext()).apply {
             setTitle(resources.getString(R.string.goal_warning_title))
             setMessage(message)
             setPositiveButton(android.R.string.ok, listener)
-            setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+                goalsListsViewModel.hideDoneDialogs()
+            }
         }.show()
 
     private fun openGoalDetailsActivity(goal: GoalWithWeeks) = startActivityForResult(
@@ -196,6 +186,20 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
             .putExtra(IS_FROM_DONE_GOALS, true),
         REQUEST_CODE_DETAILS
     )
+
+    private fun handleDialog(doneGoalsDialog: DoneGoalsDialog) {
+        if (doneGoalsDialog is DoneGoalsDialog.RemoveConfirmationDialog)
+            showConfirmDialog(
+                resources.getQuantityString(
+                    doneGoalsDialog.pluralRes,
+                    doneGoalsDialog.doneGoalsRemovedSize
+                ),
+                DialogInterface.OnClickListener { dialog, _ ->
+                    goalsListsViewModel.removeDoneGoals()
+                    goalsListsViewModel.hideDoneDialogs()
+                    dialog.dismiss()
+                })
+    }
 
     // TODO REFAC
 

@@ -70,11 +70,11 @@ class GoalCreateActivity : BaseActivity(R.layout.activity_goal_create) {
             })
             goalCreateActions.observe(this@GoalCreateActivity, Observer {
                 when (it) {
-                    GoalCreateActions.ShowSuccess -> {
+                    GoalCreateActions.Success -> {
                         setResult(Activity.RESULT_OK)
                         finish()
                     }
-                    GoalCreateActions.ShowError -> {
+                    GoalCreateActions.Error -> {
                         setResult(ACTIVITY_ERROR)
                         finish()
                     }

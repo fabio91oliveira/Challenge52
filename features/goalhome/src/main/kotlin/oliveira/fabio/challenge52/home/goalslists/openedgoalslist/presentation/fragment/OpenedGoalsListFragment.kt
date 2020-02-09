@@ -23,6 +23,7 @@ import oliveira.fabio.challenge52.actions.Actions
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.adapter.OpenedGoalsAdapter
+import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.viewstate.OpenedGoalsDialog
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultTypeEnum
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
@@ -42,7 +43,7 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         savedInstanceState?.let {
-            initLiveData()
+            initObservables()
             initClickListener()
             initRecyclerView()
         } ?: run {
@@ -101,13 +102,12 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
     }
 
     private fun init() {
-        initLiveData()
+        initObservables()
         initClickListener()
         initRecyclerView()
-        goalsListsViewModel.listOpenedGoals()
     }
 
-    private fun initLiveData() {
+    private fun initObservables() {
         with(goalsListsViewModel) {
             openedGoalsViewState.observe(this@OpenedGoalsListFragment, Observer {
                 showAddButton(it.isAddButtonVisible)
@@ -116,6 +116,7 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
                 showOpenedGoalsList(it.isOpenedGoalsListVisible)
                 showEmptyState(it.isEmptyStateVisible)
                 showErrorState(it.isErrorVisible)
+                handleDialog(it.dialog)
             })
             openedGoalsActions.observe(this@OpenedGoalsListFragment, Observer {
                 when (it) {
@@ -132,19 +133,8 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
                     is OpenedGoalsActions.ClearList -> {
                         openedGoalsAdapter.clearList()
                     }
-                    is OpenedGoalsActions.ShowRemoveConfirmationDialog -> {
-                        showConfirmDialog(
-                            resources.getQuantityString(
-                                it.pluralRes,
-                                it.doneGoalsRemovedSize
-                            ),
-                            DialogInterface.OnClickListener { dialog, _ ->
-                                removeOpenedGoals()
-                                dialog.dismiss()
-                            })
-                    }
                     is OpenedGoalsActions.Error -> {
-                        showErrorDialog(it.errorMessageRes)
+                        setErrorState(it.errorMessageRes)
                     }
                 }
             })
@@ -185,14 +175,6 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
     private fun showSnackBar(@StringRes stringRes: Int) =
         Snackbar.make(coordinatorLayout, resources.getText(stringRes), Snackbar.LENGTH_SHORT).show()
 
-
-    private fun showErrorDialog(@StringRes stringRes: Int) =
-        AlertDialog.Builder(requireContext()).apply {
-            setTitle(resources.getString(R.string.goal_warning_title))
-            setMessage(resources.getString(stringRes))
-            setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
-        }.show()
-
     private fun openGoalCreateActivity() =
         startActivityForResult(
             Actions.openGoalCreate(requireContext()),
@@ -209,7 +191,10 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
             setTitle(resources.getString(R.string.goal_warning_title))
             setMessage(message)
             setPositiveButton(android.R.string.ok, listener)
-            setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+                goalsListsViewModel.hideOpenedDialogs()
+            }
         }.show()
 
     override fun onClickRemove(goal: GoalWithWeeks) =
@@ -238,6 +223,10 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
         loading.isVisible = hasToShow
     }
 
+    private fun setErrorState(@StringRes stringRes: Int) {
+        txtError.text = resources.getString(stringRes)
+    }
+
     private fun showErrorState(hasToShow: Boolean) {
         if (hasToShow) initAnimationsError()
         txtError.isVisible = hasToShow
@@ -249,6 +238,20 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
 
     private fun showRemoveButton(hasToShow: Boolean) =
         if (hasToShow) fabRemove.show() else fabRemove.hide()
+
+    private fun handleDialog(openedGoalsDialog: OpenedGoalsDialog) {
+        if (openedGoalsDialog is OpenedGoalsDialog.RemoveConfirmationDialog)
+            showConfirmDialog(
+                resources.getQuantityString(
+                    openedGoalsDialog.pluralRes,
+                    openedGoalsDialog.doneGoalsRemovedSize
+                ),
+                DialogInterface.OnClickListener { dialog, _ ->
+                    goalsListsViewModel.removeOpenedGoals()
+                    goalsListsViewModel.hideOpenedDialogs()
+                    dialog.dismiss()
+                })
+    }
 
     // TODO
     private fun initAnimationsNoGoals() {

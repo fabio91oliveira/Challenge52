@@ -24,6 +24,10 @@ class GoalCreateViewModel(
     private val _goalCreateViewState by lazy { MutableLiveData<GoalCreateViewState>() }
     val goalCreateViewState: LiveData<GoalCreateViewState> = _goalCreateViewState
 
+    init {
+        initViewState()
+    }
+
     fun createGoal(
         initialDate: String,
         name: String,
@@ -38,17 +42,21 @@ class GoalCreateViewModel(
                 )
             }.fold(
                 success = {
-                    GoalCreateActions.ShowSuccess.run()
+                    GoalCreateActions.Success.sendAction()
                 }, failure = {
-                    GoalCreateActions.ShowError.run()
+                    GoalCreateActions.Error.sendAction()
                     Timber.e(it)
                 })
         }
     }
 
-    fun validateFields(name: String, value: String) = GoalCreateViewState(
-        isCreateButtonEnable = (name.isNotEmpty() && isMoreOrEqualsOne(value.removeMoneyMask()))
-    ).newState()
+    fun validateFields(name: String, value: String) {
+        setViewState {
+            GoalCreateViewState(
+                isCreateButtonEnable = (name.isNotEmpty() && isMoreOrEqualsOne(value.removeMoneyMask()))
+            )
+        }
+    }
 
     private fun isMoreOrEqualsOne(value: String): Boolean {
         if (value.isNotEmpty()) {
@@ -57,12 +65,18 @@ class GoalCreateViewModel(
         return false
     }
 
-    private fun GoalCreateActions.run() {
+    private fun GoalCreateActions.sendAction() {
         _goalCreateActions.value = this
     }
 
-    private fun GoalCreateViewState.newState() {
-        _goalCreateViewState.value = this
+    private fun initViewState() {
+        _goalCreateViewState.value = GoalCreateViewState.init()
+    }
+
+    private fun setViewState(state: (GoalCreateViewState) -> GoalCreateViewState) {
+        _goalCreateViewState.value?.also {
+            _goalCreateViewState.value = state(it)
+        }
     }
 
     companion object {

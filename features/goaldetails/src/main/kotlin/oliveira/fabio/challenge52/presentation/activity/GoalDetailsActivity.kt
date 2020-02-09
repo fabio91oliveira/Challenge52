@@ -19,10 +19,11 @@ import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-import oliveira.fabio.challenge52.presentation.dialog.AlertDialogFragment
 import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
 import oliveira.fabio.challenge52.presentation.adapter.WeeksAdapter
+import oliveira.fabio.challenge52.presentation.dialog.AlertDialogFragment
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
+import oliveira.fabio.challenge52.presentation.viewstate.Dialog
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
@@ -42,7 +43,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         savedInstanceState?.let {
             setupToolbar()
             initRecyclerView()
-            initLiveData()
+            initObservables()
         } ?: run {
             init()
         }
@@ -119,73 +120,54 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     private fun init() {
         setupToolbar()
         initRecyclerView()
-        initLiveData()
+        initObservables()
         goalDetailsViewModel.getWeeksList(goalWithWeeks)
     }
 
-    private fun initLiveData() {
+    private fun initObservables() {
         with(goalDetailsViewModel) {
             goalDetailsViewState.observe(this@GoalDetailsActivity, Observer {
                 showLoading(it.isLoading)
+                handleDialog(it.dialog)
+                showContent(it.isContentVisible)
+                expandBar(it.isBarExpanded)
             })
             goalDetailsActions.observe(this@GoalDetailsActivity, Observer {
                 when (it) {
-                    is GoalDetailsActions.ShowAddedGoalsFirstTime -> {
+                    is GoalDetailsActions.AddedGoalsFirstTime -> {
                         updateItemList(it.itemsList)
-
-                        showContent(true)
                         rvWeeks.scheduleLayoutAnimation()
                         if (!isFromDoneGoals)
                             goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated(
                                 goalWithWeeks
                             )
-                        expandBar(true)
                     }
-                    is GoalDetailsActions.ShowAddedGoals -> {
+                    is GoalDetailsActions.AddedGoals -> {
                         updateItemList(it.itemsList)
                         showContent(true)
                         expandBar(false)
                     }
-                    is GoalDetailsActions.ShowUpdatedGoal -> {
+                    is GoalDetailsActions.UpdatedGoal -> {
                         goalDetailsViewModel.getWeeksList(goalWithWeeks, it.week)
                         newIntent.putExtra(
                             HAS_CHANGED,
                             ActivityResultValueObject().apply { setChangeUpdated() })
                         goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated(goalWithWeeks)
                     }
-                    is GoalDetailsActions.ShowRemovedGoal -> {
+                    is GoalDetailsActions.RemovedGoal -> {
                         newIntent.putExtra(
                             HAS_CHANGED,
                             ActivityResultValueObject().apply { setChangeRemoved() })
                         closeDetails()
                     }
-                    is GoalDetailsActions.ShowCompletedGoal -> {
+                    is GoalDetailsActions.CompletedGoal -> {
                         newIntent.putExtra(
                             HAS_CHANGED,
                             ActivityResultValueObject().apply { setChangeCompleted() })
                         closeDetails()
                     }
-                    is GoalDetailsActions.ShowConfirmationDialogDoneGoal -> {
-                        showConfirmDialog(
-                            resources.getString(it.messageRes),
-                            DialogInterface.OnClickListener { dialog, _ ->
-                                goalDetailsViewModel.completeGoal(goalWithWeeks)
-                                dialog.dismiss()
-                            })
-                    }
-                    is GoalDetailsActions.ShowCantMoveToDoneDialog -> {
-                        showDefaultDialog(it.messageRes)
-                    }
-                    is GoalDetailsActions.ShowConfirmationDialogRemoveGoal -> {
-                        showConfirmDialog(
-                            resources.getString(R.string.goal_details_are_you_sure_remove),
-                            DialogInterface.OnClickListener { dialog, _ ->
-                                goalDetailsViewModel.removeGoal(goalWithWeeks)
-                                dialog.dismiss()
-                            })
-                    }
-                    is GoalDetailsActions.ShowError -> {
-                        showErrorScreen(it.errorMessageRes)
+                    is GoalDetailsActions.Error -> {
+                        showErrorDialog(it.errorMessageRes)
                     }
                 }
             })
@@ -250,11 +232,37 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     private fun showLoading(hasToShow: Boolean) {
         loading.isVisible = hasToShow
     }
+
     private fun showContent(hasToShow: Boolean) {
         rvWeeks.isVisible = hasToShow
     }
 
-    private fun showErrorScreen(stringResource: Int) {
+    private fun handleDialog(dialogViewState: Dialog) {
+        when (dialogViewState) {
+            is Dialog.DefaultDialogMoveToDone -> {
+                showDefaultDialog(dialogViewState.stringRes)
+            }
+            is Dialog.ConfirmationDialogRemoveGoal -> {
+                showConfirmDialog(
+                    resources.getString(dialogViewState.stringRes),
+                    DialogInterface.OnClickListener { dialog, _ ->
+                        goalDetailsViewModel.removeGoal(goalWithWeeks)
+                        goalDetailsViewModel.hideDialogs()
+                        dialog.dismiss()
+                    })
+            }
+            is Dialog.ConfirmationDialogDoneGoal -> {
+                showConfirmDialog(
+                    resources.getString(dialogViewState.stringRes),
+                    DialogInterface.OnClickListener { dialog, _ ->
+                        goalDetailsViewModel.completeGoal(goalWithWeeks)
+                        dialog.dismiss()
+                    })
+            }
+        }
+    }
+
+    private fun showErrorDialog(stringResource: Int) {
         AlertDialogFragment.newInstance(
             R.drawable.ic_error,
             R.string.goal_oops_title,
@@ -269,14 +277,20 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             setTitle(resources.getString(R.string.goal_warning_title))
             setMessage(message)
             setPositiveButton(android.R.string.ok, listener)
-            setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+                goalDetailsViewModel.hideDialogs()
+            }
         }.show()
 
     private fun showDefaultDialog(resString: Int) =
         AlertDialog.Builder(this).apply {
             setTitle(resources.getString(R.string.goal_warning_title))
             setMessage(resources.getString(resString))
-            setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
+            setPositiveButton(android.R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+                goalDetailsViewModel.hideDialogs()
+            }
         }.show()
 
     private fun expandBar(hasToExpand: Boolean) = appBarLayout.setExpanded(hasToExpand)
