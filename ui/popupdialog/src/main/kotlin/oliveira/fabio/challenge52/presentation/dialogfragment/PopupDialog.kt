@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.presentation.dialog
+package oliveira.fabio.challenge52.presentation.dialogfragment
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import features.error.R
-import kotlinx.android.synthetic.main.fragment_alert_dialog.*
+import kotlinx.android.synthetic.main.dialog_fragment_popup_dialog.*
+import ui.popupdialog.R
 
-class AlertDialogFragment : DialogFragment() {
+class PopupDialog : DialogFragment() {
 
     private val resImage: Int by lazy {
         arguments?.getInt(
@@ -38,7 +38,7 @@ class AlertDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.fragment_alert_dialog, container, false)
+        return inflater.inflate(R.layout.dialog_fragment_popup_dialog, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -83,7 +83,7 @@ class AlertDialogFragment : DialogFragment() {
     }
 
 //    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        val view = View.inflate(context, R.layout.fragment_alert_dialog, null)
+//        val view = View.inflate(context, R.layout.dialog_fragment_popup_dialog, null)
 //
 //        val builder = AlertDialog.Builder(view.context)
 //        builder.setView(view)
@@ -97,13 +97,13 @@ class AlertDialogFragment : DialogFragment() {
 //    }
 
     companion object {
-        const val TAG = "AlertDialogFragment"
+        const val TAG = "FullScreenDialog"
         const val RES_IMAGE = "RES_IMAGE"
         const val TITLE = "TITLE"
         const val SUBTITLE = "SUBTITLE"
 
         fun newInstance(resImage: Int, title: Int, subTitle: Int, block: (() -> Unit)? = null) =
-            AlertDialogFragment().apply {
+            PopupDialog().apply {
                 arguments = Bundle().apply {
                     putInt(RES_IMAGE, resImage)
                     putInt(TITLE, title)

@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    api project(Core.Base)
+    api project(UI.Resources)
 
     // Support
     api Deps.support_constraint_layout

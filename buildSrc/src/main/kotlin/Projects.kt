@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 object Core {
     const val Base = ":core:base"
     const val Actions = ":core:actions"
@@ -9,5 +11,9 @@ object Features {
     const val GoalCreate = ":features:goalcreate"
     const val GoalDetails = ":features:goaldetails"
     const val GoalHome = ":features:goalhome"
-    const val Error = ":features:error"
+}
+
+object UI {
+    const val Resources = ":ui:resources"
+    const val FullScreenDialog = ":ui:fullscreendialog"
 }

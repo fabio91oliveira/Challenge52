@@ -11,7 +11,7 @@
             android:id="@+id/appBarLayout"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:theme="@style/AppTheme.AppBarOverlay"
+            android:theme="@style/AppToolBarTheme"
             android:stateListAnimator="@null"
             app:expanded="false"
             tools:expanded="true"
@@ -34,8 +34,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
-                    app:title="@string/navigation_menu_help"
-                    app:popupTheme="@style/AppTheme.PopupOverlay"/>
+                    app:title="@string/navigation_menu_help"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

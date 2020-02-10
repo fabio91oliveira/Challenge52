@@ -1,0 +1,86 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/corner_radius"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:adjustViewBounds="true"
+            android:maxHeight="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_alert"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margins_side_title"
+            android:layout_marginLeft="@dimen/margins_side_title"
+            android:layout_marginTop="@dimen/margin_top_title"
+            android:layout_marginEnd="@dimen/margins_side_title"
+            android:layout_marginRight="@dimen/margins_side_title"
+            android:gravity="center"
+            android:lineSpacingExtra="1sp"
+            android:maxLines="2"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_eighteen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgTop"
+            tools:text="Lorem ipsum" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margins_side_subtitle"
+            android:layout_marginLeft="@dimen/margins_side_subtitle"
+            android:layout_marginTop="@dimen/margin_top_subtitle"
+            android:layout_marginEnd="@dimen/margins_side_subtitle"
+            android:layout_marginRight="@dimen/margins_side_subtitle"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_fourteen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtTitle"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed erat augue." />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnOk"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginStart="@dimen/margins_side_button"
+            android:layout_marginLeft="@dimen/margins_side_button"
+            android:layout_marginTop="@dimen/margin_top_bottom_button"
+            android:layout_marginEnd="@dimen/margins_side_button"
+            android:layout_marginRight="@dimen/margins_side_button"
+            android:layout_marginBottom="@dimen/margin_top_bottom_button"
+            android:background="@drawable/selector_button"
+            android:text="@string/button_ok"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_eighteen"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtSubtitle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

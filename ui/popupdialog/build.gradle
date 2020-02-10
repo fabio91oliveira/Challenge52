@@ -7,13 +7,6 @@ dependencies {
     api project(UI.Resources)
 
     // Support
-    api Deps.support_app_compat
-
-    // Lifecycle
-    api Deps.lifecycle_viewmodel
-    api Deps.lifecycle_livedata
-    kapt Deps.lifecycle_compiler
-
-    // Timber
-    api Deps.timber
+    api Deps.support_constraint_layout
+    api Deps.support_material
 }

@@ -1,2 +1,3 @@
 include ':app', 'core:base', 'core:actions', ':core:persistence', 'core:models'
-include ':features:error', ':features:goalcreate', ':features:goaldetails', ':features:goalhome'
+include ':ui:resources', ':ui:popupdialog', ':ui:fullscreendialog'
+include ':features:goalcreate', ':features:goaldetails', ':features:goalhome'

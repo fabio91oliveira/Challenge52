@@ -8,7 +8,8 @@ dependencies {
     api project(Core.Actions)
     api project(Core.Models)
 
-    api project(Features.Error)
+    api project(UI.Resources)
+    api project(UI.FullScreenDialog)
 
     // Support
     api Deps.support_material

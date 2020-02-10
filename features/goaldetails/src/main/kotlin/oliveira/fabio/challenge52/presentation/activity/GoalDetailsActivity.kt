@@ -21,7 +21,7 @@ import oliveira.fabio.challenge52.persistence.model.entity.Week
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
 import oliveira.fabio.challenge52.presentation.adapter.WeeksAdapter
-import oliveira.fabio.challenge52.presentation.dialog.AlertDialogFragment
+import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
 import oliveira.fabio.challenge52.presentation.viewstate.Dialog
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -263,13 +263,13 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     }
 
     private fun showErrorDialog(stringResource: Int) {
-        AlertDialogFragment.newInstance(
+        FullScreenDialog.newInstance(
             R.drawable.ic_error,
             R.string.goal_oops_title,
             stringResource
         ) {
             finish()
-        }.show(supportFragmentManager, AlertDialogFragment.TAG)
+        }.show(supportFragmentManager, FullScreenDialog.TAG)
     }
 
     private fun showConfirmDialog(message: String, listener: DialogInterface.OnClickListener) =
