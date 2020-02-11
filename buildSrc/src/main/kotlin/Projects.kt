@@ -16,4 +16,5 @@ object Features {
 object UI {
     const val Resources = ":ui:resources"
     const val FullScreenDialog = ":ui:fullscreendialog"
+    const val PopupDialog = ":ui:popupdialog"
 }

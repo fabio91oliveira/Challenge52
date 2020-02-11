@@ -14,7 +14,6 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.dialog_fragment_fullscreen_dialog.*
-import oliveira.fabio.challenge52.presentation.extensions.isVisible
 import ui.fullscreendialog.R
 
 class FullScreenDialog : DialogFragment() {
@@ -110,7 +109,6 @@ class FullScreenDialog : DialogFragment() {
 
     private fun init() {
         setupColor()
-        setupButtonColor()
         setupTitle()
         setupSubtitle()
         setupCloseListener()
@@ -133,19 +131,6 @@ class FullScreenDialog : DialogFragment() {
         dialog?.window?.setBackgroundDrawableResource(backgroundColor.getColor())
     }
 
-    private fun setupButtonColor() {
-        context?.also {
-            val color = ContextCompat.getColor(it, backgroundColor.getColor())
-            with(btnConfirm) {
-                background = getBackgroundDrawable(
-                    color,
-                    background
-                )
-                setTextColor(color)
-            }
-        }
-    }
-
     private fun setupTitle() {
         check(resTitle != 0) { "Must have title set." }
         txtTitle.text = context?.resources?.getString(resTitle)
@@ -166,21 +151,35 @@ class FullScreenDialog : DialogFragment() {
     private fun setupConfirmButton() {
         confirmListener?.also { confirm ->
             btnConfirm.text = context?.resources?.getString(resConfirmText)
-            btnConfirm.isVisible = true
+            btnConfirm.visibility = View.VISIBLE
             btnConfirm.setOnClickListener {
                 confirm.onClickConfirmButton()
                 dismiss()
             }
         }
+        setupConfirmButtonColor()
     }
 
     private fun setupCancelButton() {
         cancelListener?.also { cancel ->
             btnCancel.text = context?.resources?.getString(resCancelText)
-            btnCancel.isVisible = true
+            btnCancel.visibility = View.VISIBLE
             btnCancel.setOnClickListener {
                 cancel.onClickCancelButton()
                 dismiss()
+            }
+        }
+    }
+
+    private fun setupConfirmButtonColor() {
+        context?.also {
+            val color = ContextCompat.getColor(it, backgroundColor.getColor())
+            with(btnConfirm) {
+                background = getBackgroundDrawable(
+                    color,
+                    background
+                )
+                setTextColor(color)
             }
         }
     }
@@ -245,8 +244,8 @@ class FullScreenDialog : DialogFragment() {
     }
 
     enum class BackgroundColor(@ColorRes private val resColor: Int) {
-        DEFAULT(R.color.color_yellow),
-        GREEN(R.color.color_green),
+        DEFAULT(R.color.color_green),
+        YELLOW(R.color.color_yellow),
         RED(R.color.color_red),
         BLUE(R.color.color_blue),
         BLACK(android.R.color.black);

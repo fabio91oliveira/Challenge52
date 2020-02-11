@@ -9,6 +9,7 @@ dependencies {
 
     api project(UI.Resources)
     api project(UI.FullScreenDialog)
+    api project(UI.PopupDialog)
 
     // Support
     api Deps.support_material

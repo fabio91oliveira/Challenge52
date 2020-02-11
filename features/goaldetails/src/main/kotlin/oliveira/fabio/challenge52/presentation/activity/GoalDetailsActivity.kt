@@ -1,12 +1,11 @@
 package oliveira.fabio.challenge52.presentation.activity
 
 import android.app.Activity
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AlertDialog
+import androidx.annotation.StringRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +21,7 @@ import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
 import oliveira.fabio.challenge52.presentation.adapter.WeeksAdapter
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
+import oliveira.fabio.challenge52.presentation.dialogfragment.PopupDialog
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
 import oliveira.fabio.challenge52.presentation.viewstate.Dialog
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -91,11 +91,10 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         when (goalDetailsViewModel.isDateAfterTodayWhenWeekIsNotDeposited(week)) {
             true -> {
                 showConfirmDialog(
-                    resources.getString(R.string.goal_details_date_after_today),
-                    DialogInterface.OnClickListener { dialog, _ ->
-                        updateWeek(week, position, block)
-                        dialog.dismiss()
-                    })
+                    R.string.goal_details_date_after_today
+                ) {
+                    updateWeek(week, position, block)
+                }
             }
             false -> updateWeek(week, position, block)
         }
@@ -244,20 +243,18 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             }
             is Dialog.ConfirmationDialogRemoveGoal -> {
                 showConfirmDialog(
-                    resources.getString(dialogViewState.stringRes),
-                    DialogInterface.OnClickListener { dialog, _ ->
-                        goalDetailsViewModel.removeGoal(goalWithWeeks)
-                        goalDetailsViewModel.hideDialogs()
-                        dialog.dismiss()
-                    })
+                    dialogViewState.stringRes
+                ) {
+                    goalDetailsViewModel.removeGoal(goalWithWeeks)
+                    goalDetailsViewModel.hideDialogs()
+                }
             }
             is Dialog.ConfirmationDialogDoneGoal -> {
                 showConfirmDialog(
-                    resources.getString(dialogViewState.stringRes),
-                    DialogInterface.OnClickListener { dialog, _ ->
-                        goalDetailsViewModel.completeGoal(goalWithWeeks)
-                        dialog.dismiss()
-                    })
+                    dialogViewState.stringRes
+                ) {
+                    goalDetailsViewModel.completeGoal(goalWithWeeks)
+                }
             }
         }
     }
@@ -289,26 +286,45 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             .show(supportFragmentManager, FullScreenDialog.TAG)
     }
 
-    private fun showConfirmDialog(message: String, listener: DialogInterface.OnClickListener) =
-        AlertDialog.Builder(this).apply {
-            setTitle(resources.getString(R.string.goal_warning_title))
-            setMessage(message)
-            setPositiveButton(android.R.string.ok, listener)
-            setNegativeButton(android.R.string.cancel) { dialog, _ ->
-                dialog.dismiss()
-                goalDetailsViewModel.hideDialogs()
-            }
-        }.show()
+    private fun showConfirmDialog(
+        @StringRes resString: Int,
+        block: () -> Unit
+    ) =
+        PopupDialog.Builder()
+            .setTitle(R.string.goal_warning_title)
+            .setSubtitle(resString)
+            .setupConfirmButton(
+                android.R.string.ok,
+                object : PopupDialog.PopupDialogConfirmListener {
+                    override fun onClickConfirmButton() {
+                        block()
+                    }
+                }
+            )
+            .setupCancelButton(
+                android.R.string.cancel,
+                object : PopupDialog.PopupDialogCancelListener {
+                    override fun onClickCancelButton() {
+                        goalDetailsViewModel.hideDialogs()
+                    }
+                })
+            .build()
+            .show(supportFragmentManager, PopupDialog.TAG)
 
     private fun showDefaultDialog(resString: Int) =
-        AlertDialog.Builder(this).apply {
-            setTitle(resources.getString(R.string.goal_warning_title))
-            setMessage(resources.getString(resString))
-            setPositiveButton(android.R.string.ok) { dialog, _ ->
-                dialog.dismiss()
-                goalDetailsViewModel.hideDialogs()
-            }
-        }.show()
+        PopupDialog.Builder()
+            .setTitle(R.string.goal_warning_title)
+            .setSubtitle(resString)
+            .setupConfirmButton(
+                R.string.button_ok,
+                object : PopupDialog.PopupDialogConfirmListener {
+                    override fun onClickConfirmButton() {
+                        goalDetailsViewModel.hideDialogs()
+                    }
+                }
+            )
+            .build()
+            .show(supportFragmentManager, PopupDialog.TAG)
 
     private fun expandBar(hasToExpand: Boolean) = appBarLayout.setExpanded(hasToExpand)
 

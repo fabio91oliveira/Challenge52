@@ -1,86 +1,121 @@
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="@dimen/corner_radius"
-    app:cardUseCompatPadding="true">
+    android:paddingStart="@dimen/padding_card"
+    android:paddingEnd="@dimen/padding_card">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/corner_radius"
+        app:cardUseCompatPadding="true">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgTop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:adjustViewBounds="true"
-            android:maxHeight="100dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_alert"
-            tools:visibility="visible" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margins_side_title"
-            android:layout_marginLeft="@dimen/margins_side_title"
-            android:layout_marginTop="@dimen/margin_top_title"
-            android:layout_marginEnd="@dimen/margins_side_title"
-            android:layout_marginRight="@dimen/margins_side_title"
-            android:gravity="center"
-            android:lineSpacingExtra="1sp"
-            android:maxLines="2"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_eighteen"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imgTop"
-            tools:text="Lorem ipsum" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top_all"
+                android:adjustViewBounds="true"
+                android:maxHeight="100dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_alert"
+                tools:visibility="gone" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtSubtitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margins_side_subtitle"
-            android:layout_marginLeft="@dimen/margins_side_subtitle"
-            android:layout_marginTop="@dimen/margin_top_subtitle"
-            android:layout_marginEnd="@dimen/margins_side_subtitle"
-            android:layout_marginRight="@dimen/margins_side_subtitle"
-            android:gravity="center_horizontal"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_fourteen"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtTitle"
-            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed erat augue." />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top_title"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="2"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_title"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/gdlRight"
+                app:layout_constraintStart_toStartOf="@id/gdlLeft"
+                app:layout_constraintTop_toBottomOf="@id/imgTop"
+                app:layout_goneMarginTop="@dimen/margin_top_all"
+                tools:text="@tools:sample/lorem/random" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnOk"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/button_height"
-            android:layout_marginStart="@dimen/margins_side_button"
-            android:layout_marginLeft="@dimen/margins_side_button"
-            android:layout_marginTop="@dimen/margin_top_bottom_button"
-            android:layout_marginEnd="@dimen/margins_side_button"
-            android:layout_marginRight="@dimen/margins_side_button"
-            android:layout_marginBottom="@dimen/margin_top_bottom_button"
-            android:background="@drawable/selector_button"
-            android:text="@string/button_ok"
-            android:textAllCaps="false"
-            android:textSize="@dimen/text_eighteen"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtSubtitle" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top_subtitle"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:includeFontPadding="false"
+                android:maxLines="5"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_subtitle"
+                app:layout_constraintBottom_toTopOf="@id/btnConfirm"
+                app:layout_constraintEnd_toEndOf="@id/gdlRight"
+                app:layout_constraintStart_toStartOf="@id/gdlLeft"
+                app:layout_constraintTop_toBottomOf="@id/txtTitle"
+                app:layout_goneMarginBottom="20dp"
+                tools:text="@tools:sample/lorem/random" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnConfirm"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top_confirm_button"
+                android:background="@drawable/background_btn_confirm_white"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/btnCancel"
+                app:layout_constraintEnd_toEndOf="@id/gdlRight"
+                app:layout_constraintStart_toStartOf="@id/gdlLeft"
+                app:layout_constraintTop_toBottomOf="@+id/txtSubtitle"
+                app:layout_goneMarginBottom="@dimen/margin_bottom_gone"
+                tools:background="@color/colorPrimary"
+                tools:text="@tools:sample/lorem"
+                tools:visibility="visible" />
 
-</com.google.android.material.card.MaterialCardView>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top_button_cancel"
+                android:layout_marginBottom="@dimen/margin_bottom_cancel_button"
+                android:background="?attr/selectableItemBackground"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/gdlRight"
+                app:layout_constraintStart_toStartOf="@id/gdlLeft"
+                app:layout_constraintTop_toBottomOf="@+id/btnConfirm"
+                tools:text="@tools:sample/lorem"
+                tools:visibility="gone" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gdlLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/margin_guide_line" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gdlRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/margin_guide_line" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
