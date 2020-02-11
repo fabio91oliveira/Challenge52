@@ -13,26 +13,26 @@ open class BaseActivity : AppCompatActivity {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        savedInstanceState?.also {
-            onStartCount = 2
-        } ?: run {
-            this.overridePendingTransition(
-                R.anim.anim_slide_in_left,
-                R.anim.anim_slide_out_left
-            )
-        }
+//        savedInstanceState?.also {
+//            onStartCount = 2
+//        } ?: run {
+//            this.overridePendingTransition(
+//                R.anim.anim_slide_in_left,
+//                R.anim.anim_slide_out_left
+//            )
+//        }
     }
 
     override fun onStart() {
         super.onStart()
-        if (onStartCount > 1) {
-            this.overridePendingTransition(
-                R.anim.anim_slide_in_right,
-                R.anim.anim_slide_out_right
-            )
-
-        } else if (onStartCount == 1) {
-            onStartCount++
-        }
+//        if (onStartCount > 1) {
+//            this.overridePendingTransition(
+//                R.anim.anim_slide_in_right,
+//                R.anim.anim_slide_out_right
+//            )
+//
+//        } else if (onStartCount == 1) {
+//            onStartCount++
+//        }
     }
 }

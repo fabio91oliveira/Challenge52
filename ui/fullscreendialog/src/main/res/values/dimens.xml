@@ -1,12 +1,12 @@
 <resources>
-    <dimen name="text_fourteen">14sp</dimen>
-    <dimen name="text_eighteen">18sp</dimen>
+    <dimen name="size_text_title">36sp</dimen>
+    <dimen name="size_text_subtitle">24sp</dimen>
 
-    <dimen name="corner_radius">10dp</dimen>
-    <dimen name="margin_top_subtitle">14dp</dimen>
-    <dimen name="margins_side_subtitle">16dp</dimen>
-    <dimen name="margins_side_title">16dp</dimen>
-    <dimen name="margin_top_title">24dp</dimen>
-    <dimen name="margins_side_button">16dp</dimen>
-    <dimen name="margin_top_bottom_button">24dp</dimen>
+    <dimen name="margin_top_close">10dp</dimen>
+    <dimen name="margin_top_subtitle">10dp</dimen>
+    <dimen name="padding_ic_close">18dp</dimen>
+    <dimen name="margin_guide_line">40dp</dimen>
+
+    <dimen name="margin_bottom_button_confirm">10dp</dimen>
+    <dimen name="margin_bottom_button_cancel">40dp</dimen>
 </resources>

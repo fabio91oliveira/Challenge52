@@ -93,7 +93,7 @@
 
     <!-- Error -->
     <string name="goal_warning_title">Warning</string>
-    <string name="goal_oops_title">Oops!</string>
+    <string name="goal_oops_title">Oops! It seems something unexpected occurred.</string>
     <string name="goals_generic_error">An error has occurred, try again or contact the
         developer.
     </string>

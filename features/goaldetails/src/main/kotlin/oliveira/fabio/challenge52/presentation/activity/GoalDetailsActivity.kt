@@ -167,7 +167,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                         closeDetails()
                     }
                     is GoalDetailsActions.Error -> {
-                        showErrorDialog(it.errorMessageRes)
+                        showFullScreenDialog(it.errorMessageRes)
                     }
                 }
             })
@@ -262,14 +262,31 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         }
     }
 
-    private fun showErrorDialog(stringResource: Int) {
-        FullScreenDialog.newInstance(
-            R.drawable.ic_error,
-            R.string.goal_oops_title,
-            stringResource
-        ) {
-            finish()
-        }.show(supportFragmentManager, FullScreenDialog.TAG)
+    private fun showFullScreenDialog(stringResource: Int) {
+        FullScreenDialog.Builder()
+            .setTitle(R.string.goal_oops_title)
+            .setSubtitle(stringResource)
+            .setCloseAction(object : FullScreenDialog.FullScreenDialogCloseListener {
+                override fun onClickCloseButton() {
+                    finish()
+                }
+            })
+            .setupConfirmButton(
+                R.string.all_button_ok,
+                object : FullScreenDialog.FullScreenDialogConfirmListener {
+                    override fun onClickConfirmButton() {
+                        finish()
+                    }
+                })
+            .setupCancelButton(
+                R.string.all_button_go_back,
+                object : FullScreenDialog.FullScreenDialogCancelListener {
+                    override fun onClickCancelButton() {
+                        finish()
+                    }
+                })
+            .build()
+            .show(supportFragmentManager, FullScreenDialog.TAG)
     }
 
     private fun showConfirmDialog(message: String, listener: DialogInterface.OnClickListener) =

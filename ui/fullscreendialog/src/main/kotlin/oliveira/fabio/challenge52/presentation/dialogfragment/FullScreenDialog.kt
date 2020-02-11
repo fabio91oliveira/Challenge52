@@ -1,22 +1,23 @@
 package oliveira.fabio.challenge52.presentation.dialogfragment
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.RippleDrawable
 import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.dialog_fragment_fullscreen_dialog.*
+import oliveira.fabio.challenge52.presentation.extensions.isVisible
 import ui.fullscreendialog.R
 
 class FullScreenDialog : DialogFragment() {
-
-    private val resImage: Int by lazy {
-        arguments?.getInt(
-            RES_IMAGE
-        ) ?: 0
-    }
 
     private val resTitle: Int by lazy {
         arguments?.getInt(
@@ -24,13 +25,47 @@ class FullScreenDialog : DialogFragment() {
         ) ?: 0
     }
 
-    private val subtitle: Int by lazy {
+    private val resSubtitle: Int by lazy {
         arguments?.getInt(
             SUBTITLE
         ) ?: 0
     }
 
-    private var block: (() -> Unit?)? = null
+    private val resConfirmText: Int by lazy {
+        arguments?.getInt(
+            CONFIRM_TEXT
+        ) ?: 0
+    }
+
+    private val resCancelText: Int by lazy {
+        arguments?.getInt(
+            CANCEL_TEXT
+        ) ?: 0
+    }
+
+    private val backgroundColor: BackgroundColor by lazy {
+        arguments?.getSerializable(BACKGROUND_COLOR)?.let {
+            it as BackgroundColor
+        } ?: BackgroundColor.DEFAULT
+    }
+
+    private val closeListener: FullScreenDialogCloseListener? by lazy {
+        arguments?.getParcelable(
+            CLOSE_LISTENER
+        ) as FullScreenDialogCloseListener?
+    }
+
+    private val confirmListener: FullScreenDialogConfirmListener? by lazy {
+        arguments?.getParcelable(
+            CONFIRM_LISTENER
+        ) as FullScreenDialogConfirmListener?
+    }
+
+    private val cancelListener: FullScreenDialogCancelListener? by lazy {
+        arguments?.getParcelable(
+            CANCEL_LISTENER
+        ) as FullScreenDialogCancelListener?
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,80 +73,196 @@ class FullScreenDialog : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.dialog_fragment_fullscreen_dialog, container, false)
+        return inflater.inflate(
+            R.layout.dialog_fragment_fullscreen_dialog,
+            container,
+            false
+        )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.FullScreenDialogTheme)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        init()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        dialog?.apply {
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            isCancelable = false
+        dialog?.window?.apply {
+            attributes.windowAnimations = R.style.FullScreenDialogTheme
         }
-        init()
     }
 
     override fun onStart() {
         super.onStart()
         dialog?.apply {
+            setCancelable(false)
             window?.setLayout(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.MATCH_PARENT
             )
         }
     }
 
     private fun init() {
-        setupImage()
-        setupTexts()
-        setupDefaultClickListeners()
+        setupColor()
+        setupButtonColor()
+        setupTitle()
+        setupSubtitle()
+        setupCloseListener()
+        setupConfirmButton()
+        setupCancelButton()
     }
 
-    private fun setupImage() {
-        if (resImage != 0) imgTop.setImageResource(resImage)
+    private fun getBackgroundDrawable(
+        pressedColor: Int,
+        backgroundDrawable: Drawable
+    ): RippleDrawable {
+        return RippleDrawable(getPressedState(pressedColor), backgroundDrawable, null)
     }
 
-    private fun setupTexts() {
-        if (resTitle != 0) txtTitle.text = context?.resources?.getString(resTitle)
-        if (subtitle != 0) txtSubtitle.text = context?.resources?.getString(subtitle)
+    private fun getPressedState(pressedColor: Int): ColorStateList {
+        return ColorStateList(arrayOf(intArrayOf()), intArrayOf(pressedColor))
     }
 
-    private fun setupDefaultClickListeners() {
-        btnOk.setOnClickListener {
-            dismiss()
-            block?.invoke()
+    private fun setupColor() {
+        dialog?.window?.setBackgroundDrawableResource(backgroundColor.getColor())
+    }
+
+    private fun setupButtonColor() {
+        context?.also {
+            val color = ContextCompat.getColor(it, backgroundColor.getColor())
+            with(btnConfirm) {
+                background = getBackgroundDrawable(
+                    color,
+                    background
+                )
+                setTextColor(color)
+            }
         }
     }
 
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        val view = View.inflate(context, R.layout.dialog_fragment_popup_dialog, null)
-//
-//        val builder = AlertDialog.Builder(view.context)
-//        builder.setView(view)
-//
-//        val dialogBuilder = builder.create()
-//        dialogBuilder.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//
-//
-//        init(view)
-//        return dialogBuilder
-//    }
+    private fun setupTitle() {
+        check(resTitle != 0) { "Must have title set." }
+        txtTitle.text = context?.resources?.getString(resTitle)
+    }
+
+    private fun setupSubtitle() {
+        check(resSubtitle != 0) { "Must have subtitle set." }
+        txtSubtitle.text = context?.resources?.getString(resSubtitle)
+    }
+
+    private fun setupCloseListener() {
+        imgClose.setOnClickListener {
+            closeListener?.onClickCloseButton()
+            dismiss()
+        }
+    }
+
+    private fun setupConfirmButton() {
+        confirmListener?.also { confirm ->
+            btnConfirm.text = context?.resources?.getString(resConfirmText)
+            btnConfirm.isVisible = true
+            btnConfirm.setOnClickListener {
+                confirm.onClickConfirmButton()
+                dismiss()
+            }
+        }
+    }
+
+    private fun setupCancelButton() {
+        cancelListener?.also { cancel ->
+            btnCancel.text = context?.resources?.getString(resCancelText)
+            btnCancel.isVisible = true
+            btnCancel.setOnClickListener {
+                cancel.onClickCancelButton()
+                dismiss()
+            }
+        }
+    }
+
+    class Builder {
+        private val args: Bundle = Bundle()
+
+        fun setBackgroundColor(background: BackgroundColor) = apply {
+            args.putSerializable(BACKGROUND_COLOR, background)
+        }
+
+        fun setTitle(@StringRes resTitle: Int) = apply {
+            args.putInt(TITLE, resTitle)
+        }
+
+        fun setSubtitle(@StringRes resSubtitle: Int) = apply {
+            args.putInt(SUBTITLE, resSubtitle)
+        }
+
+        fun setCloseAction(listener: FullScreenDialogCloseListener) = apply {
+            args.putParcelable(CLOSE_LISTENER, listener)
+        }
+
+        fun setupConfirmButton(
+            @StringRes resConfirm: Int, listener: FullScreenDialogConfirmListener
+        ) =
+            apply {
+                args.putInt(CONFIRM_TEXT, resConfirm)
+                args.putParcelable(CONFIRM_LISTENER, listener)
+            }
+
+        fun setupCancelButton(@StringRes resCancel: Int, listener: FullScreenDialogCancelListener) =
+            apply {
+                args.putInt(CANCEL_TEXT, resCancel)
+                args.putParcelable(CANCEL_LISTENER, listener)
+            }
+
+        fun build() = FullScreenDialog().apply {
+            this.arguments = args
+        }
+    }
+
+    interface FullScreenDialogCloseListener : Parcelable {
+        fun onClickCloseButton()
+        override fun describeContents(): Int = 0
+        override fun writeToParcel(dest: Parcel, flags: Int) {
+        }
+    }
+
+    interface FullScreenDialogConfirmListener : Parcelable {
+        fun onClickConfirmButton()
+        override fun describeContents(): Int = 0
+        override fun writeToParcel(dest: Parcel, flags: Int) {
+        }
+    }
+
+    interface FullScreenDialogCancelListener : Parcelable {
+        fun onClickCancelButton()
+        override fun describeContents(): Int = 0
+        override fun writeToParcel(dest: Parcel, flags: Int) {
+        }
+    }
+
+    enum class BackgroundColor(@ColorRes private val resColor: Int) {
+        DEFAULT(R.color.color_yellow),
+        GREEN(R.color.color_green),
+        RED(R.color.color_red),
+        BLUE(R.color.color_blue),
+        BLACK(android.R.color.black);
+
+        fun getColor() = resColor
+    }
 
     companion object {
         const val TAG = "FullScreenDialog"
-        const val RES_IMAGE = "RES_IMAGE"
         const val TITLE = "TITLE"
         const val SUBTITLE = "SUBTITLE"
-
-        fun newInstance(resImage: Int, title: Int, subTitle: Int, block: (() -> Unit)? = null) =
-            FullScreenDialog().apply {
-                arguments = Bundle().apply {
-                    putInt(RES_IMAGE, resImage)
-                    putInt(TITLE, title)
-                    putInt(SUBTITLE, subTitle)
-                }
-                block?.also {
-                    this.block = it
-                }
-            }
+        const val BACKGROUND_COLOR = "BACKGROUND_COLOR"
+        const val CLOSE_LISTENER = "CLOSE_LISTENER"
+        const val CONFIRM_TEXT = "CONFIRM_TEXT"
+        const val CONFIRM_LISTENER = "CONFIRM_LISTENER"
+        const val CANCEL_LISTENER = "CANCEL_LISTENER"
+        const val CANCEL_TEXT = "CANCEL_TEXT"
     }
 }
