@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="@dimen/padding_card"
-    android:paddingEnd="@dimen/padding_card">
+    android:padding="@dimen/padding_card">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -34,15 +33,18 @@
                 android:id="@+id/txtTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_sides_title"
                 android:layout_marginTop="@dimen/margin_top_title"
+                android:layout_marginEnd="@dimen/margin_sides_title"
                 android:ellipsize="end"
                 android:gravity="center"
+                android:includeFontPadding="false"
                 android:maxLines="2"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/text_size_title"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@id/gdlRight"
-                app:layout_constraintStart_toStartOf="@id/gdlLeft"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/imgTop"
                 app:layout_goneMarginTop="@dimen/margin_top_all"
                 tools:text="@tools:sample/lorem/random" />
@@ -51,7 +53,9 @@
                 android:id="@+id/txtSubtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_sides_all"
                 android:layout_marginTop="@dimen/margin_top_subtitle"
+                android:layout_marginEnd="@dimen/margin_sides_all"
                 android:ellipsize="end"
                 android:gravity="center_horizontal"
                 android:includeFontPadding="false"
@@ -60,8 +64,8 @@
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/text_size_subtitle"
                 app:layout_constraintBottom_toTopOf="@id/btnConfirm"
-                app:layout_constraintEnd_toEndOf="@id/gdlRight"
-                app:layout_constraintStart_toStartOf="@id/gdlLeft"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtTitle"
                 app:layout_goneMarginBottom="20dp"
                 tools:text="@tools:sample/lorem/random" />
@@ -71,14 +75,16 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_sides_all"
                 android:layout_marginTop="@dimen/margin_top_confirm_button"
+                android:layout_marginEnd="@dimen/margin_sides_all"
                 android:background="@drawable/background_btn_confirm_green"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/btnCancel"
-                app:layout_constraintEnd_toEndOf="@id/gdlRight"
-                app:layout_constraintStart_toStartOf="@id/gdlLeft"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtSubtitle"
                 app:layout_goneMarginBottom="@dimen/margin_bottom_gone"
                 tools:background="@color/colorPrimary"
@@ -89,30 +95,19 @@
                 android:id="@+id/btnCancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_sides_all"
                 android:layout_marginTop="@dimen/margin_top_button_cancel"
+                android:layout_marginEnd="@dimen/margin_sides_all"
                 android:layout_marginBottom="@dimen/margin_bottom_cancel_button"
                 android:background="?attr/selectableItemBackground"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/gdlRight"
-                app:layout_constraintStart_toStartOf="@id/gdlLeft"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnConfirm"
                 tools:text="@tools:sample/lorem"
                 tools:visibility="gone" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gdlLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/margin_guide_line" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gdlRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/margin_guide_line" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

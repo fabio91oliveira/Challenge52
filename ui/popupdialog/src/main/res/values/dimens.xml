@@ -5,6 +5,7 @@
     <dimen name="corner_radius">10dp</dimen>
     <dimen name="margin_top_all">8dp</dimen>
     <dimen name="margin_top_title">12dp</dimen>
+    <dimen name="margin_sides_title">6dp</dimen>
     <dimen name="margin_top_subtitle">1dp</dimen>
 
     <dimen name="margin_top_confirm_button">36dp</dimen>
@@ -13,5 +14,5 @@
     <dimen name="margin_bottom_cancel_button">16dp</dimen>
 
     <dimen name="padding_card">16dp</dimen>
-    <dimen name="margin_guide_line">1dp</dimen>
+    <dimen name="margin_sides_all">14dp</dimen>
 </resources>
