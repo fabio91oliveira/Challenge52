@@ -27,7 +27,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_alert"
+                tools:src="@android:drawable/ic_menu_crop"
                 tools:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -72,7 +72,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_top_confirm_button"
-                android:background="@drawable/background_btn_confirm_white"
+                android:background="@drawable/background_btn_confirm_green"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:visibility="gone"
