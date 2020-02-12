@@ -9,6 +9,7 @@ dependencies {
     api project(Core.Models)
 
     api project(UI.Resources)
+    api project(UI.PopupDialog)
     api project(UI.FullScreenDialog)
 
     // Support

@@ -35,10 +35,16 @@ class PopupDialog : DialogFragment() {
         ) ?: 0
     }
 
-    private val subtitle: Int by lazy {
+    private val resSubtitle: Int by lazy {
         arguments?.getInt(
             SUBTITLE
         ) ?: 0
+    }
+
+    private val strSubtitle: String? by lazy {
+        arguments?.getString(
+            SUBTITLE
+        )
     }
 
     private val resConfirmText: Int by lazy {
@@ -133,8 +139,13 @@ class PopupDialog : DialogFragment() {
     }
 
     private fun setupSubtitle() {
-        check(resTitle != 0) { "Must have subtitle set." }
-        if (subtitle != 0) txtSubtitle.text = context?.resources?.getString(subtitle)
+        check((resSubtitle != 0) || (strSubtitle != null)) { "Must have subtitle set." }
+
+        strSubtitle?.also {
+            txtSubtitle.text = it
+        } ?: run {
+            txtSubtitle.text = context?.resources?.getString(resSubtitle)
+        }
     }
 
     private fun setupConfirmButton() {
@@ -206,6 +217,10 @@ class PopupDialog : DialogFragment() {
             args.putInt(SUBTITLE, resSubtitle)
         }
 
+        fun setSubtitle(strSubtitle: String) = apply {
+            args.putString(SUBTITLE, strSubtitle)
+        }
+
         fun setupConfirmButton(
             @StringRes resConfirmText: Int,
             listener: PopupDialogConfirmListener
@@ -258,20 +273,6 @@ class PopupDialog : DialogFragment() {
 
         fun getColor() = resColor
     }
-
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        val view = View.inflate(context, R.layout.dialog_fragment_popup_dialog, null)
-//
-//        val builder = AlertDialog.Builder(view.context)
-//        builder.setView(view)
-//
-//        val dialogBuilder = builder.create()
-//        dialogBuilder.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//
-//
-//        init(view)
-//        return dialogBuilder
-//    }
 
     companion object {
         const val TAG = "PopupDialog"
