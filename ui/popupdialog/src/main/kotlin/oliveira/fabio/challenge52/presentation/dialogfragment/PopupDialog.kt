@@ -90,23 +90,24 @@ class PopupDialog : DialogFragment() {
         )
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        dialog?.apply {
-            setStyle(STYLE_NORMAL, R.style.FullScreenDialogTheme)
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            isCancelable = false
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        savedInstanceState?.also { dismiss() }
         init()
     }
 
     override fun onStart() {
         super.onStart()
         dialog?.apply {
-            window?.setLayout(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
+            isCancelable = false
+            setStyle(STYLE_NORMAL, R.style.FullScreenDialogTheme)
+            window?.also {
+                it.setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+                it.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            }
         }
     }
 
@@ -200,7 +201,6 @@ class PopupDialog : DialogFragment() {
             btnCancel.setTextColor(ContextCompat.getColor(it, buttonColor.getColor()))
         }
     }
-
 
     class Builder {
         private val args: Bundle = Bundle()

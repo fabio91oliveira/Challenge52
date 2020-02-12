@@ -62,11 +62,6 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
                     }
                 }
             }
-//            ACTIVITY_ERROR -> when (requestCode) {
-//                REQUEST_CODE_DETAILS -> {
-//                    goalsListsViewModel.showErrorWhenTryToOpenDetails()
-//                }
-//            }
         }
     }
 
