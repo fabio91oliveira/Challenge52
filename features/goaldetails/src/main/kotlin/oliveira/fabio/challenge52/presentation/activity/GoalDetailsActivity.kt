@@ -86,17 +86,14 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     }
 
     override fun onClickWeek(week: Week, position: Int, block: () -> Unit) {
-        // TODO JOGAR PARA ShowConfirmationDialogWeekIsPosterior E DEPOIS DE CONFIRMADO MESMO, FAZER A ANIMACAO EM OUTRA ACTION COMO
-        // TODO AnimateWeekChanged passando position, setando last position, e fazendo a animacao
-        when (goalDetailsViewModel.isDateAfterTodayWhenWeekIsNotDeposited(week)) {
-            true -> {
-                showConfirmDialog(
-                    R.string.goal_details_date_after_today
-                ) {
-                    updateWeek(week, position, block)
-                }
-            }
-            false -> updateWeek(week, position, block)
+        // TODO COMO EXECUTAR ANIMACAO?
+        // TODO para que servia isso?
+        //  goalWithWeeks.lastPosition = position
+        with(goalDetailsViewModel) {
+            if (isDateAfterTodayWhenWeekIsNotDeposited(week))
+                showConfirmationDialogUpdateWeek(week)
+            else
+                changeWeekDepositStatus(week)
         }
     }
 
@@ -120,6 +117,8 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         setupToolbar()
         initRecyclerView()
         initObservables()
+
+        // TODO BUSCAR DO BANCO ATRAVES DO ID E CARREGAR TUDO
         goalDetailsViewModel.getWeeksList(goalWithWeeks)
     }
 
@@ -204,16 +203,6 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         finish()
     }
 
-    private fun updateWeek(
-        week: Week,
-        position: Int,
-        block: () -> Unit
-    ) {
-        goalDetailsViewModel.changeWeekDepositStatus(week)
-        goalWithWeeks.lastPosition = position
-        block()
-    }
-
     private fun updateItemList(list: MutableList<Item>) {
         goalWithWeeks.lastPosition?.also { position ->
             weeksAdapter.addSingleItem(
@@ -254,6 +243,13 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                     dialogViewState.stringRes
                 ) {
                     goalDetailsViewModel.completeGoal(goalWithWeeks)
+                }
+            }
+            is Dialog.ConfirmationDialogUpdateWeek -> {
+                showConfirmDialog(
+                    dialogViewState.stringRes
+                ) {
+                    goalDetailsViewModel.changeWeekDepositStatus(dialogViewState.week)
                 }
             }
         }

@@ -121,7 +121,7 @@ class WeeksAdapter(
                 AnimationUtils.loadAnimation(containerView.context, R.anim.scale_fab_in)
             val animNotChecked =
                 AnimationUtils.loadAnimation(containerView.context, R.anim.scale_fab_out)
-
+            // TODO MELHORAR ESSA LÓGICA
             if (item.getWeek().week.isDeposited) {
                 if (imgNotChecked.visibility != View.INVISIBLE) {
                     imgNotChecked.visibility = View.INVISIBLE
