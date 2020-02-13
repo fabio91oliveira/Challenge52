@@ -85,7 +85,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         }
     }
 
-    override fun onClickWeek(week: Week, position: Int, block: () -> Unit) {
+    override fun onClickWeek(week: Week) {
         // TODO COMO EXECUTAR ANIMACAO?
         // TODO para que servia isso?
         //  goalWithWeeks.lastPosition = position
