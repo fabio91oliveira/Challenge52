@@ -107,7 +107,7 @@
         android:layout_margin="@dimen/margin_sixteen"
         android:clickable="true"
         android:focusable="true"
-        android:tint="@android:color/white"
+        app:tint="@android:color/white"
         app:backgroundTint="@color/color_primary"
         app:rippleColor="@color/color_accent"
         app:srcCompat="@android:drawable/ic_input_add" />
@@ -120,7 +120,7 @@
         android:layout_margin="@dimen/margin_sixteen"
         android:clickable="true"
         android:focusable="true"
-        android:tint="@android:color/white"
+        app:tint="@android:color/white"
         android:visibility="gone"
         app:backgroundTint="@color/colorRed"
         app:rippleColor="@color/color_accent"

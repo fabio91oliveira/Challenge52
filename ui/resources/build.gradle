@@ -5,4 +5,5 @@ apply plugin: 'kotlin-android-extensions'
 dependencies {
     // Support
     api Deps.support_app_compat
+    api Deps.support_material
 }

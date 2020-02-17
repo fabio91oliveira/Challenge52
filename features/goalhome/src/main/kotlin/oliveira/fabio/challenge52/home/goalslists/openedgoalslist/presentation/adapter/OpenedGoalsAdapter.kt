@@ -157,7 +157,7 @@ class OpenedGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
             valueAnimator.duration = 500
             valueAnimator.addUpdateListener {
                 val progress = it.animatedValue as Float
-                containerView.cardGoal.translationX = progress
+                containerView.translationX = progress
             }
             valueAnimator.start()
             lastPosition++

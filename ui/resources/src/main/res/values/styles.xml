@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
@@ -8,9 +8,13 @@
         <item name="android:windowBackground">@color/color_soft_grey</item>
     </style>
 
-    <style name="AppToolBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="AppToolBarTheme" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="android:textSize">@dimen/text_twenty</item>
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="LowerCaseTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
     </style>
 
     <style name="TextAppearance.Expanded" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">

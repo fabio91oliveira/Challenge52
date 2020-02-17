@@ -12,6 +12,9 @@
     <string name="navigation_menu_options">Opções</string>
 
     <!-- Goals List -->
+    <string name="goals_lists_opened_goals">Abertos</string>
+    <string name="goals_lists_done_goals">Concluídos</string>
+
     <string name="goals_list_my_goals">Minhas metas</string>
     <string name="goals_list_no_goals">Nenhuma meta foi cadastrada até o momento. O quê você acha de criar uma
         agora?
