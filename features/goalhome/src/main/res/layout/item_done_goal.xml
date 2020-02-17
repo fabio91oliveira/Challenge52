@@ -25,7 +25,7 @@
                 android:id="@+id/txtName"
                 android:layout_width="0dp"
                 android:layout_height="44dp"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/color_accent"
                 android:textStyle="bold"
                 android:textSize="@dimen/text_eighteen"
                 app:layout_constraintTop_toTopOf="parent"
@@ -40,7 +40,7 @@
                 android:layout_marginTop="@dimen/margin_ten"
                 app:layout_constraintTop_toBottomOf="@+id/txtName"
                 app:layout_constraintStart_toStartOf="@id/txtName"
-                android:textColor="@color/colorBlack"
+                android:textColor="@android:color/black"
                 android:text="@string/done_goals_list_how_much"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/txtValueTitle"
                 app:layout_constraintStart_toStartOf="@id/txtValueTitle"
-                android:textColor="@color/colorBlack"
+                android:textColor="@android:color/black"
                 android:text="@string/done_goals_list_start_date"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/txtStartDate"
                 app:layout_constraintStart_toStartOf="@id/txtStartDate"
-                android:textColor="@color/colorBlack"
+                android:textColor="@android:color/black"
                 android:text="@string/done_goals_list_end_date"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -70,7 +70,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textStyle="bold"
                 android:layout_marginEnd="@dimen/margin_six"
-                android:textColor="@color/colorGreen"
+                android:textColor="@color/color_accent"
                 tools:text="R$ 2.000,00999999999" app:fontFamily="@font/ubuntu_bold"/>
 
         <androidx.appcompat.widget.AppCompatTextView

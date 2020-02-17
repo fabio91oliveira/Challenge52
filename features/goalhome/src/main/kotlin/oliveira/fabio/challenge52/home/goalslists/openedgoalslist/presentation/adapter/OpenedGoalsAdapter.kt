@@ -55,14 +55,14 @@ class OpenedGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                 containerView.contentCard.setBackgroundColor(
                     ContextCompat.getColor(
                         containerView.context,
-                        R.color.colorSofterGrey
+                        R.color.color_dark_grey
                     )
                 )
             } else {
                 containerView.contentCard.setBackgroundColor(
                     ContextCompat.getColor(
                         containerView.context,
-                        R.color.colorWhite
+                        android.R.color.white
                     )
                 )
             }
@@ -76,8 +76,8 @@ class OpenedGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
 
             val progress = goalsList[position].getPercentOfConclusion()
             when (progress > 0) {
-                true -> txtDoneValue.setTextColor(ContextCompat.getColor(containerView.context, R.color.colorGreen))
-                false -> txtDoneValue.setTextColor(ContextCompat.getColor(containerView.context, R.color.colorBlack))
+                true -> txtDoneValue.setTextColor(ContextCompat.getColor(containerView.context, R.color.color_accent))
+                false -> txtDoneValue.setTextColor(ContextCompat.getColor(containerView.context, android.R.color.black))
             }
 
             val animation = ObjectAnimator.ofInt(progressBar, "progress", 0, progress)
@@ -98,7 +98,7 @@ class OpenedGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                     containerView.contentCard.setBackgroundColor(
                         ContextCompat.getColor(
                             containerView.context,
-                            R.color.colorSofterGrey
+                            R.color.color_dark_grey
                         )
                     )
                     it.doPopAnimation(100) {
@@ -115,7 +115,7 @@ class OpenedGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                     containerView.contentCard.setBackgroundColor(
                         ContextCompat.getColor(
                             containerView.context,
-                            R.color.colorWhite
+                            android.R.color.white
                         )
                     )
                     it.doPopAnimation(100) {
@@ -136,7 +136,7 @@ class OpenedGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                         containerView.contentCard.setBackgroundColor(
                             ContextCompat.getColor(
                                 containerView.context,
-                                R.color.colorSofterGrey
+                                R.color.color_dark_grey
                             )
                         )
                         it.doPopAnimation(100) {

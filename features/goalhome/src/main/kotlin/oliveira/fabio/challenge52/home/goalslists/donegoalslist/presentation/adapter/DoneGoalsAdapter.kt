@@ -47,14 +47,14 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                 containerView.contentCard.setBackgroundColor(
                     ContextCompat.getColor(
                         containerView.context,
-                        R.color.colorSofterGrey
+                        R.color.color_dark_grey
                     )
                 )
             } else {
                 containerView.contentCard.setBackgroundColor(
                     ContextCompat.getColor(
                         containerView.context,
-                        R.color.colorWhite
+                        android.R.color.white
                     )
                 )
             }
@@ -73,7 +73,7 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                     containerView.contentCard.setBackgroundColor(
                         ContextCompat.getColor(
                             containerView.context,
-                            R.color.colorSofterGrey
+                            R.color.color_dark_grey
                         )
                     )
                     onClickGoalListener.onLongClick(goalsList[position])
@@ -88,7 +88,7 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                     containerView.contentCard.setBackgroundColor(
                         ContextCompat.getColor(
                             containerView.context,
-                            R.color.colorWhite
+                            android.R.color.white
                         )
                     )
                     onClickGoalListener.onClickRemove(goalsList[position])
@@ -107,7 +107,7 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                         containerView.contentCard.setBackgroundColor(
                             ContextCompat.getColor(
                                 containerView.context,
-                                R.color.colorSofterGrey
+                                R.color.color_dark_grey
                             )
                         )
                         onClickGoalListener.onClickAdd(goalsList[position])

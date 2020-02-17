@@ -37,7 +37,7 @@
                 android:layout_marginTop="@dimen/margin_thirty_eight"
                 android:layout_marginEnd="@dimen/margin_twenty_four"
                 android:text="@string/done_goals_list_none_result"
-                android:textColor="@color/colorBlack"
+                android:textColor="@android:color/black"
                 android:textSize="@dimen/text_twenty_four"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +65,7 @@
                 android:layout_marginEnd="@dimen/margin_twenty_four"
                 android:text="@string/done_goals_list_error"
                 android:textAlignment="center"
-                android:textColor="@color/colorBlack"
+                android:textColor="@android:color/black"
                 android:textSize="@dimen/text_twenty_four"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -107,10 +107,10 @@
         android:layout_margin="@dimen/margin_sixteen"
         android:clickable="true"
         android:focusable="true"
-        android:tint="@color/colorWhite"
+        android:tint="@android:color/white"
         android:visibility="gone"
         app:backgroundTint="@color/colorRed"
-        app:rippleColor="@color/colorAccent"
+        app:rippleColor="@color/color_accent"
         app:srcCompat="@android:drawable/ic_delete" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

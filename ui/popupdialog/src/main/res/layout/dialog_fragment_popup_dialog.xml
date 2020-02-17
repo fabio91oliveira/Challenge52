@@ -87,7 +87,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtSubtitle"
                 app:layout_goneMarginBottom="@dimen/margin_bottom_gone"
-                tools:background="@color/colorPrimary"
+                tools:background="@color/color_primary"
                 tools:text="@tools:sample/lorem"
                 tools:visibility="visible" />
 

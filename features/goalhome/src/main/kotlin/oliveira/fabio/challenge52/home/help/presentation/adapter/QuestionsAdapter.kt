@@ -42,11 +42,11 @@ class QuestionsAdapter :
             txtAnswer.text = question.answer
 
             if (!question.isOpen) {
-                txtQuestion.setTextColor(ContextCompat.getColor(containerView.context, R.color.colorBlack))
+                txtQuestion.setTextColor(ContextCompat.getColor(containerView.context, android.R.color.black))
                 txtAnswer.visibility = View.GONE
                 btnAction.setBackgroundResource(R.drawable.ic_add_circle)
             } else {
-                txtQuestion.setTextColor(ContextCompat.getColor(containerView.context, R.color.colorAccent))
+                txtQuestion.setTextColor(ContextCompat.getColor(containerView.context, R.color.color_accent))
                 txtAnswer.visibility = View.VISIBLE
                 btnAction.setBackgroundResource(R.drawable.ic_remove_circle)
             }
@@ -60,8 +60,8 @@ class QuestionsAdapter :
                     txtAnswer.visibility = View.GONE
                     question.isOpen = false
                     changeTextQuestionColor(
-                        ContextCompat.getColor(containerView.context, R.color.colorAccent),
-                        ContextCompat.getColor(containerView.context, R.color.colorBlack)
+                        ContextCompat.getColor(containerView.context, R.color.color_accent),
+                        ContextCompat.getColor(containerView.context, android.R.color.black)
                     )
 
                 } else {
@@ -71,8 +71,8 @@ class QuestionsAdapter :
                     transformationY(txtAnswer, -50f, 0f, 200)
                     question.isOpen = true
                     changeTextQuestionColor(
-                        ContextCompat.getColor(containerView.context, R.color.colorBlack),
-                        ContextCompat.getColor(containerView.context, R.color.colorAccent)
+                        ContextCompat.getColor(containerView.context, android.R.color.black),
+                        ContextCompat.getColor(containerView.context, R.color.color_accent)
                     )
                 }
             }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@color/colorPrimary">
+    tools:background="@color/color_primary">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgClose"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="4"
-        android:textColor="@color/colorWhite"
+        android:textColor="@android:color/white"
         android:textSize="@dimen/size_text_title"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/txtSubtitle"
@@ -44,7 +44,7 @@
         android:layout_marginTop="@dimen/margin_top_subtitle"
         android:ellipsize="end"
         android:maxLines="5"
-        android:textColor="@color/colorWhite"
+        android:textColor="@android:color/white"
         android:textSize="@dimen/size_text_subtitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/gdlRight"

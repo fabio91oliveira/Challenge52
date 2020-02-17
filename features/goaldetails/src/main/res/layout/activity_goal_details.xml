@@ -30,7 +30,7 @@
 
             <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
-                    app:navigationIcon="?attr/homeAsUpIndicator"
+                    app:navigationIcon="@drawable/ic_back"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"

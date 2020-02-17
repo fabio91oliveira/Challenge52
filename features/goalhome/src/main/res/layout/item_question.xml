@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/margin_twenty_four"
             android:paddingBottom="@dimen/margin_twenty_four"
-            android:background="@color/colorWhite"
+            android:background="@android:color/white"
             app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -39,7 +39,7 @@
                 android:layout_marginStart="@dimen/margin_sixteen"
                 android:layout_marginEnd="@dimen/margin_twenty_four"
                 android:textSize="@dimen/text_fourteen"
-                android:textColor="@color/colorBlack"
+                android:textColor="@android:color/black"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/btnAction"

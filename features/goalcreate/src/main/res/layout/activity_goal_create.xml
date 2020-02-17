@@ -70,7 +70,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:textColorHint="@color/colorSoftGrey"
+                            android:textColorHint="@color/color_soft_grey_two"
                             android:hint="@string/goal_create_goal_name">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -80,7 +80,7 @@
                                 android:textSize="@dimen/text_sixteen"
                                 android:maxLength="25"
                                 android:singleLine="true"
-                                android:backgroundTint="@color/colorSofterGrey"
+                                android:backgroundTint="@color/color_dark_grey"
                                 android:imeOptions="actionNext"
                                 android:nextFocusDown="@id/txtDate"/>
 
@@ -94,7 +94,7 @@
                             app:layout_constraintTop_toBottomOf="@id/tilName"
                             app:layout_constraintStart_toStartOf="@id/tilName"
                             app:layout_constraintEnd_toEndOf="@id/tilName"
-                            android:textColorHint="@color/colorSoftGrey"
+                            android:textColorHint="@color/color_soft_grey_two"
                             android:hint="@string/goal_create_goal_value">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -106,7 +106,7 @@
                                 android:maxLength="14"
                                 android:inputType="number"
                                 android:nextFocusRight="@id/txtDate"
-                                android:backgroundTint="@color/colorSofterGrey"/>
+                                android:backgroundTint="@color/color_dark_grey"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -118,7 +118,7 @@
                             app:layout_constraintTop_toBottomOf="@id/tilValue"
                             app:layout_constraintStart_toStartOf="@id/tilValue"
                             app:layout_constraintEnd_toEndOf="@id/tilValue"
-                            android:textColorHint="@color/colorSoftGrey"
+                            android:textColorHint="@color/color_soft_grey_two"
                             android:hint="@string/goal_create_goal_data">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -130,7 +130,7 @@
                                 android:focusable="false"
                                 android:singleLine="true"
                                 android:imeOptions="actionDone"
-                                android:backgroundTint="@color/colorSofterGrey"/>
+                                android:backgroundTint="@color/color_dark_grey"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 

@@ -1,26 +1,24 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
         <item name="android:fontFamily">@font/ubuntu_light</item>
-        <item name="android:windowBackground">@color/colorSofterGreyTwo</item>
+        <item name="android:windowBackground">@color/color_soft_grey</item>
     </style>
 
     <style name="AppToolBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:fontFamily">@font/ubuntu_bold</item>
         <item name="android:textSize">@dimen/text_twenty</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="TextAppearance.Expanded" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:fontFamily">@font/ubuntu_bold</item>
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">@dimen/text_thirty</item>
     </style>
 
     <style name="TextAppearance.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:fontFamily">@font/ubuntu_bold</item>
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 </resources>

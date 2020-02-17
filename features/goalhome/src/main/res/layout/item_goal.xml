@@ -1,140 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/cardGoal"
-        style="@style/Widget.MaterialComponents.CardView"
-        app:cardElevation="0dp"
-        android:layout_width="match_parent"
-        app:cardCornerRadius="@dimen/margin_eight"
-        android:layout_height="wrap_content"
-        android:stateListAnimator="@anim/animation"
-        android:layout_marginTop="@dimen/margin_ten"
-        android:layout_marginStart="@dimen/margin_ten"
-        android:layout_marginEnd="@dimen/margin_ten"
-        android:layout_marginBottom="@dimen/margin_ten">
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardGoal"
+    style="@style/Widget.MaterialComponents.CardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin_ten"
+    android:layout_marginTop="@dimen/margin_ten"
+    android:layout_marginEnd="@dimen/margin_ten"
+    android:layout_marginBottom="@dimen/margin_ten"
+    android:stateListAnimator="@anim/animation"
+    app:cardCornerRadius="@dimen/margin_eight"
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        android:id="@+id/contentCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:padding="@dimen/margin_sixteen">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtName"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/contentCard"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:padding="@dimen/margin_sixteen">
-
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_eighteen"
-                android:layout_marginTop="@dimen/margin_six"
-                android:layout_marginStart="@dimen/margin_six"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="Nome da metaasjkdhasjdkahsdkjasdjaskdh"/>
+            android:layout_marginStart="@dimen/margin_six"
+            android:layout_marginTop="@dimen/margin_six"
+            app:fontFamily="@font/ubuntu_bold"
+            android:textColor="@color/color_accent"
+            android:textSize="@dimen/text_eighteen"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Nome da metaasjkdhasjdkahsdkjasdjaskdh" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtValueTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_ten"
-                app:layout_constraintTop_toBottomOf="@+id/txtName"
-                app:layout_constraintStart_toStartOf="@id/txtName"
-                android:textColor="@color/colorBlack"
-                android:text="@string/goals_list_how_much"/>
+            android:id="@+id/txtValueTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_ten"
+            android:text="@string/goals_list_how_much"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="@id/txtName"
+            app:layout_constraintTop_toBottomOf="@+id/txtName" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_ten"
-                app:layout_constraintTop_toBottomOf="@+id/txtName"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:textStyle="bold"
-                android:layout_marginEnd="@dimen/margin_six"
-                android:textColor="@color/colorGreen"
-                tools:text="R$ 2.000,00999999999" app:fontFamily="@font/ubuntu_bold"/>
+            android:id="@+id/txtValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_ten"
+            android:layout_marginEnd="@dimen/margin_six"
+            android:textColor="@color/color_accent"
+            app:fontFamily="@font/ubuntu_bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtName"
+            tools:text="R$ 2.000,00999999999" />
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtWeeks"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/txtValueTitle"
-                app:layout_constraintStart_toStartOf="@id/txtValueTitle"
-                android:textColor="@color/colorBlack"
-                android:text="@string/goals_list_weeks_remaining"/>
+            android:id="@+id/txtWeeks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/goals_list_weeks_remaining"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="@id/txtValueTitle"
+            app:layout_constraintTop_toBottomOf="@+id/txtValueTitle" />
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtStartDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/txtWeeks"
-                app:layout_constraintStart_toStartOf="@id/txtWeeks"
-                android:textColor="@color/colorBlack"
-                android:text="@string/goals_list_start_date"/>
+            android:id="@+id/txtStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/goals_list_start_date"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="@id/txtWeeks"
+            app:layout_constraintTop_toBottomOf="@+id/txtWeeks" />
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtEndDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/txtStartDate"
-                app:layout_constraintStart_toStartOf="@id/txtStartDate"
-                android:textColor="@color/colorBlack"
-                android:text="@string/goals_list_end_date"/>
+            android:id="@+id/txtEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/goals_list_end_date"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="@id/txtStartDate"
+            app:layout_constraintTop_toBottomOf="@+id/txtStartDate" />
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtWeeksValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/txtValue"
-                app:layout_constraintEnd_toEndOf="@id/txtValue"
-                tools:text="52"/>
+            android:id="@+id/txtWeeksValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/txtValue"
+            app:layout_constraintTop_toBottomOf="@+id/txtValue"
+            tools:text="52" />
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtStartDateValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/txtWeeksValue"
-                app:layout_constraintEnd_toEndOf="@id/txtValue"
-                tools:text="01/02/2019"/>
+            android:id="@+id/txtStartDateValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/txtValue"
+            app:layout_constraintTop_toBottomOf="@+id/txtWeeksValue"
+            tools:text="01/02/2019" />
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtEndDateValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/txtStartDateValue"
-                app:layout_constraintEnd_toEndOf="@id/txtStartDateValue"
-                tools:text="01/02/2020"/>
+            android:id="@+id/txtEndDateValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/txtStartDateValue"
+            app:layout_constraintTop_toBottomOf="@+id/txtStartDateValue"
+            tools:text="01/02/2020" />
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtDoneValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_eighteen"
-                android:layout_marginTop="@dimen/margin_sixteen"
-                android:textColor="@color/colorBlack"
-                app:layout_constraintTop_toBottomOf="@+id/txtEndDateValue"
-                app:layout_constraintEnd_toEndOf="@id/txtEndDateValue"
-                tools:text="0%" app:fontFamily="@font/ubuntu_bold"/>
+            android:id="@+id/txtDoneValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_sixteen"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_eighteen"
+            android:textStyle="bold"
+            app:fontFamily="@font/ubuntu_bold"
+            app:layout_constraintEnd_toEndOf="@id/txtEndDateValue"
+            app:layout_constraintTop_toBottomOf="@+id/txtEndDateValue"
+            tools:text="0%" />
 
         <androidx.core.widget.ContentLoadingProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:includeFontPadding="false"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:progressTint="@color/colorGreen"
-                android:progressBackgroundTint="@color/colorSofterGrey"
-                android:indeterminate="false"
-                tools:progress="45"
-                app:layout_constraintTop_toBottomOf="@+id/txtDoneValue"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:includeFontPadding="false"
+            android:indeterminate="false"
+            android:progressBackgroundTint="@color/color_dark_grey"
+            android:progressTint="@color/color_accent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtDoneValue"
+            tools:progress="45" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
