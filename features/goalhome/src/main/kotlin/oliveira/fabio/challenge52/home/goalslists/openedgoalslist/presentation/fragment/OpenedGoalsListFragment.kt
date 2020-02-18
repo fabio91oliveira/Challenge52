@@ -145,14 +145,15 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = openedGoalsAdapter
             itemAnimator = null
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    if (dy > 0)
-                        goalsListsViewModel.hideAddButton()
-                    else if (dy < 0)
-                        goalsListsViewModel.showAddButton()
-                }
-            })
+            // TODO FIX SCROLL
+//            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                    if (dy > 0)
+//                        goalsListsViewModel.hideAddButton()
+//                    else if (dy < 0)
+//                        goalsListsViewModel.showAddButton()
+//                }
+//            })
         }
     }
 
@@ -172,7 +173,7 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
     }
 
     private fun showSnackBar(@StringRes stringRes: Int) =
-        Snackbar.make(coordinatorLayout, resources.getText(stringRes), Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(content, resources.getText(stringRes), Snackbar.LENGTH_SHORT).show()
 
     private fun openGoalCreateActivity() =
         startActivityForResult(
