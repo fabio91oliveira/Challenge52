@@ -1,47 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Desafio 52</string>
+    <string name="app_name">CashLab</string>
 
     <!-- All -->
     <string name="all_button_ok">Ok</string>
     <string name="all_button_go_back">Voltar</string>
 
-    <!-- Menu -->
-    <string name="navigation_menu_goals">Metas</string>
-    <string name="navigation_menu_done">Realizadas</string>
-    <string name="navigation_menu_help">Ajuda</string>
-    <string name="navigation_menu_options">Opções</string>
-
-    <!-- Goals List -->
-    <string name="goals_lists_opened_goals">Abertos</string>
-    <string name="goals_lists_done_goals">Concluídos</string>
-
-    <string name="goals_list_my_goals">Minhas metas</string>
-    <string name="goals_list_no_goals">Nenhuma meta foi cadastrada até o momento. O quê você acha de criar uma
-        agora?
-    </string>
-    <string name="goals_list_error">Ocorreu um erro, tente novamente clicando aqui ou contate o desenvolvedor.</string>
-    <string name="goals_list_weeks_remaining">Semanas restantes:</string>
-    <string name="goals_list_how_much">Valor a acumular:</string>
-    <string name="goals_list_start_date">Data de Início:</string>
-    <string name="goals_list_end_date">Data de encerramento:</string>
     <string name="progress_value_percent">%</string>
-
-    <string name="goals_list_a_goal_has_been_created">A meta foi criada.</string>
-    <string name="goals_list_a_goal_has_been_deleted">Meta(s) removida(s).</string>
-    <string name="goals_list_a_goal_has_been_updated">A meta foi atualizada.</string>
-    <string name="goals_list_a_goal_has_been_moved_to_done">A meta foi movida para realizado.</string>
-
-    <!-- Done List -->
-    <string name="done_goals_list_title">Metas realizadas</string>
-    <string name="done_goals_list_none_result">Não existe nenhum meta concluída por enquanto. Quando você atingir uma,
-        você pode colocá-la aqui.
-    </string>
-    <string name="done_goals_list_error">Ocorreu um erro ao tentar carregar lista, tente novamente clicando aqui ou
-        contate o desenvolvedor.
-    </string>
-    <string name="done_goals_list_start_date">Data de Início:</string>
-    <string name="done_goals_list_end_date">Data de encerramento:</string>
-    <string name="done_goals_list_how_much">Valor depositado:</string>
 
     <!-- Goal Create -->
     <string name="goal_create_new_goal">Nova meta</string>

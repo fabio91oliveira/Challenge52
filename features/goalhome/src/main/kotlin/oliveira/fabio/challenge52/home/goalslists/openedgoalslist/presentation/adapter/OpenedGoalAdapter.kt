@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.adapter
+package oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.adapter
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -11,15 +11,14 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import features.goalhome.R
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_done_goal.*
-import kotlinx.android.synthetic.main.item_done_goal.view.*
+import kotlinx.android.synthetic.main.item_goal.*
 import oliveira.fabio.challenge52.extensions.doPopAnimation
 import oliveira.fabio.challenge52.extensions.toCurrency
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 
 
-class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
-    RecyclerView.Adapter<DoneGoalsAdapter.GoalViewHolder>() {
+class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
+    RecyclerView.Adapter<OpenedGoalAdapter.GoalViewHolder>() {
 
     private var lastPosition = 0
     private var goalsList: MutableList<GoalWithWeeks> = mutableListOf()
@@ -27,11 +26,16 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
     override fun getItemCount() = goalsList.size
     override fun onBindViewHolder(holder: GoalViewHolder, position: Int) = holder.bind(position)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = GoalViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.item_done_goal, parent, false)
+        LayoutInflater.from(parent.context).inflate(R.layout.item_goal, parent, false)
     )
 
     fun addList(goalsList: List<GoalWithWeeks>) {
         this.goalsList.addAll(goalsList)
+        notifyDataSetChanged()
+    }
+
+    fun remove(goalsList: List<GoalWithWeeks>) {
+        this.goalsList.removeAll(goalsList)
         notifyDataSetChanged()
     }
 
@@ -51,56 +55,29 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                 goalsList[position].getWeeksDepositedCount().toString()
             )
             txtMoney.text = goalsList[position].getTotal().toCurrency()
+            val progress = goalsList[position].getPercentOfConclusion()
 
-            val animation = ObjectAnimator.ofInt(
-                progressBar,
-                "progress",
-                0,
-                goalsList[position].getPercentOfConclusion()
-            )
+            if (progress > 0) {
+                txtPercent.setTextColor(
+                    ContextCompat.getColor(
+                        containerView.context,
+                        R.color.color_accent
+                    )
+                )
+            } else {
+                txtPercent.setTextColor(
+                    ContextCompat.getColor(
+                        containerView.context,
+                        android.R.color.black
+                    )
+                )
+            }
 
+            val animation = ObjectAnimator.ofInt(progressBar, "progress", 0, progress)
             animation.duration = 1000
             animation.interpolator = DecelerateInterpolator()
             animation.addUpdateListener {
                 val prog = it.animatedValue as Int
-                when {
-                    prog == 100 -> {
-                        val color = ContextCompat.getColor(
-                            containerView.context,
-                            R.color.color_green
-                        )
-                        txtMoney.setTextColor(color)
-                        txtPercent.setTextColor(color)
-                        progressBar.progressDrawable = ContextCompat.getDrawable(
-                            containerView.context,
-                            R.drawable.background_completed_progress_bar
-                        )
-                    }
-                    prog > 0 -> {
-                        val color = ContextCompat.getColor(
-                            containerView.context,
-                            R.color.color_accent
-                        )
-                        txtMoney.setTextColor(color)
-                        txtPercent.setTextColor(color)
-                        progressBar.progressDrawable = ContextCompat.getDrawable(
-                            containerView.context,
-                            R.drawable.background_uncompleted_progress_bar
-                        )
-                    }
-                    else -> {
-                        val color = ContextCompat.getColor(
-                            containerView.context,
-                            android.R.color.black
-                        )
-                        txtMoney.setTextColor(color)
-                        txtPercent.setTextColor(color)
-                        progressBar.progressDrawable = ContextCompat.getDrawable(
-                            containerView.context,
-                            R.drawable.background_uncompleted_progress_bar
-                        )
-                    }
-                }
                 txtPercent.text =
                     prog.toString() + containerView.context.getString(R.string.progress_value_percent)
             }
@@ -121,7 +98,7 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
             valueAnimator.duration = 500
             valueAnimator.addUpdateListener {
                 val progress = it.animatedValue as Float
-                containerView.cardGoal.translationX = progress
+                containerView.translationX = progress
             }
             valueAnimator.start()
             lastPosition++

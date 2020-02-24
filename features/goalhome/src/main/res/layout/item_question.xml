@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/cardGoal"
-        style="@style/Widget.MaterialComponents.CardView"
-        app:cardElevation="0dp"
-        android:layout_width="match_parent"
-        app:cardCornerRadius="@dimen/margin_eight"
-        android:layout_height="wrap_content"
-        android:stateListAnimator="@anim/animation"
-        android:layout_marginTop="@dimen/margin_six"
-        android:layout_marginStart="@dimen/margin_ten"
-        android:layout_marginEnd="@dimen/margin_ten"
-        android:layout_marginBottom="@dimen/margin_ten">
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardGoal"
+    style="@style/Widget.MaterialComponents.CardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/spacing_01"
+    android:layout_marginTop="@dimen/spacing_01"
+    android:layout_marginEnd="@dimen/spacing_01"
+    android:layout_marginBottom="@dimen/spacing_01"
+    android:stateListAnimator="@anim/animation"
+    app:cardCornerRadius="@dimen/spacing_01"
+    app:cardElevation="@dimen/spacing_none">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/principal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/margin_twenty_four"
-            android:paddingBottom="@dimen/margin_twenty_four"
-            android:background="@android:color/white"
-            app:layout_constraintTop_toTopOf="parent">
+        android:id="@+id/principal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:paddingTop="@dimen/spacing_03"
+        android:paddingBottom="@dimen/spacing_03"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/btnAction"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                app:srcCompat="@drawable/ic_add_circle"
-                android:layout_marginStart="@dimen/margin_twenty_four"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+            android:id="@+id/btnAction"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="@dimen/spacing_03"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_add_circle" />
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtQuestion"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_sixteen"
-                android:layout_marginEnd="@dimen/margin_twenty_four"
-                android:textSize="@dimen/text_fourteen"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnAction"
-                app:layout_constraintTop_toTopOf="@+id/btnAction"
-                tools:text="O quê é o desafio de 52 semanas sdfsfsfsfsfsfsfssdfs?"/>
+            android:id="@+id/txtQuestion"
+            android:layout_width="@dimen/spacing_none"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_02"
+            android:layout_marginEnd="@dimen/spacing_03"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_small"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnAction"
+            app:layout_constraintTop_toTopOf="@+id/btnAction"
+            tools:text="O quê é o desafio de 52 semanas sdfsfsfsfsfsfsfssdfs?" />
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtAnswer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_fourteen"
-                app:lineHeight="@dimen/margin_twenty"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="@dimen/margin_ten"
-                android:layout_marginStart="@dimen/margin_twenty_four"
-                android:layout_marginEnd="@dimen/margin_twenty_four"
-                app:layout_constraintTop_toBottomOf="@+id/txtQuestion"
-                android:visibility="gone"
-                tools:visibility="visible"
-                tools:text="Resposta aaaaaaaaaaaasd adad ad ad a da dad a da da da dad asd ad a a dasd adsa dasd"/>
+            android:id="@+id/txtAnswer"
+            android:layout_width="@dimen/spacing_none"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_03"
+            android:layout_marginTop="@dimen/spacing_01"
+            android:layout_marginEnd="@dimen/spacing_03"
+            android:textSize="@dimen/text_size_small"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtQuestion"
+            app:lineHeight="@dimen/spacing_02"
+            tools:text="Resposta aaaaaaaaaaaasd adad ad ad a da dad a da da da dad asd ad a a dasd adsa dasd"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

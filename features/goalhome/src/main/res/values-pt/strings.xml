@@ -1,0 +1,32 @@
+<resources>
+    <!-- Menu -->
+    <string name="navigation_menu_goals">Metas</string>
+    <string name="navigation_menu_help">Ajuda</string>
+    <string name="navigation_menu_notifications">Notificações</string>
+    <string name="navigation_menu_options">Opções</string>
+
+    <!-- Goals List -->
+    <string name="goals_lists_opened_goals">Abertos</string>
+    <string name="goals_lists_done_goals">Concluídos</string>
+
+    <string name="goals_lists_my_goals">Minhas metas</string>
+
+    <string name="goals_lists_weeks_remaining">%s de 52 semanas</string>
+    <string name="goals_lists_completed">completo</string>
+    <string name="progress_value_percent">%</string>
+
+    <!-- Messages -->
+    <string name="goals_lists_no_opened_goals">Nenhuma meta foi cadastrada até o momento. O quê você acha de criar uma
+        agora?
+    </string>
+    <string name="goals_lists_no_done_goals">Você ainda não tem uma meta concluída.
+    </string>
+
+    <string name="goals_list_a_goal_has_been_created">A meta foi criada.</string>
+    <string name="goals_list_a_goal_has_been_deleted">Meta(s) removida(s).</string>
+    <string name="goals_list_a_goal_has_been_updated">A meta foi atualizada.</string>
+    <string name="goals_list_a_goal_has_been_moved_to_done">A meta foi movida para realizado.</string>
+
+    <!-- Error -->
+    <string name="goals_lists_error">Ocorreu um erro, tente novamente clicando aqui ou contate o desenvolvedor.</string>
+</resources>

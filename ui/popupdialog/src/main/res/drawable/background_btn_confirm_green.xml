@@ -5,5 +5,5 @@
         android:left="10dp"
         android:right="10dp" />
     <corners android:radius="100dip" />
-    <solid android:color="@color/color_green" />
+    <solid android:color="@color/popup_dialog_color_green" />
 </shape>

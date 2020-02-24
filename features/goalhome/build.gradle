@@ -9,7 +9,6 @@ dependencies {
     api project(Core.Models)
 
     api project(UI.Resources)
-    api project(UI.PopupDialog)
     api project(UI.FullScreenDialog)
 
     // Support
@@ -17,6 +16,7 @@ dependencies {
     api Deps.support_recyclerview
     api Deps.support_constraint_layout
     api Deps.viewpager2
+    api Deps.swipe_refresh_layout
 
     // Koin
     api Deps.koin_viewmodel

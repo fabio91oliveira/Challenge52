@@ -5,136 +5,103 @@
     android:id="@+id/cardGoal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/margin_ten"
-    android:layout_marginTop="@dimen/margin_ten"
-    android:layout_marginEnd="@dimen/margin_ten"
-    android:layout_marginBottom="@dimen/margin_ten"
+    android:layout_marginStart="@dimen/spacing_01"
+    android:layout_marginTop="@dimen/spacing_half"
+    android:layout_marginEnd="@dimen/spacing_01"
+    android:layout_marginBottom="@dimen/spacing_half"
     android:stateListAnimator="@anim/animation"
-    app:cardCornerRadius="@dimen/margin_eight"
-    app:cardElevation="0dp">
+    app:cardCornerRadius="@dimen/spacing_01"
+    app:cardElevation="@dimen/spacing_none">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contentCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?android:attr/selectableItemBackground"
-        android:padding="@dimen/margin_sixteen">
+        android:padding="@dimen/spacing_02">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_next" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtName"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/spacing_none"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_six"
-            android:layout_marginTop="@dimen/margin_six"
-            app:fontFamily="@font/ubuntu_bold"
-            android:textColor="@color/color_accent"
-            android:textSize="@dimen/text_eighteen"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_big"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Nome da metaasjkdhasjdkahsdkjasdjaskdh" />
-
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtValueTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_ten"
-            android:text="@string/goals_list_how_much"
-            android:textColor="@android:color/black"
-            app:layout_constraintStart_toStartOf="@id/txtName"
-            app:layout_constraintTop_toBottomOf="@+id/txtName" />
-
+            tools:text="@tools:sample/lorem/random" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtValue"
-            android:layout_width="wrap_content"
+            android:id="@+id/txtWeeksRemaining"
+            android:layout_width="@dimen/spacing_none"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_ten"
-            android:layout_marginEnd="@dimen/margin_six"
-            android:textColor="@color/color_accent"
-            app:fontFamily="@font/ubuntu_bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:textSize="@dimen/text_size_small"
+            app:layout_constraintEnd_toEndOf="@+id/txtName"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtName"
-            tools:text="R$ 2.000,00999999999" />
+            tools:text="@string/goals_lists_weeks_remaining" />
+
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtWeeks"
+            android:id="@+id/txtPercent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/goals_list_weeks_remaining"
-            android:textColor="@android:color/black"
-            app:layout_constraintStart_toStartOf="@id/txtValueTitle"
-            app:layout_constraintTop_toBottomOf="@+id/txtValueTitle" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtStartDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/goals_list_start_date"
-            android:textColor="@android:color/black"
-            app:layout_constraintStart_toStartOf="@id/txtWeeks"
-            app:layout_constraintTop_toBottomOf="@+id/txtWeeks" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtEndDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/goals_list_end_date"
-            android:textColor="@android:color/black"
-            app:layout_constraintStart_toStartOf="@id/txtStartDate"
-            app:layout_constraintTop_toBottomOf="@+id/txtStartDate" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtWeeksValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@id/txtValue"
-            app:layout_constraintTop_toBottomOf="@+id/txtValue"
-            tools:text="52" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtStartDateValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@id/txtValue"
-            app:layout_constraintTop_toBottomOf="@+id/txtWeeksValue"
-            tools:text="01/02/2019" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtEndDateValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@id/txtStartDateValue"
-            app:layout_constraintTop_toBottomOf="@+id/txtStartDateValue"
-            tools:text="01/02/2020" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtDoneValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_sixteen"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_eighteen"
+            android:layout_marginTop="@dimen/spacing_03"
+            android:textColor="@color/color_accent"
+            android:textSize="@dimen/text_size_big"
             android:textStyle="bold"
-            app:fontFamily="@font/ubuntu_bold"
-            app:layout_constraintEnd_toEndOf="@id/txtEndDateValue"
-            app:layout_constraintTop_toBottomOf="@+id/txtEndDateValue"
+            app:layout_constraintStart_toStartOf="@+id/txtName"
+            app:layout_constraintTop_toBottomOf="@+id/txtWeeksRemaining"
             tools:text="0%" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtCompleted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_01"
+            android:text="@string/goals_lists_completed"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/txtPercent"
+            app:layout_constraintStart_toEndOf="@+id/txtPercent"
+            app:layout_constraintTop_toTopOf="@+id/txtPercent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtMoney"
+            android:layout_width="@dimen/spacing_none"
+            android:layout_height="wrap_content"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/color_accent"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/txtCompleted"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txtCompleted"
+            tools:text="$ 2000,000.00.00" />
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/progressBar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/spacing_none"
             android:includeFontPadding="false"
             android:indeterminate="false"
-            android:progressBackgroundTint="@color/color_dark_grey"
-            android:progressTint="@color/color_accent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtDoneValue"
+            android:progressDrawable="@drawable/background_uncompleted_progress_bar"
+            app:layout_constraintTop_toBottomOf="@id/txtPercent"
             tools:progress="45" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_yellow">#ECB707</color>
-    <color name="color_blue">#1332A2</color>
-    <color name="color_green">#4E8F51</color>
-    <color name="color_red">#B80505</color>
+    <color name="popup_dialog_color_default">#FF9800</color>
+    <color name="popup_dialog_color_yellow">#ECB707</color>
+    <color name="popup_dialog_color_blue">#1332A2</color>
+    <color name="popup_dialog_color_green">#4E8F51</color>
+    <color name="popup_dialog_color_red">#B80505</color>
 </resources>

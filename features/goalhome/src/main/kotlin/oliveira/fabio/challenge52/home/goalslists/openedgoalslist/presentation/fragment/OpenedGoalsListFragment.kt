@@ -10,44 +10,38 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import features.goalhome.R
+import kotlinx.android.synthetic.main.fragment_goals_lists.*
 import kotlinx.android.synthetic.main.fragment_opened_goals_list.*
 import oliveira.fabio.challenge52.actions.Actions
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
-import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.adapter.OpenedGoalsAdapter
-import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.viewstate.OpenedGoalsDialog
+import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.adapter.OpenedGoalAdapter
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultTypeEnum
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-import oliveira.fabio.challenge52.presentation.dialogfragment.PopupDialog
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
-    OpenedGoalsAdapter.OnClickGoalListener {
+    OpenedGoalAdapter.OnClickGoalListener {
 
     private val goalsListsViewModel: GoalsListsViewModel by sharedViewModel()
     private val openedGoalsAdapter by lazy {
-        OpenedGoalsAdapter(
+        OpenedGoalAdapter(
             this
         )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        savedInstanceState?.let {
-            initObservables()
-            initClickListener()
-            initRecyclerView()
-        } ?: run {
-            init()
-        }
+        init()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -101,21 +95,20 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
     }
 
     private fun init() {
-        initObservables()
-        initClickListener()
-        initRecyclerView()
+        setupObservables()
+        setupClickListener()
+        setupRecyclerView()
+        setupSwipeRefreshLayout()
     }
 
-    private fun initObservables() {
+    private fun setupObservables() {
         with(goalsListsViewModel) {
             openedGoalsViewState.observe(this@OpenedGoalsListFragment, Observer {
                 showAddButton(it.isAddButtonVisible)
-                showRemoveButton(it.isDeleteButtonVisible)
                 showLoading(it.isLoading)
                 showOpenedGoalsList(it.isOpenedGoalsListVisible)
                 showEmptyState(it.isEmptyStateVisible)
                 showErrorState(it.isErrorVisible)
-                handleDialog(it.dialog)
             })
             openedGoalsActions.observe(this@OpenedGoalsListFragment, Observer {
                 when (it) {
@@ -140,29 +133,43 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
         }
     }
 
-    private fun initRecyclerView() {
-        with(rvGoalsList) {
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            adapter = openedGoalsAdapter
-            itemAnimator = null
-            // TODO FIX SCROLL
-//            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                    if (dy > 0)
-//                        goalsListsViewModel.hideAddButton()
-//                    else if (dy < 0)
-//                        goalsListsViewModel.showAddButton()
-//                }
-//            })
+    private fun setupSwipeRefreshLayout() {
+        with(srlGoalsList) {
+            setColorSchemeResources(
+                android.R.color.white
+            )
+            setProgressBackgroundColorSchemeColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.color_primary
+                )
+            )
+            setOnRefreshListener {
+                goalsListsViewModel.listOpenedGoals()
+            }
         }
     }
 
-    private fun initClickListener() {
-        fabAdd.setOnClickListener {
-            openGoalCreateActivity()
+    private fun setupRecyclerView() {
+        with(rvOpenedGoalsList) {
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            adapter = openedGoalsAdapter
+            itemAnimator = null
         }
-        fabRemove.setOnClickListener {
-            goalsListsViewModel.showRemoveOpenedGoalsConfirmationDialog()
+
+        rvOpenedGoalsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0)
+                    goalsListsViewModel.hideAddButton()
+                else if (dy < 0)
+                    goalsListsViewModel.showAddButton()
+            }
+        })
+    }
+
+    private fun setupClickListener() {
+        parentFragment?.fabAdd?.setOnClickListener {
+            openGoalCreateActivity()
         }
         txtError.setOnClickListener {
             goalsListsViewModel.listOpenedGoals()
@@ -186,45 +193,11 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
         REQUEST_CODE_DETAILS
     )
 
-    private fun showConfirmDialog(
-        message: String,
-        block: () -> Unit
-    ) =
-        PopupDialog.Builder()
-            .setTitle(R.string.goal_warning_title)
-            .setSubtitle(message)
-            .setupConfirmButton(
-                android.R.string.ok,
-                object : PopupDialog.PopupDialogConfirmListener {
-                    override fun onClickConfirmButton() {
-                        block()
-                    }
-                }
-            )
-            .setupCancelButton(
-                android.R.string.cancel,
-                object : PopupDialog.PopupDialogCancelListener {
-                    override fun onClickCancelButton() {
-                        goalsListsViewModel.hideOpenedDialogs()
-                    }
-                })
-            .build()
-            .show(childFragmentManager, PopupDialog.TAG)
-
-    override fun onClickRemove(goal: GoalWithWeeks) =
-        goalsListsViewModel.removeOpenedGoalFromListToRemove(goal)
-
-    override fun onClickAdd(goal: GoalWithWeeks) =
-        goalsListsViewModel.addOpenedGoalToListToRemove(goal)
-
-    override fun onLongClick(goal: GoalWithWeeks) =
-        goalsListsViewModel.addOpenedGoalToListToRemove(goal)
-
     override fun onClickGoal(goal: GoalWithWeeks) =
         openGoalDetailsActivity(goal)
 
     private fun showOpenedGoalsList(hasToShow: Boolean) {
-        rvGoalsList.isVisible = hasToShow
+        rvOpenedGoalsList.isVisible = hasToShow
     }
 
     private fun showEmptyState(hasToShow: Boolean) {
@@ -234,7 +207,7 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
     }
 
     private fun showLoading(hasToShow: Boolean) {
-        loading.isVisible = hasToShow
+        srlGoalsList.isRefreshing = hasToShow
     }
 
     private fun setErrorState(@StringRes stringRes: Int) {
@@ -248,23 +221,7 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
     }
 
     private fun showAddButton(hasToShow: Boolean) =
-        if (hasToShow) fabAdd.show() else fabAdd.hide()
-
-    private fun showRemoveButton(hasToShow: Boolean) =
-        if (hasToShow) fabRemove.show() else fabRemove.hide()
-
-    private fun handleDialog(openedGoalsDialog: OpenedGoalsDialog) {
-        if (openedGoalsDialog is OpenedGoalsDialog.RemoveConfirmationDialog)
-            showConfirmDialog(
-                resources.getQuantityString(
-                    openedGoalsDialog.pluralRes,
-                    openedGoalsDialog.doneGoalsRemovedSize
-                )
-            ) {
-                goalsListsViewModel.removeOpenedGoals()
-                goalsListsViewModel.hideOpenedDialogs()
-            }
-    }
+        if (hasToShow) parentFragment?.fabAdd?.show() else parentFragment?.fabAdd?.hide()
 
     // TODO
     private fun initAnimationsNoGoals() {

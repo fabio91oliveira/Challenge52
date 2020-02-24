@@ -20,8 +20,8 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsingToolbar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/collapsing_size_help"
-                app:expandedTitleMarginTop="@dimen/margin_forty"
+                android:layout_height="@dimen/spacing_12"
+                app:expandedTitleMarginTop="@dimen/spacing_05"
                 app:expandedTitleGravity="start"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 android:scrollbarStyle="insideOverlay"
@@ -43,7 +43,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:behavior_overlapTop="@dimen/margin_forty_five"
+            app:behavior_overlapTop="@dimen/spacing_06"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:context=".feature.help.ui.fragment.HelpFragment">
 

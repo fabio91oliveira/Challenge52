@@ -17,7 +17,4 @@ interface GoalDao {
 
     @Delete
     fun deleteGoal(goal: Goal): Int
-
-    @Delete
-    fun deleteGoals(goalsList: List<Goal>): Int
 }

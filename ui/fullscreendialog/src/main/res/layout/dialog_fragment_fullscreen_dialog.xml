@@ -21,7 +21,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtTitle"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/spacing_none"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="4"
@@ -39,7 +39,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtSubtitle"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/spacing_none"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_top_subtitle"
         android:ellipsize="end"
@@ -55,7 +55,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnConfirm"
         style="?android:attr/borderlessButtonStyle"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/spacing_none"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_bottom_button_confirm"
         android:background="@drawable/background_btn_confirm_white"
@@ -71,7 +71,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnCancel"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/spacing_none"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_bottom_button_cancel"
         android:background="?attr/selectableItemBackground"

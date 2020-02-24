@@ -4,12 +4,12 @@
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
-        <item name="android:fontFamily">@font/ubuntu_light</item>
+        <item name="android:fontFamily">@font/manjari_regular</item>
         <item name="android:windowBackground">@color/color_soft_grey</item>
     </style>
 
     <style name="AppToolBarTheme" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
-        <item name="android:textSize">@dimen/text_twenty</item>
+        <item name="android:textSize">@dimen/text_size_big</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
@@ -19,7 +19,7 @@
 
     <style name="TextAppearance.Expanded" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">@dimen/text_thirty</item>
+        <item name="android:textSize">@dimen/text_size_biggest</item>
     </style>
 
     <style name="TextAppearance.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">

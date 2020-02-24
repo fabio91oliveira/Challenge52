@@ -1,27 +1,24 @@
 <resources>
-    <dimen name="button_height">56dp</dimen>
-    <dimen name="collapsing_size_goals_list">280dp</dimen>
-    <dimen name="collapsing_size_goal_details">240dp</dimen>
-    <dimen name="collapsing_size_help">200dp</dimen>
+    <dimen name="text_size_smaller">12sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_half">16sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_big">20sp</dimen>
+    <dimen name="text_size_bigger">24sp</dimen>
+    <dimen name="text_size_biggest">32sp</dimen>
 
-    <dimen name="text_twelve">12sp</dimen>
-    <dimen name="text_fourteen">14sp</dimen>
-    <dimen name="text_sixteen">16sp</dimen>
-    <dimen name="text_eighteen">18sp</dimen>
-    <dimen name="text_twenty">20sp</dimen>
-    <dimen name="text_twenty_four">24sp</dimen>
-    <dimen name="text_thirty">30sp</dimen>
-
-    <dimen name="margin_four">4dp</dimen>
-    <dimen name="margin_six">6dp</dimen>
-    <dimen name="margin_eight">8dp</dimen>
-    <dimen name="margin_ten">10dp</dimen>
-    <dimen name="margin_sixteen">16dp</dimen>
-    <dimen name="margin_twenty">20dp</dimen>
-    <dimen name="margin_twenty_four">24dp</dimen>
-    <dimen name="margin_thirty_eight">32dp</dimen>
-    <dimen name="margin_forty">40dp</dimen>
-    <dimen name="margin_forty_five">45dp</dimen>
-    <dimen name="margin_seventy">70dp</dimen>
-    <dimen name="margin_ninety">100dp</dimen>
+    <dimen name="spacing_none">0dp</dimen>
+    <dimen name="spacing_half">4dp</dimen>
+    <dimen name="spacing_01">8dp</dimen>
+    <dimen name="spacing_02">16dp</dimen>
+    <dimen name="spacing_03">24dp</dimen>
+    <dimen name="spacing_04">32dp</dimen>
+    <dimen name="spacing_05">40dp</dimen>
+    <dimen name="spacing_06">45dp</dimen>
+    <dimen name="spacing_07">56dp</dimen>
+    <dimen name="spacing_08">64dp</dimen>
+    <dimen name="spacing_09">70dp</dimen>
+    <dimen name="spacing_10">80dp</dimen>
+    <dimen name="spacing_11">88dp</dimen>
+    <dimen name="spacing_12">96dp</dimen>
 </resources>

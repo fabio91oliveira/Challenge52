@@ -8,5 +8,4 @@ class GoalLocalDataSourceImpl(private val goalDao: GoalDao) : GoalLocalDataSourc
     override fun addGoal(goal: Goal) = goalDao.addGoal(goal)
     override fun updateGoal(goal: Goal) = goalDao.updateGoal(goal)
     override fun removeGoal(goal: Goal) = goalDao.deleteGoal(goal)
-    override fun removeGoals(goalsList: List<Goal>) = goalDao.deleteGoals(goalsList)
 }

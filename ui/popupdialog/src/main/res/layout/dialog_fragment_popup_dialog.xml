@@ -31,7 +31,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtTitle"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/spacing_none"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_sides_title"
                 android:layout_marginTop="@dimen/margin_top_title"
@@ -51,7 +51,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtSubtitle"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/spacing_none"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_sides_all"
                 android:layout_marginTop="@dimen/margin_top_subtitle"
@@ -73,7 +73,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnConfirm"
                 style="?android:attr/borderlessButtonStyle"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/spacing_none"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_sides_all"
                 android:layout_marginTop="@dimen/margin_top_confirm_button"
@@ -87,13 +87,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtSubtitle"
                 app:layout_goneMarginBottom="@dimen/margin_bottom_gone"
-                tools:background="@color/color_primary"
+                tools:background="@color/popup_dialog_color_default"
                 tools:text="@tools:sample/lorem"
                 tools:visibility="visible" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnCancel"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/spacing_none"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_sides_all"
                 android:layout_marginTop="@dimen/margin_top_button_cancel"

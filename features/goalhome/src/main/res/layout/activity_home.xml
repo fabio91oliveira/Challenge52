@@ -8,7 +8,7 @@
     <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/spacing_none"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -16,10 +16,10 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/navigation"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/spacing_none"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="0dp"
-            android:layout_marginStart="0dp"
+            android:layout_marginEnd="@dimen/spacing_none"
+            android:layout_marginStart="@dimen/spacing_none"
             android:background="@android:color/white"
             app:itemBackground="@android:color/white"
             app:itemIconTint="@drawable/selector_navigation"

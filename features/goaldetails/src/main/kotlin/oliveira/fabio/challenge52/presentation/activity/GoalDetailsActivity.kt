@@ -179,7 +179,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             setNavigationOnClickListener { closeDetails() }
         }
         collapsingToolbar.apply {
-            val tf = ResourcesCompat.getFont(context, R.font.ubuntu_bold)
+            val tf = ResourcesCompat.getFont(context, R.font.manjari_regular)
             setCollapsedTitleTypeface(tf)
             setExpandedTitleTypeface(tf)
         }

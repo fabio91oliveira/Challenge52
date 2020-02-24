@@ -265,11 +265,11 @@ class PopupDialog : DialogFragment() {
     }
 
     enum class ButtonColor(@ColorRes private val resColor: Int) {
-        DEFAULT(R.color.color_primary),
-        GREEN(R.color.color_green),
-        YELLOW(R.color.color_yellow),
-        RED(R.color.color_red),
-        BLUE(R.color.color_blue),
+        DEFAULT(R.color.popup_dialog_color_default),
+        GREEN(R.color.popup_dialog_color_green),
+        YELLOW(R.color.popup_dialog_color_yellow),
+        RED(R.color.popup_dialog_color_red),
+        BLUE(R.color.popup_dialog_color_blue),
         BLACK(android.R.color.black);
 
         fun getColor() = resColor

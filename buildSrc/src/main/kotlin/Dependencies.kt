@@ -30,6 +30,7 @@ object Versions {
     const val recyclerview = "1.0.0"
     const val constraint_layout = "1.1.3"
     const val viewpager2 = "1.0.0"
+    const val swipe_refresh_layout = "1.0.0"
 
     const val lifecycle = "2.2.0"
 
@@ -55,6 +56,8 @@ object Deps {
     const val support_constraint_layout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout}"
     const val viewpager2 = "androidx.viewpager2:viewpager2:${Versions.viewpager2}"
+    const val swipe_refresh_layout =
+        "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipe_refresh_layout}"
 
     const val lifecycle_viewmodel =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"

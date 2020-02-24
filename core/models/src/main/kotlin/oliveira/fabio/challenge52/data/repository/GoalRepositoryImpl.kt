@@ -13,7 +13,4 @@ class GoalRepositoryImpl(private val goalLocalDataSource: GoalLocalDataSource) :
 
     override fun removeGoal(goal: Goal) =
         goalLocalDataSource.removeGoal(goal)
-
-    override fun removeGoals(goals: List<Goal>) =
-        goalLocalDataSource.removeGoals(goals)
 }
