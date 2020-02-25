@@ -34,11 +34,6 @@ class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
         notifyDataSetChanged()
     }
 
-    fun remove(goalsList: List<GoalWithWeeks>) {
-        this.goalsList.removeAll(goalsList)
-        notifyDataSetChanged()
-    }
-
     fun clearList() {
         lastPosition = goalsList.size
         goalsList.clear()

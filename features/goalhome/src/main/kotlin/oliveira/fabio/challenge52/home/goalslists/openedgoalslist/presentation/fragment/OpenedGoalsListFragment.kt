@@ -22,11 +22,13 @@ import kotlinx.android.synthetic.main.fragment_opened_goals_list.*
 import oliveira.fabio.challenge52.actions.Actions
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
+import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsStateResources
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.adapter.OpenedGoalAdapter
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultTypeEnum
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.presentation.view.StateView
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
@@ -107,8 +109,8 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
                 showAddButton(it.isAddButtonVisible)
                 showLoading(it.isLoading)
                 showOpenedGoalsList(it.isOpenedGoalsListVisible)
-                showEmptyState(it.isEmptyStateVisible)
-                showErrorState(it.isErrorVisible)
+                showStateView(stateViewEmpty, it.isEmptyStateVisible)
+                showStateView(stateViewError, it.isErrorVisible)
             })
             openedGoalsActions.observe(this@OpenedGoalsListFragment, Observer {
                 when (it) {
@@ -122,11 +124,14 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
                         openedGoalsAdapter.clearList()
                         openedGoalsAdapter.addList(it.openedGoalsList)
                     }
-                    is OpenedGoalsActions.ClearList -> {
+                    is OpenedGoalsActions.Empty -> {
                         openedGoalsAdapter.clearList()
+                        setStateView(stateViewEmpty, it.openedGoalsStateResources)
                     }
                     is OpenedGoalsActions.Error -> {
-                        setErrorState(it.errorMessageRes)
+                        setStateView(stateViewError, it.openedGoalsStateResources) {
+                            listOpenedGoals()
+                        }
                     }
                 }
             })
@@ -171,12 +176,6 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
         parentFragment?.fabAdd?.setOnClickListener {
             openGoalCreateActivity()
         }
-        txtError.setOnClickListener {
-            goalsListsViewModel.listOpenedGoals()
-        }
-        imgError.setOnClickListener {
-            goalsListsViewModel.listOpenedGoals()
-        }
     }
 
     private fun showSnackBar(@StringRes stringRes: Int) =
@@ -200,71 +199,58 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
         rvOpenedGoalsList.isVisible = hasToShow
     }
 
-    private fun showEmptyState(hasToShow: Boolean) {
-        if (hasToShow) initAnimationsNoGoals()
-        txtNoGoalsFirst.isVisible = hasToShow
-        imgNoGoals.isVisible = hasToShow
+    private fun showStateView(
+        stateView: StateView,
+        hasToShow: Boolean
+    ) {
+        if (hasToShow) initAnimationView(stateView)
+        stateView.isVisible = hasToShow
     }
 
     private fun showLoading(hasToShow: Boolean) {
         srlGoalsList.isRefreshing = hasToShow
     }
 
-    private fun setErrorState(@StringRes stringRes: Int) {
-        txtError.text = resources.getString(stringRes)
-    }
-
-    private fun showErrorState(hasToShow: Boolean) {
-        if (hasToShow) initAnimationsError()
-        txtError.isVisible = hasToShow
-        imgError.isVisible = hasToShow
+    private fun setStateView(
+        stateView: StateView,
+        openedGoalsStateResources: OpenedGoalsStateResources,
+        block: (() -> Unit)? = null
+    ) {
+        stateView.apply {
+            setImage(openedGoalsStateResources.imageRes)
+            setTitle(resources.getString(openedGoalsStateResources.titleRes))
+            setDescription(resources.getString(openedGoalsStateResources.descriptionRes))
+            block?.also {
+                openedGoalsStateResources.buttonTextRes?.also { buttonText ->
+                    setupButton(resources.getString(buttonText), it)
+                }
+            }
+        }
     }
 
     private fun showAddButton(hasToShow: Boolean) =
         if (hasToShow) parentFragment?.fabAdd?.show() else parentFragment?.fabAdd?.hide()
 
     // TODO
-    private fun initAnimationsNoGoals() {
+    private fun initAnimationView(view: View) {
         val fadeIn = AlphaAnimation(0f, 1f)
         fadeIn.interpolator = DecelerateInterpolator()
         fadeIn.duration = 2000
 
         val animation = AnimationSet(false)
         animation.addAnimation(fadeIn)
-        txtNoGoalsFirst?.animation = animation
-        imgNoGoals?.animation = animation
+        view.animation = animation
 
         val valueAnimator = ValueAnimator.ofFloat(-100f, 0f)
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
         valueAnimator.duration = 1000
         valueAnimator.addUpdateListener {
             val progress = it.animatedValue as Float
-            txtNoGoalsFirst?.translationY = progress
-            imgNoGoals?.translationY = progress
+            view.translationY = progress
         }
         valueAnimator.start()
     }
 
-    private fun initAnimationsError() {
-        val fadeIn = AlphaAnimation(0f, 1f)
-        fadeIn.interpolator = DecelerateInterpolator()
-        fadeIn.duration = 2000
-
-        val animation = AnimationSet(false)
-        animation.addAnimation(fadeIn)
-        txtError?.animation = animation
-        imgError?.animation = animation
-
-        val valueAnimator = ValueAnimator.ofFloat(-100f, 0f)
-        valueAnimator.interpolator = AccelerateDecelerateInterpolator()
-        valueAnimator.duration = 1000
-        valueAnimator.addUpdateListener {
-            val progress = it.animatedValue as Float
-            txtError?.translationY = progress
-            imgError?.translationY = progress
-        }
-        valueAnimator.start()
-    }
 
     companion object {
         private const val REQUEST_CODE_CREATE = 300

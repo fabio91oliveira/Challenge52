@@ -1,0 +1,14 @@
+<resources>
+    <dimen name="spacing_none">0dp</dimen>
+
+    <dimen name="text_size_title">24sp</dimen>
+    <dimen name="text_size_button">16sp</dimen>
+    <dimen name="text_size_description">16sp</dimen>
+
+    <dimen name="padding">12dp</dimen>
+    <dimen name="margin_top_title">16dp</dimen>
+    <dimen name="margin_top_description">8dp</dimen>
+    <dimen name="margin_top_button">24dp</dimen>
+
+    <dimen name="guideline">48dp</dimen>
+</resources>

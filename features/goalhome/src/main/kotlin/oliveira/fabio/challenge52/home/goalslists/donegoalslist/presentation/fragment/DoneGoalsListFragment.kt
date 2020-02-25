@@ -9,7 +9,6 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
-import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -21,10 +20,12 @@ import kotlinx.android.synthetic.main.fragment_done_goals_list.*
 import oliveira.fabio.challenge52.actions.Actions
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
+import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsStateResources
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.adapter.DoneGoalsAdapter
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.presentation.view.StateView
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
@@ -63,7 +64,6 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
 
     private fun init() {
         setupObservables()
-        setupClickListener()
         setupRecyclerView()
         setupSwipeRefreshLayout()
     }
@@ -73,8 +73,8 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
             doneGoalsViewState.observe(this@DoneGoalsListFragment, Observer {
                 showLoading(it.isLoading)
                 showDoneGoalsList(it.isDoneGoalsListVisible)
-                showEmptyState(it.isEmptyStateVisible)
-                showErrorState(it.isErrorVisible)
+                showStateView(stateViewEmpty, it.isEmptyStateVisible)
+                showStateView(stateViewError, it.isErrorVisible)
             })
             doneGoalsActions.observe(this@DoneGoalsListFragment, Observer {
                 when (it) {
@@ -88,11 +88,14 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
                         doneGoalsAdapter.clearList()
                         doneGoalsAdapter.addList(it.doneGoalsList)
                     }
-                    is DoneGoalsActions.ClearList -> {
+                    is DoneGoalsActions.Empty -> {
                         doneGoalsAdapter.clearList()
+                        setStateView(stateViewEmpty, it.doneGoalsStateResources)
                     }
                     is DoneGoalsActions.Error -> {
-                        setErrorState(it.errorMessageRes)
+                        setStateView(stateViewError, it.doneGoalsStateResources) {
+                            listDoneGoals()
+                        }
                     }
                 }
             })
@@ -121,11 +124,6 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
         }
     }
 
-    private fun setupClickListener() {
-        txtError.setOnClickListener { goalsListsViewModel.listDoneGoals() }
-        imgError.setOnClickListener { goalsListsViewModel.listDoneGoals() }
-    }
-
     private fun showLoading(hasToShow: Boolean) {
         srlDoneGoalsList.isRefreshing = hasToShow
     }
@@ -134,20 +132,21 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
         rvDoneGoalsList.isVisible = hasToShow
     }
 
-    private fun showEmptyState(hasToShow: Boolean) {
-        if (hasToShow) initAnimationsNoDoneGoals()
-        txtNoDoneGoalsFirst.isVisible = hasToShow
-        imgNoDoneGoals.isVisible = hasToShow
-    }
-
-    private fun showErrorState(hasToShow: Boolean) {
-        if (hasToShow) initAnimationsError()
-        txtError.isVisible = hasToShow
-        imgError.isVisible = hasToShow
-    }
-
-    private fun setErrorState(@StringRes stringRes: Int) {
-        txtError.text = resources.getString(stringRes)
+    private fun setStateView(
+        stateView: StateView,
+        doneGoalsStateResources: DoneGoalsStateResources,
+        block: (() -> Unit)? = null
+    ) {
+        stateView.apply {
+            setImage(doneGoalsStateResources.imageRes)
+            setTitle(resources.getString(doneGoalsStateResources.titleRes))
+            setDescription(resources.getString(doneGoalsStateResources.descriptionRes))
+            block?.also {
+                doneGoalsStateResources.buttonTextRes?.also { buttonText ->
+                    setupButton(resources.getString(buttonText), it)
+                }
+            }
+        }
     }
 
     private fun showSnackBar(message: String) =
@@ -163,58 +162,40 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
         REQUEST_CODE_DETAILS
     )
 
+    private fun showStateView(
+        stateView: StateView,
+        hasToShow: Boolean
+    ) {
+        if (hasToShow) initAnimationsView(stateView)
+        stateView.isVisible = hasToShow
+    }
+
     // TODO REFAC
 
-    private fun initAnimationsNoDoneGoals() {
+    private fun initAnimationsView(view: View) {
         val fadeIn = AlphaAnimation(0f, 1f)
         fadeIn.interpolator = DecelerateInterpolator()
         fadeIn.duration = 2000
 
         val animation = AnimationSet(false)
         animation.addAnimation(fadeIn)
-        txtNoDoneGoalsFirst?.animation = animation
-        imgNoDoneGoals?.animation = animation
+        view?.animation = animation
 
         val valueAnimator = ValueAnimator.ofFloat(-100f, 0f)
         valueAnimator.interpolator = AccelerateDecelerateInterpolator()
         valueAnimator.duration = 1000
         valueAnimator.addUpdateListener {
             val progress = it.animatedValue as Float
-            txtNoDoneGoalsFirst?.translationY = progress
-            imgNoDoneGoals?.translationY = progress
+            view?.translationY = progress
         }
         valueAnimator.start()
     }
-
-    private fun initAnimationsError() {
-        val fadeIn = AlphaAnimation(0f, 1f)
-        fadeIn.interpolator = DecelerateInterpolator()
-        fadeIn.duration = 2000
-
-        val animation = AnimationSet(false)
-        animation.addAnimation(fadeIn)
-        txtError?.animation = animation
-        imgError?.animation = animation
-
-        val valueAnimator = ValueAnimator.ofFloat(-100f, 0f)
-        valueAnimator.interpolator = AccelerateDecelerateInterpolator()
-        valueAnimator.duration = 1000
-        valueAnimator.addUpdateListener {
-            val progress = it.animatedValue as Float
-            txtError?.translationY = progress
-            imgError?.translationY = progress
-        }
-        valueAnimator.start()
-    }
-
-    //
 
     companion object {
         private const val REQUEST_CODE_DETAILS = 400
         private const val GOAL_TAG = "GOAL"
         private const val HAS_CHANGED = "HAS_CHANGED"
         private const val IS_FROM_DONE_GOALS = "IS_FROM_DONE_GOALS"
-        const val ACTIVITY_ERROR = -3
 
         fun newInstance() =
             DoneGoalsListFragment()

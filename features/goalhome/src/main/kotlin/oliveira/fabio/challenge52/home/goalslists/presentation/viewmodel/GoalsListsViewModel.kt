@@ -5,13 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import features.goalhome.R
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import oliveira.fabio.challenge52.home.goalslists.domain.usecase.GetAllDoneGoals
 import oliveira.fabio.challenge52.home.goalslists.domain.usecase.GetAllOpenedGoals
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
+import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsStateResources
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.viewstate.DoneGoalsViewState
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
+import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsStateResources
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.viewstate.OpenedGoalsViewState
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import timber.log.Timber
@@ -69,7 +70,14 @@ class GoalsListsViewModel(
                                 )
                             }
                         } else {
-                            OpenedGoalsActions.ClearList.sendAction()
+                            OpenedGoalsActions.Empty(
+                                OpenedGoalsStateResources(
+                                    R.drawable.ic_not_found,
+                                    R.string.goals_lists_no_opened_goals_title,
+                                    R.string.goals_lists_no_opened_goals_description
+                                )
+                            )
+                                .sendAction()
                             setOpenedGoalsViewState {
                                 OpenedGoalsViewState(
                                     isLoading = false,
@@ -80,10 +88,18 @@ class GoalsListsViewModel(
                         }
                     },
                     failure = {
-                        OpenedGoalsActions.Error(R.string.goals_lists_error).sendAction()
+                        OpenedGoalsActions.Error(
+                            OpenedGoalsStateResources(
+                                R.drawable.ic_error,
+                                R.string.goals_lists_error_title,
+                                R.string.goals_lists_error_description,
+                                R.string.goals_lists_error_button
+                            )
+                        ).sendAction()
                         setOpenedGoalsViewState {
                             OpenedGoalsViewState(
-                                isErrorVisible = true
+                                isErrorVisible = true,
+                                isAddButtonVisible = true
                             )
                         }
                         Timber.e(it)
@@ -111,7 +127,13 @@ class GoalsListsViewModel(
                                 )
                             }
                         } else {
-                            DoneGoalsActions.ClearList.sendAction()
+                            DoneGoalsActions.Empty(
+                                DoneGoalsStateResources(
+                                    R.drawable.ic_business_man,
+                                    R.string.goals_lists_no_done_goals_title,
+                                    R.string.goals_lists_no_done_goals_description
+                                )
+                            ).sendAction()
                             setDoneGoalsViewState {
                                 DoneGoalsViewState(
                                     isLoading = false,
@@ -121,7 +143,14 @@ class GoalsListsViewModel(
                         }
                     },
                     failure = {
-                        DoneGoalsActions.Error(R.string.goals_lists_error).sendAction()
+                        DoneGoalsActions.Error(
+                            DoneGoalsStateResources(
+                                R.drawable.ic_error,
+                                R.string.goals_lists_error_title,
+                                R.string.goals_lists_error_description,
+                                R.string.goals_lists_error_button
+                            )
+                        ).sendAction()
                         setDoneGoalsViewState {
                             DoneGoalsViewState(
                                 isErrorVisible = true

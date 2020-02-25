@@ -29,60 +29,23 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <!-- No Goals show -->
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtNoGoalsFirst"
-            android:layout_width="@dimen/spacing_none"
+        <oliveira.fabio.challenge52.presentation.view.StateView
+            android:id="@+id/stateViewEmpty"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_03"
-            android:layout_marginTop="@dimen/spacing_05"
-            android:layout_marginEnd="@dimen/spacing_03"
-            android:text="@string/goals_lists_no_opened_goals"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_size_bigger"
-            android:visibility="gone"
+            android:layout_marginTop="@dimen/spacing_04"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgNoGoals"
-            android:layout_width="wrap_content"
+        <oliveira.fabio.challenge52.presentation.view.StateView
+            android:id="@+id/stateViewError"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_05"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtNoGoalsFirst"
-            app:srcCompat="@android:drawable/ic_btn_speak_now" />
-
-        <!-- Error show -->
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtError"
-            android:layout_width="@dimen/spacing_none"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_03"
-            android:layout_marginTop="@dimen/spacing_05"
-            android:layout_marginEnd="@dimen/spacing_03"
-            android:text="@string/goals_lists_error"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_size_bigger"
-            android:visibility="gone"
+            android:layout_marginTop="@dimen/spacing_04"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgError"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_05"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtError"
-            app:srcCompat="@drawable/ic_error" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
