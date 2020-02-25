@@ -90,7 +90,7 @@ class GoalsListsViewModel(
                     failure = {
                         OpenedGoalsActions.Error(
                             OpenedGoalsStateResources(
-                                R.drawable.ic_error,
+                                R.drawable.ic_error_connection,
                                 R.string.goals_lists_error_title,
                                 R.string.goals_lists_error_description,
                                 R.string.goals_lists_error_button
@@ -145,7 +145,7 @@ class GoalsListsViewModel(
                     failure = {
                         DoneGoalsActions.Error(
                             DoneGoalsStateResources(
-                                R.drawable.ic_error,
+                                R.drawable.ic_error_connection,
                                 R.string.goals_lists_error_title,
                                 R.string.goals_lists_error_description,
                                 R.string.goals_lists_error_button
