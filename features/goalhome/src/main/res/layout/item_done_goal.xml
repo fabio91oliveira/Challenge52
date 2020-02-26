@@ -17,7 +17,7 @@
         android:id="@+id/contentCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="?android:attr/selectableItemBackground"
+        android:background="?android:attr/selectableItemBackground"
         android:padding="@dimen/spacing_02">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -28,13 +28,29 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_next" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgIcon"
-            android:layout_width="@dimen/spacing_03"
-            android:layout_height="@dimen/spacing_03"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/viewStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_done_goal_item" />
+            tools:background="@color/color_yellow">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:paddingStart="@dimen/spacing_01"
+                android:paddingTop="@dimen/spacing_01"
+                android:paddingEnd="@dimen/spacing_01"
+                android:paddingBottom="@dimen/spacing_half"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_smaller"
+                android:textStyle="bold"
+                tools:text="New" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtName"
@@ -49,7 +65,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgIcon"
+            app:layout_constraintTop_toBottomOf="@+id/viewStatus"
             tools:text="@tools:sample/lorem/random" />
 
         <androidx.appcompat.widget.AppCompatTextView

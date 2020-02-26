@@ -1,8 +1,13 @@
 package oliveira.fabio.challenge52.extensions
 
+import android.animation.ValueAnimator
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AlphaAnimation
+import android.view.animation.AnimationSet
+import android.view.animation.DecelerateInterpolator
 import android.widget.EditText
 import java.text.NumberFormat
 import java.util.*
@@ -61,6 +66,25 @@ fun View.doPopAnimation(duration: Long, func: () -> Unit) {
             }
             start()
         }
+}
+
+fun View.doSlideDownAnimation() {
+    val fadeIn = AlphaAnimation(0f, 1f)
+    fadeIn.interpolator = DecelerateInterpolator()
+    fadeIn.duration = 2000
+
+    val anim = AnimationSet(false)
+    anim.addAnimation(fadeIn)
+    animation = anim
+
+    val valueAnimator = ValueAnimator.ofFloat(-100f, 0f)
+    valueAnimator.interpolator = AccelerateDecelerateInterpolator()
+    valueAnimator.duration = 1000
+    valueAnimator.addUpdateListener {
+        val progress = it.animatedValue as Float
+        translationY = progress
+    }
+    valueAnimator.start()
 }
 
 inline var View.isVisible: Boolean

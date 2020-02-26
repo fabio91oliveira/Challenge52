@@ -1,14 +1,9 @@
 package oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.fragment
 
-import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AlphaAnimation
-import android.view.animation.AnimationSet
-import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -18,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_done_goals_list.*
 import oliveira.fabio.challenge52.actions.Actions
+import oliveira.fabio.challenge52.extensions.doSlideDownAnimation
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsStateResources
@@ -166,29 +162,8 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
         stateView: StateView,
         hasToShow: Boolean
     ) {
-        if (hasToShow) initAnimationsView(stateView)
+        if (hasToShow) stateView.doSlideDownAnimation()
         stateView.isVisible = hasToShow
-    }
-
-    // TODO REFAC
-
-    private fun initAnimationsView(view: View) {
-        val fadeIn = AlphaAnimation(0f, 1f)
-        fadeIn.interpolator = DecelerateInterpolator()
-        fadeIn.duration = 2000
-
-        val animation = AnimationSet(false)
-        animation.addAnimation(fadeIn)
-        view?.animation = animation
-
-        val valueAnimator = ValueAnimator.ofFloat(-100f, 0f)
-        valueAnimator.interpolator = AccelerateDecelerateInterpolator()
-        valueAnimator.duration = 1000
-        valueAnimator.addUpdateListener {
-            val progress = it.animatedValue as Float
-            view?.translationY = progress
-        }
-        valueAnimator.start()
     }
 
     companion object {

@@ -50,15 +50,22 @@ class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
                 goalsList[position].getWeeksDepositedCount().toString()
             )
             txtMoney.text = goalsList[position].getTotal().toCurrency()
-            val progress = goalsList[position].getPercentOfConclusion()
+            val completedPercent = goalsList[position].getPercentOfConclusion()
 
-            if (progress > 0) {
-                txtPercent.setTextColor(
+            if (completedPercent > INITIAL_PERCENT) {
+                val color = ContextCompat.getColor(
+                    containerView.context,
+                    R.color.color_accent
+                )
+                txtPercent.setTextColor(color)
+                viewStatus.setBackgroundColor(
                     ContextCompat.getColor(
                         containerView.context,
-                        R.color.color_accent
+                        R.color.color_accent_dark
                     )
                 )
+                txtStatus.text =
+                    containerView.resources.getString(R.string.goals_lists_status_in_progress)
             } else {
                 txtPercent.setTextColor(
                     ContextCompat.getColor(
@@ -66,22 +73,30 @@ class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
                         android.R.color.black
                     )
                 )
+                viewStatus.setBackgroundColor(
+                    ContextCompat.getColor(
+                        containerView.context,
+                        R.color.color_yellow
+                    )
+                )
+                txtStatus.text = containerView.resources.getString(R.string.goals_lists_status_new)
             }
 
-            val animation = ObjectAnimator.ofInt(progressBar, "progress", 0, progress)
-            animation.duration = 1000
-            animation.interpolator = DecelerateInterpolator()
-            animation.addUpdateListener {
-                val prog = it.animatedValue as Int
-                txtPercent.text =
-                    prog.toString() + containerView.context.getString(R.string.progress_value_percent)
+            ObjectAnimator.ofInt(progressBar, PROGRESS_TAG, INITIAL_VALUE, completedPercent).apply {
+                duration = PROGRESS_ANIMATION_DURATION
+                interpolator = DecelerateInterpolator()
+                addUpdateListener {
+                    val progress = it.animatedValue as Int
+                    txtPercent.text =
+                        progress.toString() + containerView.context.getString(R.string.progress_value_percent)
+                }
+                start()
             }
-            animation.start()
 
-//            if (position >= lastPosition) animate()
+            if (position >= lastPosition) animate()
 
             containerView.setOnClickListener {
-                it.doPopAnimation(100) {
+                it.doPopAnimation(POP_ANIMATION_DURATION) {
                     onClickGoalListener.onClickGoal(goalsList[position])
                 }
             }
@@ -102,5 +117,13 @@ class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
 
     interface OnClickGoalListener {
         fun onClickGoal(goal: GoalWithWeeks)
+    }
+
+    companion object {
+        private const val PROGRESS_TAG = "progress"
+        private const val INITIAL_VALUE = 0
+        private const val INITIAL_PERCENT = 0
+        private const val PROGRESS_ANIMATION_DURATION = 1000L
+        private const val POP_ANIMATION_DURATION = 100L
     }
 }

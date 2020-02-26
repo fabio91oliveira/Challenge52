@@ -9,6 +9,10 @@
     <string name="goals_lists_opened_goals">Opened</string>
     <string name="goals_lists_done_goals">Done</string>
 
+    <string name="goals_lists_status_new">New</string>
+    <string name="goals_lists_status_in_progress">In progress</string>
+    <string name="goals_lists_status_done">Done</string>
+
     <string name="goals_lists_my_goals">My Goals</string>
 
     <string name="goals_lists_weeks_remaining">%s of 52 weeks</string>

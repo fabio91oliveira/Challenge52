@@ -1,14 +1,9 @@
 package oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.fragment
 
-import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AlphaAnimation
-import android.view.animation.AnimationSet
-import android.view.animation.DecelerateInterpolator
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -20,6 +15,7 @@ import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_goals_lists.*
 import kotlinx.android.synthetic.main.fragment_opened_goals_list.*
 import oliveira.fabio.challenge52.actions.Actions
+import oliveira.fabio.challenge52.extensions.doSlideDownAnimation
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsStateResources
@@ -203,7 +199,7 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
         stateView: StateView,
         hasToShow: Boolean
     ) {
-        if (hasToShow) initAnimationView(stateView)
+        if (hasToShow) stateView.doSlideDownAnimation()
         stateView.isVisible = hasToShow
     }
 
@@ -230,27 +226,6 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
 
     private fun showAddButton(hasToShow: Boolean) =
         if (hasToShow) parentFragment?.fabAdd?.show() else parentFragment?.fabAdd?.hide()
-
-    // TODO
-    private fun initAnimationView(view: View) {
-        val fadeIn = AlphaAnimation(0f, 1f)
-        fadeIn.interpolator = DecelerateInterpolator()
-        fadeIn.duration = 2000
-
-        val animation = AnimationSet(false)
-        animation.addAnimation(fadeIn)
-        view.animation = animation
-
-        val valueAnimator = ValueAnimator.ofFloat(-100f, 0f)
-        valueAnimator.interpolator = AccelerateDecelerateInterpolator()
-        valueAnimator.duration = 1000
-        valueAnimator.addUpdateListener {
-            val progress = it.animatedValue as Float
-            view.translationY = progress
-        }
-        valueAnimator.start()
-    }
-
 
     companion object {
         private const val REQUEST_CODE_CREATE = 300
