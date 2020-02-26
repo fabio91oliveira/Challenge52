@@ -8,13 +8,16 @@ dependencies {
     api project(Core.Actions)
     api project(Core.Models)
 
-    api project(Features.Error)
+    api project(UI.Resources)
+    api project(UI.FullScreenDialog)
+    api project(UI.StateView)
 
     // Support
     api Deps.support_material
     api Deps.support_recyclerview
     api Deps.support_constraint_layout
     api Deps.viewpager2
+    api Deps.swipe_refresh_layout
 
     // Koin
     api Deps.koin_viewmodel

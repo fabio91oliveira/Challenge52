@@ -17,8 +17,6 @@ class GoalWithWeeks : Serializable {
     )
     lateinit var weeks: List<Week>
     @Ignore
-    var isSelected = false
-    @Ignore
     var lastPosition: Int? = null
 
     fun getRemainingWeeksCount(): Int {
@@ -29,6 +27,16 @@ class GoalWithWeeks : Serializable {
         }
 
         return remainingWeeksCount
+    }
+
+    fun getWeeksDepositedCount(): Int {
+        var weeksCount = 0
+
+        weeks.forEach {
+            if (it.isDeposited) weeksCount++
+        }
+
+        return weeksCount
     }
 
     fun getPercentOfConclusion() =

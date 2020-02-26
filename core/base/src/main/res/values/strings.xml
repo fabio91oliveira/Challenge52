@@ -1,44 +1,12 @@
 <resources>
-    <string name="app_name">Challenge 52</string>
+    <string name="app_name">CashLab</string>
 
     <!-- All -->
     <string name="all_button_ok">Ok</string>
     <string name="all_button_go_back">Back</string>
 
-    <!-- Menu -->
-    <string name="navigation_menu_goals">Goals</string>
-    <string name="navigation_menu_done">Done</string>
-    <string name="navigation_menu_help">Help</string>
-    <string name="navigation_menu_options">Options</string>
-
-    <!-- Goals List -->
-    <string name="goals_list_my_goals">My Goals</string>
-    <string name="goals_list_no_goals">There are no goals registered at the moment. Do you want to create the first one
-        right now?
-    </string>
-    <string name="goals_list_error">An error has occurred, try again clicking here or contact the developer.</string>
-    <string name="goals_list_weeks_remaining">Remaining weeks:</string>
-    <string name="goals_list_how_much">Money to save:</string>
-    <string name="goals_list_start_date">Start date:</string>
-    <string name="goals_list_end_date">End date:</string>
     <string name="progress_value_percent">%</string>
 
-    <string name="goals_list_a_goal_has_been_created">Goal has been created.</string>
-    <string name="goals_list_a_goal_has_been_deleted">Goal(s) has been deleted.</string>
-    <string name="goals_list_a_goal_has_been_updated">Goal has been updated.</string>
-    <string name="goals_list_a_goal_has_been_moved_to_done">Goal has been moved to done.</string>
-
-    <!-- Done List -->
-    <string name="done_goals_list_title">Done goals</string>
-    <string name="done_goals_list_none_result">There are no done goals for a while. When you reach a goal, then you can
-        put the completed one here.
-    </string>
-    <string name="done_goals_list_error">An error has occurred when try to load list, try again clicking here or contact
-        the developer.
-    </string>
-    <string name="done_goals_list_start_date">Start date:</string>
-    <string name="done_goals_list_end_date">End date:</string>
-    <string name="done_goals_list_how_much">Saved money:</string>
 
     <!-- Goal Create -->
     <string name="goal_create_new_goal">New goal</string>
@@ -93,7 +61,7 @@
 
     <!-- Error -->
     <string name="goal_warning_title">Warning</string>
-    <string name="goal_oops_title">Oops!</string>
+    <string name="goal_oops_title">Oops! It seems something unexpected occurred.</string>
     <string name="goals_generic_error">An error has occurred, try again or contact the
         developer.
     </string>

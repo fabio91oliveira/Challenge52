@@ -1,20 +1,21 @@
 package oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.adapter
 
+import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import features.goalhome.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_done_goal.*
 import kotlinx.android.synthetic.main.item_done_goal.view.*
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.extensions.doPopAnimation
 import oliveira.fabio.challenge52.extensions.toCurrency
-import oliveira.fabio.challenge52.extensions.toCurrentDateSystemString
-import java.text.DateFormat
+import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 
 
 class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
@@ -40,80 +41,76 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
         notifyDataSetChanged()
     }
 
-    inner class GoalViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
+    inner class GoalViewHolder(override val containerView: View) :
+        RecyclerView.ViewHolder(containerView),
         LayoutContainer {
         fun bind(position: Int) {
-            if (goalsList[position].isSelected) {
-                containerView.contentCard.setBackgroundColor(
-                    ContextCompat.getColor(
-                        containerView.context,
-                        R.color.colorSofterGrey
-                    )
-                )
-            } else {
-                containerView.contentCard.setBackgroundColor(
-                    ContextCompat.getColor(
-                        containerView.context,
-                        R.color.colorWhite
-                    )
-                )
-            }
             txtName.text = goalsList[position].goal.name
-            txtValue.text = goalsList[position].getTotalAccumulated().toCurrency()
-            txtStartDateValue.text = goalsList[position].getStartDate()
-                .toCurrentDateSystemString(DateFormat.SHORT)
-            txtEndDateValue.text =
-                goalsList[position].getEndDate().toCurrentDateSystemString(DateFormat.SHORT)
+            txtWeeksRemaining.text = containerView.resources.getString(
+                R.string.goals_lists_weeks_remaining,
+                goalsList[position].getWeeksDepositedCount().toString()
+            )
+            txtMoney.text = goalsList[position].getTotal().toCurrency()
+
+            val animation = ObjectAnimator.ofInt(
+                progressBar,
+                "progress",
+                0,
+                goalsList[position].getPercentOfConclusion()
+            )
+
+            animation.duration = 1000
+            animation.interpolator = DecelerateInterpolator()
+            animation.addUpdateListener {
+                val prog = it.animatedValue as Int
+                when {
+                    prog == 100 -> {
+                        val color = ContextCompat.getColor(
+                            containerView.context,
+                            R.color.color_green
+                        )
+                        txtMoney.setTextColor(color)
+                        txtPercent.setTextColor(color)
+                        progressBar.progressDrawable = ContextCompat.getDrawable(
+                            containerView.context,
+                            R.drawable.background_completed_progress_bar
+                        )
+                    }
+                    prog > 0 -> {
+                        val color = ContextCompat.getColor(
+                            containerView.context,
+                            R.color.color_accent
+                        )
+                        txtMoney.setTextColor(color)
+                        txtPercent.setTextColor(color)
+                        progressBar.progressDrawable = ContextCompat.getDrawable(
+                            containerView.context,
+                            R.drawable.background_uncompleted_progress_bar
+                        )
+                    }
+                    else -> {
+                        val color = ContextCompat.getColor(
+                            containerView.context,
+                            android.R.color.black
+                        )
+                        txtMoney.setTextColor(color)
+                        txtPercent.setTextColor(color)
+                        progressBar.progressDrawable = ContextCompat.getDrawable(
+                            containerView.context,
+                            R.drawable.background_uncompleted_progress_bar
+                        )
+                    }
+                }
+                txtPercent.text =
+                    prog.toString() + containerView.context.getString(R.string.progress_value_percent)
+            }
+            animation.start()
 
 //            if (position >= lastPosition) animate()
 
-            containerView.setOnLongClickListener {
-                if (!goalsList[position].isSelected) {
-                    goalsList[position].isSelected = true
-                    containerView.contentCard.setBackgroundColor(
-                        ContextCompat.getColor(
-                            containerView.context,
-                            R.color.colorSofterGrey
-                        )
-                    )
-                    onClickGoalListener.onLongClick(goalsList[position])
-                    true
-                } else {
-                    false
-                }
-            }
-
             containerView.setOnClickListener {
-                if (goalsList[position].isSelected) {
-                    containerView.contentCard.setBackgroundColor(
-                        ContextCompat.getColor(
-                            containerView.context,
-                            R.color.colorWhite
-                        )
-                    )
-                    onClickGoalListener.onClickRemove(goalsList[position])
-                    goalsList[position].isSelected = false
-                } else {
-                    var hasAtLeastOneSelected = false
-                    for (i in 0 until goalsList.size) {
-                        if (goalsList[i].isSelected) {
-                            hasAtLeastOneSelected = true
-                            break
-                        }
-                    }
-
-                    if (hasAtLeastOneSelected) {
-                        goalsList[position].isSelected = true
-                        containerView.contentCard.setBackgroundColor(
-                            ContextCompat.getColor(
-                                containerView.context,
-                                R.color.colorSofterGrey
-                            )
-                        )
-                        onClickGoalListener.onClickAdd(goalsList[position])
-                    } else {
-                        onClickGoalListener.onClickGoal(goalsList[position])
-                    }
+                it.doPopAnimation(100) {
+                    onClickGoalListener.onClickGoal(goalsList[position])
                 }
             }
         }
@@ -133,8 +130,5 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
 
     interface OnClickGoalListener {
         fun onClickGoal(goal: GoalWithWeeks)
-        fun onLongClick(goal: GoalWithWeeks)
-        fun onClickAdd(goal: GoalWithWeeks)
-        fun onClickRemove(goal: GoalWithWeeks)
     }
 }

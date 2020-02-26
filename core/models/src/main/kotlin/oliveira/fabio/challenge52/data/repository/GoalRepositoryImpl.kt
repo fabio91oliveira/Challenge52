@@ -5,15 +5,12 @@ import oliveira.fabio.challenge52.persistence.datasource.GoalLocalDataSource
 import oliveira.fabio.challenge52.persistence.model.entity.Goal
 
 class GoalRepositoryImpl(private val goalLocalDataSource: GoalLocalDataSource) : GoalRepository {
-    override suspend fun addGoal(goal: Goal) =
+    override fun addGoal(goal: Goal) =
         goalLocalDataSource.addGoal(goal)
 
-    override suspend fun updateGoal(goal: Goal) =
+    override fun updateGoal(goal: Goal) =
         goalLocalDataSource.updateGoal(goal)
 
-    override suspend fun removeGoal(goal: Goal) =
+    override fun removeGoal(goal: Goal) =
         goalLocalDataSource.removeGoal(goal)
-
-    override suspend fun removeGoals(goals: List<Goal>) =
-        goalLocalDataSource.removeGoals(goals)
 }

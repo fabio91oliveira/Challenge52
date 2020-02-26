@@ -7,7 +7,9 @@ dependencies {
     api project(Core.Base)
     api project(Core.Models)
 
-    api project(Features.Error)
+    api project(UI.Resources)
+    api project(UI.FullScreenDialog)
+    api project(UI.PopupDialog)
 
     // Support
     api Deps.support_material

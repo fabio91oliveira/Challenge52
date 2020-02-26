@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StateView">
+        <attr name="stateViewTitle" format="string" />
+        <attr name="stateViewDescription" format="string" />
+        <attr name="stateViewImage" format="reference" />
+    </declare-styleable>
+</resources>

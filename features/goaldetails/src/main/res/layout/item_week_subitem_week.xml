@@ -1,82 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/cardWeek"
-        style="@style/Widget.MaterialComponents.CardView"
-        app:cardElevation="0dp"
-        android:layout_width="match_parent"
-        app:cardCornerRadius="@dimen/margin_four"
-        android:layout_height="wrap_content"
-        android:stateListAnimator="@anim/animation"
-        android:layout_marginStart="@dimen/margin_six"
-        android:layout_marginEnd="@dimen/margin_six"
-        android:layout_marginBottom="@dimen/margin_eight">
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardWeek"
+    style="@style/Widget.MaterialComponents.CardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/spacing_01"
+    android:layout_marginEnd="@dimen/spacing_01"
+    android:layout_marginBottom="@dimen/spacing_01"
+    android:stateListAnimator="@anim/animation"
+    app:cardCornerRadius="@dimen/spacing_half"
+    app:cardElevation="@dimen/spacing_none">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/contentCard"
-            android:layout_width="match_parent"
+        android:id="@+id/contentCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtDate"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginStart="@dimen/spacing_02"
+            android:layout_marginTop="@dimen/spacing_02"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_small"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/txtWeek"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="12.02.2019" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtWeek"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/selectableItemBackground">
+            android:layout_marginTop="@dimen/spacing_half"
+            android:paddingBottom="@dimen/spacing_02"
+            android:textSize="@dimen/text_size_smaller"
+            app:layout_constraintStart_toStartOf="@id/txtDate"
+            app:layout_constraintTop_toBottomOf="@+id/txtDate"
+            tools:text="Semana 1" />
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtDate"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:fontFamily="@font/ubuntu_bold"
-                android:textSize="@dimen/text_fourteen"
-                android:textColor="@color/colorBlack"
-                android:layout_marginStart="@dimen/margin_sixteen"
-                android:layout_marginTop="@dimen/margin_sixteen"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/txtWeek"
-                tools:text="12.02.2019"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtWeek"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_twelve"
-                android:layout_marginTop="@dimen/margin_four"
-                android:paddingBottom="@dimen/margin_sixteen"
-                app:layout_constraintTop_toBottomOf="@+id/txtDate"
-                app:layout_constraintStart_toStartOf="@id/txtDate"
-                tools:text="Semana 1"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtMoney"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:fontFamily="@font/ubuntu_bold"
-                android:layout_marginEnd="@dimen/margin_sixteen"
-                app:layout_constraintTop_toTopOf="@+id/imgNotChecked"
-                app:layout_constraintBottom_toBottomOf="@+id/imgNotChecked"
-                app:layout_constraintEnd_toStartOf="@id/imgNotChecked"
-                tools:text="R$ 20,00"/>
+            android:id="@+id/txtMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_02"
+            android:textColor="@color/color_accent"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/imgNotChecked"
+            app:layout_constraintEnd_toStartOf="@id/imgNotChecked"
+            app:layout_constraintTop_toTopOf="@+id/imgNotChecked"
+            tools:text="R$ 20,00" />
 
         <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgNotChecked"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_not_checked"
-                android:layout_marginEnd="@dimen/margin_sixteen"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:visibility="invisible"/>
+            android:id="@+id/imgNotChecked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_02"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_not_checked" />
 
         <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgChecked"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_checked"
-                android:layout_marginEnd="@dimen/margin_sixteen"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:visibility="invisible"/>
+            android:id="@+id/imgChecked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_02"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_checked" />
 
         <!--<androidx.appcompat.widget.AppCompatCheckBox-->
         <!--android:id="@+id/chkWeek"-->

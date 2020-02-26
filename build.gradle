@@ -41,6 +41,9 @@ subprojects {
                     sourceCompatibility Config.javaVersion
                     targetCompatibility Config.javaVersion
                 }
+                defaultConfig {
+                    multiDexEnabled true
+                }
                 buildTypes {
                     // TODO config buildtypes before release the final version
                     release {

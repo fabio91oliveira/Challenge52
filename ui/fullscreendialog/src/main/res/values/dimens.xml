@@ -1,0 +1,14 @@
+<resources>
+    <dimen name="spacing_none">0dp</dimen>
+
+    <dimen name="size_text_title">36sp</dimen>
+    <dimen name="size_text_subtitle">24sp</dimen>
+
+    <dimen name="margin_top_close">10dp</dimen>
+    <dimen name="margin_top_subtitle">10dp</dimen>
+    <dimen name="padding_ic_close">18dp</dimen>
+    <dimen name="margin_guide_line">40dp</dimen>
+
+    <dimen name="margin_bottom_button_confirm">10dp</dimen>
+    <dimen name="margin_bottom_button_cancel">40dp</dimen>
+</resources>

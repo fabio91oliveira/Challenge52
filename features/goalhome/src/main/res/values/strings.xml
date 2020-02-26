@@ -1,0 +1,39 @@
+<resources>
+    <!-- Menu -->
+    <string name="navigation_menu_goals">Goals</string>
+    <string name="navigation_menu_help">Help</string>
+    <string name="navigation_menu_notifications">Notifications</string>
+    <string name="navigation_menu_options">Options</string>
+
+    <!-- Goals List -->
+    <string name="goals_lists_opened_goals">Opened</string>
+    <string name="goals_lists_done_goals">Done</string>
+
+    <string name="goals_lists_my_goals">My Goals</string>
+
+    <string name="goals_lists_weeks_remaining">%s of 52 weeks</string>
+    <string name="goals_lists_completed">completed</string>
+    <string name="progress_value_percent">%</string>
+
+    <!-- Messages -->
+    <string name="goals_lists_no_opened_goals_title">Nothing here to show</string>
+    <string name="goals_lists_no_opened_goals_description">There are no goals registered at the moment. Do you want to create the first one
+        right now?
+    </string>
+    <string name="goals_lists_no_opened_goals_button">Create first one</string>
+
+    <string name="goals_lists_no_done_goals_title">Nothing here to show</string>
+    <string name="goals_lists_no_done_goals_description">There are no done goals for a while. When you reach a goal, then you can
+        put the completed one here.
+    </string>
+
+    <string name="goals_list_a_goal_has_been_created">Goal has been created.</string>
+    <string name="goals_list_a_goal_has_been_deleted">Goal(s) has been deleted.</string>
+    <string name="goals_list_a_goal_has_been_updated">Goal has been updated.</string>
+    <string name="goals_list_a_goal_has_been_moved_to_done">Goal has been moved to done.</string>
+
+    <!-- Error -->
+    <string name="goals_lists_error_title">Oops!</string>
+    <string name="goals_lists_error_description">An error has occurred, try again clicking here or contact the developer.</string>
+    <string name="goals_lists_error_button">Try again</string>
+</resources>

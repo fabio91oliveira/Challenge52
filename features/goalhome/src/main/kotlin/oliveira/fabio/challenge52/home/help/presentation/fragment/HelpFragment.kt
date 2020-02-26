@@ -41,7 +41,7 @@ class HelpFragment : Fragment(R.layout.fragment_help) {
 
     private fun setupToolbar() {
         collapsingToolbar.apply {
-            val tf = ResourcesCompat.getFont(context, R.font.ubuntu_bold)
+            val tf = ResourcesCompat.getFont(context, R.font.manjari_regular)
             setCollapsedTitleTypeface(tf)
             setExpandedTitleTypeface(tf)
         }
