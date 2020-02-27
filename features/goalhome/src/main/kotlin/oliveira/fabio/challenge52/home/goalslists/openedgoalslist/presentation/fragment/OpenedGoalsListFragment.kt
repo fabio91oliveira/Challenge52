@@ -15,6 +15,7 @@ import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_goals_lists.*
 import kotlinx.android.synthetic.main.fragment_opened_goals_list.*
 import oliveira.fabio.challenge52.actions.Actions
+import oliveira.fabio.challenge52.domain.model.Goal
 import oliveira.fabio.challenge52.extensions.doSlideDownAnimation
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
@@ -23,7 +24,6 @@ import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.a
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultTypeEnum
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.presentation.view.StateView
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
@@ -183,12 +183,12 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
             REQUEST_CODE_CREATE
         )
 
-    private fun openGoalDetailsActivity(goal: GoalWithWeeks) = startActivityForResult(
+    private fun openGoalDetailsActivity(goal: Goal) = startActivityForResult(
         Actions.openGoalDetails(requireContext()).putExtra(GOAL_TAG, goal),
         REQUEST_CODE_DETAILS
     )
 
-    override fun onClickGoal(goal: GoalWithWeeks) =
+    override fun onClickGoal(goal: Goal) =
         openGoalDetailsActivity(goal)
 
     private fun showOpenedGoalsList(hasToShow: Boolean) {

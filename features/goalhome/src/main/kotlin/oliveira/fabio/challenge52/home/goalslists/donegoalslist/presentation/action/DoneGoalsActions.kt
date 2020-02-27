@@ -2,10 +2,10 @@ package oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.ac
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.domain.model.Goal
 
 sealed class DoneGoalsActions {
-    data class DoneGoalsList(val doneGoalsList: List<GoalWithWeeks>) : DoneGoalsActions()
+    data class DoneGoalsList(val doneGoalsList: List<Goal>) : DoneGoalsActions()
     object RefreshList : DoneGoalsActions()
     data class ShowMessage(@StringRes val stringRes: Int) : DoneGoalsActions()
     data class Empty(val doneGoalsStateResources: DoneGoalsStateResources) :

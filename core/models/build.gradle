@@ -4,5 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
+    // TODO mudar para implementation
     api project(Core.Persistence)
 }

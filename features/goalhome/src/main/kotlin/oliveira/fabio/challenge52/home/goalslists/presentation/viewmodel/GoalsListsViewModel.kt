@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import features.goalhome.R
 import kotlinx.coroutines.launch
+import oliveira.fabio.challenge52.domain.model.Goal
 import oliveira.fabio.challenge52.home.goalslists.domain.usecase.GetAllDoneGoals
 import oliveira.fabio.challenge52.home.goalslists.domain.usecase.GetAllOpenedGoals
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
@@ -15,7 +16,6 @@ import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.a
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsStateResources
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.viewstate.OpenedGoalsViewState
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewstate.GoalsListsViewState
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import timber.log.Timber
 
 class GoalsListsViewModel(
@@ -60,7 +60,7 @@ class GoalsListsViewModel(
             setOpenedGoalsViewState {
                 OpenedGoalsViewState(isLoading = true)
             }
-            SuspendableResult.of<List<GoalWithWeeks>, Exception> {
+            SuspendableResult.of<List<Goal>, Exception> {
                 getAllOpenedGoals()
             }
                 .fold(
@@ -123,7 +123,7 @@ class GoalsListsViewModel(
             setDoneGoalsViewState {
                 DoneGoalsViewState(isLoading = true)
             }
-            SuspendableResult.of<List<GoalWithWeeks>, Exception> {
+            SuspendableResult.of<List<Goal>, Exception> {
                 getAllDoneGoals()
             }
                 .fold(

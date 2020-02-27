@@ -12,17 +12,16 @@ import androidx.recyclerview.widget.RecyclerView
 import features.goalhome.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_goal.*
+import oliveira.fabio.challenge52.domain.model.Goal
 import oliveira.fabio.challenge52.extensions.doPopAnimation
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.extensions.toCurrency
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
-
 
 class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
     RecyclerView.Adapter<OpenedGoalAdapter.GoalViewHolder>() {
 
     private var lastPosition = 0
-    private var goalsList: MutableList<GoalWithWeeks> = mutableListOf()
+    private var goalsList: MutableList<Goal> = mutableListOf()
 
     override fun getItemCount() = goalsList.size
     override fun onBindViewHolder(holder: GoalViewHolder, position: Int) = holder.bind(position)
@@ -30,7 +29,7 @@ class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
         LayoutInflater.from(parent.context).inflate(R.layout.item_goal, parent, false)
     )
 
-    fun addList(goalsList: List<GoalWithWeeks>) {
+    fun addList(goalsList: List<Goal>) {
         this.goalsList.addAll(goalsList)
         notifyDataSetChanged()
     }
@@ -45,13 +44,13 @@ class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
         RecyclerView.ViewHolder(containerView),
         LayoutContainer {
         fun bind(position: Int) {
-            txtName.text = goalsList[position].goal.name
-            txtWeeksRemaining.text = containerView.resources.getString(
+            txtName.text = goalsList[position].name
+            txtCompletedWeeks.text = containerView.resources.getString(
                 R.string.goals_lists_weeks_remaining,
-                goalsList[position].getWeeksDepositedCount().toString()
+                goalsList[position].totalCompletedWeeks.toString()
             )
-            txtMoney.text = goalsList[position].getTotal().toCurrency()
-            val completedPercent = goalsList[position].getPercentOfConclusion()
+            txtMoney.text = goalsList[position].moneyToSave.toCurrency()
+            val completedPercent = goalsList[position].percentCompleted
 
             if (completedPercent > INITIAL_PERCENT) {
                 val color = ContextCompat.getColor(
@@ -104,7 +103,7 @@ class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
     }
 
     interface OnClickGoalListener {
-        fun onClickGoal(goal: GoalWithWeeks)
+        fun onClickGoal(goal: Goal)
     }
 
     companion object {

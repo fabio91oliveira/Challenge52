@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_done_goals_list.*
 import oliveira.fabio.challenge52.actions.Actions
+import oliveira.fabio.challenge52.domain.model.Goal
 import oliveira.fabio.challenge52.extensions.doSlideDownAnimation
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
@@ -20,7 +21,6 @@ import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.act
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.adapter.DoneGoalsAdapter
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import oliveira.fabio.challenge52.presentation.view.StateView
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
@@ -55,7 +55,7 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
         }
     }
 
-    override fun onClickGoal(goal: GoalWithWeeks) =
+    override fun onClickGoal(goal: Goal) =
         openGoalDetailsActivity(goal)
 
     private fun init() {
@@ -152,7 +152,7 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
             Snackbar.LENGTH_SHORT
         ).show()
 
-    private fun openGoalDetailsActivity(goal: GoalWithWeeks) = startActivityForResult(
+    private fun openGoalDetailsActivity(goal: Goal) = startActivityForResult(
         Actions.openGoalDetails(requireContext()).putExtra(GOAL_TAG, goal)
             .putExtra(IS_FROM_DONE_GOALS, true),
         REQUEST_CODE_DETAILS

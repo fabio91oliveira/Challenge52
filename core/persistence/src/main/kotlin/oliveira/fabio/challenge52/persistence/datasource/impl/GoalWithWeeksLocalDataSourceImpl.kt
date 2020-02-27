@@ -7,6 +7,6 @@ class GoalWithWeeksLocalDataSourceImpl(
     private val goalWithWeeksDao: GoalWithWeeksDao
 ) :
     GoalWithWeeksLocalDataSource {
-    override fun getAllGoalsWithWeeks() = goalWithWeeksDao.getAllGoalsWithWeeks()
-    override fun getDoneAllGoalsWithWeeks() = goalWithWeeksDao.getAllDoneGoalsWithWeeks()
+    override fun getAllOpenedGoalsWithWeeks() = goalWithWeeksDao.getAllOpenedGoalsWithWeeks()
+    override fun getAllDoneGoalsWithWeeks() = goalWithWeeksDao.getAllDoneGoalsWithWeeks()
 }

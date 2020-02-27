@@ -9,7 +9,7 @@ import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 interface GoalWithWeeksDao {
     @Transaction
     @Query("SELECT * FROM goal WHERE goal.isDone = 0")
-    fun getAllGoalsWithWeeks(): List<GoalWithWeeks>
+    fun getAllOpenedGoalsWithWeeks(): List<GoalWithWeeks>
 
     @Transaction
     @Query("SELECT * FROM goal WHERE goal.isDone = 1")

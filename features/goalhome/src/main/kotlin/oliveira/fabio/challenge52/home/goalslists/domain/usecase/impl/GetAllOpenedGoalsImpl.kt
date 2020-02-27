@@ -9,6 +9,6 @@ class GetAllOpenedGoalsImpl(
     private val goalWithWeeksRepository: GoalWithWeeksRepository
 ) : GetAllOpenedGoals {
     override suspend fun invoke() = withContext(Dispatchers.IO) {
-        goalWithWeeksRepository.getAllOpenedGoalsWithWeeks()
+        goalWithWeeksRepository.getOpenedGoalsList()
     }
 }
