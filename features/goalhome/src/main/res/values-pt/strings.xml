@@ -6,12 +6,15 @@
     <string name="navigation_menu_options">Opções</string>
 
     <!-- Goals List -->
+    <string name="goals_lists_hello">Olá, </string>
+    <string name="goals_lists_hello_user">Olá, %s</string>
+
+    <string name="goals_lists_welcome">{0,choice,0#Deixe o app te ajudar a guardar dinheiro.|1#Você tem 1 tarefa para completar.|1&lt;Você tem {0} tarefas para completar.}</string>
+
     <string name="goals_lists_opened_goals">Abertos</string>
     <string name="goals_lists_done_goals">Concluídos</string>
 
     <string name="goals_lists_status_new">Novo</string>
-    <string name="goals_lists_status_in_progress">Em andamento</string>
-    <string name="goals_lists_status_done">Concluído</string>
 
     <string name="goals_lists_my_goals">Minhas metas</string>
 

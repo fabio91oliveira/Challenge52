@@ -32,7 +32,7 @@
             android:id="@+id/viewStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:background="@color/color_yellow"
+            android:background="@color/color_yellow"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -42,10 +42,10 @@
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
                 android:paddingStart="@dimen/spacing_01"
-                android:paddingTop="@dimen/spacing_01"
+                android:paddingTop="@dimen/spacing_half"
                 android:paddingEnd="@dimen/spacing_01"
-                android:paddingBottom="@dimen/spacing_half"
-                tools:text="New"
+                android:paddingBottom="2dp"
+                android:text="@string/goals_lists_status_new"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_smaller"
                 android:textStyle="bold" />

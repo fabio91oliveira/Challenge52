@@ -28,30 +28,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_next" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/viewStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:background="@color/color_yellow">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:includeFontPadding="false"
-                android:paddingStart="@dimen/spacing_01"
-                android:paddingTop="@dimen/spacing_01"
-                android:paddingEnd="@dimen/spacing_01"
-                android:paddingBottom="@dimen/spacing_half"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_smaller"
-                android:textStyle="bold"
-                tools:text="New" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtName"
             android:layout_width="@dimen/spacing_none"
@@ -65,7 +41,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewStatus"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/lorem/random" />
 
         <androidx.appcompat.widget.AppCompatTextView

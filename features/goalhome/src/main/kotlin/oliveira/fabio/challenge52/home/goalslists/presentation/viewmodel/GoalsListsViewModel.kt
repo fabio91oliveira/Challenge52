@@ -14,6 +14,7 @@ import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.vie
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsStateResources
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.viewstate.OpenedGoalsViewState
+import oliveira.fabio.challenge52.home.goalslists.presentation.viewstate.GoalsListsViewState
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 import timber.log.Timber
 
@@ -21,6 +22,9 @@ class GoalsListsViewModel(
     private val getAllOpenedGoals: GetAllOpenedGoals,
     private val getAllDoneGoals: GetAllDoneGoals
 ) : ViewModel() {
+
+    private val _goalsListsViewState by lazy { MutableLiveData<GoalsListsViewState>() }
+    val goalsListsViewState by lazy { _goalsListsViewState }
 
     private val _openedGoalsActions by lazy { MutableLiveData<OpenedGoalsActions>() }
     val openedGoalsActions by lazy { _openedGoalsActions }
@@ -34,6 +38,7 @@ class GoalsListsViewModel(
 
     init {
         initViewStates()
+        getUserName()
         listOpenedGoals()
         listDoneGoals()
     }
@@ -59,9 +64,12 @@ class GoalsListsViewModel(
                 getAllOpenedGoals()
             }
                 .fold(
-                    success = {
-                        if (it.isNotEmpty()) {
-                            OpenedGoalsActions.OpenedGoalsList(it).sendAction()
+                    success = { list ->
+                        if (list.isNotEmpty()) {
+                            OpenedGoalsActions.OpenedGoalsList(list).sendAction()
+                            setGoalsListsViewState {
+                                it.copy(totalTasks = list.size)
+                            }
                             setOpenedGoalsViewState {
                                 OpenedGoalsViewState(
                                     isLoading = false,
@@ -76,8 +84,10 @@ class GoalsListsViewModel(
                                     R.string.goals_lists_no_opened_goals_title,
                                     R.string.goals_lists_no_opened_goals_description
                                 )
-                            )
-                                .sendAction()
+                            ).sendAction()
+                            setGoalsListsViewState {
+                                it.copy(totalTasks = list.size)
+                            }
                             setOpenedGoalsViewState {
                                 OpenedGoalsViewState(
                                     isLoading = false,
@@ -129,7 +139,7 @@ class GoalsListsViewModel(
                         } else {
                             DoneGoalsActions.Empty(
                                 DoneGoalsStateResources(
-                                    R.drawable.ic_business_man,
+                                    R.drawable.ic_not_found,
                                     R.string.goals_lists_no_done_goals_title,
                                     R.string.goals_lists_no_done_goals_description
                                 )
@@ -162,6 +172,12 @@ class GoalsListsViewModel(
         }
     }
 
+    private fun getUserName() {
+        setGoalsListsViewState {
+            it.copy(userName = "Fulaninho")
+        }
+    }
+
     fun showMessageGoalHasBeenCreated() =
         OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_created).sendAction()
 
@@ -180,6 +196,7 @@ class GoalsListsViewModel(
     private fun initViewStates() {
         _openedGoalsViewState.value = OpenedGoalsViewState.init()
         _doneGoalsViewState.value = DoneGoalsViewState.init()
+        _goalsListsViewState.value = GoalsListsViewState.init()
     }
 
     private fun OpenedGoalsActions.sendAction() {
@@ -190,11 +207,15 @@ class GoalsListsViewModel(
         _doneGoalsActions.value = this
     }
 
+    private fun setGoalsListsViewState(state: (GoalsListsViewState) -> GoalsListsViewState) {
+        _goalsListsViewState.value?.also {
+            _goalsListsViewState.value = state(it)
+        }
+    }
+
     private fun setOpenedGoalsViewState(state: (OpenedGoalsViewState) -> OpenedGoalsViewState) {
         _openedGoalsViewState.value?.also {
             _openedGoalsViewState.value = state(it)
-        } ?: run {
-
         }
     }
 

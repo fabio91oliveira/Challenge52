@@ -13,6 +13,7 @@ import features.goalhome.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_goal.*
 import oliveira.fabio.challenge52.extensions.doPopAnimation
+import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.extensions.toCurrency
 import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 
@@ -58,14 +59,7 @@ class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
                     R.color.color_accent
                 )
                 txtPercent.setTextColor(color)
-                viewStatus.setBackgroundColor(
-                    ContextCompat.getColor(
-                        containerView.context,
-                        R.color.color_accent_dark
-                    )
-                )
-                txtStatus.text =
-                    containerView.resources.getString(R.string.goals_lists_status_in_progress)
+                viewStatus.isVisible = false
             } else {
                 txtPercent.setTextColor(
                     ContextCompat.getColor(
@@ -73,13 +67,7 @@ class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
                         android.R.color.black
                     )
                 )
-                viewStatus.setBackgroundColor(
-                    ContextCompat.getColor(
-                        containerView.context,
-                        R.color.color_yellow
-                    )
-                )
-                txtStatus.text = containerView.resources.getString(R.string.goals_lists_status_new)
+                viewStatus.isVisible = true
             }
 
             ObjectAnimator.ofInt(progressBar, PROGRESS_TAG, INITIAL_VALUE, completedPercent).apply {
@@ -93,7 +81,7 @@ class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
                 start()
             }
 
-            if (position >= lastPosition) animate()
+//            if (position >= lastPosition) animate()
 
             containerView.setOnClickListener {
                 it.doPopAnimation(POP_ANIMATION_DURATION) {
@@ -108,7 +96,7 @@ class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
             valueAnimator.duration = 500
             valueAnimator.addUpdateListener {
                 val progress = it.animatedValue as Float
-                containerView.translationX = progress
+                containerView.translationY = progress
             }
             valueAnimator.start()
             lastPosition++

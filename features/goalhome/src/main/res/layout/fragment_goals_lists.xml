@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -43,25 +44,27 @@
                     android:layout_marginTop="@dimen/spacing_06"
                     android:layout_marginEnd="@dimen/spacing_12"
                     android:includeFontPadding="false"
-                    android:text="Hello, User"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/text_size_biggest"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/imgProfile"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
+                    app:layout_constraintTop_toBottomOf="@+id/imgProfile"
+                    tools:text="@string/goals_lists_hello" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtSubtitle"
                     android:layout_width="@dimen/spacing_none"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_12"
+                    android:ellipsize="end"
                     android:includeFontPadding="false"
-                    android:text="Let us help you to save money."
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_big"
+                    android:maxLines="2"
+                    android:textColor="@color/color_soft_grey_3"
+                    android:textSize="@dimen/text_size_half"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/imgProfile"
-                    app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtTitle"
+                    tools:text="@tools:sample/lorem/random" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

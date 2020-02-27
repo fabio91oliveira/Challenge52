@@ -69,9 +69,6 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                                 containerView.context,
                                 R.drawable.background_completed_progress_bar
                             )
-                            viewStatus.setBackgroundColor(color)
-                            txtStatus.text =
-                                containerView.resources.getString(R.string.goals_lists_status_done)
                         }
                         progress > INITIAL_PERCENT -> {
                             val color = ContextCompat.getColor(
@@ -84,11 +81,6 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                                 containerView.context,
                                 R.drawable.background_uncompleted_progress_bar
                             )
-                            viewStatus.setBackgroundColor(
-                                color
-                            )
-                            txtStatus.text =
-                                containerView.resources.getString(R.string.goals_lists_status_in_progress)
                         }
                         else -> {
                             val color = ContextCompat.getColor(
@@ -101,14 +93,6 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                                 containerView.context,
                                 R.drawable.background_uncompleted_progress_bar
                             )
-                            viewStatus.setBackgroundColor(
-                                ContextCompat.getColor(
-                                    containerView.context,
-                                    R.color.color_yellow
-                                )
-                            )
-                            txtStatus.text =
-                                containerView.resources.getString(R.string.goals_lists_status_new)
                         }
                     }
                     txtPercent.text =
