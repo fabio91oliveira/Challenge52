@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.di.module
+package oliveira.fabio.challenge52.di
 
 import oliveira.fabio.challenge52.data.repository.GoalRepositoryImpl
 import oliveira.fabio.challenge52.data.repository.GoalWithWeeksRepositoryImpl

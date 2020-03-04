@@ -1,10 +1,15 @@
 package oliveira.fabio.challenge52.domain.repository
 
-import oliveira.fabio.challenge52.persistence.model.entity.Week
+import oliveira.fabio.challenge52.persistence.model.entity.WeekEntity
 
 interface WeekRepository {
-    fun removeWeeks(weeks: List<Week>): Int
-    fun updateWeek(week: Week)
-    fun updateWeeks(weeks: List<Week>)
-    fun addWeeks(weeks: List<Week>): List<Long>
+    fun updateWeekStatus(
+        goalId: Long,
+        weekId: Long,
+        isChecked: Boolean
+    )
+
+    fun removeWeeksByIdGoal(idGoal: Long)
+
+    fun addWeeks(weeks: List<WeekEntity>): List<Long>
 }

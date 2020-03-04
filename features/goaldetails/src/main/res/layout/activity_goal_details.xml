@@ -1,62 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:theme="@style/AppToolBarTheme"
-            android:stateListAnimator="@null"
-            app:expanded="false"
-            tools:expanded="true"
-            app:layout_constraintTop_toTopOf="parent">
+    <!--    <com.google.android.material.appbar.AppBarLayout-->
+    <!--            android:id="@+id/appBarLayout"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:theme="@style/AppToolBarTheme"-->
+    <!--            android:stateListAnimator="@null"-->
+    <!--            app:expanded="false"-->
+    <!--            tools:expanded="true"-->
+    <!--            app:layout_constraintTop_toTopOf="parent">-->
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsingToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="240dp"
-                app:expandedTitleMarginTop="@dimen/spacing_05"
-                app:expandedTitleGravity="start"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                android:scrollbarStyle="insideOverlay"
-                app:expandedTitleTextAppearance="@style/TextAppearance.Expanded"
-                app:collapsedTitleTextAppearance="@style/TextAppearance.Collapsed"
-                app:contentScrim="?colorPrimary">
+    <!--        <com.google.android.material.appbar.CollapsingToolbarLayout-->
+    <!--                android:id="@+id/collapsingToolbar"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="240dp"-->
+    <!--                app:expandedTitleMarginTop="@dimen/spacing_05"-->
+    <!--                app:expandedTitleGravity="start"-->
+    <!--                app:layout_scrollFlags="scroll|exitUntilCollapsed"-->
+    <!--                android:scrollbarStyle="insideOverlay"-->
+    <!--                app:expandedTitleTextAppearance="@style/TextAppearance.Expanded"-->
+    <!--                app:collapsedTitleTextAppearance="@style/TextAppearance.Collapsed"-->
+    <!--                app:contentScrim="?colorPrimary">-->
 
-            <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    app:navigationIcon="@drawable/ic_back"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"
-                    tools:title="@tools:sample/lorem"/>
+    <!--            <androidx.appcompat.widget.Toolbar-->
+    <!--                    android:id="@+id/toolbar"-->
+    <!--                    app:navigationIcon="@drawable/ic_back"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="?attr/actionBarSize"-->
+    <!--                    app:layout_collapseMode="pin"-->
+    <!--                    tools:title="@tools:sample/lorem"/>-->
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    <!--        </com.google.android.material.appbar.CollapsingToolbarLayout>-->
 
-    </com.google.android.material.appbar.AppBarLayout>
+    <!--    </com.google.android.material.appbar.AppBarLayout>-->
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvWeeks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:behavior_overlapTop="@dimen/spacing_09"
-            tools:visibility="visible"
-            android:layoutAnimation="@anim/layout_animation_slide_from_bottom"
-            tools:listitem="@layout/item_week_subitem_week"/>
+        android:id="@+id/rvWeeks"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutAnimation="@anim/layout_animation_slide_from_bottom"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_week_subitem_week"
+        tools:visibility="visible" />
 
     <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/loading"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="false"
-            android:layout_gravity="center"
-            tools:visibility="gone"/>
+        android:id="@+id/loading"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

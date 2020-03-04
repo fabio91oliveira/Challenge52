@@ -1,6 +1,6 @@
 package oliveira.fabio.challenge52.presentation.viewstate
 
-data class GoalCreateViewState(
+internal data class GoalCreateViewState(
     val isCreateButtonEnable: Boolean = false
 ) {
     companion object {

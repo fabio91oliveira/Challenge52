@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import oliveira.fabio.challenge52.domain.model.Goal
 
-sealed class DoneGoalsActions {
+internal sealed class DoneGoalsActions {
     data class DoneGoalsList(val doneGoalsList: List<Goal>) : DoneGoalsActions()
     object RefreshList : DoneGoalsActions()
     data class ShowMessage(@StringRes val stringRes: Int) : DoneGoalsActions()

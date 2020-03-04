@@ -1,9 +1,8 @@
 package oliveira.fabio.challenge52.di
 
 import android.app.Application
-import oliveira.fabio.challenge52.di.module.DaoModule
-import oliveira.fabio.challenge52.di.module.DataSourceModule
-import oliveira.fabio.challenge52.di.module.RepositoryModule
+import oliveira.fabio.challenge52.persistence.di.DaoModule
+import oliveira.fabio.challenge52.persistence.di.DataSourceModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level

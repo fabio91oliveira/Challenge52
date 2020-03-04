@@ -1,14 +1,14 @@
 package oliveira.fabio.challenge52.domain.mapper.impl
 
 import oliveira.fabio.challenge52.domain.mapper.WeekMapper
-import oliveira.fabio.challenge52.persistence.model.entity.Goal
-import oliveira.fabio.challenge52.persistence.model.entity.Week
+import oliveira.fabio.challenge52.persistence.model.entity.GoalEntity
+import oliveira.fabio.challenge52.persistence.model.entity.WeekEntity
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.*
 
-class WeekMapperImpl : WeekMapper {
-    override fun invoke(goal: Goal, id: Long) = mutableListOf<Week>().apply {
+internal class WeekMapperImpl : WeekMapper {
+    override fun invoke(goal: GoalEntity, id: Long) = mutableListOf<WeekEntity>().apply {
         goal.id = id
 
         Calendar.getInstance().apply {
@@ -16,7 +16,7 @@ class WeekMapperImpl : WeekMapper {
             var total = goal.valueToStart
 
             for (i in FIRST_ITEM..TOTAL_WEEKS) {
-                Week(
+                WeekEntity(
                     i, round(
                         total.toDouble(),
                         DIV_ROUND

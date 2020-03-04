@@ -2,18 +2,14 @@ package oliveira.fabio.challenge52.data.repository
 
 import oliveira.fabio.challenge52.domain.repository.WeekRepository
 import oliveira.fabio.challenge52.persistence.datasource.WeekLocalDataSource
-import oliveira.fabio.challenge52.persistence.model.entity.Week
+import oliveira.fabio.challenge52.persistence.model.entity.WeekEntity
 
-class WeekRepositoryImpl(private val weekLocalDataSource: WeekLocalDataSource) : WeekRepository {
-    override fun addWeeks(weeks: List<Week>) =
+internal class WeekRepositoryImpl(private val weekLocalDataSource: WeekLocalDataSource) : WeekRepository {
+    override fun updateWeekStatus(goalId: Long, weekId: Long, isChecked: Boolean) =
+        weekLocalDataSource.updateWeekStatus(goalId, weekId, isChecked)
+
+    override fun removeWeeksByIdGoal(idGoal: Long) = weekLocalDataSource.removeWeeksByIdGoal(idGoal)
+
+    override fun addWeeks(weeks: List<WeekEntity>) =
         weekLocalDataSource.addWeeks(weeks)
-
-    override fun removeWeeks(weeks: List<Week>) =
-        weekLocalDataSource.removeWeeks(weeks)
-
-    override fun updateWeek(week: Week) =
-        weekLocalDataSource.updateWeek(week)
-
-    override fun updateWeeks(weeks: List<Week>) =
-        weekLocalDataSource.updateWeeks(weeks)
 }

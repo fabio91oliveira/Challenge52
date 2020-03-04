@@ -1,11 +1,12 @@
 package oliveira.fabio.challenge52.presentation.action
 
-import oliveira.fabio.challenge52.domain.model.vo.Item
-import oliveira.fabio.challenge52.persistence.model.entity.Week
+import oliveira.fabio.challenge52.domain.model.Week
+import oliveira.fabio.challenge52.presentation.adapter.vo.AdapterItem
 
-sealed class GoalDetailsActions {
-    data class AddedGoalsFirstTime(val itemsList: MutableList<Item>) : GoalDetailsActions()
-    data class AddedGoals(val itemsList: MutableList<Item>) : GoalDetailsActions()
+internal sealed class GoalDetailsActions {
+    data class AddedGoals(val list: MutableList<AdapterItem<String, Week>>) :
+        GoalDetailsActions()
+
     data class UpdatedGoal(val week: Week) : GoalDetailsActions()
     object RemovedGoal : GoalDetailsActions()
     object CompletedGoal : GoalDetailsActions()

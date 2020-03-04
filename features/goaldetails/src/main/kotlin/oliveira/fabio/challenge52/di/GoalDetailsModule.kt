@@ -2,14 +2,14 @@ package oliveira.fabio.challenge52.di
 
 import oliveira.fabio.challenge52.domain.mapper.ItemMapper
 import oliveira.fabio.challenge52.domain.mapper.impl.ItemsMapperImpl
-import oliveira.fabio.challenge52.domain.usecase.ChangeWeekDepositStatusUseCase
-import oliveira.fabio.challenge52.domain.usecase.CheckAllWeeksAreDepositedUseCase
-import oliveira.fabio.challenge52.domain.usecase.GetItemsListUseCase
+import oliveira.fabio.challenge52.domain.usecase.ChangeWeekStatusUseCase
+import oliveira.fabio.challenge52.domain.usecase.VerifyAllWeekAreCompletedUseCase
+import oliveira.fabio.challenge52.domain.usecase.MountWeeksListUseCase
 import oliveira.fabio.challenge52.domain.usecase.RemoveGoalUseCase
 import oliveira.fabio.challenge52.domain.usecase.SetGoalAsDoneUseCase
-import oliveira.fabio.challenge52.domain.usecase.impl.ChangeWeekDepositStatusUseCaseImpl
-import oliveira.fabio.challenge52.domain.usecase.impl.CheckAllWeeksAreDepositedUseCaseImpl
-import oliveira.fabio.challenge52.domain.usecase.impl.GetItemsListUseCaseImpl
+import oliveira.fabio.challenge52.domain.usecase.impl.ChangeWeekStatusUseCaseImpl
+import oliveira.fabio.challenge52.domain.usecase.impl.VerifyAllWeekAreCompletedUseCaseImpl
+import oliveira.fabio.challenge52.domain.usecase.impl.MountWeeksListUseCaseImpl
 import oliveira.fabio.challenge52.domain.usecase.impl.RemoveGoalUseCaseImpl
 import oliveira.fabio.challenge52.domain.usecase.impl.SetGoalAsDoneUseCaseImpl
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
@@ -22,11 +22,11 @@ object GoalDetailsModule {
         factory<ItemMapper> {
             ItemsMapperImpl()
         }
-        factory<GetItemsListUseCase> {
-            GetItemsListUseCaseImpl(get())
+        factory<MountWeeksListUseCase> {
+            MountWeeksListUseCaseImpl(get())
         }
-        factory<ChangeWeekDepositStatusUseCase> {
-            ChangeWeekDepositStatusUseCaseImpl(get())
+        factory<ChangeWeekStatusUseCase> {
+            ChangeWeekStatusUseCaseImpl(get())
         }
         factory<SetGoalAsDoneUseCase> {
             SetGoalAsDoneUseCaseImpl(
@@ -39,8 +39,8 @@ object GoalDetailsModule {
                 get()
             )
         }
-        factory<CheckAllWeeksAreDepositedUseCase> {
-            CheckAllWeeksAreDepositedUseCaseImpl()
+        factory<VerifyAllWeekAreCompletedUseCase> {
+            VerifyAllWeekAreCompletedUseCaseImpl()
         }
     }
 

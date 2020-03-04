@@ -7,7 +7,7 @@ import java.io.Serializable
 import java.util.*
 
 @Entity(tableName = "goal")
-data class Goal(
+data class GoalEntity(
     var name: String = "",
     var valueToStart: Float = 0f,
     var isDone: Boolean = false,

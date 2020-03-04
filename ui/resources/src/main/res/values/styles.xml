@@ -5,6 +5,7 @@
         <item name="colorAccent">@color/color_accent</item>
         <item name="android:fontFamily">@font/manjari_regular</item>
         <item name="android:windowBackground">@color/color_soft_grey</item>
+        <item  name="android:windowActivityTransitions">true</item>
     </style>
 
     <style name="AppToolBarTheme" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">

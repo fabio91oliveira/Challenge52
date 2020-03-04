@@ -16,7 +16,7 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 import java.text.MessageFormat
 
 
-class GoalsListsFragment : Fragment(R.layout.fragment_goals_lists) {
+internal class GoalsListsFragment : Fragment(R.layout.fragment_goals_lists) {
 
     private val goalsListsViewModel: GoalsListsViewModel by sharedViewModel()
 

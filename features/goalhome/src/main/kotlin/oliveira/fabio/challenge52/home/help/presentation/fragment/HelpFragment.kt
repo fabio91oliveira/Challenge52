@@ -15,7 +15,7 @@ import oliveira.fabio.challenge52.home.help.presentation.adapter.QuestionsAdapte
 import oliveira.fabio.challenge52.home.help.presentation.viewmodel.HelpViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class HelpFragment : Fragment(R.layout.fragment_help) {
+internal class HelpFragment : Fragment(R.layout.fragment_help) {
 
     private val questionAdapter by lazy { QuestionsAdapter() }
     private val helpViewModel: HelpViewModel by viewModel()

@@ -6,4 +6,7 @@ apply plugin: 'kotlin-kapt'
 dependencies {
     // TODO mudar para implementation
     api project(Core.Persistence)
+
+    // Koin
+    implementation Deps.koin_android
 }

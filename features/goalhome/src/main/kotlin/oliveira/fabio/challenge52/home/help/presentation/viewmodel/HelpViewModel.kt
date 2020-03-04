@@ -14,7 +14,7 @@ import oliveira.fabio.challenge52.home.help.presentation.action.HelpActions
 import oliveira.fabio.challenge52.home.help.presentation.viewstate.HelpViewState
 import timber.log.Timber
 
-class HelpViewModel : ViewModel() {
+internal class HelpViewModel : ViewModel() {
 
     private val _helpActions by lazy { MutableLiveData<HelpActions>() }
     val helpActions by lazy { _helpActions }

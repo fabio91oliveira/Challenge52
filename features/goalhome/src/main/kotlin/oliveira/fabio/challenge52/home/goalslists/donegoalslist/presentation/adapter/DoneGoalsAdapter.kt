@@ -14,7 +14,7 @@ import oliveira.fabio.challenge52.domain.model.Goal
 import oliveira.fabio.challenge52.extensions.doPopAnimation
 import oliveira.fabio.challenge52.extensions.toCurrency
 
-class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
+internal class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
     RecyclerView.Adapter<DoneGoalsAdapter.GoalViewHolder>() {
 
     private var goalsList: MutableList<Goal> = mutableListOf()
@@ -50,7 +50,7 @@ class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
                 progressBar,
                 PROGRESS_TAG,
                 INITIAL_VALUE,
-                goalsList[position].percentCompleted
+                goalsList[position].totalPercentCompleted
             ).apply {
                 duration = PROGRESS_ANIMATION_DURATION
                 interpolator = DecelerateInterpolator()

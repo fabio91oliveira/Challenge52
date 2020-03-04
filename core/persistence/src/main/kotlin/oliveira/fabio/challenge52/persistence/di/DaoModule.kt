@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.di.module
+package oliveira.fabio.challenge52.persistence.di
 
 import oliveira.fabio.challenge52.persistence.config.Database
 import oliveira.fabio.challenge52.persistence.config.provideBuilder

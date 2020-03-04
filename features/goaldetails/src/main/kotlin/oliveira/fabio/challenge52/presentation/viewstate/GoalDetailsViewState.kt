@@ -1,12 +1,11 @@
 package oliveira.fabio.challenge52.presentation.viewstate
 
 import androidx.annotation.StringRes
-import oliveira.fabio.challenge52.persistence.model.entity.Week
+import oliveira.fabio.challenge52.domain.model.Week
 
-data class GoalDetailsViewState(
+internal data class GoalDetailsViewState(
     val isLoading: Boolean = false,
     val isContentVisible: Boolean = false,
-    val isBarExpanded: Boolean = false,
     val dialog: Dialog = Dialog.NoDialog
 ) {
     companion object {

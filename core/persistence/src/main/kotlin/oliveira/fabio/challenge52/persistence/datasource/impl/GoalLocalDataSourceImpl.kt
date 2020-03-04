@@ -2,10 +2,11 @@ package oliveira.fabio.challenge52.persistence.datasource.impl
 
 import oliveira.fabio.challenge52.persistence.dao.GoalDao
 import oliveira.fabio.challenge52.persistence.datasource.GoalLocalDataSource
-import oliveira.fabio.challenge52.persistence.model.entity.Goal
+import oliveira.fabio.challenge52.persistence.model.entity.GoalEntity
 
-class GoalLocalDataSourceImpl(private val goalDao: GoalDao) : GoalLocalDataSource {
-    override fun addGoal(goal: Goal) = goalDao.addGoal(goal)
-    override fun updateGoal(goal: Goal) = goalDao.updateGoal(goal)
-    override fun removeGoal(goal: Goal) = goalDao.deleteGoal(goal)
+internal class GoalLocalDataSourceImpl(private val goalDao: GoalDao) : GoalLocalDataSource {
+    override fun removeGoal(idGoal: Long) = goalDao.removeGoal(idGoal)
+    override fun setGoalAsDone(idGoal: Long) = goalDao.setGoalAsDone(idGoal)
+
+    override fun addGoal(goal: GoalEntity) = goalDao.addGoal(goal)
 }

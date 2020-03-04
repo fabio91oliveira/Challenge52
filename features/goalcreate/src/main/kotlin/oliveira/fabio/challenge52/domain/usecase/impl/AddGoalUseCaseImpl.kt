@@ -9,10 +9,10 @@ import oliveira.fabio.challenge52.domain.usecase.AddGoalUseCase
 import oliveira.fabio.challenge52.extensions.removeMoneyMask
 import oliveira.fabio.challenge52.extensions.toDate
 import oliveira.fabio.challenge52.extensions.toFloatCurrency
-import oliveira.fabio.challenge52.persistence.model.entity.Goal
+import oliveira.fabio.challenge52.persistence.model.entity.GoalEntity
 import java.text.DateFormat
 
-class AddGoalUseCaseImpl(
+internal class AddGoalUseCaseImpl(
     private val goalRepository: GoalRepository,
     private val weekRepository: WeekRepository,
     private val weekMapper: WeekMapper
@@ -23,7 +23,7 @@ class AddGoalUseCaseImpl(
         valueToStart: String
     ) {
         withContext(Dispatchers.IO) {
-            Goal(
+            GoalEntity(
                 initialDate = initialDate.toDate(DateFormat.SHORT),
                 name = name,
                 valueToStart = valueToStart.removeMoneyMask().toFloatCurrency()

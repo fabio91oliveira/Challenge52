@@ -7,26 +7,26 @@ import androidx.lifecycle.viewModelScope
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import features.goaldetails.R
 import kotlinx.coroutines.launch
-import oliveira.fabio.challenge52.domain.model.vo.Item
-import oliveira.fabio.challenge52.domain.usecase.ChangeWeekDepositStatusUseCase
-import oliveira.fabio.challenge52.domain.usecase.CheckAllWeeksAreDepositedUseCase
-import oliveira.fabio.challenge52.domain.usecase.GetItemsListUseCase
+import oliveira.fabio.challenge52.domain.model.Goal
+import oliveira.fabio.challenge52.domain.model.Week
+import oliveira.fabio.challenge52.domain.usecase.ChangeWeekStatusUseCase
+import oliveira.fabio.challenge52.domain.usecase.MountWeeksListUseCase
 import oliveira.fabio.challenge52.domain.usecase.RemoveGoalUseCase
 import oliveira.fabio.challenge52.domain.usecase.SetGoalAsDoneUseCase
-import oliveira.fabio.challenge52.persistence.model.entity.Week
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.domain.usecase.VerifyAllWeekAreCompletedUseCase
 import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
+import oliveira.fabio.challenge52.presentation.adapter.vo.AdapterItem
 import oliveira.fabio.challenge52.presentation.viewstate.Dialog
 import oliveira.fabio.challenge52.presentation.viewstate.GoalDetailsViewState
 import timber.log.Timber
 import java.util.*
 
-class GoalDetailsViewModel(
-    private val getItemsListUseCase: GetItemsListUseCase,
-    private val changeWeekDepositStatusUseCase: ChangeWeekDepositStatusUseCase,
+internal class GoalDetailsViewModel(
+    private val mountWeeksListUseCase: MountWeeksListUseCase,
+    private val changeWeekStatusUseCase: ChangeWeekStatusUseCase,
     private val setGoalAsDoneUseCase: SetGoalAsDoneUseCase,
     private val removeGoalUseCase: RemoveGoalUseCase,
-    private val checkAllWeeksAreDepositedUseCase: CheckAllWeeksAreDepositedUseCase
+    private val verifyAllWeekAreCompletedUseCase: VerifyAllWeekAreCompletedUseCase
 ) : ViewModel() {
 
     private val _goalDetailsAction by lazy { MutableLiveData<GoalDetailsActions>() }
@@ -42,44 +42,13 @@ class GoalDetailsViewModel(
         initState()
     }
 
-    fun getWeeksList(goalWithWeeks: GoalWithWeeks) {
+    fun getWeeksList(goal: Goal) {
         setViewState {
             GoalDetailsViewState(isLoading = true)
         }
         viewModelScope.launch {
-            SuspendableResult.of<MutableList<Item>, Exception> {
-                getItemsListUseCase(goalWithWeeks)
-            }
-                .fold(
-                    success = {
-                        GoalDetailsActions.AddedGoalsFirstTime(it).sendAction()
-                        setViewState {
-                            GoalDetailsViewState(
-                                isLoading = false,
-                                isContentVisible = true,
-                                isBarExpanded = true
-                            )
-                        }
-                    },
-                    failure = {
-                        GoalDetailsActions.Error(R.string.goal_details_list_error_message)
-                            .sendAction()
-                        setViewState {
-                            GoalDetailsViewState(isLoading = false)
-                        }
-                        Timber.e(it)
-                    }
-                )
-        }
-    }
-
-    fun getWeeksList(goalWithWeeks: GoalWithWeeks, week: Week?) {
-        viewModelScope.launch {
-            SuspendableResult.of<MutableList<Item>, Exception> {
-                getItemsListUseCase(
-                    goalWithWeeks,
-                    week
-                )
+            SuspendableResult.of<MutableList<AdapterItem<String, Week>>, Exception> {
+                mountWeeksListUseCase(goal)
             }
                 .fold(
                     success = {
@@ -87,8 +56,7 @@ class GoalDetailsViewModel(
                         setViewState {
                             GoalDetailsViewState(
                                 isLoading = false,
-                                isContentVisible = true,
-                                isBarExpanded = false
+                                isContentVisible = true
                             )
                         }
                     },
@@ -104,10 +72,10 @@ class GoalDetailsViewModel(
         }
     }
 
-    fun changeWeekDepositStatus(week: Week) {
+    fun changeWeekStatus(week: Week) {
         viewModelScope.launch {
             SuspendableResult.of<Unit, Exception> {
-                changeWeekDepositStatusUseCase(week)
+                changeWeekStatusUseCase(week)
             }
                 .fold(
                     success = {
@@ -122,9 +90,9 @@ class GoalDetailsViewModel(
         }
     }
 
-    fun removeGoal(goalWithWeeks: GoalWithWeeks) {
+    fun removeGoal(goal: Goal) {
         viewModelScope.launch {
-            SuspendableResult.of<Unit, Exception> { removeGoalUseCase(goalWithWeeks) }
+            SuspendableResult.of<Unit, Exception> { removeGoalUseCase(goal) }
                 .fold(success = {
                     GoalDetailsActions.RemovedGoal.sendAction()
                 }, failure = {
@@ -135,9 +103,9 @@ class GoalDetailsViewModel(
         }
     }
 
-    fun completeGoal(goalWithWeeks: GoalWithWeeks) {
+    fun completeGoal(goal: Goal) {
         viewModelScope.launch {
-            SuspendableResult.of<Unit, Exception> { setGoalAsDoneUseCase(goalWithWeeks) }
+            SuspendableResult.of<Unit, Exception> { setGoalAsDoneUseCase(goal) }
                 .fold(success = {
                     GoalDetailsActions.CompletedGoal.sendAction()
                 }, failure = {
@@ -148,15 +116,15 @@ class GoalDetailsViewModel(
         }
     }
 
-    fun showConfirmationDialogDoneGoalWhenUpdated(goalWithWeeks: GoalWithWeeks) {
+    fun showConfirmationDialogDoneGoalWhenUpdated(goal: Goal) {
         viewModelScope.launch {
             SuspendableResult.of<Boolean, Exception> {
-                checkAllWeeksAreDepositedUseCase(
-                    goalWithWeeks
+                verifyAllWeekAreCompletedUseCase(
+                    goal.weeks
                 )
             }
-                .fold(success = { areAllWeeksDeposited ->
-                    if (areAllWeeksDeposited)
+                .fold(success = { allWeeksAreCompleted ->
+                    if (allWeeksAreCompleted)
                         setViewState {
                             it.copy(dialog = Dialog.ConfirmationDialogDoneGoal(R.string.goal_details_move_to_done_first_dialog))
                         }
@@ -167,15 +135,15 @@ class GoalDetailsViewModel(
         }
     }
 
-    fun showConfirmationDialogDoneGoal(goalWithWeeks: GoalWithWeeks) {
+    fun showConfirmationDialogDoneGoal(goal: Goal) {
         viewModelScope.launch {
             SuspendableResult.of<Boolean, Exception> {
-                checkAllWeeksAreDepositedUseCase(
-                    goalWithWeeks
+                verifyAllWeekAreCompletedUseCase(
+                    goal.weeks
                 )
             }
-                .fold(success = { areAllWeeksDeposited ->
-                    if (areAllWeeksDeposited) {
+                .fold(success = { allWeeksAreChecked ->
+                    if (allWeeksAreChecked) {
                         setViewState {
                             it.copy(dialog = Dialog.ConfirmationDialogDoneGoal(R.string.goal_details_are_you_sure_done))
                         }
@@ -211,8 +179,8 @@ class GoalDetailsViewModel(
             it.copy(dialog = Dialog.NoDialog)
         }
 
-    fun isDateAfterTodayWhenWeekIsNotDeposited(week: Week): Boolean {
-        if (!week.isDeposited) return week.date.after(Date())
+    fun isDateAfterTodayWhenWeekIsNotChecked(week: Week): Boolean {
+        if (week.isChecked.not()) return week.date.after(Date())
         return false
     }
 

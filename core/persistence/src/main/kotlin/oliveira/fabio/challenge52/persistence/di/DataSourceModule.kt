@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.di.module
+package oliveira.fabio.challenge52.persistence.di
 
 import oliveira.fabio.challenge52.persistence.datasource.GoalLocalDataSource
 import oliveira.fabio.challenge52.persistence.datasource.GoalWithWeeksLocalDataSource

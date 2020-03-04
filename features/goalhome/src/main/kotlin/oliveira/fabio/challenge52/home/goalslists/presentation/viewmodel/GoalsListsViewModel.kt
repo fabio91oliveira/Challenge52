@@ -7,6 +7,7 @@ import com.github.kittinunf.result.coroutines.SuspendableResult
 import features.goalhome.R
 import kotlinx.coroutines.launch
 import oliveira.fabio.challenge52.domain.model.Goal
+import oliveira.fabio.challenge52.extensions.toCurrency
 import oliveira.fabio.challenge52.home.goalslists.domain.usecase.GetAllDoneGoals
 import oliveira.fabio.challenge52.home.goalslists.domain.usecase.GetAllOpenedGoals
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
@@ -18,7 +19,7 @@ import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.v
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewstate.GoalsListsViewState
 import timber.log.Timber
 
-class GoalsListsViewModel(
+internal class GoalsListsViewModel(
     private val getAllOpenedGoals: GetAllOpenedGoals,
     private val getAllDoneGoals: GetAllDoneGoals
 ) : ViewModel() {
@@ -68,7 +69,7 @@ class GoalsListsViewModel(
                         if (list.isNotEmpty()) {
                             OpenedGoalsActions.OpenedGoalsList(list).sendAction()
                             setGoalsListsViewState {
-                                it.copy(totalTasks = list.size)
+                                it.copy(totalTasks = list.size, balance = getBalance(list))
                             }
                             setOpenedGoalsViewState {
                                 OpenedGoalsViewState(
@@ -176,6 +177,14 @@ class GoalsListsViewModel(
         setGoalsListsViewState {
             it.copy(userName = "Fulaninho")
         }
+    }
+
+    private fun getBalance(goals: List<Goal>): String {
+        var balance = 0f
+        goals.forEach {
+            balance += it.moneyToSave
+        }
+        return balance.toCurrency()
     }
 
     fun showMessageGoalHasBeenCreated() =

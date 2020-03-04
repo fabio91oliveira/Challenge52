@@ -13,7 +13,7 @@ import oliveira.fabio.challenge52.presentation.action.GoalCreateActions
 import oliveira.fabio.challenge52.presentation.viewstate.GoalCreateViewState
 import timber.log.Timber
 
-class GoalCreateViewModel(
+internal class GoalCreateViewModel(
     private val addGoalUseCase: AddGoalUseCase
 ) :
     ViewModel() {

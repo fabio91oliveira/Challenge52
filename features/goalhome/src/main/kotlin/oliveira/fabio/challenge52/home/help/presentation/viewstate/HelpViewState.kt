@@ -1,6 +1,6 @@
 package oliveira.fabio.challenge52.home.help.presentation.viewstate
 
-data class HelpViewState
+internal data class HelpViewState
     (
     val isLoading: Boolean = false,
     val isToolbarExpanded: Boolean = false,

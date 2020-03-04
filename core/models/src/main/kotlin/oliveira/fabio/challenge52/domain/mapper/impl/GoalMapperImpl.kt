@@ -2,26 +2,20 @@ package oliveira.fabio.challenge52.domain.mapper.impl
 
 import oliveira.fabio.challenge52.domain.mapper.GoalMapper
 import oliveira.fabio.challenge52.domain.model.Goal
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.domain.model.Week
+import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeksEntity
 
-class GoalMapperImpl : GoalMapper {
-    override fun invoke(goalWithWeeks: GoalWithWeeks) = Goal(
+internal class GoalMapperImpl : GoalMapper {
+    override fun invoke(goalWithWeeks: GoalWithWeeksEntity) = Goal(
         id = goalWithWeeks.goal.id,
         status = getStatus(goalWithWeeks),
         name = goalWithWeeks.goal.name,
-        totalCompletedWeeks = getTotalCompletedWeeks(goalWithWeeks),
-        percentCompleted = getPercentCompleted(goalWithWeeks),
-        moneyToSave = getTotal(goalWithWeeks)
+        moneyToSave = getTotal(goalWithWeeks),
+        weeks = getWeeks(goalWithWeeks)
     )
 
-    private fun getStatus(goalWithWeeks: GoalWithWeeks) = Goal.Status.NEW
-    private fun getTotalCompletedWeeks(goalWithWeeks: GoalWithWeeks) =
-        goalWithWeeks.weeks.filter { it.isDeposited }.size
-
-    private fun getPercentCompleted(goalWithWeeks: GoalWithWeeks) =
-        (((getTotalCompletedWeeks(goalWithWeeks).toFloat()) / goalWithWeeks.weeks.size.toFloat()) * PERCENT).toInt()
-
-    private fun getTotal(goalWithWeeks: GoalWithWeeks): Float {
+    private fun getStatus(goalWithWeeks: GoalWithWeeksEntity) = Goal.Status.NEW
+    private fun getTotal(goalWithWeeks: GoalWithWeeksEntity): Float {
         var total = 0f
         goalWithWeeks.weeks.forEach {
             total += it.spittedValue
@@ -29,7 +23,18 @@ class GoalMapperImpl : GoalMapper {
         return total
     }
 
-    companion object {
-        private const val PERCENT = 100
+    private fun getWeeks(goalWithWeeks: GoalWithWeeksEntity) = mutableListOf<Week>().apply {
+        goalWithWeeks.weeks.forEach {
+            add(
+                Week(
+                    id = it.id,
+                    idGoal = goalWithWeeks.goal.id,
+                    isChecked = it.isDeposited,
+                    date = it.date,
+                    weekNumber = it.position,
+                    moneyToSave = it.spittedValue
+                )
+            )
+        }
     }
 }

@@ -6,7 +6,7 @@ import java.io.Serializable
 import java.util.*
 
 @Entity(tableName = "week")
-data class Week(
+data class WeekEntity(
     var position: Int,
     var spittedValue: Float,
     var date: Date,

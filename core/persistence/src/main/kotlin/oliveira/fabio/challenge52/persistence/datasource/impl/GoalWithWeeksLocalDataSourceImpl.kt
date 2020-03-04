@@ -3,7 +3,7 @@ package oliveira.fabio.challenge52.persistence.datasource.impl
 import oliveira.fabio.challenge52.persistence.dao.GoalWithWeeksDao
 import oliveira.fabio.challenge52.persistence.datasource.GoalWithWeeksLocalDataSource
 
-class GoalWithWeeksLocalDataSourceImpl(
+internal class GoalWithWeeksLocalDataSourceImpl(
     private val goalWithWeeksDao: GoalWithWeeksDao
 ) :
     GoalWithWeeksLocalDataSource {

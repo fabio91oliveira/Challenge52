@@ -5,7 +5,7 @@ import kotlinx.coroutines.withContext
 import oliveira.fabio.challenge52.domain.repository.GoalWithWeeksRepository
 import oliveira.fabio.challenge52.home.goalslists.domain.usecase.GetAllOpenedGoals
 
-class GetAllOpenedGoalsImpl(
+internal class GetAllOpenedGoalsImpl(
     private val goalWithWeeksRepository: GoalWithWeeksRepository
 ) : GetAllOpenedGoals {
     override suspend fun invoke() = withContext(Dispatchers.IO) {

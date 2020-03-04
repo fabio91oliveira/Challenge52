@@ -3,19 +3,19 @@ package oliveira.fabio.challenge52.persistence.model.vo
 import androidx.room.Embedded
 import androidx.room.Ignore
 import androidx.room.Relation
-import oliveira.fabio.challenge52.persistence.model.entity.Goal
-import oliveira.fabio.challenge52.persistence.model.entity.Week
+import oliveira.fabio.challenge52.persistence.model.entity.GoalEntity
+import oliveira.fabio.challenge52.persistence.model.entity.WeekEntity
 import java.io.Serializable
 
-class GoalWithWeeks : Serializable {
+class GoalWithWeeksEntity : Serializable {
     @Embedded
-    lateinit var goal: Goal
+    lateinit var goal: GoalEntity
     @Relation(
         parentColumn = "id",
         entityColumn = "idGoal",
-        entity = Week::class
+        entity = WeekEntity::class
     )
-    lateinit var weeks: List<Week>
+    lateinit var weeks: List<WeekEntity>
     @Ignore
     var lastPosition: Int? = null
 
