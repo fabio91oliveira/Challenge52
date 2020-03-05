@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardDetails"
+    style="@style/Widget.MaterialComponents.CardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:stateListAnimator="@anim/animation"
+    app:cardCornerRadius="@dimen/spacing_none"
+    app:cardElevation="@dimen/spacing_none">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contentCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_02"
+        android:layout_marginBottom="@dimen/spacing_02">
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:background="@drawable/background_progress_circle"
+            android:indeterminate="false"
+            android:progressDrawable="@drawable/background_progress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:progress="70" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtPercent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_bigger"
+            app:layout_constraintBottom_toTopOf="@id/progressBar"
+            app:layout_constraintEnd_toStartOf="@id/progressBar"
+            app:layout_constraintStart_toEndOf="@id/progressBar"
+            app:layout_constraintTop_toBottomOf="@id/progressBar"
+            tools:text="88%" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtWeeks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_02"
+            android:text="@string/goal_details_weeks"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_half"
+            android:textStyle=""
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtWeeksCompleted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_accent"
+            android:textSize="@dimen/text_size_half"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/txtWeeks"
+            app:layout_constraintTop_toBottomOf="@+id/txtWeeks"
+            tools:text="33" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtWeeksCompletedContinue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_half"
+            app:layout_constraintBottom_toBottomOf="@+id/txtWeeksCompleted"
+            app:layout_constraintStart_toEndOf="@id/txtWeeksCompleted"
+            app:layout_constraintTop_toBottomOf="@+id/txtWeeks"
+            tools:text="de 52 semanas" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_02"
+            android:text="@string/goal_details_goal"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_half"
+            app:layout_constraintStart_toStartOf="@id/txtWeeks"
+            app:layout_constraintTop_toBottomOf="@+id/txtWeeksCompleted" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtGoalCompleted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_accent"
+            android:textSize="@dimen/text_size_half"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/txtGoal"
+            app:layout_constraintTop_toBottomOf="@+id/txtGoal"
+            tools:text="R$ 230,00" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtGoalCompletedContinue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_half"
+            app:layout_constraintBottom_toBottomOf="@+id/txtGoalCompleted"
+            app:layout_constraintStart_toEndOf="@id/txtGoalCompleted"
+            app:layout_constraintTop_toBottomOf="@+id/txtGoal"
+            tools:text="de R$ 55.000,00" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

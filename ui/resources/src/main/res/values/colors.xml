@@ -6,7 +6,7 @@
     <color name="color_accent">#FF5722</color>
     <color name="color_accent_dark">#CE481D</color>
 
-    <color name="color_soft_grey">#F5F5F5</color>
+    <color name="color_soft_grey">#F7F7F7</color>
     <color name="color_soft_grey_2">#8B8B8B</color>
     <color name="color_soft_grey_3">#666565</color>
 
@@ -15,5 +15,7 @@
     <color name="color_black_transparent">#AB000000</color>
 
     <color name="color_green">#00CA9D</color>
+
     <color name="color_yellow">#FFC107</color>
+    <color name="color_yellow_soft">#59FFC107</color>
 </resources>

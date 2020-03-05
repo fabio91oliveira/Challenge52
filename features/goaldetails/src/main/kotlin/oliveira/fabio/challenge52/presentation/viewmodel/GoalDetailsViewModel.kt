@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import features.goaldetails.R
 import kotlinx.coroutines.launch
-import oliveira.fabio.challenge52.domain.model.Goal
 import oliveira.fabio.challenge52.domain.model.Week
 import oliveira.fabio.challenge52.domain.usecase.ChangeWeekStatusUseCase
 import oliveira.fabio.challenge52.domain.usecase.MountWeeksListUseCase
@@ -18,6 +17,7 @@ import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
 import oliveira.fabio.challenge52.presentation.adapter.vo.AdapterItem
 import oliveira.fabio.challenge52.presentation.viewstate.Dialog
 import oliveira.fabio.challenge52.presentation.viewstate.GoalDetailsViewState
+import oliveira.fabio.challenge52.presentation.vo.TopDetails
 import timber.log.Timber
 import java.util.*
 
@@ -42,17 +42,17 @@ internal class GoalDetailsViewModel(
         initState()
     }
 
-    fun getWeeksList(goal: Goal) {
+    fun mountWeeksList(weeks: ArrayList<Week>) {
         setViewState {
             GoalDetailsViewState(isLoading = true)
         }
         viewModelScope.launch {
-            SuspendableResult.of<MutableList<AdapterItem<String, Week>>, Exception> {
-                mountWeeksListUseCase(goal)
+            SuspendableResult.of<MutableList<AdapterItem<TopDetails, String, Week>>, Exception> {
+                mountWeeksListUseCase(weeks)
             }
                 .fold(
                     success = {
-                        GoalDetailsActions.AddedGoals(it).sendAction()
+                        GoalDetailsActions.PopulateGoalInformation(it).sendAction()
                         setViewState {
                             GoalDetailsViewState(
                                 isLoading = false,
@@ -72,14 +72,16 @@ internal class GoalDetailsViewModel(
         }
     }
 
-    fun changeWeekStatus(week: Week) {
+    fun changeWeekStatus(
+        week: Week
+    ) {
         viewModelScope.launch {
             SuspendableResult.of<Unit, Exception> {
                 changeWeekStatusUseCase(week)
             }
                 .fold(
                     success = {
-                        GoalDetailsActions.UpdatedGoal(week).sendAction()
+                        GoalDetailsActions.UpdateWeek(week).sendAction()
                     },
                     failure = {
                         GoalDetailsActions.Error(R.string.goal_details_update_error_message)
@@ -90,11 +92,11 @@ internal class GoalDetailsViewModel(
         }
     }
 
-    fun removeGoal(goal: Goal) {
+    fun removeGoal(idGoal: Long) {
         viewModelScope.launch {
-            SuspendableResult.of<Unit, Exception> { removeGoalUseCase(goal) }
+            SuspendableResult.of<Unit, Exception> { removeGoalUseCase(idGoal) }
                 .fold(success = {
-                    GoalDetailsActions.RemovedGoal.sendAction()
+                    GoalDetailsActions.RemoveGoal.sendAction()
                 }, failure = {
                     GoalDetailsActions.Error(R.string.goal_details_remove_error_message)
                         .sendAction()
@@ -103,11 +105,11 @@ internal class GoalDetailsViewModel(
         }
     }
 
-    fun completeGoal(goal: Goal) {
+    fun completeGoal(idGoal: Long) {
         viewModelScope.launch {
-            SuspendableResult.of<Unit, Exception> { setGoalAsDoneUseCase(goal) }
+            SuspendableResult.of<Unit, Exception> { setGoalAsDoneUseCase(idGoal) }
                 .fold(success = {
-                    GoalDetailsActions.CompletedGoal.sendAction()
+                    GoalDetailsActions.CompleteGoal.sendAction()
                 }, failure = {
                     GoalDetailsActions.Error(R.string.goal_details_make_done_error_message)
                         .sendAction()
@@ -116,11 +118,11 @@ internal class GoalDetailsViewModel(
         }
     }
 
-    fun showConfirmationDialogDoneGoalWhenUpdated(goal: Goal) {
+    fun showConfirmationDialogDoneGoalWhenUpdated(weeks: ArrayList<Week>) {
         viewModelScope.launch {
             SuspendableResult.of<Boolean, Exception> {
                 verifyAllWeekAreCompletedUseCase(
-                    goal.weeks
+                    weeks
                 )
             }
                 .fold(success = { allWeeksAreCompleted ->
@@ -135,11 +137,11 @@ internal class GoalDetailsViewModel(
         }
     }
 
-    fun showConfirmationDialogDoneGoal(goal: Goal) {
+    fun showConfirmationDialogDoneGoal(weeks: ArrayList<Week>) {
         viewModelScope.launch {
             SuspendableResult.of<Boolean, Exception> {
                 verifyAllWeekAreCompletedUseCase(
-                    goal.weeks
+                    weeks
                 )
             }
                 .fold(success = { allWeeksAreChecked ->

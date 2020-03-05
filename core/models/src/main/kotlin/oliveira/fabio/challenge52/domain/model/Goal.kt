@@ -2,6 +2,7 @@ package oliveira.fabio.challenge52.domain.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import java.util.*
 
 @Parcelize
 data class Goal(
@@ -9,9 +10,9 @@ data class Goal(
     val status: Status,
     val name: String,
     val moneyToSave: Float,
-    val weeks: List<Week>,
-    val totalCompletedWeeks: Int = weeks.filter { it.isChecked }.size,
-    val totalPercentCompleted: Int = (((totalCompletedWeeks.toFloat()) / weeks.size.toFloat()) * PERCENT).toInt()
+    val weeks: ArrayList<Week>,
+    val totalCompletedWeeks: Int,
+    val totalPercentCompleted: Int
 ) : Parcelable {
     enum class Status {
         NEW,

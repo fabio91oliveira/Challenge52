@@ -1,7 +1,7 @@
 package oliveira.fabio.challenge52.di
 
-import oliveira.fabio.challenge52.domain.mapper.ItemMapper
-import oliveira.fabio.challenge52.domain.mapper.impl.ItemsMapperImpl
+import oliveira.fabio.challenge52.domain.mapper.WeekDetailsMapper
+import oliveira.fabio.challenge52.domain.mapper.impl.WeekDetailsMapperImpl
 import oliveira.fabio.challenge52.domain.usecase.ChangeWeekStatusUseCase
 import oliveira.fabio.challenge52.domain.usecase.VerifyAllWeekAreCompletedUseCase
 import oliveira.fabio.challenge52.domain.usecase.MountWeeksListUseCase
@@ -19,8 +19,8 @@ import org.koin.dsl.module
 
 object GoalDetailsModule {
     private val domainModule = module {
-        factory<ItemMapper> {
-            ItemsMapperImpl()
+        factory<WeekDetailsMapper> {
+            WeekDetailsMapperImpl()
         }
         factory<MountWeeksListUseCase> {
             MountWeeksListUseCaseImpl(get())

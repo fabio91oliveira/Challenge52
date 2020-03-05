@@ -17,7 +17,7 @@
         android:id="@+id/contentCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:background="?android:attr/selectableItemBackground">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtDate"

@@ -11,6 +11,7 @@
     android:layout_marginBottom="@dimen/spacing_half"
     android:stateListAnimator="@anim/animation"
     app:cardCornerRadius="@dimen/spacing_02"
+    app:cardBackgroundColor="@android:color/white"
     app:cardElevation="@dimen/spacing_none">
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,28 +1,32 @@
 package oliveira.fabio.challenge52.presentation.adapter
 
+import android.animation.ObjectAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import features.goaldetails.R
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_week_header.*
-import kotlinx.android.synthetic.main.item_week_subitem_week.*
+import kotlinx.android.synthetic.main.item_details.*
+import kotlinx.android.synthetic.main.item_header.*
+import kotlinx.android.synthetic.main.item_week.*
 import oliveira.fabio.challenge52.domain.model.Week
 import oliveira.fabio.challenge52.extensions.doPopAnimation
 import oliveira.fabio.challenge52.extensions.toCurrency
 import oliveira.fabio.challenge52.extensions.toCurrentDateSystemString
 import oliveira.fabio.challenge52.presentation.adapter.vo.AdapterItem
+import oliveira.fabio.challenge52.presentation.vo.TopDetails
 import java.text.DateFormat
 
 internal class WeeksAdapter(
     private val onClickWeekListener: OnClickWeekListener,
-    private val isFromDoneGoal: Boolean = false
+    private val isFromDoneGoal: Boolean
 ) :
     RecyclerView.Adapter<WeeksAdapter.ItemViewHolder>() {
 
-    private var list: MutableList<AdapterItem<String, Week>> = mutableListOf()
+    private var list: MutableList<AdapterItem<TopDetails, String, Week>> = mutableListOf()
     private var lastPositionClicked = 0
 
     override fun getItemViewType(position: Int) = list[position].viewType.type
@@ -35,45 +39,77 @@ internal class WeeksAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder =
         when (viewType) {
+            AdapterItem.ViewType.DETAILS.type -> DetailsViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_details,
+                    parent,
+                    false
+                )
+            )
             AdapterItem.ViewType.HEADER.type -> HeaderViewHolder(
                 LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_week_header,
+                    R.layout.item_header,
                     parent,
                     false
                 )
             )
             else -> WeekViewHolder(
                 LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_week_subitem_week,
+                    R.layout.item_week,
                     parent,
                     false
                 )
             )
         }
 
-    fun addList(adapterItemList: List<AdapterItem<String, Week>>) {
+    fun addList(adapterItemList: List<AdapterItem<TopDetails, String, Week>>) {
         list.addAll(adapterItemList)
         notifyDataSetChanged()
     }
 
-    fun addSingleItem(week: Week) {
+    fun addItem(week: Week) {
         list[lastPositionClicked] = list[lastPositionClicked].copy(
-            second = week
+            third = week
         )
         notifyItemChanged(lastPositionClicked)
     }
 
+    inner class DetailsViewHolder(override val containerView: View) :
+        ItemViewHolder(containerView) {
+        override fun bind(item: AdapterItem<TopDetails, String, Week>) {
+            item.first?.also {
+                txtWeeksCompleted.text = it.totalCompletedWeeks.toString()
+                txtGoalCompleted.text = it.totalMoneySaved
+
+                ObjectAnimator.ofInt(
+                    progressBar,
+                    "progress",
+                    0,
+                    it.totalPercentsCompleted
+                ).apply {
+                    duration = 1000L
+                    interpolator = DecelerateInterpolator()
+                    addUpdateListener { valueAnimator ->
+                        val progress = valueAnimator.animatedValue as Int
+                        txtPercent.text = progress.toString()
+                    }
+                    start()
+                }
+            }
+        }
+    }
+
     inner class HeaderViewHolder(override val containerView: View) :
         ItemViewHolder(containerView) {
-        override fun bind(item: AdapterItem<String, Week>) {
-            chHeader.text = item.first
+        override fun bind(item: AdapterItem<TopDetails, String, Week>) {
+            chHeader.text = item.second
         }
     }
 
     inner class WeekViewHolder(override val containerView: View) :
         ItemViewHolder(containerView) {
-        override fun bind(item: AdapterItem<String, Week>) {
-            item.second?.also { week ->
+        override fun bind(item: AdapterItem<TopDetails, String, Week>) {
+            item.third?.also { week ->
                 if (week.isChecked)
                     bindDepositedChecks()
                 else
@@ -128,7 +164,7 @@ internal class WeeksAdapter(
     abstract class ItemViewHolder(override val containerView: View) :
         RecyclerView.ViewHolder(containerView),
         LayoutContainer {
-        abstract fun bind(item: AdapterItem<String, Week>)
+        abstract fun bind(item: AdapterItem<TopDetails, String, Week>)
     }
 
     interface OnClickWeekListener {

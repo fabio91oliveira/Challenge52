@@ -23,14 +23,16 @@ import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
 import oliveira.fabio.challenge52.presentation.dialogfragment.PopupDialog
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
 import oliveira.fabio.challenge52.presentation.viewstate.Dialog
+import oliveira.fabio.challenge52.presentation.vo.TopDetails
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.*
 
 class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     WeeksAdapter.OnClickWeekListener {
 
     private val goalDetailsViewModel: GoalDetailsViewModel by viewModel()
     private val isFromDoneGoals by lazy { intent.extras?.getBoolean(IS_FROM_DONE_GOALS) ?: false }
-    private val weeksAdapter by lazy { WeeksAdapter(this@GoalDetailsActivity) }
+    private val weeksAdapter by lazy { WeeksAdapter(this@GoalDetailsActivity, isFromDoneGoals) }
 
     private lateinit var goal: Goal
     private lateinit var newIntent: Intent
@@ -72,7 +74,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.details_done -> {
-                goalDetailsViewModel.showConfirmationDialogDoneGoal(goal)
+                goalDetailsViewModel.showConfirmationDialogDoneGoal(goal.weeks)
                 true
             }
             R.id.details_remove -> {
@@ -112,7 +114,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         setupToolbar()
         initRecyclerView()
         initObservables()
-        goalDetailsViewModel.getWeeksList(goal)
+        goalDetailsViewModel.mountWeeksList(goal.weeks)
     }
 
     private fun initObservables() {
@@ -132,28 +134,28 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
 ////                                goalWithWeeks
 ////                            )
 //                    }
-                    is GoalDetailsActions.AddedGoals -> {
-                        addWeeks(it.list)
+                    is GoalDetailsActions.PopulateGoalInformation -> {
+                        addGoalsInformation(it.list)
                         showContent(true)
                         if (!isFromDoneGoals)
                             goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated(
-                                goal
+                                goal.weeks
                             )
                     }
-                    is GoalDetailsActions.UpdatedGoal -> {
+                    is GoalDetailsActions.UpdateWeek -> {
                         updateWeek(it.week)
                         newIntent.putExtra(
                             HAS_CHANGED,
                             ActivityResultValueObject().apply { setChangeUpdated() })
-                        goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated(goal)
+                        goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated(goal.weeks)
                     }
-                    is GoalDetailsActions.RemovedGoal -> {
+                    is GoalDetailsActions.RemoveGoal -> {
                         newIntent.putExtra(
                             HAS_CHANGED,
                             ActivityResultValueObject().apply { setChangeRemoved() })
                         closeDetails()
                     }
-                    is GoalDetailsActions.CompletedGoal -> {
+                    is GoalDetailsActions.CompleteGoal -> {
                         newIntent.putExtra(
                             HAS_CHANGED,
                             ActivityResultValueObject().apply { setChangeCompleted() })
@@ -168,16 +170,11 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     }
 
     private fun setupToolbar() {
-//        with(toolbar) {
-//            setSupportActionBar(this)
-//            supportActionBar?.title = goal.name
-//            setNavigationOnClickListener { closeDetails() }
-//        }
-//        collapsingToolbar.apply {
-//            val tf = ResourcesCompat.getFont(context, R.font.manjari_regular)
-//            setCollapsedTitleTypeface(tf)
-//            setExpandedTitleTypeface(tf)
-//        }
+        with(toolbar) {
+            setSupportActionBar(this)
+            supportActionBar?.title = goal.name
+            setNavigationOnClickListener { closeDetails() }
+        }
     }
 
     private fun initRecyclerView() {
@@ -202,12 +199,12 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         rvWeeks.isVisible = hasToShow
     }
 
-    private fun addWeeks(list: MutableList<AdapterItem<String, Week>>) {
+    private fun addGoalsInformation(list: MutableList<AdapterItem<TopDetails, String, Week>>) {
         weeksAdapter.addList(list)
     }
 
     private fun updateWeek(week: Week) {
-        weeksAdapter.addSingleItem(week)
+        weeksAdapter.addItem(week)
     }
 
     private fun handleDialog(dialogViewState: Dialog) {
@@ -219,7 +216,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                 showConfirmDialog(
                     dialogViewState.stringRes
                 ) {
-                    goalDetailsViewModel.removeGoal(goal)
+                    goalDetailsViewModel.removeGoal(goal.id)
                     goalDetailsViewModel.hideDialogs()
                 }
             }
@@ -227,7 +224,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                 showConfirmDialog(
                     dialogViewState.stringRes
                 ) {
-                    goalDetailsViewModel.completeGoal(goal)
+                    goalDetailsViewModel.completeGoal(goal.id)
                 }
             }
             is Dialog.ConfirmationDialogUpdateWeek -> {
@@ -311,6 +308,5 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         private const val GOAL_TAG = "GOAL"
         private const val HAS_CHANGED = "HAS_CHANGED"
         private const val IS_FROM_DONE_GOALS = "IS_FROM_DONE_GOALS"
-        private const val FIRST_POSITION = 0
     }
 }

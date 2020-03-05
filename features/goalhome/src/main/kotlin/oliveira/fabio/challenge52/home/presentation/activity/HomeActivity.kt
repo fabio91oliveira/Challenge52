@@ -2,6 +2,8 @@ package oliveira.fabio.challenge52.home.presentation.activity
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import features.goalhome.R
@@ -10,7 +12,8 @@ import oliveira.fabio.challenge52.BaseActivity
 import oliveira.fabio.challenge52.home.goalslists.presentation.fragment.GoalsListsFragment
 import oliveira.fabio.challenge52.home.help.presentation.fragment.HelpFragment
 
-class HomeActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class HomeActivity : BaseActivity(R.layout.activity_home),
+    BottomNavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var goalsListsFragment: GoalsListsFragment
     private lateinit var helpFragment: HelpFragment
@@ -18,9 +21,8 @@ class HomeActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        changeStatusBarColor()
         navigation.setOnNavigationItemSelectedListener(this)
-
         savedInstanceState?.let {
             initFragments()
 
@@ -88,6 +90,12 @@ class HomeActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
                 .show(fragment).commit()
         }
         activeFragment = fragment
+    }
+
+    private fun changeStatusBarColor() {
+        window.decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        window.statusBarColor = ContextCompat.getColor(this, core.base.R.color.color_soft_grey)
     }
 
     companion object {

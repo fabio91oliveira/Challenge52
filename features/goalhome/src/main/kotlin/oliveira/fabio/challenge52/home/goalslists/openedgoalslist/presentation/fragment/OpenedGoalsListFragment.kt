@@ -27,7 +27,7 @@ import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.presentation.view.StateView
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-internal class  OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
+internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
     OpenedGoalAdapter.OnClickGoalListener {
 
     private val goalsListsViewModel: GoalsListsViewModel by sharedViewModel()
