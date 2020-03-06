@@ -57,13 +57,13 @@ internal class HelpFragment : Fragment(R.layout.fragment_help) {
 
     private fun setupObservables() {
         with(helpViewModel) {
-            helpViewState.observe(this@HelpFragment, Observer {
+            helpViewState.observe(viewLifecycleOwner, Observer {
                 expandBar(it.isToolbarExpanded)
                 showLoading(it.isLoading)
                 showQuestions(it.isQuestionsVisible)
                 showError(it.isErrorVisible)
             })
-            helpActions.observe(this@HelpFragment, Observer {
+            helpActions.observe(viewLifecycleOwner, Observer {
                 when (it) {
                     is HelpActions.PopulateQuestions -> {
                         questionAdapter.addList(it.questionsList)

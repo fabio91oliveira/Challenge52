@@ -66,13 +66,13 @@ internal class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_lis
 
     private fun setupObservables() {
         with(goalsListsViewModel) {
-            doneGoalsViewState.observe(this@DoneGoalsListFragment, Observer {
+            doneGoalsViewState.observe(viewLifecycleOwner, Observer {
                 showLoading(it.isLoading)
                 showDoneGoalsList(it.isDoneGoalsListVisible)
                 showStateView(stateViewEmpty, it.isEmptyStateVisible)
                 showStateView(stateViewError, it.isErrorVisible)
             })
-            doneGoalsActions.observe(this@DoneGoalsListFragment, Observer {
+            doneGoalsActions.observe(viewLifecycleOwner, Observer {
                 when (it) {
                     is DoneGoalsActions.ShowMessage -> {
                         showSnackBar(resources.getString(it.stringRes))

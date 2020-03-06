@@ -101,14 +101,14 @@ internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals
 
     private fun setupObservables() {
         with(goalsListsViewModel) {
-            openedGoalsViewState.observe(this@OpenedGoalsListFragment, Observer {
+            openedGoalsViewState.observe(viewLifecycleOwner, Observer {
                 showAddButton(it.isAddButtonVisible)
                 showLoading(it.isLoading)
                 showOpenedGoalsList(it.isOpenedGoalsListVisible)
                 showStateView(stateViewEmpty, it.isEmptyStateVisible)
                 showStateView(stateViewError, it.isErrorVisible)
             })
-            openedGoalsActions.observe(this@OpenedGoalsListFragment, Observer {
+            openedGoalsActions.observe(viewLifecycleOwner, Observer {
                 when (it) {
                     is OpenedGoalsActions.ShowMessage -> {
                         showSnackBar(it.stringRes)

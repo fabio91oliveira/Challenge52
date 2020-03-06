@@ -64,7 +64,7 @@ internal class GoalsListsFragment : Fragment(R.layout.fragment_goals_lists) {
 
     private fun setupObservables() {
         with(goalsListsViewModel) {
-            goalsListsViewState.observe( this@GoalsListsFragment, Observer {
+            goalsListsViewState.observe( viewLifecycleOwner, Observer {
                 setUserName(it.userName)
                 setTotalTasks(it.totalTasks)
             })
