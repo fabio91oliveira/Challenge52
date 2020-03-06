@@ -24,7 +24,7 @@ dependencies {
     implementation project(Features.GoalDetails)
 
     // Koin
-    implementation Deps.koin_android
+    implementation Deps.koin_scope
 
     // Tests
 //    testImplementation deps.junit

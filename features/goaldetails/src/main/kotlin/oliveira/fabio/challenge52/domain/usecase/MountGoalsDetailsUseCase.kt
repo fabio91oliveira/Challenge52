@@ -5,6 +5,6 @@ import oliveira.fabio.challenge52.presentation.adapter.vo.AdapterItem
 import oliveira.fabio.challenge52.presentation.vo.TopDetails
 import java.util.*
 
-interface MountWeeksListUseCase {
+interface MountGoalsDetailsUseCase {
     suspend operator fun invoke(weeks: ArrayList<Week>): MutableList<AdapterItem<TopDetails, String, Week>>
 }

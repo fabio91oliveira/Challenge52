@@ -42,7 +42,7 @@ internal class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalList
             txtName.text = goalsList[position].name
             txtCompletedWeeks.text = containerView.resources.getString(
                 R.string.goals_lists_weeks_remaining,
-                goalsList[position].totalCompletedWeeks.toString()
+                goalsList[position].getTotalWeeks().toString()
             )
             txtMoney.text = goalsList[position].moneyToSave.toCurrency()
 
@@ -50,7 +50,7 @@ internal class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalList
                 progressBar,
                 PROGRESS_TAG,
                 INITIAL_VALUE,
-                goalsList[position].totalPercentCompleted
+                goalsList[position].getTotalPercent()
             ).apply {
                 duration = PROGRESS_ANIMATION_DURATION
                 interpolator = DecelerateInterpolator()

@@ -16,7 +16,7 @@ import oliveira.fabio.challenge52.extensions.toCurrencyFormat
 import oliveira.fabio.challenge52.extensions.toCurrentDateSystemString
 import oliveira.fabio.challenge52.presentation.action.GoalCreateActions
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalCreateViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.DateFormat
 import java.util.*
 

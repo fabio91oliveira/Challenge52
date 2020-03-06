@@ -11,9 +11,7 @@ internal class GoalMapperImpl : GoalMapper {
         status = getStatus(goalWithWeeks),
         name = goalWithWeeks.goal.name,
         moneyToSave = getTotal(goalWithWeeks),
-        weeks = getWeeks(goalWithWeeks),
-        totalCompletedWeeks = getTotalCompletedWeeks(goalWithWeeks),
-        totalPercentCompleted = getTotalPercentCompleted(goalWithWeeks)
+        weeks = getWeeks(goalWithWeeks)
     )
 
     private fun getStatus(goalWithWeeks: GoalWithWeeksEntity) = Goal.Status.NEW
@@ -38,16 +36,5 @@ internal class GoalMapperImpl : GoalMapper {
                 )
             )
         }
-    }
-
-    private fun getTotalCompletedWeeks(goalWithWeeks: GoalWithWeeksEntity) =
-        goalWithWeeks.weeks.filter { it.isDeposited }.size
-
-    private fun getTotalPercentCompleted(goalWithWeeks: GoalWithWeeksEntity) =
-        (((getTotalCompletedWeeks(goalWithWeeks).toFloat()) / goalWithWeeks.weeks.size.toFloat()) * PERCENT).toInt()
-
-
-    companion object {
-        private const val PERCENT = 100
     }
 }

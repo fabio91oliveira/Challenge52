@@ -22,7 +22,7 @@ import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.ada
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.presentation.view.StateView
-import org.koin.android.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 internal class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
     DoneGoalsAdapter.OnClickGoalListener {

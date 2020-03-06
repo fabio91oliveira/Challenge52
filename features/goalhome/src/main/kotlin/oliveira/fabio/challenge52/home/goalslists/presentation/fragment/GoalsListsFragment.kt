@@ -12,7 +12,7 @@ import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.fra
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.fragment.OpenedGoalsListFragment
 import oliveira.fabio.challenge52.home.goalslists.presentation.adapter.CustomFragmentPagerAdapter
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
-import org.koin.android.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.text.MessageFormat
 
 
@@ -64,7 +64,7 @@ internal class GoalsListsFragment : Fragment(R.layout.fragment_goals_lists) {
 
     private fun setupObservables() {
         with(goalsListsViewModel) {
-            goalsListsViewState.observe(this@GoalsListsFragment, Observer {
+            goalsListsViewState.observe( this@GoalsListsFragment, Observer {
                 setUserName(it.userName)
                 setTotalTasks(it.totalTasks)
             })

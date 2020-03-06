@@ -1,6 +1,7 @@
 package oliveira.fabio.challenge52.domain.usecase.impl
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import oliveira.fabio.challenge52.domain.model.Goal
 import oliveira.fabio.challenge52.domain.model.Week
@@ -11,6 +12,7 @@ internal class ChangeWeekStatusUseCaseImpl(
     private val weekRepository: WeekRepository
 ) : ChangeWeekStatusUseCase {
     override suspend fun invoke(week: Week) = withContext(Dispatchers.IO) {
+//        delay(5000L)
         with(week) {
             isChecked = isChecked.not()
             weekRepository.updateWeekStatus(

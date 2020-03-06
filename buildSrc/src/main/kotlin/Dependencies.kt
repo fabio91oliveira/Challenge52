@@ -39,7 +39,7 @@ object Versions {
     const val resultcoroutines = "2.2.0"
     const val room = "2.2.2"
 
-    const val koin = "2.0.1"
+    const val koin = "2.1.3"
     const val timber = "4.7.1"
 }
 
@@ -62,6 +62,8 @@ object Deps {
     const val lifecycle_viewmodel =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val lifecycle_livedata = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
+    const val lifecycle_viewmodel_savedstate =
+        "androidx.lifecycle:lifecycle-viewmodel-savedstate:${Versions.lifecycle}"
     const val lifecycle_compiler = "androidx.lifecycle:lifecycle-compiler:${Versions.lifecycle}"
 
     const val coroutines_core =
@@ -76,9 +78,8 @@ object Deps {
     const val room_runtime = "androidx.room:room-runtime:${Versions.room}"
     const val room_compiler = "androidx.room:room-compiler:${Versions.room}"
 
-    const val koin_android = "org.koin:koin-android:${Versions.koin}"
-    const val koin_lifecycle = "org.koin:koin-android-scope:${Versions.koin}"
-    const val koin_viewmodel = "org.koin:koin-android-viewmodel:${Versions.koin}"
+    const val koin_scope = "org.koin:koin-androidx-scope:${Versions.koin}"
+    const val koin_viemmodel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
 
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 

@@ -13,7 +13,7 @@ import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.home.help.presentation.action.HelpActions
 import oliveira.fabio.challenge52.home.help.presentation.adapter.QuestionsAdapter
 import oliveira.fabio.challenge52.home.help.presentation.viewmodel.HelpViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class HelpFragment : Fragment(R.layout.fragment_help) {
 

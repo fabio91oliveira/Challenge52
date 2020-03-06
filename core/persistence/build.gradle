@@ -9,5 +9,5 @@ dependencies {
     kapt Deps.room_compiler
 
     // Koin
-    implementation Deps.koin_android
+    implementation Deps.koin_scope
 }

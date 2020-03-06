@@ -1,6 +1,6 @@
 package oliveira.fabio.challenge52.domain.mapper.impl
 
-import oliveira.fabio.challenge52.domain.mapper.WeekDetailsMapper
+import oliveira.fabio.challenge52.domain.mapper.DetailsMapper
 import oliveira.fabio.challenge52.domain.model.Week
 import oliveira.fabio.challenge52.extensions.getCurrentYear
 import oliveira.fabio.challenge52.extensions.getMonthName
@@ -10,7 +10,7 @@ import oliveira.fabio.challenge52.presentation.adapter.vo.AdapterItem
 import oliveira.fabio.challenge52.presentation.vo.TopDetails
 import java.util.*
 
-internal class WeekDetailsMapperImpl : WeekDetailsMapper {
+internal class DetailsMapperImpl : DetailsMapper {
     override fun invoke(weeks: ArrayList<Week>) =
         mutableListOf<AdapterItem<TopDetails, String, Week>>().apply {
             add(

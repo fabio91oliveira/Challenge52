@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import features.goaldetails.R
 import kotlinx.android.synthetic.main.activity_goal_details.*
 import oliveira.fabio.challenge52.BaseActivity
-import oliveira.fabio.challenge52.domain.model.Goal
 import oliveira.fabio.challenge52.domain.model.Week
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
@@ -24,34 +23,24 @@ import oliveira.fabio.challenge52.presentation.dialogfragment.PopupDialog
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
 import oliveira.fabio.challenge52.presentation.viewstate.Dialog
 import oliveira.fabio.challenge52.presentation.vo.TopDetails
-import org.koin.android.viewmodel.ext.android.viewModel
-import java.util.*
+import org.koin.androidx.viewmodel.ext.android.getStateViewModel
 
 class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     WeeksAdapter.OnClickWeekListener {
 
-    private val goalDetailsViewModel: GoalDetailsViewModel by viewModel()
     private val isFromDoneGoals by lazy { intent.extras?.getBoolean(IS_FROM_DONE_GOALS) ?: false }
     private val weeksAdapter by lazy { WeeksAdapter(this@GoalDetailsActivity, isFromDoneGoals) }
+    private lateinit var goalDetailsViewModel: GoalDetailsViewModel
 
-    private lateinit var goal: Goal
     private lateinit var newIntent: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initSavedValues(savedInstanceState)
-        savedInstanceState?.let {
-            setupToolbar()
-            initRecyclerView()
-            initObservables()
-        } ?: run {
-            init()
-        }
+        setup()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         with(outState) {
-            putParcelable(GOAL_TAG, goal)
             putSerializable(
                 HAS_CHANGED, newIntent.getSerializableExtra(
                     HAS_CHANGED
@@ -74,7 +63,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.details_done -> {
-                goalDetailsViewModel.showConfirmationDialogDoneGoal(goal.weeks)
+                goalDetailsViewModel.showConfirmationDialogDoneGoal()
                 true
             }
             R.id.details_remove -> {
@@ -94,9 +83,16 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         }
     }
 
-    private fun initSavedValues(savedInstanceState: Bundle? = null) {
+    private fun setup() {
+        setupSavedValues()
+        setupViewModel()
+        setupToolbar()
+        setupRecyclerView()
+        setupObservables()
+    }
+
+    private fun setupSavedValues(savedInstanceState: Bundle? = null) {
         savedInstanceState?.also {
-            goal = it.getParcelable(GOAL_TAG) as Goal
             newIntent = Intent().apply {
                 putExtra(
                     HAS_CHANGED, it.getSerializable(
@@ -105,19 +101,15 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                 )
             }
         } ?: run {
-            goal = intent.extras?.getParcelable(GOAL_TAG) as Goal
             newIntent = Intent().apply { putExtra(HAS_CHANGED, ActivityResultValueObject()) }
         }
     }
 
-    private fun init() {
-        setupToolbar()
-        initRecyclerView()
-        initObservables()
-        goalDetailsViewModel.mountWeeksList(goal.weeks)
+    private fun setupViewModel() {
+        goalDetailsViewModel = getStateViewModel(bundle = intent.extras)
     }
 
-    private fun initObservables() {
+    private fun setupObservables() {
         with(goalDetailsViewModel) {
             goalDetailsViewState.observe(this@GoalDetailsActivity, Observer {
                 showLoading(it.isLoading)
@@ -135,19 +127,19 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
 ////                            )
 //                    }
                     is GoalDetailsActions.PopulateGoalInformation -> {
-                        addGoalsInformation(it.list)
-                        showContent(true)
+                        addDetailsGoal(it.list)
                         if (!isFromDoneGoals)
-                            goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated(
-                                goal.weeks
-                            )
+                            goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated()
                     }
                     is GoalDetailsActions.UpdateWeek -> {
                         updateWeek(it.week)
                         newIntent.putExtra(
                             HAS_CHANGED,
                             ActivityResultValueObject().apply { setChangeUpdated() })
-                        goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated(goal.weeks)
+                        goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated()
+                    }
+                    is GoalDetailsActions.UpdateTopDetails -> {
+                        updateTopDetails(it.topDetails)
                     }
                     is GoalDetailsActions.RemoveGoal -> {
                         newIntent.putExtra(
@@ -161,7 +153,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                             ActivityResultValueObject().apply { setChangeCompleted() })
                         closeDetails()
                     }
-                    is GoalDetailsActions.Error -> {
+                    is GoalDetailsActions.CriticalError -> {
                         showFullScreenDialog(it.errorMessageRes)
                     }
                 }
@@ -172,12 +164,12 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     private fun setupToolbar() {
         with(toolbar) {
             setSupportActionBar(this)
-            supportActionBar?.title = goal.name
+            supportActionBar?.title = goalDetailsViewModel.goalName
             setNavigationOnClickListener { closeDetails() }
         }
     }
 
-    private fun initRecyclerView() {
+    private fun setupRecyclerView() {
         with(rvWeeks) {
             layoutManager =
                 LinearLayoutManager(this@GoalDetailsActivity, RecyclerView.VERTICAL, false)
@@ -199,12 +191,16 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         rvWeeks.isVisible = hasToShow
     }
 
-    private fun addGoalsInformation(list: MutableList<AdapterItem<TopDetails, String, Week>>) {
+    private fun addDetailsGoal(list: MutableList<AdapterItem<TopDetails, String, Week>>) {
         weeksAdapter.addList(list)
     }
 
     private fun updateWeek(week: Week) {
-        weeksAdapter.addItem(week)
+        weeksAdapter.updateWeek(week)
+    }
+
+    private fun updateTopDetails(topDetails: TopDetails) {
+        weeksAdapter.updateTopDetail(topDetails)
     }
 
     private fun handleDialog(dialogViewState: Dialog) {
@@ -212,11 +208,14 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             is Dialog.DefaultDialogMoveToDone -> {
                 showDefaultDialog(dialogViewState.stringRes)
             }
+            is Dialog.RegularErrorDialog -> {
+                showDefaultDialog(dialogViewState.stringRes)
+            }
             is Dialog.ConfirmationDialogRemoveGoal -> {
                 showConfirmDialog(
                     dialogViewState.stringRes
                 ) {
-                    goalDetailsViewModel.removeGoal(goal.id)
+                    goalDetailsViewModel.removeGoal()
                     goalDetailsViewModel.hideDialogs()
                 }
             }
@@ -224,7 +223,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                 showConfirmDialog(
                     dialogViewState.stringRes
                 ) {
-                    goalDetailsViewModel.completeGoal(goal.id)
+                    goalDetailsViewModel.completeGoal()
                 }
             }
             is Dialog.ConfirmationDialogUpdateWeek -> {
@@ -305,7 +304,6 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             .show(supportFragmentManager, PopupDialog.TAG)
 
     companion object {
-        private const val GOAL_TAG = "GOAL"
         private const val HAS_CHANGED = "HAS_CHANGED"
         private const val IS_FROM_DONE_GOALS = "IS_FROM_DONE_GOALS"
     }

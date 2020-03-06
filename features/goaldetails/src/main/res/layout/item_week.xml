@@ -48,8 +48,10 @@
             android:id="@+id/txtMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_half"
             android:layout_marginEnd="@dimen/spacing_02"
             android:textColor="@color/color_accent"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/imgNotChecked"
             app:layout_constraintEnd_toStartOf="@id/imgNotChecked"
@@ -76,16 +78,21 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_checked" />
+            app:srcCompat="@drawable/ic_checked"
+            tools:visibility="visible" />
 
-        <!--<androidx.appcompat.widget.AppCompatCheckBox-->
-        <!--android:id="@+id/chkWeek"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginEnd="@dimen/margin_sixteen"-->
-        <!--app:layout_constraintTop_toTopOf="parent"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"/>-->
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/loading"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:indeterminate="false"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="@+id/imgChecked"
+            app:layout_constraintBottom_toBottomOf="@+id/imgChecked"
+            app:layout_constraintStart_toStartOf="@id/imgChecked"
+            app:layout_constraintEnd_toEndOf="@id/imgChecked"
+            tools:visibility="visible" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

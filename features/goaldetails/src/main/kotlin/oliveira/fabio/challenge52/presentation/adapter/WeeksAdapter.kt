@@ -67,11 +67,18 @@ internal class WeeksAdapter(
         notifyDataSetChanged()
     }
 
-    fun addItem(week: Week) {
+    fun updateWeek(week: Week) {
         list[lastPositionClicked] = list[lastPositionClicked].copy(
             third = week
         )
         notifyItemChanged(lastPositionClicked)
+    }
+
+    fun updateTopDetail(topDetails: TopDetails) {
+        list[TOP_DETAILS_POSITION] = list[TOP_DETAILS_POSITION].copy(
+            first = topDetails
+        )
+        notifyItemChanged(TOP_DETAILS_POSITION, true)
     }
 
     inner class DetailsViewHolder(override val containerView: View) :
@@ -83,11 +90,11 @@ internal class WeeksAdapter(
 
                 ObjectAnimator.ofInt(
                     progressBar,
-                    "progress",
-                    0,
+                    PROGRESS_TAG,
+                    INITIAL_VALUE,
                     it.totalPercentsCompleted
                 ).apply {
-                    duration = 1000L
+                    duration = PROGRESS_ANIMATION_DURATION
                     interpolator = DecelerateInterpolator()
                     addUpdateListener { valueAnimator ->
                         val progress = valueAnimator.animatedValue as Int
@@ -126,7 +133,7 @@ internal class WeeksAdapter(
 
                 if (isFromDoneGoal.not())
                     containerView.setOnClickListener {
-                        it.doPopAnimation(100) {
+                        it.doPopAnimation(POP_ANIMATION_DURATION) {
                             lastPositionClicked = adapterPosition
                             onClickWeekListener.onClickWeek(week)
                         }
@@ -169,5 +176,13 @@ internal class WeeksAdapter(
 
     interface OnClickWeekListener {
         fun onClickWeek(week: Week)
+    }
+
+    companion object {
+        private const val TOP_DETAILS_POSITION = 0
+        private const val PROGRESS_TAG = "progress"
+        private const val INITIAL_VALUE = 0
+        private const val PROGRESS_ANIMATION_DURATION = 1000L
+        private const val POP_ANIMATION_DURATION = 100L
     }
 }

@@ -9,7 +9,8 @@ internal sealed class GoalDetailsActions {
         GoalDetailsActions()
 
     data class UpdateWeek(val week: Week) : GoalDetailsActions()
+    data class UpdateTopDetails(val topDetails: TopDetails) : GoalDetailsActions()
     object RemoveGoal : GoalDetailsActions()
     object CompleteGoal : GoalDetailsActions()
-    data class Error(val errorMessageRes: Int) : GoalDetailsActions()
+    data class CriticalError(val errorMessageRes: Int) : GoalDetailsActions()
 }

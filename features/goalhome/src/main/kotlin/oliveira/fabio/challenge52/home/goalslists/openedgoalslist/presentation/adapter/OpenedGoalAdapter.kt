@@ -43,10 +43,10 @@ internal class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalLis
             txtName.text = goalsList[position].name
             txtCompletedWeeks.text = containerView.resources.getString(
                 R.string.goals_lists_weeks_remaining,
-                goalsList[position].totalCompletedWeeks.toString()
+                goalsList[position].getTotalWeeks().toString()
             )
             txtMoney.text = goalsList[position].moneyToSave.toCurrency()
-            val completedPercent = goalsList[position].totalPercentCompleted
+            val completedPercent = goalsList[position].getTotalPercent()
             viewStatus.isVisible = goalsList[position].status == Goal.Status.NEW
 
             ObjectAnimator.ofInt(progressBar, PROGRESS_TAG, INITIAL_VALUE, completedPercent).apply {

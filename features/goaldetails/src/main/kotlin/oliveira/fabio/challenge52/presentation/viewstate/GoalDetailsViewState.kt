@@ -5,6 +5,7 @@ import oliveira.fabio.challenge52.domain.model.Week
 
 internal data class GoalDetailsViewState(
     val isLoading: Boolean = false,
+    val isWeekBeingUpdated: Boolean = false,
     val isContentVisible: Boolean = false,
     val dialog: Dialog = Dialog.NoDialog
 ) {
@@ -21,4 +22,5 @@ sealed class Dialog {
         Dialog()
 
     data class DefaultDialogMoveToDone(@StringRes val stringRes: Int) : Dialog()
+    data class RegularErrorDialog(@StringRes val stringRes: Int) : Dialog()
 }

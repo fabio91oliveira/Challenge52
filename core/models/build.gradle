@@ -8,5 +8,5 @@ dependencies {
     api project(Core.Persistence)
 
     // Koin
-    implementation Deps.koin_android
+    implementation Deps.koin_scope
 }

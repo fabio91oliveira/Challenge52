@@ -1,32 +1,38 @@
 package oliveira.fabio.challenge52.di
 
-import oliveira.fabio.challenge52.domain.mapper.WeekDetailsMapper
-import oliveira.fabio.challenge52.domain.mapper.impl.WeekDetailsMapperImpl
+import androidx.lifecycle.SavedStateHandle
+import oliveira.fabio.challenge52.domain.mapper.DetailsMapper
+import oliveira.fabio.challenge52.domain.mapper.impl.DetailsMapperImpl
 import oliveira.fabio.challenge52.domain.usecase.ChangeWeekStatusUseCase
-import oliveira.fabio.challenge52.domain.usecase.VerifyAllWeekAreCompletedUseCase
-import oliveira.fabio.challenge52.domain.usecase.MountWeeksListUseCase
+import oliveira.fabio.challenge52.domain.usecase.CreateTopDetailsUseCase
+import oliveira.fabio.challenge52.domain.usecase.MountGoalsDetailsUseCase
 import oliveira.fabio.challenge52.domain.usecase.RemoveGoalUseCase
 import oliveira.fabio.challenge52.domain.usecase.SetGoalAsDoneUseCase
+import oliveira.fabio.challenge52.domain.usecase.VerifyAllWeekAreCompletedUseCase
 import oliveira.fabio.challenge52.domain.usecase.impl.ChangeWeekStatusUseCaseImpl
-import oliveira.fabio.challenge52.domain.usecase.impl.VerifyAllWeekAreCompletedUseCaseImpl
-import oliveira.fabio.challenge52.domain.usecase.impl.MountWeeksListUseCaseImpl
+import oliveira.fabio.challenge52.domain.usecase.impl.CreateTopDetailsUseCaseImpl
+import oliveira.fabio.challenge52.domain.usecase.impl.MountGoalsDetailsUseCaseImpl
 import oliveira.fabio.challenge52.domain.usecase.impl.RemoveGoalUseCaseImpl
 import oliveira.fabio.challenge52.domain.usecase.impl.SetGoalAsDoneUseCaseImpl
+import oliveira.fabio.challenge52.domain.usecase.impl.VerifyAllWeekAreCompletedUseCaseImpl
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
-import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
 
 object GoalDetailsModule {
     private val domainModule = module {
-        factory<WeekDetailsMapper> {
-            WeekDetailsMapperImpl()
+        factory<DetailsMapper> {
+            DetailsMapperImpl()
         }
-        factory<MountWeeksListUseCase> {
-            MountWeeksListUseCaseImpl(get())
+        factory<MountGoalsDetailsUseCase> {
+            MountGoalsDetailsUseCaseImpl(get())
         }
         factory<ChangeWeekStatusUseCase> {
             ChangeWeekStatusUseCaseImpl(get())
+        }
+        factory<CreateTopDetailsUseCase> {
+            CreateTopDetailsUseCaseImpl()
         }
         factory<SetGoalAsDoneUseCase> {
             SetGoalAsDoneUseCaseImpl(
@@ -45,7 +51,9 @@ object GoalDetailsModule {
     }
 
     private val presentationModule = module {
-        viewModel { GoalDetailsViewModel(get(), get(), get(), get(), get()) }
+        viewModel { (handle: SavedStateHandle) ->
+            GoalDetailsViewModel(handle, get(), get(), get(), get(), get(), get())
+        }
     }
 
     fun load() = loadKoinModules(listOf(domainModule, presentationModule))

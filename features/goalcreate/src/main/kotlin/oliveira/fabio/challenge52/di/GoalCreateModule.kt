@@ -5,7 +5,7 @@ import oliveira.fabio.challenge52.domain.mapper.impl.WeekMapperImpl
 import oliveira.fabio.challenge52.domain.usecase.AddGoalUseCase
 import oliveira.fabio.challenge52.domain.usecase.impl.AddGoalUseCaseImpl
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalCreateViewModel
-import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
 
