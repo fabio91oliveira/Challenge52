@@ -21,7 +21,6 @@ class HomeActivity : BaseActivity(R.layout.activity_home),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        changeStatusBarColor()
         navigation.setOnNavigationItemSelectedListener(this)
         savedInstanceState?.let {
             initFragments()
@@ -90,12 +89,6 @@ class HomeActivity : BaseActivity(R.layout.activity_home),
                 .show(fragment).commit()
         }
         activeFragment = fragment
-    }
-
-    private fun changeStatusBarColor() {
-        window.decorView.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        window.statusBarColor = ContextCompat.getColor(this, core.base.R.color.color_soft_grey)
     }
 
     companion object {

@@ -10,6 +10,7 @@
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/color_soft_grey"
         android:theme="@style/AppToolBarTheme"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -18,7 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="?attr/homeAsUpIndicator"
-            app:titleTextColor="@android:color/white"
             tools:title="@tools:sample/lorem" />
 
     </com.google.android.material.appbar.AppBarLayout>
