@@ -85,8 +85,15 @@ internal class WeeksAdapter(
         ItemViewHolder(containerView) {
         override fun bind(item: AdapterItem<TopDetails, String, Week>) {
             item.first?.also {
-                txtWeeksCompleted.text = it.totalCompletedWeeks.toString()
-                txtGoalCompleted.text = it.totalMoneySaved
+                txtWeeksCompleted.text = containerView.resources.getString(
+                    R.string.goal_details_weeks,
+                    it.totalCompletedWeeks.toString(), it.totalWeeks.toString()
+                )
+                txtMoneySaved.text = it.totalMoneySaved
+                txtMoneyToSave.text = containerView.resources.getString(
+                    R.string.goal_details_money,
+                    it.totalMoneyToSave
+                )
 
                 ObjectAnimator.ofInt(
                     progressBar,
@@ -98,7 +105,7 @@ internal class WeeksAdapter(
                     interpolator = DecelerateInterpolator()
                     addUpdateListener { valueAnimator ->
                         val progress = valueAnimator.animatedValue as Int
-                        txtPercent.text = progress.toString()
+                        txtTotalPercent.text = progress.toString()
                     }
                     start()
                 }

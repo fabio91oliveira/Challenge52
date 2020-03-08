@@ -36,7 +36,7 @@
             tools:progress="70" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtPercent"
+            android:id="@+id/txtTotalPercent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_bigger"

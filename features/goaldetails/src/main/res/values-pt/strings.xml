@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="goals_lists_weeks_remaining">%s de 52 semanas</string>
+    <string name="goal_details_title">Você está salvando</string>
+    <string name="goal_details_weeks">%s/%s semanas</string>
+    <string name="goal_details_money">de %s</string>
 </resources>

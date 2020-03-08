@@ -66,6 +66,7 @@ internal class DetailsMapperImpl : DetailsMapper {
         return TopDetails(
             totalCompletedWeeks = totalCompletedWeeks,
             totalPercentsCompleted = (((totalCompletedWeeks.toFloat()) / weeks.size.toFloat()) * PERCENT).toInt(),
+            totalWeeks = weeks.size,
             totalMoneySaved = totalMoneySaved.toCurrency(),
             totalMoneyToSave = totalMoneyToSave.toCurrency()
         )

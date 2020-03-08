@@ -12,6 +12,7 @@ internal class CreateTopDetailsUseCaseImpl() : CreateTopDetailsUseCase {
         TopDetails(
             goal.getTotalWeeks(),
             goal.getTotalPercent(),
+            goal.weeks.size,
             goal.getMoneySaved().toCurrency(),
             goal.moneyToSave.toCurrency()
         )
