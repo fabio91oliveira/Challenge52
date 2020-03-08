@@ -1,6 +1,7 @@
 package oliveira.fabio.challenge52.presentation.adapter
 
 import android.animation.ObjectAnimator
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import kotlinx.android.synthetic.main.item_header.*
 import kotlinx.android.synthetic.main.item_week.*
 import oliveira.fabio.challenge52.domain.model.Week
 import oliveira.fabio.challenge52.extensions.doPopAnimation
+import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.extensions.toCurrency
 import oliveira.fabio.challenge52.extensions.toCurrentDateSystemString
 import oliveira.fabio.challenge52.presentation.adapter.vo.AdapterItem
@@ -28,6 +30,7 @@ internal class WeeksAdapter(
 
     private var list: MutableList<AdapterItem<TopDetails, String, Week>> = mutableListOf()
     private var lastPositionClicked = 0
+    private var isLoading: Boolean = false
 
     override fun getItemViewType(position: Int) = list[position].viewType.type
     override fun getItemCount() = list.size
@@ -78,7 +81,12 @@ internal class WeeksAdapter(
         list[TOP_DETAILS_POSITION] = list[TOP_DETAILS_POSITION].copy(
             first = topDetails
         )
-        notifyItemChanged(TOP_DETAILS_POSITION, true)
+        notifyItemChanged(TOP_DETAILS_POSITION)
+    }
+
+    fun setLoading(isLoading: Boolean) {
+        this.isLoading = isLoading
+        notifyItemChanged(lastPositionClicked)
     }
 
     inner class DetailsViewHolder(override val containerView: View) :
@@ -124,10 +132,16 @@ internal class WeeksAdapter(
         ItemViewHolder(containerView) {
         override fun bind(item: AdapterItem<TopDetails, String, Week>) {
             item.third?.also { week ->
-                if (week.isChecked)
-                    bindDepositedChecks()
-                else
-                    bindNotDepositedChecks()
+                loading.isVisible = (isLoading && lastPositionClicked == adapterPosition)
+                if (isLoading && lastPositionClicked == adapterPosition) {
+                    imgNotChecked.visibility = View.INVISIBLE
+                    imgChecked.visibility = View.INVISIBLE
+                } else {
+                    if (week.isChecked)
+                        bindDepositedChecks()
+                    else
+                        bindNotDepositedChecks()
+                }
 
                 txtWeek.text =
                     containerView.context.getString(
@@ -140,9 +154,11 @@ internal class WeeksAdapter(
 
                 if (isFromDoneGoal.not())
                     containerView.setOnClickListener {
-                        it.doPopAnimation(POP_ANIMATION_DURATION) {
+                        if (isLoading.not()) {
                             lastPositionClicked = adapterPosition
-                            onClickWeekListener.onClickWeek(week)
+                            it.doPopAnimation(POP_ANIMATION_DURATION) {
+                                onClickWeekListener.onClickWeek(week)
+                            }
                         }
                     }
             }

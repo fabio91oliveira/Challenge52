@@ -64,7 +64,10 @@ internal class GoalDetailsViewModel(
                 changeWeekStatusUseCase(week)
             }.fold(
                 success = {
-                    GoalDetailsActions.UpdateWeek(week).sendAction()
+                    GoalDetailsActions.UpdateWeek(
+                        week,
+                        R.string.goal_details_week_updated
+                    ).sendAction()
                     updateTopDetails()
                     setViewState {
                         it.copy(isWeekBeingUpdated = false)
@@ -72,7 +75,10 @@ internal class GoalDetailsViewModel(
                 },
                 failure = {
                     setViewState { state ->
-                        state.copy(dialog = Dialog.RegularErrorDialog(R.string.goal_details_update_error_message))
+                        state.copy(
+                            isWeekBeingUpdated = false,
+                            dialog = Dialog.RegularErrorDialog(R.string.goal_details_update_error_message)
+                        )
                     }
                     Timber.e(it)
                 }

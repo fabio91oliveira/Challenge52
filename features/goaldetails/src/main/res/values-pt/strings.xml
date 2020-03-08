@@ -3,4 +3,5 @@
     <string name="goal_details_title">Você está salvando</string>
     <string name="goal_details_weeks">%s/%s semanas</string>
     <string name="goal_details_money">de %s</string>
+    <string name="goal_details_week_updated">A semana foi atualizada</string>
 </resources>

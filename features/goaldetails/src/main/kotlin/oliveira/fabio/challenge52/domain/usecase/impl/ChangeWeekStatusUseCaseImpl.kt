@@ -12,7 +12,7 @@ internal class ChangeWeekStatusUseCaseImpl(
     private val weekRepository: WeekRepository
 ) : ChangeWeekStatusUseCase {
     override suspend fun invoke(week: Week) = withContext(Dispatchers.IO) {
-//        delay(5000L)
+        delay(2000L)
         with(week) {
             isChecked = isChecked.not()
             weekRepository.updateWeekStatus(

@@ -9,6 +9,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import features.goaldetails.R
 import kotlinx.android.synthetic.main.activity_goal_details.*
 import oliveira.fabio.challenge52.BaseActivity
@@ -113,6 +114,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         with(goalDetailsViewModel) {
             goalDetailsViewState.observe(this@GoalDetailsActivity, Observer {
                 showLoading(it.isLoading)
+                showWeekLoading(it.isWeekBeingUpdated)
                 handleDialog(it.dialog)
                 showContent(it.isContentVisible)
             })
@@ -133,6 +135,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                     }
                     is GoalDetailsActions.UpdateWeek -> {
                         updateWeek(it.week)
+                        showSnackBar(it.stringRes)
                         newIntent.putExtra(
                             HAS_CHANGED,
                             ActivityResultValueObject().apply { setChangeUpdated() })
@@ -187,6 +190,8 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         loading.isVisible = hasToShow
     }
 
+    private fun showWeekLoading(hasToShow: Boolean) = weeksAdapter.setLoading(hasToShow)
+
     private fun showContent(hasToShow: Boolean) {
         rvWeeks.isVisible = hasToShow
     }
@@ -235,6 +240,9 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             }
         }
     }
+
+    private fun showSnackBar(@StringRes stringRes: Int) =
+        Snackbar.make(content, resources.getText(stringRes), Snackbar.LENGTH_SHORT).show()
 
     private fun showFullScreenDialog(stringResource: Int) {
         FullScreenDialog.Builder()
