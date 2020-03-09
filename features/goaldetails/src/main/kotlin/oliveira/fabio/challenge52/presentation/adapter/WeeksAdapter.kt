@@ -28,7 +28,6 @@ internal class WeeksAdapter(
     RecyclerView.Adapter<WeeksAdapter.ItemViewHolder>() {
 
     private var list: MutableList<AdapterItem<TopDetails, String, Week>> = mutableListOf()
-    private var lastPositionClicked = 0
     private var lastClickTime = System.currentTimeMillis()
 
     override fun getItemViewType(position: Int) = list[position].viewType.type
@@ -65,22 +64,9 @@ internal class WeeksAdapter(
         }
 
     fun addList(adapterItemList: List<AdapterItem<TopDetails, String, Week>>) {
+        list.clear()
         list.addAll(adapterItemList)
         notifyDataSetChanged()
-    }
-
-    fun updateWeek(week: Week) {
-        list[lastPositionClicked] = list[lastPositionClicked].copy(
-            third = week
-        )
-        notifyItemChanged(lastPositionClicked)
-    }
-
-    fun updateTopDetail(topDetails: TopDetails) {
-        list[TOP_DETAILS_POSITION] = list[TOP_DETAILS_POSITION].copy(
-            first = topDetails
-        )
-        notifyItemChanged(TOP_DETAILS_POSITION)
     }
 
     inner class DetailsViewHolder(override val containerView: View) :
@@ -147,7 +133,6 @@ internal class WeeksAdapter(
                             return@setOnClickListener
                         }
                         lastClickTime = now
-                        lastPositionClicked = adapterPosition
                         it.doPopAnimation(POP_ANIMATION_DURATION) {
                             onClickWeekListener.onClickWeek(week)
                         }

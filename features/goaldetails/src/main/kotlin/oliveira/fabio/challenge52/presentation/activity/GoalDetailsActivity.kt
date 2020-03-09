@@ -126,16 +126,12 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                         if (!isFromDoneGoals)
                             goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated()
                     }
-                    is GoalDetailsActions.UpdateWeek -> {
-                        updateWeek(it.week)
+                    is GoalDetailsActions.ShowUpdateWeekMessage -> {
                         showSnackBar(it.stringRes)
                         newIntent.putExtra(
                             HAS_CHANGED,
                             ActivityResultValueObject().apply { setChangeUpdated() })
                         goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated()
-                    }
-                    is GoalDetailsActions.UpdateTopDetails -> {
-                        updateTopDetails(it.topDetails)
                     }
                     is GoalDetailsActions.RemoveGoal -> {
                         newIntent.putExtra(
@@ -192,14 +188,6 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
 
     private fun addDetailsGoal(list: MutableList<AdapterItem<TopDetails, String, Week>>) {
         weeksAdapter.addList(list)
-    }
-
-    private fun updateWeek(week: Week) {
-        weeksAdapter.updateWeek(week)
-    }
-
-    private fun updateTopDetails(topDetails: TopDetails) {
-        weeksAdapter.updateTopDetail(topDetails)
     }
 
     private fun handleDialog(dialogViewState: Dialog) {

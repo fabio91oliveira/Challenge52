@@ -9,8 +9,7 @@ internal sealed class GoalDetailsActions {
     data class PopulateGoalInformation(val list: MutableList<AdapterItem<TopDetails, String, Week>>) :
         GoalDetailsActions()
 
-    data class UpdateWeek(val week: Week, @StringRes val stringRes: Int) : GoalDetailsActions()
-    data class UpdateTopDetails(val topDetails: TopDetails) : GoalDetailsActions()
+    data class ShowUpdateWeekMessage(@StringRes val stringRes: Int) : GoalDetailsActions()
     object RemoveGoal : GoalDetailsActions()
     object CompleteGoal : GoalDetailsActions()
     data class CriticalError(val errorMessageRes: Int) : GoalDetailsActions()

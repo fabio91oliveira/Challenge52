@@ -4,13 +4,11 @@ import androidx.lifecycle.SavedStateHandle
 import oliveira.fabio.challenge52.domain.mapper.DetailsMapper
 import oliveira.fabio.challenge52.domain.mapper.impl.DetailsMapperImpl
 import oliveira.fabio.challenge52.domain.usecase.ChangeWeekStatusUseCase
-import oliveira.fabio.challenge52.domain.usecase.CreateTopDetailsUseCase
 import oliveira.fabio.challenge52.domain.usecase.MountGoalsDetailsUseCase
 import oliveira.fabio.challenge52.domain.usecase.RemoveGoalUseCase
 import oliveira.fabio.challenge52.domain.usecase.SetGoalAsDoneUseCase
 import oliveira.fabio.challenge52.domain.usecase.VerifyAllWeekAreCompletedUseCase
 import oliveira.fabio.challenge52.domain.usecase.impl.ChangeWeekStatusUseCaseImpl
-import oliveira.fabio.challenge52.domain.usecase.impl.CreateTopDetailsUseCaseImpl
 import oliveira.fabio.challenge52.domain.usecase.impl.MountGoalsDetailsUseCaseImpl
 import oliveira.fabio.challenge52.domain.usecase.impl.RemoveGoalUseCaseImpl
 import oliveira.fabio.challenge52.domain.usecase.impl.SetGoalAsDoneUseCaseImpl
@@ -31,9 +29,6 @@ object GoalDetailsModule {
         factory<ChangeWeekStatusUseCase> {
             ChangeWeekStatusUseCaseImpl(get())
         }
-        factory<CreateTopDetailsUseCase> {
-            CreateTopDetailsUseCaseImpl()
-        }
         factory<SetGoalAsDoneUseCase> {
             SetGoalAsDoneUseCaseImpl(
                 get()
@@ -52,7 +47,7 @@ object GoalDetailsModule {
 
     private val presentationModule = module {
         viewModel { (handle: SavedStateHandle) ->
-            GoalDetailsViewModel(handle, get(), get(), get(), get(), get(), get())
+            GoalDetailsViewModel(handle, get(), get(), get(), get(), get())
         }
     }
 

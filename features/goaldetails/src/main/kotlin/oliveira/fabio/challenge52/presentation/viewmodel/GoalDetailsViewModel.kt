@@ -11,7 +11,6 @@ import kotlinx.coroutines.launch
 import oliveira.fabio.challenge52.domain.model.Goal
 import oliveira.fabio.challenge52.domain.model.Week
 import oliveira.fabio.challenge52.domain.usecase.ChangeWeekStatusUseCase
-import oliveira.fabio.challenge52.domain.usecase.CreateTopDetailsUseCase
 import oliveira.fabio.challenge52.domain.usecase.MountGoalsDetailsUseCase
 import oliveira.fabio.challenge52.domain.usecase.RemoveGoalUseCase
 import oliveira.fabio.challenge52.domain.usecase.SetGoalAsDoneUseCase
@@ -28,7 +27,6 @@ internal class GoalDetailsViewModel(
     private val state: SavedStateHandle,
     private val mountGoalsDetailsUseCase: MountGoalsDetailsUseCase,
     private val changeWeekStatusUseCase: ChangeWeekStatusUseCase,
-    private val createTopDetailsUseCase: CreateTopDetailsUseCase,
     private val setGoalAsDoneUseCase: SetGoalAsDoneUseCase,
     private val removeGoalUseCase: RemoveGoalUseCase,
     private val verifyAllWeekAreCompletedUseCase: VerifyAllWeekAreCompletedUseCase
@@ -64,11 +62,10 @@ internal class GoalDetailsViewModel(
                 changeWeekStatusUseCase(week)
             }.fold(
                 success = {
-                    GoalDetailsActions.UpdateWeek(
-                        week,
+                    GoalDetailsActions.ShowUpdateWeekMessage(
                         R.string.goal_details_week_updated
                     ).sendAction()
-                    updateTopDetails()
+                    mountDetails()
                     setViewState {
                         it.copy(isWeekBeingUpdated = false)
                     }
@@ -175,14 +172,6 @@ internal class GoalDetailsViewModel(
         }
     }
 
-    private fun isDialogVisible(): Boolean {
-        _goalDetailsViewState.value?.also {
-            return it.dialog is Dialog.ConfirmationDialogUpdateWeek
-        }
-
-        return false
-    }
-
     fun hideDialogs() =
         setViewState {
             it.copy(dialog = Dialog.NoDialog)
@@ -192,6 +181,7 @@ internal class GoalDetailsViewModel(
         if (week.isChecked.not()) return week.date.after(Date())
         return false
     }
+
 
     private fun mountDetails() {
         setViewState {
@@ -219,21 +209,6 @@ internal class GoalDetailsViewModel(
                     Timber.e(it)
                 }
             )
-        }
-    }
-
-    private fun updateTopDetails() {
-        viewModelScope.launch {
-            SuspendableResult.of<TopDetails, Exception> {
-                createTopDetailsUseCase(goal)
-            }.fold(success = {
-                GoalDetailsActions.UpdateTopDetails(it).sendAction()
-            }, failure = {
-                setViewState { state ->
-                    state.copy(dialog = Dialog.RegularErrorDialog(R.string.goal_details_update_error_message))
-                }
-                Timber.e(it)
-            })
         }
     }
 
