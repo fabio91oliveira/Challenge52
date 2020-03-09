@@ -14,7 +14,21 @@ internal class GoalMapperImpl : GoalMapper {
         weeks = getWeeks(goalWithWeeks)
     )
 
-    private fun getStatus(goalWithWeeks: GoalWithWeeksEntity) = Goal.Status.NEW
+    private fun getStatus(goalWithWeeks: GoalWithWeeksEntity): Goal.Status {
+        when (goalWithWeeks.goal.isDone) {
+            true -> {
+                return Goal.Status.DONE
+            }
+            else -> {
+                goalWithWeeks.weeks.forEach {
+                    if (it.isDeposited)
+                        return Goal.Status.IN_PROGRESS
+                }
+                return Goal.Status.NEW
+            }
+        }
+    }
+
     private fun getTotal(goalWithWeeks: GoalWithWeeksEntity): Float {
         var total = 0f
         goalWithWeeks.weeks.forEach {

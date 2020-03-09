@@ -1,12 +1,13 @@
 package oliveira.fabio.challenge52.model.vo
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class ActivityResultValueObject(
     var hasChanged: Boolean = false,
     var type: ActivityResultTypeEnum = ActivityResultTypeEnum.NONE
-) :
-    Serializable {
+) : Parcelable {
     fun setChangeUpdated() {
         hasChanged = true
         type = ActivityResultTypeEnum.UPDATED

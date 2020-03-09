@@ -53,7 +53,7 @@ internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals
                 }
                 REQUEST_CODE_DETAILS -> {
                     data?.apply {
-                        (getSerializableExtra(HAS_CHANGED) as ActivityResultValueObject).let {
+                        (getParcelableExtra<ActivityResultValueObject>(HAS_CHANGED)).let {
                             if (it.hasChanged) {
                                 when (it.type) {
                                     ActivityResultTypeEnum.REMOVED -> {
@@ -83,7 +83,7 @@ internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals
                 }
                 REQUEST_CODE_DETAILS -> {
                     data?.apply {
-                        (getSerializableExtra(HAS_CHANGED) as ActivityResultValueObject).let {
+                        (getParcelableExtra<ActivityResultValueObject>(HAS_CHANGED)).let {
                             if (it.hasChanged) goalsListsViewModel.showMessageHasOpenedGoalBeenUpdated()
                         }
                     }

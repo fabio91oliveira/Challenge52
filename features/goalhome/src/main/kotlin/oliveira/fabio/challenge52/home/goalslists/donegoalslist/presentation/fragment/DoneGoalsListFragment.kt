@@ -44,7 +44,7 @@ internal class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_lis
         when (resultCode) {
             Activity.RESULT_OK -> when (requestCode) {
                 REQUEST_CODE_DETAILS -> {
-                    (data?.getSerializableExtra(HAS_CHANGED) as ActivityResultValueObject).let {
+                    (data?.getParcelableExtra<ActivityResultValueObject>(HAS_CHANGED))?.let {
                         if (it.hasChanged) with(goalsListsViewModel) {
                             showMessageHasOneDoneGoalDeleted()
                             listDoneGoals()

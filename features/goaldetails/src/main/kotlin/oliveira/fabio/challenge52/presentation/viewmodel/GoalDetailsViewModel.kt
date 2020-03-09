@@ -164,7 +164,7 @@ internal class GoalDetailsViewModel(
             it.copy(dialog = Dialog.ConfirmationDialogRemoveGoal(R.string.goal_details_are_you_sure_remove))
         }
 
-    fun showConfirmationDialogUpdateWeek(week: Week) =
+    fun showConfirmationDialogUpdateWeek(week: Week) {
         setViewState {
             it.copy(
                 dialog = Dialog.ConfirmationDialogUpdateWeek(
@@ -173,6 +173,15 @@ internal class GoalDetailsViewModel(
                 )
             )
         }
+    }
+
+    private fun isDialogVisible(): Boolean {
+        _goalDetailsViewState.value?.also {
+            return it.dialog is Dialog.ConfirmationDialogUpdateWeek
+        }
+
+        return false
+    }
 
     fun hideDialogs() =
         setViewState {
