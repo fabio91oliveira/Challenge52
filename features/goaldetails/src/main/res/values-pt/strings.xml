@@ -6,4 +6,7 @@
     <string name="goal_details_week_updated">A semana foi atualizada</string>
 
     <string name="goal_details_more_options">More Options</string>
+    <string name="goal_details_option_title">O que você precisa?</string>
+    <string name="goal_details_option_mark_as_done">Marcar como concluído</string>
+    <string name="goal_details_option_remove">Remover meta</string>
 </resources>

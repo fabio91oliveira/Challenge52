@@ -17,29 +17,29 @@
         android:id="@+id/contentCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/spacing_03"
+        android:paddingBottom="@dimen/spacing_03"
         android:background="?android:attr/selectableItemBackground">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtDate"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_marginStart="@dimen/spacing_02"
-            android:layout_marginTop="@dimen/spacing_02"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_04"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/text_size_small"
+            android:textSize="@dimen/text_size_half"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/txtWeek"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="12.02.2019" />
+            tools:text="12/02/2019" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtWeek"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_half"
-            android:paddingBottom="@dimen/spacing_02"
-            android:textSize="@dimen/text_size_smaller"
+            android:textSize="@dimen/text_size_small"
+            android:layout_marginTop="@dimen/spacing_01"
             app:layout_constraintStart_toStartOf="@id/txtDate"
             app:layout_constraintTop_toBottomOf="@+id/txtDate"
             tools:text="Semana 1" />
@@ -48,10 +48,10 @@
             android:id="@+id/txtMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_half"
-            android:layout_marginEnd="@dimen/spacing_02"
+            android:layout_marginTop="@dimen/spacing_01"
+            android:layout_marginEnd="@dimen/spacing_04"
             android:textColor="@color/color_accent"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_big"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/imgNotChecked"
             app:layout_constraintEnd_toStartOf="@id/imgNotChecked"
@@ -62,7 +62,7 @@
             android:id="@+id/imgNotChecked"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_02"
+            android:layout_marginEnd="@dimen/spacing_04"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -73,27 +73,13 @@
             android:id="@+id/imgChecked"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_02"
+            android:layout_marginEnd="@dimen/spacing_04"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_checked"
             tools:visibility="visible" />
-
-        <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/loading"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:indeterminate="false"
-            android:visibility="gone"
-            app:layout_constraintTop_toTopOf="@+id/imgChecked"
-            app:layout_constraintBottom_toBottomOf="@+id/imgChecked"
-            app:layout_constraintStart_toStartOf="@id/imgChecked"
-            app:layout_constraintEnd_toEndOf="@id/imgChecked"
-            tools:visibility="visible" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

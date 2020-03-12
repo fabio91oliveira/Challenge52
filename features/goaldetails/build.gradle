@@ -10,6 +10,7 @@ dependencies {
     implementation project(UI.Resources)
     implementation project(UI.FullScreenDialog)
     implementation project(UI.PopupDialog)
+    implementation project(UI.OptionsBottomPopUp)
 
     // Support
     implementation Deps.support_material

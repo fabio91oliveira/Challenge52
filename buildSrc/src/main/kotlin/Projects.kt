@@ -18,4 +18,5 @@ object UI {
     const val FullScreenDialog = ":ui:fullscreendialog"
     const val PopupDialog = ":ui:popupdialog"
     const val StateView = ":ui:stateview"
+    const val OptionsBottomPopUp = ":ui:optionsbottompopup"
 }

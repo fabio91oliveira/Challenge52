@@ -3,6 +3,7 @@ package oliveira.fabio.challenge52.actions
 import android.content.Context
 import android.content.Intent
 
+// TODO IMPROVE IT
 object Actions {
     fun openHome(context: Context): Intent = internalIntent(context, "oliveira.fabio.challenge52.home")
     fun openGoalCreate(context: Context): Intent = internalIntent(context, "oliveira.fabio.challenge52.goalcreate")

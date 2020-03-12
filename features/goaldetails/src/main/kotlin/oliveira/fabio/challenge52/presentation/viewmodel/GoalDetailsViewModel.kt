@@ -182,7 +182,6 @@ internal class GoalDetailsViewModel(
         return false
     }
 
-
     private fun mountDetails() {
         setViewState {
             GoalDetailsViewState(isLoading = true)

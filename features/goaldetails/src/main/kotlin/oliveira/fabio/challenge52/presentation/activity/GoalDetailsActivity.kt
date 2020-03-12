@@ -20,6 +20,7 @@ import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
 import oliveira.fabio.challenge52.presentation.adapter.WeeksAdapter
 import oliveira.fabio.challenge52.presentation.adapter.vo.AdapterItem
+import oliveira.fabio.challenge52.presentation.bottomsheetdialogfragment.OptionsBottomPopup
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
 import oliveira.fabio.challenge52.presentation.dialogfragment.PopupDialog
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
@@ -71,6 +72,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.more_options -> {
+                showOptions()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -292,6 +294,45 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             )
             .build()
             .show(supportFragmentManager, PopupDialog.TAG)
+
+    private fun showOptions() {
+        OptionsBottomPopup.Builder()
+            .setOptions(createOptionsToDetailsScreen(isFromDoneGoals))
+            .setFinishWhenClickOption(true)
+            .build()
+            .show(supportFragmentManager, OptionsBottomPopup.TAG)
+
+    }
+
+    private fun createOptionsToDetailsScreen(isFromDone: Boolean) =
+        mutableListOf<OptionsBottomPopup.Option>().apply {
+            if (isFromDone.not()) {
+                add(
+                    OptionsBottomPopup.Option(
+                        R.drawable.ic_done,
+                        R.string.goal_details_option_mark_as_done,
+                        object : OptionsBottomPopup.Option.OptionsBottomPopupOptionListener {
+                            override fun onClickOption() {
+                                goalDetailsViewModel.showConfirmationDialogDoneGoal()
+                            }
+                        },
+                        R.color.color_soft_grey_4
+                    )
+                )
+            }
+            add(
+                OptionsBottomPopup.Option(
+                    R.drawable.ic_remove,
+                    R.string.goal_details_option_remove,
+                    object : OptionsBottomPopup.Option.OptionsBottomPopupOptionListener {
+                        override fun onClickOption() {
+                            goalDetailsViewModel.showConfirmationDialogRemoveGoal()
+                        }
+                    },
+                    R.color.color_soft_grey_4
+                )
+            )
+        }.toTypedArray()
 
     companion object {
         private const val HAS_CHANGED = "HAS_CHANGED"

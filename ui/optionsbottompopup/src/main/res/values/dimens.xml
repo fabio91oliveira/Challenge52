@@ -1,0 +1,11 @@
+<resources>
+    <dimen name="text_size_regular">16sp</dimen>
+
+    <dimen name="spacing_none">0dp</dimen>
+     <dimen name="spacing_min">1dp</dimen>
+    <dimen name="spacing_01">8dp</dimen>
+    <dimen name="spacing_02">12dp</dimen>
+    <dimen name="spacing_03">20dp</dimen>
+    <dimen name="spacing_04">32dp</dimen>
+    <dimen name="spacing_05">48dp</dimen>
+</resources>
