@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="fullscreen_dialog_color_default">#FF9800</color>
+    <color name="fullscreen_dialog_color_default">#F77754</color>
     <color name="fullscreen_dialog_color_yellow">#ECB707</color>
     <color name="fullscreen_dialog_color_blue">#1332A2</color>
     <color name="fullscreen_dialog_color_green">#4E8F51</color>

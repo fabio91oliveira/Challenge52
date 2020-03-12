@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.Window
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -195,13 +196,20 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     private fun handleDialog(dialogViewState: Dialog) {
         when (dialogViewState) {
             is Dialog.DefaultDialogMoveToDone -> {
-                showDefaultDialog(dialogViewState.stringRes)
+                showDefaultDialog(
+                    dialogViewState.imageRes,
+                    dialogViewState.stringRes
+                )
             }
             is Dialog.RegularErrorDialog -> {
-                showDefaultDialog(dialogViewState.stringRes)
+                showDefaultDialog(
+                    dialogViewState.imageRes,
+                    dialogViewState.stringRes
+                )
             }
             is Dialog.ConfirmationDialogRemoveGoal -> {
                 showConfirmDialog(
+                    dialogViewState.imageRes,
                     dialogViewState.stringRes
                 ) {
                     goalDetailsViewModel.removeGoal()
@@ -210,6 +218,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             }
             is Dialog.ConfirmationDialogDoneGoal -> {
                 showConfirmDialog(
+                    dialogViewState.imageRes,
                     dialogViewState.stringRes
                 ) {
                     goalDetailsViewModel.completeGoal()
@@ -217,6 +226,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             }
             is Dialog.ConfirmationDialogUpdateWeek -> {
                 showConfirmDialog(
+                    dialogViewState.imageRes,
                     dialogViewState.stringRes
                 ) {
                     goalDetailsViewModel.changeWeekStatus(dialogViewState.week)
@@ -256,10 +266,12 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     }
 
     private inline fun showConfirmDialog(
+        @DrawableRes resImage: Int,
         @StringRes resString: Int,
         crossinline block: () -> Unit
     ) =
         PopupDialog.Builder()
+            .setImage(resImage)
             .setTitle(R.string.goal_warning_title)
             .setSubtitle(resString)
             .setupConfirmButton(
@@ -270,6 +282,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                     }
                 }
             )
+            .setupConfirmButtonColor(R.color.color_primary)
             .setupCancelButton(
                 android.R.string.cancel,
                 object : PopupDialog.PopupDialogCancelListener {
@@ -280,10 +293,15 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             .build()
             .show(supportFragmentManager, PopupDialog.TAG)
 
-    private fun showDefaultDialog(resString: Int) =
+    private fun showDefaultDialog(
+        @DrawableRes resImage: Int,
+        @StringRes resString: Int
+    ) =
         PopupDialog.Builder()
             .setTitle(R.string.goal_warning_title)
             .setSubtitle(resString)
+            .setupConfirmButtonColor(R.color.color_primary)
+            .setImage(resImage)
             .setupConfirmButton(
                 R.string.button_ok,
                 object : PopupDialog.PopupDialogConfirmListener {

@@ -1,5 +1,6 @@
 package oliveira.fabio.challenge52.presentation.viewstate
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import oliveira.fabio.challenge52.domain.model.Week
 
@@ -16,11 +17,31 @@ internal data class GoalDetailsViewState(
 
 sealed class Dialog {
     object NoDialog : Dialog()
-    data class ConfirmationDialogDoneGoal(@StringRes val stringRes: Int) : Dialog()
-    data class ConfirmationDialogRemoveGoal(@StringRes val stringRes: Int) : Dialog()
-    data class ConfirmationDialogUpdateWeek(@StringRes val stringRes: Int, val week: Week) :
+    data class ConfirmationDialogDoneGoal(
+        @DrawableRes val imageRes: Int,
+        @StringRes val stringRes: Int
+    ) :
         Dialog()
 
-    data class DefaultDialogMoveToDone(@StringRes val stringRes: Int) : Dialog()
-    data class RegularErrorDialog(@StringRes val stringRes: Int) : Dialog()
+    data class ConfirmationDialogRemoveGoal(
+        @DrawableRes val imageRes: Int,
+        @StringRes val stringRes: Int
+    ) :
+        Dialog()
+
+    data class ConfirmationDialogUpdateWeek(
+        @DrawableRes val imageRes: Int,
+        @StringRes val stringRes: Int, val week: Week
+    ) :
+        Dialog()
+
+    data class DefaultDialogMoveToDone(
+        @DrawableRes val imageRes: Int,
+        @StringRes val stringRes: Int
+    ) : Dialog()
+
+    data class RegularErrorDialog(
+        @DrawableRes val imageRes: Int,
+        @StringRes val stringRes: Int
+    ) : Dialog()
 }

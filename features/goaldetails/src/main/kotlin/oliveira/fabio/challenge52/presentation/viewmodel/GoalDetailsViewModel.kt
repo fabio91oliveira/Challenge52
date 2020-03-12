@@ -74,7 +74,10 @@ internal class GoalDetailsViewModel(
                     setViewState { state ->
                         state.copy(
                             isWeekBeingUpdated = false,
-                            dialog = Dialog.RegularErrorDialog(R.string.goal_details_update_error_message)
+                            dialog = Dialog.RegularErrorDialog(
+                                R.drawable.ic_confirm,
+                                R.string.goal_details_update_error_message
+                            )
                         )
                     }
                     Timber.e(it)
@@ -90,7 +93,12 @@ internal class GoalDetailsViewModel(
                     GoalDetailsActions.RemoveGoal.sendAction()
                 }, failure = {
                     setViewState { state ->
-                        state.copy(dialog = Dialog.RegularErrorDialog(R.string.goal_details_update_error_message))
+                        state.copy(
+                            dialog = Dialog.RegularErrorDialog(
+                                R.drawable.ic_confirm,
+                                R.string.goal_details_update_error_message
+                            )
+                        )
                     }
                     Timber.e(it)
                 })
@@ -104,7 +112,12 @@ internal class GoalDetailsViewModel(
                     GoalDetailsActions.CompleteGoal.sendAction()
                 }, failure = {
                     setViewState { state ->
-                        state.copy(dialog = Dialog.RegularErrorDialog(R.string.goal_details_update_error_message))
+                        state.copy(
+                            dialog = Dialog.RegularErrorDialog(
+                                R.drawable.ic_confirm,
+                                R.string.goal_details_update_error_message
+                            )
+                        )
                     }
                     Timber.e(it)
                 })
@@ -120,11 +133,21 @@ internal class GoalDetailsViewModel(
             }.fold(success = { allWeeksAreCompleted ->
                 if (allWeeksAreCompleted)
                     setViewState {
-                        it.copy(dialog = Dialog.ConfirmationDialogDoneGoal(R.string.goal_details_move_to_done_first_dialog))
+                        it.copy(
+                            dialog = Dialog.ConfirmationDialogDoneGoal(
+                                R.drawable.ic_confirm,
+                                R.string.goal_details_move_to_done_first_dialog
+                            )
+                        )
                     }
             }, failure = {
                 setViewState { state ->
-                    state.copy(dialog = Dialog.RegularErrorDialog(R.string.goal_details_update_error_message))
+                    state.copy(
+                        dialog = Dialog.RegularErrorDialog(
+                            R.drawable.ic_confirm,
+                            R.string.goal_details_update_error_message
+                        )
+                    )
                 }
                 Timber.e(it)
             })
@@ -140,16 +163,31 @@ internal class GoalDetailsViewModel(
             }.fold(success = { allWeeksAreChecked ->
                 if (allWeeksAreChecked) {
                     setViewState {
-                        it.copy(dialog = Dialog.ConfirmationDialogDoneGoal(R.string.goal_details_are_you_sure_done))
+                        it.copy(
+                            dialog = Dialog.ConfirmationDialogDoneGoal(
+                                R.drawable.ic_confirm,
+                                R.string.goal_details_are_you_sure_done
+                            )
+                        )
                     }
                 } else {
                     setViewState {
-                        it.copy(dialog = Dialog.DefaultDialogMoveToDone(R.string.goal_details_cannot_move_to_done))
+                        it.copy(
+                            dialog = Dialog.DefaultDialogMoveToDone(
+                                R.drawable.ic_confirm,
+                                R.string.goal_details_cannot_move_to_done
+                            )
+                        )
                     }
                 }
             }, failure = {
                 setViewState { state ->
-                    state.copy(dialog = Dialog.RegularErrorDialog(R.string.goal_details_update_error_message))
+                    state.copy(
+                        dialog = Dialog.RegularErrorDialog(
+                            R.drawable.ic_confirm,
+                            R.string.goal_details_update_error_message
+                        )
+                    )
                 }
                 Timber.e(it)
             })
@@ -158,13 +196,19 @@ internal class GoalDetailsViewModel(
 
     fun showConfirmationDialogRemoveGoal() =
         setViewState {
-            it.copy(dialog = Dialog.ConfirmationDialogRemoveGoal(R.string.goal_details_are_you_sure_remove))
+            it.copy(
+                dialog = Dialog.ConfirmationDialogRemoveGoal(
+                    R.drawable.ic_confirm,
+                    R.string.goal_details_are_you_sure_remove
+                )
+            )
         }
 
     fun showConfirmationDialogUpdateWeek(week: Week) {
         setViewState {
             it.copy(
                 dialog = Dialog.ConfirmationDialogUpdateWeek(
+                    R.drawable.ic_confirm,
                     R.string.goal_details_date_after_today,
                     week
                 )
