@@ -3,9 +3,11 @@
 
     <dimen name="spacing_none">0dp</dimen>
      <dimen name="spacing_min">1dp</dimen>
-    <dimen name="spacing_01">8dp</dimen>
-    <dimen name="spacing_02">12dp</dimen>
-    <dimen name="spacing_03">20dp</dimen>
-    <dimen name="spacing_04">32dp</dimen>
-    <dimen name="spacing_05">48dp</dimen>
+
+    <dimen name="padding_bottom_title">12dp</dimen>
+    <dimen name="margin_top_title">32dp</dimen>
+    <dimen name="margin_start_option">20dp</dimen>
+    <dimen name="guideline_vertical">20dp</dimen>
+    <dimen name="guideline_horizontal">32dp</dimen>
+    <dimen name="margin_start_title">48dp</dimen>
 </resources>

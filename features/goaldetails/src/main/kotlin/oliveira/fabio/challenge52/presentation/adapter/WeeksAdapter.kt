@@ -113,9 +113,9 @@ internal class WeeksAdapter(
         override fun bind(item: AdapterItem<TopDetails, String, Week>) {
             item.third?.also { week ->
                 if (week.isChecked)
-                    bindDepositedChecks()
+                    bindCheck()
                 else
-                    bindNotDepositedChecks()
+                    bindUncheck()
 
                 txtWeek.text =
                     containerView.context.getString(
@@ -140,30 +140,30 @@ internal class WeeksAdapter(
             }
         }
 
-        private fun bindDepositedChecks() {
+        private fun bindCheck() {
             imgNotChecked.visibility =
                 if (imgNotChecked.visibility != View.INVISIBLE) View.INVISIBLE else imgNotChecked.visibility
             imgChecked.visibility =
                 if (imgChecked.visibility != View.VISIBLE) View.VISIBLE else imgChecked.visibility
-            txtMoney.setTextColor(
-                ContextCompat.getColor(
-                    containerView.context,
-                    R.color.color_green
-                )
+            val color =  ContextCompat.getColor(
+                containerView.context,
+                R.color.color_green
             )
+            txtMoney.setTextColor(color)
+            line.setBackgroundColor(color)
         }
 
-        private fun bindNotDepositedChecks() {
+        private fun bindUncheck() {
             imgChecked.visibility =
                 if (imgChecked.visibility != View.INVISIBLE) View.INVISIBLE else imgChecked.visibility
             imgNotChecked.visibility =
                 if (imgNotChecked.visibility != View.VISIBLE) View.VISIBLE else imgNotChecked.visibility
-            txtMoney.setTextColor(
-                ContextCompat.getColor(
+            val color = ContextCompat.getColor(
                     containerView.context,
-                    R.color.color_accent
+                    R.color.color_transparent_grey
                 )
-            )
+            txtMoney.setTextColor(color)
+            line.setBackgroundColor(color)
         }
     }
 

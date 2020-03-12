@@ -9,17 +9,17 @@
         android:id="@+id/txtTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_05"
-        android:layout_marginTop="@dimen/spacing_04"
-        android:paddingBottom="@dimen/spacing_02"
+        android:layout_marginStart="@dimen/margin_start_title"
+        android:layout_marginTop="@dimen/margin_top_title"
+        android:paddingBottom="@dimen/padding_bottom_title"
+        android:textColor="@android:color/black"
         android:textStyle="bold"
         android:visibility="gone"
-        tools:visibility="visible"
-        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/contentItems"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/contentItems"
-        tools:text="@tools:sample/lorem" />
+        tools:text="@tools:sample/lorem"
+        tools:visibility="visible" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/contentItems"

@@ -17,9 +17,18 @@
         android:id="@+id/contentCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
         android:paddingTop="@dimen/spacing_03"
-        android:paddingBottom="@dimen/spacing_03"
-        android:background="?android:attr/selectableItemBackground">
+        android:paddingBottom="@dimen/spacing_03">
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="2dp"
+            android:layout_height="@dimen/spacing_none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/color_green" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtDate"
@@ -38,8 +47,8 @@
             android:id="@+id/txtWeek"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_small"
             android:layout_marginTop="@dimen/spacing_01"
+            android:textSize="@dimen/text_size_small"
             app:layout_constraintStart_toStartOf="@id/txtDate"
             app:layout_constraintTop_toBottomOf="@+id/txtDate"
             tools:text="Semana 1" />
@@ -48,9 +57,9 @@
             android:id="@+id/txtMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_01"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="@dimen/spacing_04"
-            android:textColor="@color/color_accent"
+            android:textColor="@color/color_transparent_grey"
             android:textSize="@dimen/text_size_big"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/imgNotChecked"

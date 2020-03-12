@@ -15,7 +15,7 @@ open class BaseActivity : AppCompatActivity {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        changeStatusBarColor()
+//        changeStatusBarColor()
         savedInstanceState?.also {
             onStartCount = 2
         } ?: run {
