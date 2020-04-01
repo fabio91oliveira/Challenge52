@@ -14,7 +14,6 @@ import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_done_goals_list.*
 import oliveira.fabio.challenge52.actions.Actions
 import oliveira.fabio.challenge52.domain.model.Goal
-import oliveira.fabio.challenge52.extensions.doSlideDownAnimation
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsStateResources
@@ -162,7 +161,6 @@ internal class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_lis
         stateView: StateView,
         hasToShow: Boolean
     ) {
-        if (hasToShow) stateView.doSlideDownAnimation()
         stateView.isVisible = hasToShow
     }
 

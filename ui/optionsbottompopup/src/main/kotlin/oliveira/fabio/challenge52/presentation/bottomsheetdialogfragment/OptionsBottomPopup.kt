@@ -1,6 +1,5 @@
 package oliveira.fabio.challenge52.presentation.bottomsheetdialogfragment
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
@@ -63,10 +62,6 @@ class OptionsBottomPopup : BottomSheetDialogFragment() {
             txtTitle.visibility = View.VISIBLE
             txtTitle.text = context?.resources?.getString(resTitle)
         }
-    }
-
-    override fun onCancel(dialog: DialogInterface) {
-        super.onCancel(dialog)
     }
 
     private fun setupOptions() {

@@ -12,5 +12,8 @@ internal sealed class GoalDetailsActions {
     data class ShowUpdateWeekMessage(@StringRes val stringRes: Int) : GoalDetailsActions()
     object RemoveGoal : GoalDetailsActions()
     object CompleteGoal : GoalDetailsActions()
-    data class CriticalError(val errorMessageRes: Int) : GoalDetailsActions()
+    data class CriticalError(
+        @StringRes val titleRes: Int,
+        @StringRes val descriptionRes: Int
+    ) : GoalDetailsActions()
 }

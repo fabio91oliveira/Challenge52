@@ -43,24 +43,24 @@ internal class HelpViewModel : ViewModel() {
 
     private suspend fun createQuestions(context: Context) = withContext(Dispatchers.Main) {
         mutableListOf<Question>().apply {
-            add(
-                Question(
-                    context.getString(R.string.help_first_question),
-                    context.getString(R.string.help_first_question_answer)
-                )
-            )
-            add(
-                Question(
-                    context.getString(R.string.help_second_question),
-                    context.getString(R.string.help_second_question_answer)
-                )
-            )
-            add(
-                Question(
-                    context.getString(R.string.help_third_question),
-                    context.getString(R.string.help_third_question_answer)
-                )
-            )
+//            add(
+//                Question(
+//                    context.getString(R.string.help_first_question),
+//                    context.getString(R.string.help_first_question_answer)
+//                )
+//            )
+//            add(
+//                Question(
+//                    context.getString(R.string.help_second_question),
+//                    context.getString(R.string.help_second_question_answer)
+//                )
+//            )
+//            add(
+//                Question(
+//                    context.getString(R.string.help_third_question),
+//                    context.getString(R.string.help_third_question_answer)
+//                )
+//            )
         }
     }
 

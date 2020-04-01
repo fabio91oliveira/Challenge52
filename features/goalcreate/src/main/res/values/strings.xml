@@ -1,3 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Challenge Select -->
+    <string name="goal_create_challenge_select_title">Select a challenge</string>
+    <string name="goal_create_challenge_select_error_title">Oops!</string>
+    <string name="goal_create_challenge_select_error_description">Error</string>
+    <string name="goal_create_challenge_select_skip">Skip</string>
+    <string name="goal_create_challenge_select_next">Next</string>
+    <string name="goal_create_challenge_select_select">Select</string>
+
+    <!-- Challenge Overview -->
+    <string name="goal_create_challenge_overview_first_page_accumulative_title">This is accumulative,
+        it means the money you are saving today is accumulative to the next day you save it!</string>
+    <string name="goal_create_challenge_overview_first_page_accumulative_description">For example:\nDay 1: $ 2,00\nDay 2: $ 4,00\nDay 3: $ 6,00\nDay 4: $ 8,00 </string>
+
+    <string name="goal_create_challenge_overview_first_page_title">This is not accumulative,
+        it means you have a fixed value to save every time you do it.</string>
+    <string name="goal_create_challenge_overview_first_page_description">For example:\nDay 1: $ 2,00\nDay 2: $ 2,00\nDay 3: $ 2,00\nDay 4: $ 2,00 </string>
+
+    <string name="goal_create_challenge_overview_second_page_title">When you finish your goal, you can just set it as done</string>
+    <string name="goal_create_challenge_overview_second_page_description">It is very simple, after you have filled all the spaces with money saved, set the goal as done.</string>
+
+    <string name="goal_create_challenge_overview_third_page_title">Perfect! Now you are ready to save money and let it helps you on it!</string>
+    <string name="goal_create_challenge_overview_third_page_description">Lets get start it! You are picking this way to help you and you are going to create the goal.</string>
+
+    <string name="goal_create_challenge_overview_error_title">Oops!</string>
+    <string name="goal_create_challenge_overview_error_description">Error</string>
+
+    <!-- Goal Create -->
+    <string name="goal_create_title">Create goal</string>
+
+    <!-- Goal Create Name Suggestions -->
+    <string name="goal_create_name_suggestions">You can choose a suggestion or just create a new one.</string>
+    <string name="goal_create_name_suggestions_not_a_suggestion">I don`t what any suggestion</string>
+    <string name="goal_create_name_suggestions_error_title">Oops!</string>
+    <string name="goal_create_name_suggestions_error_description">Error</string>
+
+    <!-- Goal Create Choose Name -->
+    <string name="goal_create_choose_name">Let`s create your goal</string>
+    <string name="goal_create_first_page_min_max_characters">Min 5/max 35 characters</string>
+
+    <string name="goal_create_hint_goal_name">Goal name</string>
+    <string name="goal_create_hint_date_start">Date to start</string>
+    <string name="goal_create_hint_date_end">Date to end</string>
+    <string name="goal_create_hint_type_of_saving">It would be</string>
+    <string name="goal_create_hint_money_to_save_by">Money to save by %s</string>
+    <string name="goal_create_hint_total_money">Total money</string>
 </resources>

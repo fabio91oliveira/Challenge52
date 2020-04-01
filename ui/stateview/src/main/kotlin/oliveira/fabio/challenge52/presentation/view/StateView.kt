@@ -37,6 +37,8 @@ class StateView @JvmOverloads constructor(
             setDescription(attributes.getString(R.styleable.StateView_stateViewDescription).orEmpty())
             attributes.recycle()
         }
+
+        setupButtonRipple()
     }
 
     fun setTitle(title: String) {
@@ -63,7 +65,6 @@ class StateView @JvmOverloads constructor(
         btnAction.setOnClickListener {
             block()
         }
-        setupButtonRipple()
     }
 
     private fun setupButtonRipple() {

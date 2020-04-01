@@ -1,10 +1,10 @@
 package oliveira.fabio.challenge52.persistence.datasource.impl
 
-import oliveira.fabio.challenge52.persistence.dao.WeekDao
+import oliveira.fabio.challenge52.persistence.dao.ItemDao
 import oliveira.fabio.challenge52.persistence.datasource.WeekLocalDataSource
-import oliveira.fabio.challenge52.persistence.model.entity.WeekEntity
+import oliveira.fabio.challenge52.persistence.model.entity.ItemEntity
 
-internal class WeekLocalDataSourceImpl(private val weekDao: WeekDao) : WeekLocalDataSource {
+internal class WeekLocalDataSourceImpl(private val weekDao: ItemDao) : WeekLocalDataSource {
     override fun updateWeekStatus(goalId: Long, weekId: Long, isChecked: Boolean) =
         weekDao.updateWeekStatus(
             goalId, weekId, isChecked
@@ -12,5 +12,5 @@ internal class WeekLocalDataSourceImpl(private val weekDao: WeekDao) : WeekLocal
 
     override fun removeWeeksByIdGoal(goalId: Long) = weekDao.removeWeeksByGoalId(goalId)
 
-    override fun addWeeks(weeks: List<WeekEntity>) = weekDao.addWeeks(weeks)
+    override fun addWeeks(items: List<ItemEntity>) = weekDao.addItems(items)
 }

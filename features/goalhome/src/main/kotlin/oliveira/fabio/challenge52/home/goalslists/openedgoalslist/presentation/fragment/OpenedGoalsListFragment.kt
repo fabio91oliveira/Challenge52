@@ -16,10 +16,8 @@ import kotlinx.android.synthetic.main.fragment_goals_lists.*
 import kotlinx.android.synthetic.main.fragment_opened_goals_list.*
 import oliveira.fabio.challenge52.actions.Actions
 import oliveira.fabio.challenge52.domain.model.Goal
-import oliveira.fabio.challenge52.extensions.doSlideDownAnimation
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
-import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsStateResources
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.adapter.OpenedGoalAdapter
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultTypeEnum
@@ -179,7 +177,7 @@ internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals
 
     private fun openGoalCreateActivity() =
         startActivityForResult(
-            Actions.openGoalCreate(requireContext()),
+            Actions.openChallengeSelect(requireContext()),
             REQUEST_CODE_CREATE
         )
 
@@ -199,7 +197,6 @@ internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals
         stateView: StateView,
         hasToShow: Boolean
     ) {
-        if (hasToShow) stateView.doSlideDownAnimation()
         stateView.isVisible = hasToShow
     }
 
@@ -209,7 +206,7 @@ internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals
 
     private fun setStateView(
         stateView: StateView,
-        openedGoalsStateResources: OpenedGoalsStateResources,
+        openedGoalsStateResources: OpenedGoalsActions.OpenedGoalsStateResources,
         block: (() -> Unit)? = null
     ) {
         stateView.apply {

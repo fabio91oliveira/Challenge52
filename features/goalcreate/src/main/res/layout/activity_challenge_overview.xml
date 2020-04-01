@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_soft_grey"
+        android:theme="@style/AppToolBarTheme"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:title="@string/goal_create_challenge_select_title" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="?attr/actionBarSize"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:paddingStart="@dimen/spacing_02"
+        android:paddingEnd="@dimen/spacing_02"
+        android:paddingBottom="@dimen/spacing_01">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSkip"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:text="@string/goal_create_challenge_select_skip"
+            android:textColor="@color/color_accent"
+            android:textSize="@dimen/text_size_half" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgIndicatorOne"
+                android:layout_width="@dimen/spacing_01"
+                android:layout_height="@dimen/spacing_01"
+                android:background="@drawable/indicator_selected" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgIndicatorTwo"
+                android:layout_width="@dimen/spacing_01"
+                android:layout_height="@dimen/spacing_01"
+                android:layout_marginStart="@dimen/spacing_03"
+                android:background="@drawable/indicator_unselected" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgIndicatorThree"
+                android:layout_width="@dimen/spacing_01"
+                android:layout_height="@dimen/spacing_01"
+                android:layout_marginStart="@dimen/spacing_03"
+                android:background="@drawable/indicator_unselected" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnNext"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:padding="@dimen/spacing_02"
+            android:text="@string/goal_create_challenge_select_next"
+            android:textColor="@color/color_accent"
+            android:textSize="@dimen/text_size_medium" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnConfirm"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:padding="@dimen/spacing_02"
+            android:text="@string/goal_create_challenge_select_select"
+            android:textColor="@color/color_accent"
+            android:textSize="@dimen/text_size_medium" />
+
+    </FrameLayout>
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/loading"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="false"
+        tools:visibility="gone" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

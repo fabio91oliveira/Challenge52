@@ -33,6 +33,7 @@ object Versions {
     const val swipe_refresh_layout = "1.0.0"
 
     const val lifecycle = "2.2.0"
+    const val navigation = "2.2.1"
 
     const val coroutines = "1.3.2"
     const val resultcore = "2.2.0"
@@ -65,6 +66,9 @@ object Deps {
     const val lifecycle_viewmodel_savedstate =
         "androidx.lifecycle:lifecycle-viewmodel-savedstate:${Versions.lifecycle}"
     const val lifecycle_compiler = "androidx.lifecycle:lifecycle-compiler:${Versions.lifecycle}"
+
+    const val navigation_fragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
+    const val navigation_ui = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
 
     const val coroutines_core =
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"

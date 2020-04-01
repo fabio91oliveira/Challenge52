@@ -57,7 +57,7 @@
                     android:ellipsize="end"
                     android:includeFontPadding="false"
                     android:maxLines="2"
-                    android:textColor="@color/color_soft_grey_4"
+                    android:textColor="@color/color_soft_grey_5"
                     android:textSize="@dimen/text_size_half"
                     app:layout_constraintEnd_toEndOf="@id/gdlEnd"
                     app:layout_constraintStart_toStartOf="@id/imgProfile"
@@ -86,7 +86,7 @@
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/color_primary_dark"
             app:tabTextAppearance="@style/LowerCaseTabTextAppearance"
-            app:tabTextColor="@color/color_soft_grey_3" />
+            app:tabTextColor="@color/color_soft_grey_4" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -99,7 +99,7 @@
         android:clickable="true"
         android:focusable="true"
         app:backgroundTint="@color/color_primary"
-        app:rippleColor="@color/color_primary_dark"
+        app:rippleColor="@android:color/white"
         app:srcCompat="@android:drawable/ic_input_add"
         app:tint="@android:color/white" />
 

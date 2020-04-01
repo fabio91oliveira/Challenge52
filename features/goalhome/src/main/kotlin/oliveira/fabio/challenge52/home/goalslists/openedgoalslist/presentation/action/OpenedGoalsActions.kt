@@ -13,11 +13,11 @@ internal sealed class OpenedGoalsActions {
 
     data class Error(val openedGoalsStateResources: OpenedGoalsStateResources) :
         OpenedGoalsActions()
-}
 
-data class OpenedGoalsStateResources(
-    @DrawableRes val imageRes: Int,
-    @StringRes val titleRes: Int,
-    @StringRes val descriptionRes: Int,
-    @StringRes val buttonTextRes: Int? = null
-)
+    data class OpenedGoalsStateResources(
+        @DrawableRes val imageRes: Int,
+        @StringRes val titleRes: Int,
+        @StringRes val descriptionRes: Int,
+        @StringRes val buttonTextRes: Int? = null
+    )
+}

@@ -30,7 +30,7 @@
         android:layoutAnimation="@anim/layout_animation_slide_from_bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBar"
-        tools:listitem="@layout/item_week"
+        tools:listitem="@layout/item_to_save"
         tools:visibility="visible" />
 
     <androidx.core.widget.ContentLoadingProgressBar

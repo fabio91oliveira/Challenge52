@@ -1,14 +1,14 @@
 package oliveira.fabio.challenge52.domain.repository
 
 import oliveira.fabio.challenge52.domain.model.Goal
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeksEntity
+import oliveira.fabio.challenge52.persistence.model.vo.GoalWithItemsEntity
 
 interface GoalWithWeeksRepository {
     @Deprecated("Deprecated")
-    fun getAllOpenedGoalsWithWeeks(): List<GoalWithWeeksEntity>
+    fun getAllOpenedGoalsWithWeeks(): List<GoalWithItemsEntity>
 
     @Deprecated("Deprecated")
-    fun getAllDoneGoalsWithWeeks(): List<GoalWithWeeksEntity>
+    fun getAllDoneGoalsWithWeeks(): List<GoalWithItemsEntity>
 
     fun getOpenedGoalsList(): List<Goal>
     fun getDoneGoalsList(): List<Goal>

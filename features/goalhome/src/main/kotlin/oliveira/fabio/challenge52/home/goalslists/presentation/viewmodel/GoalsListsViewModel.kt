@@ -14,7 +14,6 @@ import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.act
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsStateResources
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.viewstate.DoneGoalsViewState
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
-import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsStateResources
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.viewstate.OpenedGoalsViewState
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewstate.GoalsListsViewState
 import timber.log.Timber
@@ -80,7 +79,7 @@ internal class GoalsListsViewModel(
                             }
                         } else {
                             OpenedGoalsActions.Empty(
-                                OpenedGoalsStateResources(
+                                OpenedGoalsActions.OpenedGoalsStateResources(
                                     R.drawable.ic_not_found,
                                     R.string.goals_lists_no_opened_goals_title,
                                     R.string.goals_lists_no_opened_goals_description
@@ -100,7 +99,7 @@ internal class GoalsListsViewModel(
                     },
                     failure = {
                         OpenedGoalsActions.Error(
-                            OpenedGoalsStateResources(
+                            OpenedGoalsActions.OpenedGoalsStateResources(
                                 R.drawable.ic_error_connection,
                                 R.string.goals_lists_error_title,
                                 R.string.goals_lists_error_description,

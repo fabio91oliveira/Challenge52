@@ -63,7 +63,7 @@ internal class GoalDetailsViewModel(
             }.fold(
                 success = {
                     GoalDetailsActions.ShowUpdateWeekMessage(
-                        R.string.goal_details_week_updated
+                        R.string.goal_details_item_updated
                     ).sendAction()
                     mountDetails()
                     setViewState {
@@ -76,6 +76,7 @@ internal class GoalDetailsViewModel(
                             isWeekBeingUpdated = false,
                             dialog = Dialog.RegularErrorDialog(
                                 R.drawable.ic_confirm,
+                                R.string.goal_details_error_title,
                                 R.string.goal_details_update_error_message
                             )
                         )
@@ -96,6 +97,7 @@ internal class GoalDetailsViewModel(
                         state.copy(
                             dialog = Dialog.RegularErrorDialog(
                                 R.drawable.ic_confirm,
+                                R.string.goal_details_error_title,
                                 R.string.goal_details_update_error_message
                             )
                         )
@@ -115,6 +117,7 @@ internal class GoalDetailsViewModel(
                         state.copy(
                             dialog = Dialog.RegularErrorDialog(
                                 R.drawable.ic_confirm,
+                                R.string.goal_details_error_title,
                                 R.string.goal_details_update_error_message
                             )
                         )
@@ -136,6 +139,7 @@ internal class GoalDetailsViewModel(
                         it.copy(
                             dialog = Dialog.ConfirmationDialogDoneGoal(
                                 R.drawable.ic_confirm,
+                                R.string.goal_details_warning_title,
                                 R.string.goal_details_move_to_done_first_dialog
                             )
                         )
@@ -145,6 +149,7 @@ internal class GoalDetailsViewModel(
                     state.copy(
                         dialog = Dialog.RegularErrorDialog(
                             R.drawable.ic_confirm,
+                            R.string.goal_details_error_title,
                             R.string.goal_details_update_error_message
                         )
                     )
@@ -166,6 +171,7 @@ internal class GoalDetailsViewModel(
                         it.copy(
                             dialog = Dialog.ConfirmationDialogDoneGoal(
                                 R.drawable.ic_confirm,
+                                R.string.goal_details_warning_title,
                                 R.string.goal_details_are_you_sure_done
                             )
                         )
@@ -175,6 +181,7 @@ internal class GoalDetailsViewModel(
                         it.copy(
                             dialog = Dialog.DefaultDialogMoveToDone(
                                 R.drawable.ic_confirm,
+                                R.string.goal_details_warning_title,
                                 R.string.goal_details_cannot_move_to_done
                             )
                         )
@@ -185,6 +192,7 @@ internal class GoalDetailsViewModel(
                     state.copy(
                         dialog = Dialog.RegularErrorDialog(
                             R.drawable.ic_confirm,
+                            R.string.goal_details_error_title,
                             R.string.goal_details_update_error_message
                         )
                     )
@@ -199,6 +207,7 @@ internal class GoalDetailsViewModel(
             it.copy(
                 dialog = Dialog.ConfirmationDialogRemoveGoal(
                     R.drawable.ic_confirm,
+                    R.string.goal_details_warning_title,
                     R.string.goal_details_are_you_sure_remove
                 )
             )
@@ -209,6 +218,7 @@ internal class GoalDetailsViewModel(
             it.copy(
                 dialog = Dialog.ConfirmationDialogUpdateWeek(
                     R.drawable.ic_confirm,
+                    R.string.goal_details_warning_title,
                     R.string.goal_details_date_after_today,
                     week
                 )
@@ -244,7 +254,10 @@ internal class GoalDetailsViewModel(
                     }
                 },
                 failure = {
-                    GoalDetailsActions.CriticalError(R.string.goal_details_list_error_message)
+                    GoalDetailsActions.CriticalError(
+                            R.string.goal_details_error_title,
+                            R.string.goal_details_list_error_message
+                        )
                         .sendAction()
                     setViewState {
                         GoalDetailsViewState(isLoading = false)
@@ -256,7 +269,10 @@ internal class GoalDetailsViewModel(
     }
 
     private fun initializerError() {
-        GoalDetailsActions.CriticalError(R.string.goal_details_list_error_message)
+        GoalDetailsActions.CriticalError(
+                R.string.goal_details_error_title,
+                R.string.goal_details_list_error_message
+            )
             .sendAction()
         setViewState {
             GoalDetailsViewState(isLoading = false)

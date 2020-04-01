@@ -1,6 +1,8 @@
 package oliveira.fabio.challenge52.extensions
 
 import android.animation.ValueAnimator
+import android.content.res.ColorStateList
+import android.graphics.drawable.RippleDrawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -8,7 +10,9 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
+import android.widget.Button
 import android.widget.EditText
+import androidx.core.content.ContextCompat
 import java.text.NumberFormat
 import java.util.*
 
@@ -66,6 +70,14 @@ fun View.doPopAnimation(duration: Long, func: () -> Unit) {
             }
             start()
         }
+}
+
+fun Button.setRipple(
+    pressedColor: Int
+) {
+    val color = ContextCompat.getColor(this.context, pressedColor)
+    background =
+        RippleDrawable(ColorStateList(arrayOf(intArrayOf()), intArrayOf(color)), background, null)
 }
 
 fun View.doSlideDownAnimation() {

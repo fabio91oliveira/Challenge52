@@ -9,8 +9,8 @@ object DaoModule {
     private val daoModule = module {
         factory { provideBuilder(get()) }
         factory { get<Database>().goalDao() }
-        factory { get<Database>().goalWithWeeksDao() }
-        factory { get<Database>().weekDao() }
+        factory { get<Database>().goalWithItemsDao() }
+        factory { get<Database>().itemsDao() }
     }
 
     fun load() = loadKoinModules(daoModule)

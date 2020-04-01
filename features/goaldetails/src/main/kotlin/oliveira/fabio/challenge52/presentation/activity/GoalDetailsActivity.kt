@@ -19,7 +19,7 @@ import oliveira.fabio.challenge52.domain.model.Week
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
-import oliveira.fabio.challenge52.presentation.adapter.WeeksAdapter
+import oliveira.fabio.challenge52.presentation.adapter.ItemsAdapter
 import oliveira.fabio.challenge52.presentation.adapter.vo.AdapterItem
 import oliveira.fabio.challenge52.presentation.bottomsheetdialogfragment.OptionsBottomPopup
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
@@ -27,13 +27,18 @@ import oliveira.fabio.challenge52.presentation.dialogfragment.PopupDialog
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
 import oliveira.fabio.challenge52.presentation.viewstate.Dialog
 import oliveira.fabio.challenge52.presentation.vo.TopDetails
-import org.koin.androidx.viewmodel.ext.android.getStateViewModel
+import org.koin.androidx.viewmodel.ext.android.stateViewModel
 
 class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
-    WeeksAdapter.OnClickWeekListener {
+    ItemsAdapter.OnClickWeekListener {
 
-    private val isFromDoneGoals by lazy { intent.extras?.getBoolean(IS_FROM_DONE_GOALS) ?: false }
-    private val weeksAdapter by lazy { WeeksAdapter(this@GoalDetailsActivity, isFromDoneGoals) }
+    private val intentExtras by lazy { intent.extras }
+    private val isFromDoneGoals by lazy { intentExtras?.getBoolean(IS_FROM_DONE_GOALS) ?: false }
+    private val goalDetailsViewModel: GoalDetailsViewModel by stateViewModel(
+        bundle = intentExtras
+    )
+
+    private val weeksAdapter by lazy { ItemsAdapter(this@GoalDetailsActivity, isFromDoneGoals) }
     private val progressDialog by lazy {
         android.app.Dialog(this).apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -43,7 +48,6 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         }
     }
 
-    private lateinit var goalDetailsViewModel: GoalDetailsViewModel
     private lateinit var newIntent: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,7 +115,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     }
 
     private fun setupViewModel() {
-        goalDetailsViewModel = getStateViewModel(bundle = intent.extras)
+//        goalDetailsViewModel = getStateViewModel(bundle = intent.extras)
     }
 
     private fun setupObservables() {
@@ -149,7 +153,10 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                         closeDetails()
                     }
                     is GoalDetailsActions.CriticalError -> {
-                        showFullScreenDialog(it.errorMessageRes)
+                        showFullScreenDialog(
+                            it.titleRes,
+                            it.descriptionRes
+                        )
                     }
                 }
             })
@@ -198,19 +205,22 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             is Dialog.DefaultDialogMoveToDone -> {
                 showDefaultDialog(
                     dialogViewState.imageRes,
-                    dialogViewState.stringRes
+                    dialogViewState.titleRes,
+                    dialogViewState.descriptionRes
                 )
             }
             is Dialog.RegularErrorDialog -> {
                 showDefaultDialog(
                     dialogViewState.imageRes,
-                    dialogViewState.stringRes
+                    dialogViewState.titleRes,
+                    dialogViewState.descriptionRes
                 )
             }
             is Dialog.ConfirmationDialogRemoveGoal -> {
                 showConfirmDialog(
                     dialogViewState.imageRes,
-                    dialogViewState.stringRes
+                    dialogViewState.titleRes,
+                    dialogViewState.descriptionRes
                 ) {
                     goalDetailsViewModel.removeGoal()
                     goalDetailsViewModel.hideDialogs()
@@ -219,7 +229,8 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             is Dialog.ConfirmationDialogDoneGoal -> {
                 showConfirmDialog(
                     dialogViewState.imageRes,
-                    dialogViewState.stringRes
+                    dialogViewState.titleRes,
+                    dialogViewState.descriptionRes
                 ) {
                     goalDetailsViewModel.completeGoal()
                 }
@@ -227,7 +238,8 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             is Dialog.ConfirmationDialogUpdateWeek -> {
                 showConfirmDialog(
                     dialogViewState.imageRes,
-                    dialogViewState.stringRes
+                    dialogViewState.titleRes,
+                    dialogViewState.descriptionRes
                 ) {
                     goalDetailsViewModel.changeWeekStatus(dialogViewState.week)
                 }
@@ -238,10 +250,13 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     private fun showSnackBar(@StringRes stringRes: Int) =
         Snackbar.make(content, resources.getText(stringRes), Snackbar.LENGTH_SHORT).show()
 
-    private fun showFullScreenDialog(stringResource: Int) {
+    private fun showFullScreenDialog(
+        @StringRes titleRes: Int,
+        @StringRes descriptionRes: Int
+    ) {
         FullScreenDialog.Builder()
-            .setTitle(R.string.goal_oops_title)
-            .setSubtitle(stringResource)
+            .setTitle(titleRes)
+            .setSubtitle(descriptionRes)
             .setCloseAction(object : FullScreenDialog.FullScreenDialogCloseListener {
                 override fun onClickCloseButton() {
                     finish()
@@ -267,13 +282,14 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
 
     private inline fun showConfirmDialog(
         @DrawableRes resImage: Int,
-        @StringRes resString: Int,
+        @StringRes resTitle: Int,
+        @StringRes resDescription: Int,
         crossinline block: () -> Unit
     ) =
         PopupDialog.Builder()
             .setImage(resImage)
-            .setTitle(R.string.goal_warning_title)
-            .setSubtitle(resString)
+            .setTitle(resTitle)
+            .setSubtitle(resDescription)
             .setupConfirmButton(
                 android.R.string.ok,
                 object : PopupDialog.PopupDialogConfirmListener {
@@ -295,11 +311,12 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
 
     private fun showDefaultDialog(
         @DrawableRes resImage: Int,
-        @StringRes resString: Int
+        @StringRes resTitle: Int,
+        @StringRes resDescription: Int
     ) =
         PopupDialog.Builder()
-            .setTitle(R.string.goal_warning_title)
-            .setSubtitle(resString)
+            .setTitle(resTitle)
+            .setSubtitle(resDescription)
             .setupConfirmButtonColor(R.color.color_primary)
             .setImage(resImage)
             .setupConfirmButton(
@@ -334,7 +351,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                                 goalDetailsViewModel.showConfirmationDialogDoneGoal()
                             }
                         },
-                        R.color.color_soft_grey_4
+                        R.color.color_soft_grey_5
                     )
                 )
             }
@@ -347,7 +364,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                             goalDetailsViewModel.showConfirmationDialogRemoveGoal()
                         }
                     },
-                    R.color.color_soft_grey_4
+                    R.color.color_soft_grey_5
                 )
             )
         }.toTypedArray()

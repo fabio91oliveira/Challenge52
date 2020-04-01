@@ -1,12 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="goal_details_title">Você está salvando</string>
+    <string name="goal_details_months">%s/%s meses</string>
     <string name="goal_details_weeks">%s/%s semanas</string>
+    <string name="goal_details_days">%s/%s dias</string>
     <string name="goal_details_money">de %s</string>
-    <string name="goal_details_week_updated">A semana foi atualizada</string>
+    <string name="goal_details_item_updated">Um item foi atualizado</string>
 
     <string name="goal_details_more_options">More Options</string>
     <string name="goal_details_option_title">O que você precisa?</string>
     <string name="goal_details_option_mark_as_done">Marcar como concluído</string>
     <string name="goal_details_option_remove">Remover meta</string>
+
+    <string name="goal_details_are_you_sure_remove">Você tem certeza que deseja remover meta?</string>
+    <string name="goal_details_move_to_done_first_dialog">Todas as semanas tiveram suas quantias depositadas. Deseja
+            mover a meta para realizada?
+    </string>
+
+    <string name="goal_details_are_you_sure_done">Você tem certeza que deseja marcar meta como realizada?</string>
+    <string name="goal_details_cannot_move_to_done">Você não pode mover a meta para realizada até completar todas as
+            semanas.
+        </string>
+    <string name="goal_details_date_after_today">Esta data é posterior a data atual. Você quer realmente confirmar o
+            depósito do dinheira para esta semana?
+    </string>
+
+    <string name="goal_details_error_title">Oops! Algo inesperado acabou de acontecer.</string>
+    <string name="goal_details_warning_title">Atenção! Por favor, leia com cautela!</string>
+    <string name="goal_details_list_error_message">Ocorreu um erro ao tentar detalhar meta, tente novamente ou contate o
+        desenvolvedor.
+    </string>
+    <string name="goal_details_update_error_message">Ocorreu um erro ao atualizar semana, tente novamente ou contate o
+        desenvolvedor.
+    </string>
+    <string name="goal_details_remove_error_message">Ocorreu um erro ao remover meta, tente novamente ou contate o
+        desenvolvedor.
+    </string>
+    <string name="goal_details_make_done_error_message">Ocorreu um erro ao marcar meta como realizada, tente novamente
+        ou contate o
+        desenvolvedor.
+    </string>
 </resources>

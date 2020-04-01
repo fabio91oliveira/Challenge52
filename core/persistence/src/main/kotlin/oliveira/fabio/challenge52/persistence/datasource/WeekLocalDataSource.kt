@@ -1,10 +1,10 @@
 package oliveira.fabio.challenge52.persistence.datasource
 
-import oliveira.fabio.challenge52.persistence.model.entity.WeekEntity
+import oliveira.fabio.challenge52.persistence.model.entity.ItemEntity
 
 interface WeekLocalDataSource {
     fun updateWeekStatus(goalId: Long, weekId: Long, isChecked: Boolean)
     fun removeWeeksByIdGoal(goalId: Long)
 
-    fun addWeeks(weeks: List<WeekEntity>): List<Long>
+    fun addWeeks(items: List<ItemEntity>): List<Long>
 }

@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import oliveira.fabio.challenge52.persistence.model.entity.GoalEntity
+import oliveira.fabio.challenge52.persistence.model.enums.GoalStatusEnum
 
 @Dao
 interface GoalDao {
@@ -18,6 +19,6 @@ interface GoalDao {
     fun removeGoal(goalId: Long)
 
     @Transaction
-    @Query("UPDATE goal SET isDone = 1 WHERE id = :goalId")
-    fun setGoalAsDone(goalId: Long)
+    @Query("UPDATE goal SET goalStatus = :goalStatusDone  WHERE id = :goalId")
+    fun setGoalAsDone(goalId: Long, goalStatusDone: GoalStatusEnum = GoalStatusEnum.DONE)
 }
