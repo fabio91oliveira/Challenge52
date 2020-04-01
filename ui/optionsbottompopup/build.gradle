@@ -5,6 +5,8 @@ apply plugin: 'kotlin-kapt'
 
 dependencies {
     // Support
-    api Deps.support_constraint_layout
-    api Deps.support_material
+    implementation Deps.support_constraint_layout
+    implementation Deps.support_material
+    implementation Deps.lifecycle_viewmodel
+    implementation Deps.lifecycle_viewmodel_savedstate
 }
