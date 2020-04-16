@@ -8,17 +8,17 @@ import androidx.lifecycle.viewModelScope
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import features.goaldetails.R
 import kotlinx.coroutines.launch
-import oliveira.fabio.challenge52.domain.model.Goal
-import oliveira.fabio.challenge52.domain.model.Week
-import oliveira.fabio.challenge52.domain.usecase.ChangeWeekStatusUseCase
+import oliveira.fabio.challenge52.domain.usecase.ChangeItemStatusUseCase
 import oliveira.fabio.challenge52.domain.usecase.MountGoalsDetailsUseCase
 import oliveira.fabio.challenge52.domain.usecase.RemoveGoalUseCase
 import oliveira.fabio.challenge52.domain.usecase.SetGoalAsDoneUseCase
 import oliveira.fabio.challenge52.domain.usecase.VerifyAllWeekAreCompletedUseCase
 import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
-import oliveira.fabio.challenge52.presentation.adapter.vo.AdapterItem
+import oliveira.fabio.challenge52.presentation.adapter.AdapterItem
 import oliveira.fabio.challenge52.presentation.viewstate.Dialog
 import oliveira.fabio.challenge52.presentation.viewstate.GoalDetailsViewState
+import oliveira.fabio.challenge52.presentation.vo.Goal
+import oliveira.fabio.challenge52.presentation.vo.ItemDetail
 import oliveira.fabio.challenge52.presentation.vo.TopDetails
 import timber.log.Timber
 import java.util.*
@@ -26,7 +26,7 @@ import java.util.*
 internal class GoalDetailsViewModel(
     private val state: SavedStateHandle,
     private val mountGoalsDetailsUseCase: MountGoalsDetailsUseCase,
-    private val changeWeekStatusUseCase: ChangeWeekStatusUseCase,
+    private val changeItemStatusUseCase: ChangeItemStatusUseCase,
     private val setGoalAsDoneUseCase: SetGoalAsDoneUseCase,
     private val removeGoalUseCase: RemoveGoalUseCase,
     private val verifyAllWeekAreCompletedUseCase: VerifyAllWeekAreCompletedUseCase
@@ -49,7 +49,7 @@ internal class GoalDetailsViewModel(
     }
 
     fun changeWeekStatus(
-        week: Week
+        itemDetail: ItemDetail
     ) {
         setViewState {
             it.copy(
@@ -59,7 +59,7 @@ internal class GoalDetailsViewModel(
         }
         viewModelScope.launch {
             SuspendableResult.of<Unit, Exception> {
-                changeWeekStatusUseCase(week)
+                changeItemStatusUseCase(itemDetail, goal)
             }.fold(
                 success = {
                     GoalDetailsActions.ShowUpdateWeekMessage(
@@ -131,7 +131,7 @@ internal class GoalDetailsViewModel(
         viewModelScope.launch {
             SuspendableResult.of<Boolean, Exception> {
                 verifyAllWeekAreCompletedUseCase(
-                    goal.weeks
+                    goal.items
                 )
             }.fold(success = { allWeeksAreCompleted ->
                 if (allWeeksAreCompleted)
@@ -163,7 +163,7 @@ internal class GoalDetailsViewModel(
         viewModelScope.launch {
             SuspendableResult.of<Boolean, Exception> {
                 verifyAllWeekAreCompletedUseCase(
-                    goal.weeks
+                    goal.items
                 )
             }.fold(success = { allWeeksAreChecked ->
                 if (allWeeksAreChecked) {
@@ -213,14 +213,14 @@ internal class GoalDetailsViewModel(
             )
         }
 
-    fun showConfirmationDialogUpdateWeek(week: Week) {
+    fun showConfirmationDialogUpdateWeek(itemDetail: ItemDetail) {
         setViewState {
             it.copy(
                 dialog = Dialog.ConfirmationDialogUpdateWeek(
                     R.drawable.ic_confirm,
                     R.string.goal_details_warning_title,
                     R.string.goal_details_date_after_today,
-                    week
+                    itemDetail
                 )
             )
         }
@@ -231,8 +231,8 @@ internal class GoalDetailsViewModel(
             it.copy(dialog = Dialog.NoDialog)
         }
 
-    fun isDateAfterTodayWhenWeekIsNotChecked(week: Week): Boolean {
-        if (week.isChecked.not()) return week.date.after(Date())
+    fun isDateAfterTodayWhenWeekIsNotChecked(itemDetail: ItemDetail): Boolean {
+        if (itemDetail.isChecked.not()) return itemDetail.date.after(Date())
         return false
     }
 
@@ -241,8 +241,8 @@ internal class GoalDetailsViewModel(
             GoalDetailsViewState(isLoading = true)
         }
         viewModelScope.launch {
-            SuspendableResult.of<MutableList<AdapterItem<TopDetails, String, Week>>, Exception> {
-                mountGoalsDetailsUseCase(goal.weeks)
+            SuspendableResult.of<MutableList<AdapterItem<TopDetails, String, ItemDetail>>, Exception> {
+                mountGoalsDetailsUseCase(goal)
             }.fold(
                 success = {
                     GoalDetailsActions.PopulateGoalInformation(it).sendAction()
@@ -255,9 +255,9 @@ internal class GoalDetailsViewModel(
                 },
                 failure = {
                     GoalDetailsActions.CriticalError(
-                            R.string.goal_details_error_title,
-                            R.string.goal_details_list_error_message
-                        )
+                        R.string.goal_details_error_title,
+                        R.string.goal_details_list_error_message
+                    )
                         .sendAction()
                     setViewState {
                         GoalDetailsViewState(isLoading = false)
@@ -270,9 +270,9 @@ internal class GoalDetailsViewModel(
 
     private fun initializerError() {
         GoalDetailsActions.CriticalError(
-                R.string.goal_details_error_title,
-                R.string.goal_details_list_error_message
-            )
+            R.string.goal_details_error_title,
+            R.string.goal_details_list_error_message
+        )
             .sendAction()
         setViewState {
             GoalDetailsViewState(isLoading = false)

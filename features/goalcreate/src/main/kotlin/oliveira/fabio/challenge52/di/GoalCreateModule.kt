@@ -1,45 +1,52 @@
 package oliveira.fabio.challenge52.di
 
+import androidx.lifecycle.SavedStateHandle
 import oliveira.fabio.challenge52.challenge.challengeoverview.domain.usecase.CreateScreensUseCase
 import oliveira.fabio.challenge52.challenge.challengeoverview.domain.usecase.impl.CreateScreensUseCaseImpl
 import oliveira.fabio.challenge52.challenge.challengeoverview.presentation.viewmodel.ChallengeOverviewViewModel
 import oliveira.fabio.challenge52.challenge.challengeselect.domain.usecase.GetChallengesUseCase
 import oliveira.fabio.challenge52.challenge.challengeselect.domain.usecase.impl.GetChallengesUseCaseImpl
 import oliveira.fabio.challenge52.challenge.challengeselect.presentation.viewmodel.ChallengeSelectViewModel
+import oliveira.fabio.challenge52.creategoal.domain.usecase.AddGoalUseCase
+import oliveira.fabio.challenge52.creategoal.domain.usecase.AddItemsUseCase
+import oliveira.fabio.challenge52.creategoal.domain.usecase.CalculateMoneyUseCase
+import oliveira.fabio.challenge52.creategoal.domain.usecase.CreateGoalToSaveObjectUseCase
+import oliveira.fabio.challenge52.creategoal.domain.usecase.CreateItemsUseCase
+import oliveira.fabio.challenge52.creategoal.domain.usecase.GetCurrentLocaleUseCase
+import oliveira.fabio.challenge52.creategoal.domain.usecase.GetGoalSuggestionsUseCase
+import oliveira.fabio.challenge52.creategoal.domain.usecase.GetMoneySuggestionsUseCase
+import oliveira.fabio.challenge52.creategoal.domain.usecase.impl.AddGoalUseCaseImpl
+import oliveira.fabio.challenge52.creategoal.domain.usecase.impl.AddItemsUseCaseImpl
+import oliveira.fabio.challenge52.creategoal.domain.usecase.impl.CalculateMoneyUseCaseImpl
+import oliveira.fabio.challenge52.creategoal.domain.usecase.impl.CreateGoalToSaveObjectUseCaseImpl
+import oliveira.fabio.challenge52.creategoal.domain.usecase.impl.CreateItemsUseCaseImpl
+import oliveira.fabio.challenge52.creategoal.domain.usecase.impl.GetCurrentLocaleUseCaseImpl
+import oliveira.fabio.challenge52.creategoal.domain.usecase.impl.GetGoalSuggestionsUseCaseImpl
+import oliveira.fabio.challenge52.creategoal.domain.usecase.impl.GetMoneySuggestionsUseCaseImpl
+import oliveira.fabio.challenge52.creategoal.presentation.viewmodel.CreateGoalFinalStepViewModel
+import oliveira.fabio.challenge52.creategoal.presentation.viewmodel.GoalChooseNameViewModel
+import oliveira.fabio.challenge52.creategoal.presentation.viewmodel.GoalSuggestionsListViewModel
 import oliveira.fabio.challenge52.domain.vo.Challenge
-import oliveira.fabio.challenge52.goalcreate.domain.mapper.WeekMapper
-import oliveira.fabio.challenge52.goalcreate.domain.mapper.impl.WeekMapperImpl
-import oliveira.fabio.challenge52.goalcreate.domain.usecase.AddGoalUseCase
-import oliveira.fabio.challenge52.goalcreate.domain.usecase.GetGoalSuggestionsUseCase
-import oliveira.fabio.challenge52.goalcreate.domain.usecase.impl.AddGoalUseCaseImpl
-import oliveira.fabio.challenge52.goalcreate.domain.usecase.impl.GetGoalSuggestionsUseCaseImpl
-import oliveira.fabio.challenge52.goalcreate.presentation.viewmodel.GoalCreateChooseNameViewModel
-import oliveira.fabio.challenge52.goalcreate.presentation.viewmodel.GoalCreateNameSuggestionsViewModel
-import oliveira.fabio.challenge52.goalcreate.presentation.viewmodel.GoalCreateViewModel_old
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
 
 object GoalCreateModule {
     private val domainModule = module {
-        factory<WeekMapper> { WeekMapperImpl() }
-        factory<AddGoalUseCase> {
-            AddGoalUseCaseImpl(
-                get(),
-                get(),
-                get()
-            )
-        }
         factory<CreateScreensUseCase> { CreateScreensUseCaseImpl() }
         factory<GetChallengesUseCase> { GetChallengesUseCaseImpl() }
         factory<GetGoalSuggestionsUseCase> { GetGoalSuggestionsUseCaseImpl() }
+        factory<GetCurrentLocaleUseCase> { GetCurrentLocaleUseCaseImpl() }
+        factory<CreateGoalToSaveObjectUseCase> { CreateGoalToSaveObjectUseCaseImpl(get()) }
+        factory<GetMoneySuggestionsUseCase> { GetMoneySuggestionsUseCaseImpl(get()) }
+        factory<AddGoalUseCase> { AddGoalUseCaseImpl(get()) }
+        factory<AddItemsUseCase> { AddItemsUseCaseImpl(get()) }
+        factory<CalculateMoneyUseCase> { CalculateMoneyUseCaseImpl() }
+        factory<CreateItemsUseCase> { CreateItemsUseCaseImpl() }
     }
 
     private val presentationModule = module {
         viewModel {
-            GoalCreateViewModel_old(
-                get()
-            )
             ChallengeSelectViewModel(
                 get()
             )
@@ -51,10 +58,13 @@ object GoalCreateModule {
             )
         }
         viewModel {
-            GoalCreateNameSuggestionsViewModel(get())
+            GoalSuggestionsListViewModel(get(), get())
         }
-        viewModel {
-            GoalCreateChooseNameViewModel()
+        viewModel { (handle: SavedStateHandle) ->
+            GoalChooseNameViewModel(handle)
+        }
+        viewModel { (handle: SavedStateHandle) ->
+            CreateGoalFinalStepViewModel(handle, get(), get(), get(), get(), get())
         }
     }
 

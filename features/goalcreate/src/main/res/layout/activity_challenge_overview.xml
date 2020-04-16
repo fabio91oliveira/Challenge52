@@ -45,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
             android:text="@string/goal_create_challenge_select_skip"
+            android:textAllCaps="false"
             android:textColor="@color/color_accent"
             android:textSize="@dimen/text_size_half" />
 
@@ -84,6 +85,7 @@
             android:layout_gravity="end|center"
             android:padding="@dimen/spacing_02"
             android:text="@string/goal_create_challenge_select_next"
+            android:textAllCaps="false"
             android:textColor="@color/color_accent"
             android:textSize="@dimen/text_size_medium" />
 
@@ -95,6 +97,7 @@
             android:layout_gravity="end|center"
             android:padding="@dimen/spacing_02"
             android:text="@string/goal_create_challenge_select_select"
+            android:textAllCaps="false"
             android:textColor="@color/color_accent"
             android:textSize="@dimen/text_size_medium" />
 

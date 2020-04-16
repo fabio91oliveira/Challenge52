@@ -39,6 +39,7 @@ object Versions {
     const val resultcore = "2.2.0"
     const val resultcoroutines = "2.2.0"
     const val room = "2.2.2"
+    const val gson = "2.8.6"
 
     const val koin = "2.1.3"
     const val timber = "4.7.1"
@@ -81,6 +82,7 @@ object Deps {
 
     const val room_runtime = "androidx.room:room-runtime:${Versions.room}"
     const val room_compiler = "androidx.room:room-compiler:${Versions.room}"
+    const val gson = "com.google.code.gson:gson:${Versions.gson}"
 
     const val koin_scope = "org.koin:koin-androidx-scope:${Versions.koin}"
     const val koin_viemmodel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"

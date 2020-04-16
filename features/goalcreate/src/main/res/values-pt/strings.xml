@@ -26,20 +26,36 @@
     <string name="goal_create_challenge_overview_error_title">Oops!</string>
     <string name="goal_create_challenge_overview_error_description">Error</string>
 
-    <!-- Goal Create -->
-    <string name="goal_create_title">Criar meta</string>
+    <!-- Goal Name -->
+    <string name="goal_name_title">Define o nome da meta</string>
 
     <!-- Goal Create Name Suggestions -->
-    <string name="goal_create_name_suggestions">Você pode escolher uma sugestão ou criar uma nova.</string>
-    <string name="goal_create_name_suggestions_not_a_suggestion">Eu não quero uma sugestão</string>
-    <string name="goal_create_name_suggestions_error_title">Oops!</string>
-    <string name="goal_create_name_suggestions_error_description">Error</string>
+    <string name="goal_suggestions_list_title">Você pode escolher uma sugestão ou criar uma nova.</string>
+    <string name="goal_suggestions_list_item_not_a_suggestion">Eu não quero uma sugestão</string>
+    <string name="goal_suggestions_list_error_title">Oops!</string>
+    <string name="goal_suggestions_list_error_description">Error</string>
 
-    <!-- Goal Create Choose Name -->
-    <string name="goal_create_choose_name">Vamos criar a sua meta</string>
-    <string name="goal_create_first_page_min_max_characters">Mín 5/Máx 35 caractéres</string>
+    <!-- Goal Choose Name -->
+    <string name="goal_choose_name_top_text">Vamos criar a sua meta</string>
+    <string name="goal_choose_name_min_max_characters">Mín 5/Máx 35 caractéres</string>
+    <string name="goal_choose_name_hint_goal_name">Nome da meta</string>
+    <string name="goal_choose_name_error_title">Oops!</string>
+    <string name="goal_choose_name_list_error_description">Error</string>
 
-    <string name="goal_create_hint_goal_name">Nome da meta</string>
+    <!-- Goal Create -->
+    <string name="goal_create_title">Criando meta</string>
+    <string name="goal_create_btn_create">Finalizar</string>
+    <string name="create_goal_period_default">por ...</string>
+    <string name="create_goal_period_day">por dia</string>
+    <string name="create_goal_period_week">por semana</string>
+    <string name="create_goal_period_month">por mês</string>
+    <string name="create_goal_total">valor total</string>
+
+    <!-- Goal Set Periods -->
+    <string name="goal_set_periods_title_regular">Defina datas</string>
+    <string name="goal_set_periods_title_not_a_challenge">Defina datas and tipo</string>
+
+    <!-- todo -->
     <string name="goal_create_hint_date_start">Data para começar</string>
     <string name="goal_create_hint_date_end">Data para terminar</string>
     <string name="goal_create_hint_type_of_saving">Seria feito</string>

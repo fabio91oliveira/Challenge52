@@ -2,7 +2,7 @@ package oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.ac
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import oliveira.fabio.challenge52.domain.model.Goal
+import oliveira.fabio.challenge52.presentation.vo.Goal
 
 internal sealed class DoneGoalsActions {
     data class DoneGoalsList(val doneGoalsList: List<Goal>) : DoneGoalsActions()

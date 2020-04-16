@@ -1,18 +1,22 @@
 package oliveira.fabio.challenge52.domain.mapper.impl
 
 import oliveira.fabio.challenge52.domain.mapper.GoalMapper
-import oliveira.fabio.challenge52.domain.model.Goal
-import oliveira.fabio.challenge52.domain.model.Week
+import oliveira.fabio.challenge52.persistence.model.entity.GoalWithItemsEntity
 import oliveira.fabio.challenge52.persistence.model.enums.GoalStatusEnum
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithItemsEntity
+import oliveira.fabio.challenge52.persistence.model.enums.PeriodTypeEnum
+import oliveira.fabio.challenge52.presentation.vo.Goal
+import oliveira.fabio.challenge52.presentation.vo.Item
+import oliveira.fabio.challenge52.presentation.vo.PeriodEnum
 
 internal class GoalMapperImpl : GoalMapper {
-    override fun invoke(goalWithItems: GoalWithItemsEntity) = Goal(
-        id = goalWithItems.goal.id,
-        status = getStatus(goalWithItems),
-        name = goalWithItems.goal.name,
-        moneyToSave = getTotal(goalWithItems),
-        weeks = getWeeks(goalWithItems)
+    override fun invoke(goalWithItemsEntity: GoalWithItemsEntity) = Goal(
+        id = goalWithItemsEntity.goal.id,
+        status = getStatus(goalWithItemsEntity),
+        name = goalWithItemsEntity.goal.name,
+        currentLocale = goalWithItemsEntity.goal.currentLocale,
+        totalMoney = goalWithItemsEntity.goal.totalMoney,
+        period = getPeriod(goalWithItemsEntity),
+        items = getItems(goalWithItemsEntity)
     )
 
     private fun getStatus(goalWithItems: GoalWithItemsEntity): Goal.Status {
@@ -30,26 +34,32 @@ internal class GoalMapperImpl : GoalMapper {
         }
     }
 
-    private fun getTotal(goalWithItems: GoalWithItemsEntity): Float {
-        var total = 0f
-        goalWithItems.items.forEach {
-            total += it.value
+    private fun getPeriod(goalWithItems: GoalWithItemsEntity): PeriodEnum {
+        return when (goalWithItems.goal.periodType) {
+            PeriodTypeEnum.DAILY -> {
+                PeriodEnum.DAILY
+            }
+            PeriodTypeEnum.WEEKLY -> {
+                PeriodEnum.WEEKLY
+            }
+            PeriodTypeEnum.MONTHLY -> {
+                PeriodEnum.MONTHLY
+            }
         }
-        return total
     }
 
-    private fun getWeeks(goalWithItems: GoalWithItemsEntity) = arrayListOf<Week>().apply {
-        goalWithItems.items.forEach {
-            add(
-                Week(
-                    id = it.id,
-                    idGoal = goalWithItems.goal.id,
-                    isChecked = it.isSaved,
-                    date = it.date,
-                    weekNumber = it.position,
-                    moneyToSave = it.value
+    private fun getItems(goalWithItemsEntity: GoalWithItemsEntity) =
+        mutableListOf<Item>().apply {
+            goalWithItemsEntity.items.forEach {
+                add(
+                    Item(
+                        it.id,
+                        it.position,
+                        it.date,
+                        it.value,
+                        it.isSaved
+                    )
                 )
-            )
+            }
         }
-    }
 }

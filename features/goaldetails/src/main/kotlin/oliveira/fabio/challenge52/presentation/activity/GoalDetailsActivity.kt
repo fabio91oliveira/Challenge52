@@ -15,28 +15,27 @@ import com.google.android.material.snackbar.Snackbar
 import features.goaldetails.R
 import kotlinx.android.synthetic.main.activity_goal_details.*
 import oliveira.fabio.challenge52.BaseActivity
-import oliveira.fabio.challenge52.domain.model.Week
+import oliveira.fabio.challenge52.presentation.vo.ItemDetail
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
 import oliveira.fabio.challenge52.presentation.adapter.ItemsAdapter
-import oliveira.fabio.challenge52.presentation.adapter.vo.AdapterItem
+import oliveira.fabio.challenge52.presentation.adapter.AdapterItem
 import oliveira.fabio.challenge52.presentation.bottomsheetdialogfragment.OptionsBottomPopup
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
 import oliveira.fabio.challenge52.presentation.dialogfragment.PopupDialog
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
 import oliveira.fabio.challenge52.presentation.viewstate.Dialog
 import oliveira.fabio.challenge52.presentation.vo.TopDetails
-import org.koin.androidx.viewmodel.ext.android.stateViewModel
+import org.koin.androidx.viewmodel.ext.android.getStateViewModel
 
 class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
-    ItemsAdapter.OnClickWeekListener {
+    ItemsAdapter.OnClickItemListener {
 
     private val intentExtras by lazy { intent.extras }
     private val isFromDoneGoals by lazy { intentExtras?.getBoolean(IS_FROM_DONE_GOALS) ?: false }
-    private val goalDetailsViewModel: GoalDetailsViewModel by stateViewModel(
-        bundle = intentExtras
-    )
+
+    private lateinit var goalDetailsViewModel: GoalDetailsViewModel
 
     private val weeksAdapter by lazy { ItemsAdapter(this@GoalDetailsActivity, isFromDoneGoals) }
     private val progressDialog by lazy {
@@ -84,12 +83,12 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         }
     }
 
-    override fun onClickWeek(week: Week) {
+    override fun onClickItem(itemDetail: ItemDetail) {
         with(goalDetailsViewModel) {
-            if (isDateAfterTodayWhenWeekIsNotChecked(week))
-                showConfirmationDialogUpdateWeek(week)
+            if (isDateAfterTodayWhenWeekIsNotChecked(itemDetail))
+                showConfirmationDialogUpdateWeek(itemDetail)
             else
-                changeWeekStatus(week)
+                changeWeekStatus(itemDetail)
         }
     }
 
@@ -115,7 +114,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     }
 
     private fun setupViewModel() {
-//        goalDetailsViewModel = getStateViewModel(bundle = intent.extras)
+        goalDetailsViewModel = getStateViewModel(bundle = intentExtras)
     }
 
     private fun setupObservables() {
@@ -196,7 +195,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         rvWeeks.isVisible = hasToShow
     }
 
-    private fun addDetailsGoal(list: MutableList<AdapterItem<TopDetails, String, Week>>) {
+    private fun addDetailsGoal(list: MutableList<AdapterItem<TopDetails, String, ItemDetail>>) {
         weeksAdapter.addList(list)
     }
 
@@ -241,7 +240,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                     dialogViewState.titleRes,
                     dialogViewState.descriptionRes
                 ) {
-                    goalDetailsViewModel.changeWeekStatus(dialogViewState.week)
+                    goalDetailsViewModel.changeWeekStatus(dialogViewState.itemDetail)
                 }
             }
         }

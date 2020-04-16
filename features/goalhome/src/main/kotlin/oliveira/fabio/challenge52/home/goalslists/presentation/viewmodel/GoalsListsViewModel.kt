@@ -6,20 +6,20 @@ import androidx.lifecycle.viewModelScope
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import features.goalhome.R
 import kotlinx.coroutines.launch
-import oliveira.fabio.challenge52.domain.model.Goal
-import oliveira.fabio.challenge52.extensions.toCurrency
+import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.home.goalslists.domain.usecase.GetAllDoneGoals
-import oliveira.fabio.challenge52.home.goalslists.domain.usecase.GetAllOpenedGoals
+import oliveira.fabio.challenge52.home.goalslists.domain.usecase.GetAllOpenedGoalsUseCase
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsStateResources
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.viewstate.DoneGoalsViewState
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.viewstate.OpenedGoalsViewState
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewstate.GoalsListsViewState
+import oliveira.fabio.challenge52.presentation.vo.Goal
 import timber.log.Timber
 
 internal class GoalsListsViewModel(
-    private val getAllOpenedGoals: GetAllOpenedGoals,
+    private val getAllOpenedGoalsUseCase: GetAllOpenedGoalsUseCase,
     private val getAllDoneGoals: GetAllDoneGoals
 ) : ViewModel() {
 
@@ -61,14 +61,14 @@ internal class GoalsListsViewModel(
                 OpenedGoalsViewState(isLoading = true)
             }
             SuspendableResult.of<List<Goal>, Exception> {
-                getAllOpenedGoals()
+                getAllOpenedGoalsUseCase()
             }
                 .fold(
                     success = { list ->
                         if (list.isNotEmpty()) {
                             OpenedGoalsActions.OpenedGoalsList(list).sendAction()
                             setGoalsListsViewState {
-                                it.copy(totalTasks = list.size, balance = getBalance(list))
+                                it.copy(totalTasks = list.size)
                             }
                             setOpenedGoalsViewState {
                                 OpenedGoalsViewState(
@@ -179,11 +179,11 @@ internal class GoalsListsViewModel(
     }
 
     private fun getBalance(goals: List<Goal>): String {
-        var balance = 0f
+        var balance = 0.toDouble()
         goals.forEach {
-            balance += it.moneyToSave
+            balance += it.totalMoney
         }
-        return balance.toCurrency()
+        return balance.toStringMoney()
     }
 
     fun showMessageGoalHasBeenCreated() =
@@ -196,7 +196,8 @@ internal class GoalsListsViewModel(
         OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_updated).sendAction()
 
     fun showMessageHasOpenedGoalBeenCompleted() =
-        OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_moved_to_done).sendAction()
+        OpenedGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_moved_to_done)
+            .sendAction()
 
     fun showMessageHasOneDoneGoalDeleted() =
         DoneGoalsActions.ShowMessage(R.string.goals_list_a_goal_has_been_deleted).sendAction()

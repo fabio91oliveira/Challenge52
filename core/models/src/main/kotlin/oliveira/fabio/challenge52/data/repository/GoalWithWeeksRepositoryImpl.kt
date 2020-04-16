@@ -9,12 +9,6 @@ internal class GoalWithWeeksRepositoryImpl(
     private val goalMapper: GoalMapper
 ) :
     GoalWithWeeksRepository {
-    override fun getAllOpenedGoalsWithWeeks() =
-        goalWithWeeksLocalDataSource.getAllOpenedGoalsWithWeeks()
-
-    override fun getAllDoneGoalsWithWeeks() =
-        goalWithWeeksLocalDataSource.getAllDoneGoalsWithWeeks()
-
     override fun getOpenedGoalsList() =
         goalWithWeeksLocalDataSource.getAllOpenedGoalsWithWeeks().map { goalMapper(it) }
 

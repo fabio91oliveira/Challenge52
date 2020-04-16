@@ -15,7 +15,6 @@ import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_goals_lists.*
 import kotlinx.android.synthetic.main.fragment_opened_goals_list.*
 import oliveira.fabio.challenge52.actions.Actions
-import oliveira.fabio.challenge52.domain.model.Goal
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.adapter.OpenedGoalAdapter
@@ -23,6 +22,7 @@ import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsLi
 import oliveira.fabio.challenge52.model.vo.ActivityResultTypeEnum
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.presentation.view.StateView
+import oliveira.fabio.challenge52.presentation.vo.Goal
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
@@ -45,10 +45,6 @@ internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals
 
         when (resultCode) {
             Activity.RESULT_OK -> when (requestCode) {
-                REQUEST_CODE_CREATE -> {
-                    goalsListsViewModel.showMessageGoalHasBeenCreated()
-                    goalsListsViewModel.listOpenedGoals()
-                }
                 REQUEST_CODE_DETAILS -> {
                     data?.apply {
                         (getParcelableExtra<ActivityResultValueObject>(HAS_CHANGED)).let {
@@ -77,7 +73,9 @@ internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals
             }
             Activity.RESULT_CANCELED -> when (requestCode) {
                 REQUEST_CODE_CREATE -> {
-                    goalsListsViewModel.showAddButton()
+//                    goalsListsViewModel.showAddButton()
+                    goalsListsViewModel.showMessageGoalHasBeenCreated()
+                    goalsListsViewModel.listOpenedGoals()
                 }
                 REQUEST_CODE_DETAILS -> {
                     data?.apply {

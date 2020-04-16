@@ -3,18 +3,19 @@ package oliveira.fabio.challenge52.persistence.model.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import oliveira.fabio.challenge52.persistence.model.enums.GoalStatusEnum
-import oliveira.fabio.challenge52.persistence.model.enums.ItemTypeEnum
+import oliveira.fabio.challenge52.persistence.model.enums.PeriodTypeEnum
 import java.io.Serializable
-import java.math.BigDecimal
+import java.util.*
 
 @Entity(tableName = "goal")
 data class GoalEntity(
     @PrimaryKey(autoGenerate = true)
-    var id: Long,
+    var id: Long = 0,
     var idChallenge: Long,
     var goalStatus: GoalStatusEnum,
-    var type: ItemTypeEnum,
     var name: String,
-    var startMoneyToSave: BigDecimal,
-    var totalWeeks: Int
+    val currentLocale: Locale,
+    var periodType: PeriodTypeEnum,
+    var totalPeriod: Int,
+    var totalMoney: Double
 ) : Serializable

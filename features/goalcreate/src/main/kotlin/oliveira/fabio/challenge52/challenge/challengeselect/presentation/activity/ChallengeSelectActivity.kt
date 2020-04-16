@@ -1,6 +1,6 @@
 package oliveira.fabio.challenge52.challenge.challengeselect.presentation.activity
 
-import android.content.Intent
+import android.app.Activity
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
@@ -31,6 +31,11 @@ class ChallengeSelectActivity : BaseActivity(R.layout.activity_challenge_select)
         init()
     }
 
+    override fun onBackPressed() {
+        setResult(Activity.RESULT_OK)
+        finish()
+    }
+
     override fun onChallengeClick(challenge: Challenge) {
         startActivity(
             Actions.openChallengeOverview(this)
@@ -47,7 +52,10 @@ class ChallengeSelectActivity : BaseActivity(R.layout.activity_challenge_select)
     private fun setupToolbar() {
         with(toolbar) {
             setSupportActionBar(this)
-            setNavigationOnClickListener { finish() }
+            setNavigationOnClickListener {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
         }
     }
 

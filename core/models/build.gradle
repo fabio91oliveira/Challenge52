@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 
 dependencies {
     // TODO mudar para implementation
-    api project(Core.Persistence)
+    implementation project(Core.Persistence)
 
     // Koin
     implementation Deps.koin_scope

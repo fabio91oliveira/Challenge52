@@ -10,10 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import features.goalhome.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_goal.*
-import oliveira.fabio.challenge52.domain.model.Goal
 import oliveira.fabio.challenge52.extensions.doPopAnimation
 import oliveira.fabio.challenge52.extensions.isVisible
-import oliveira.fabio.challenge52.extensions.toCurrency
+import oliveira.fabio.challenge52.extensions.toStringMoney
+import oliveira.fabio.challenge52.presentation.vo.Goal
+import oliveira.fabio.challenge52.presentation.vo.PeriodEnum
 
 internal class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
     RecyclerView.Adapter<OpenedGoalAdapter.GoalViewHolder>() {
@@ -41,11 +42,20 @@ internal class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalLis
         LayoutContainer {
         fun bind(position: Int) {
             txtName.text = goalsList[position].name
-            txtCompletedWeeks.text = containerView.resources.getString(
-                R.string.goals_lists_weeks_remaining,
-                goalsList[position].getTotalWeeks().toString()
+
+            val period = when (goalsList[position].period) {
+                PeriodEnum.DAILY -> R.string.goals_lists_days_remaining
+                PeriodEnum.WEEKLY -> R.string.goals_lists_weeks_remaining
+                PeriodEnum.MONTHLY -> R.string.goals_lists_months_remaining
+            }
+
+            txtCompletedItems.text = containerView.resources.getString(
+                period,
+                goalsList[position].getTotalItems().toString(), goalsList[position].items.size
             )
-            txtMoney.text = goalsList[position].moneyToSave.toCurrency()
+
+            txtMoney.text =
+                goalsList[position].totalMoney.toStringMoney(currentLocale = goalsList[position].currentLocale)
             val completedPercent = goalsList[position].getTotalPercent()
             viewStatus.isVisible = goalsList[position].status == Goal.Status.NEW
 

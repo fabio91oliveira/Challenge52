@@ -14,6 +14,7 @@
     <style name="AppToolBarTheme" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
         <item name="colorOnPrimary">@color/color_accent</item>
         <item name="android:textSize">@dimen/text_size_big</item>
+        <item name="android:fontFamily">@font/manjari_bold</item>
     </style>
 
     <style name="LowerCaseTabTextAppearance" parent="TextAppearance.Design.Tab">
@@ -27,5 +28,11 @@
 
     <style name="TextAppearance.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="buttonStyle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@drawable/selector_button</item>
+        <item name="android:textSize">18sp</item>
     </style>
 </resources>

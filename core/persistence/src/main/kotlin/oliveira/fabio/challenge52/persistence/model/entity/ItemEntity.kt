@@ -9,9 +9,9 @@ import java.util.*
 data class ItemEntity(
     var idGoal: Long,
     var position: Int,
-    var value: Float,
     var date: Date,
-    var isSaved: Boolean
+    var value: Double,
+    var isSaved: Boolean = false
 ) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0

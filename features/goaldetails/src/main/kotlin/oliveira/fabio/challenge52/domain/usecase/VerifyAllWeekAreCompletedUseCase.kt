@@ -1,7 +1,7 @@
 package oliveira.fabio.challenge52.domain.usecase
 
-import oliveira.fabio.challenge52.domain.model.Week
+import oliveira.fabio.challenge52.presentation.vo.Item
 
 interface VerifyAllWeekAreCompletedUseCase {
-    suspend operator fun invoke(weeks: List<Week>): Boolean
+    suspend operator fun invoke(items: List<Item>): Boolean
 }

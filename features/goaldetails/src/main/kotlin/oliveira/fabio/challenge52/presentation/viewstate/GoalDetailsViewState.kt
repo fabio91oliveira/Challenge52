@@ -2,7 +2,7 @@ package oliveira.fabio.challenge52.presentation.viewstate
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import oliveira.fabio.challenge52.domain.model.Week
+import oliveira.fabio.challenge52.presentation.vo.ItemDetail
 
 internal data class GoalDetailsViewState(
     val isLoading: Boolean = false,
@@ -35,7 +35,7 @@ sealed class Dialog {
         @DrawableRes val imageRes: Int,
         @StringRes val titleRes: Int,
         @StringRes val descriptionRes: Int,
-        val week: Week
+        val itemDetail: ItemDetail
     ) :
         Dialog()
 

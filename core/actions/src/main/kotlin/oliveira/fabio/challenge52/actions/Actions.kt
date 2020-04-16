@@ -15,7 +15,7 @@ object Actions {
         internalIntent(context, "oliveira.fabio.challenge52.challengeoverview")
 
     fun openGoalCreate(context: Context): Intent =
-        internalIntent(context, "oliveira.fabio.challenge52.goalcreate")
+        internalIntent(context, "oliveira.fabio.challenge52.goalname")
 
     fun openGoalDetails(context: Context): Intent =
         internalIntent(context, "oliveira.fabio.challenge52.goaldetails")

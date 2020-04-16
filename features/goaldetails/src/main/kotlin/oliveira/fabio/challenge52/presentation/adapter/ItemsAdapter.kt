@@ -12,22 +12,22 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_details.*
 import kotlinx.android.synthetic.main.item_header.*
 import kotlinx.android.synthetic.main.item_to_save.*
-import oliveira.fabio.challenge52.domain.model.Week
 import oliveira.fabio.challenge52.extensions.doPopAnimation
-import oliveira.fabio.challenge52.extensions.toCurrency
 import oliveira.fabio.challenge52.extensions.toCurrentDateSystemString
-import oliveira.fabio.challenge52.presentation.adapter.vo.AdapterItem
+import oliveira.fabio.challenge52.extensions.toStringMoney
+import oliveira.fabio.challenge52.presentation.vo.ItemDetail
+import oliveira.fabio.challenge52.presentation.vo.PeriodItemEnum
 import oliveira.fabio.challenge52.presentation.vo.TopDetails
 import java.text.DateFormat
 
 
 internal class ItemsAdapter(
-    private val onClickWeekListener: OnClickWeekListener,
+    private val onClickItemListener: OnClickItemListener,
     private val isFromDoneGoal: Boolean
 ) :
     RecyclerView.Adapter<ItemsAdapter.ItemViewHolder>() {
 
-    private var list: MutableList<AdapterItem<TopDetails, String, Week>> = mutableListOf()
+    private var list: MutableList<AdapterItem<TopDetails, String, ItemDetail>> = mutableListOf()
     private var lastClickTime = System.currentTimeMillis()
 
     override fun getItemViewType(position: Int) = list[position].viewType.type
@@ -54,7 +54,7 @@ internal class ItemsAdapter(
                     false
                 )
             )
-            else -> WeekViewHolder(
+            else -> SubItemViewHolder(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_to_save,
                     parent,
@@ -63,19 +63,25 @@ internal class ItemsAdapter(
             )
         }
 
-    fun addList(adapterItemList: List<AdapterItem<TopDetails, String, Week>>) {
+    fun addList(adapterItemDetailList: List<AdapterItem<TopDetails, String, ItemDetail>>) {
         list.clear()
-        list.addAll(adapterItemList)
+        list.addAll(adapterItemDetailList)
         notifyDataSetChanged()
     }
 
     inner class DetailsViewHolder(override val containerView: View) :
         ItemViewHolder(containerView) {
-        override fun bind(item: AdapterItem<TopDetails, String, Week>) {
-            item.first?.also {
-                txtWeeksCompleted.text = containerView.resources.getString(
-                    R.string.goal_details_weeks,
-                    it.totalCompletedWeeks.toString(), it.totalWeeks.toString()
+        override fun bind(itemDetail: AdapterItem<TopDetails, String, ItemDetail>) {
+            itemDetail.first?.also {
+                val period = when (it.periodItemEnum) {
+                    PeriodItemEnum.DAY -> R.string.goal_details_days
+                    PeriodItemEnum.WEEK -> R.string.goal_details_weeks
+                    PeriodItemEnum.MONTH -> R.string.goal_details_months
+                }
+
+                txtItemsCompleted.text = containerView.resources.getString(
+                    period,
+                    it.totalCompletedItems.toString(), it.totalItems.toString()
                 )
                 txtMoneySaved.text = it.totalMoneySaved
                 txtMoneyToSave.text = containerView.resources.getString(
@@ -103,28 +109,31 @@ internal class ItemsAdapter(
 
     inner class HeaderViewHolder(override val containerView: View) :
         ItemViewHolder(containerView) {
-        override fun bind(item: AdapterItem<TopDetails, String, Week>) {
-            chHeader.text = item.second
+        override fun bind(itemDetail: AdapterItem<TopDetails, String, ItemDetail>) {
+            chHeader.text = itemDetail.second
         }
     }
 
-    inner class WeekViewHolder(override val containerView: View) :
+    inner class SubItemViewHolder(override val containerView: View) :
         ItemViewHolder(containerView) {
-        override fun bind(item: AdapterItem<TopDetails, String, Week>) {
-            item.third?.also { week ->
-                if (week.isChecked)
+        override fun bind(itemDetail: AdapterItem<TopDetails, String, ItemDetail>) {
+            itemDetail.third?.also { item ->
+                if (item.isChecked)
                     bindCheck()
                 else
                     bindUncheck()
 
+                val period = when (item.periodItemEnum) {
+                    PeriodItemEnum.DAY -> R.string.goal_details_day
+                    PeriodItemEnum.WEEK -> R.string.goal_details_week
+                    PeriodItemEnum.MONTH -> R.string.goal_details_month
+                }
+
                 txtItem.text =
-                    containerView.context.getString(
-                        R.string.goal_details_weeks,
-                        week.weekNumber.toString()
-                    )
-                txtMoney.text = week.moneyToSave.toCurrency()
+                    "${containerView.resources.getString(period)} ${item.position}"
+                txtMoney.text = item.moneyToSave
                 txtDate.text =
-                    week.date.toCurrentDateSystemString(DateFormat.SHORT)
+                    item.date.toCurrentDateSystemString(DateFormat.SHORT)
 
                 if (isFromDoneGoal.not())
                     containerView.setOnClickListener {
@@ -134,7 +143,7 @@ internal class ItemsAdapter(
                         }
                         lastClickTime = now
                         it.doPopAnimation(POP_ANIMATION_DURATION) {
-                            onClickWeekListener.onClickWeek(week)
+                            onClickItemListener.onClickItem(item)
                         }
                     }
             }
@@ -145,7 +154,7 @@ internal class ItemsAdapter(
                 if (imgNotChecked.visibility != View.INVISIBLE) View.INVISIBLE else imgNotChecked.visibility
             imgChecked.visibility =
                 if (imgChecked.visibility != View.VISIBLE) View.VISIBLE else imgChecked.visibility
-            val color =  ContextCompat.getColor(
+            val color = ContextCompat.getColor(
                 containerView.context,
                 R.color.color_green
             )
@@ -159,9 +168,9 @@ internal class ItemsAdapter(
             imgNotChecked.visibility =
                 if (imgNotChecked.visibility != View.VISIBLE) View.VISIBLE else imgNotChecked.visibility
             val color = ContextCompat.getColor(
-                    containerView.context,
-                    R.color.color_transparent_grey
-                )
+                containerView.context,
+                R.color.color_transparent_grey
+            )
             txtMoney.setTextColor(color)
             line.setBackgroundColor(color)
         }
@@ -170,15 +179,14 @@ internal class ItemsAdapter(
     abstract class ItemViewHolder(override val containerView: View) :
         RecyclerView.ViewHolder(containerView),
         LayoutContainer {
-        abstract fun bind(item: AdapterItem<TopDetails, String, Week>)
+        abstract fun bind(itemDetail: AdapterItem<TopDetails, String, ItemDetail>)
     }
 
-    interface OnClickWeekListener {
-        fun onClickWeek(week: Week)
+    interface OnClickItemListener {
+        fun onClickItem(itemDetail: ItemDetail)
     }
 
     companion object {
-        private const val TOP_DETAILS_POSITION = 0
         private const val PROGRESS_TAG = "progress"
         private const val INITIAL_VALUE = 0
         private const val PROGRESS_ANIMATION_DURATION = 1000L

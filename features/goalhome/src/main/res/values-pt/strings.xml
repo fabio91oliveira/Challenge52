@@ -20,7 +20,9 @@
 
     <string name="goals_lists_my_goals">Minhas metas</string>
 
-    <string name="goals_lists_weeks_remaining">%s de 52 semanas</string>
+    <string name="goals_lists_days_remaining">%s de %s dias</string>
+    <string name="goals_lists_weeks_remaining">%s de %s semanas</string>
+    <string name="goals_lists_months_remaining">%s de %s meses</string>
     <string name="goals_lists_completed">completo</string>
     <string name="progress_value_percent">%</string>
 

@@ -41,8 +41,8 @@ fun Date.getCurrentYear() = Calendar.getInstance().let {
 
 fun Float.toCurrency(): String = NumberFormat.getCurrencyInstance().format((this))
 
-fun String.toFloatCurrency() : Float {
-    return (Regex("[1-9]\\d*|0\\d+").find(this)?.value.toString().toFloat() / 100)
+fun String.toFloatCurrency(): Float {
+    return (Regex("[1-9]\\d*|0\\d+").find(this)?.value.orZero().toFloat())
 }
 
 fun String.removeMoneyMask(): String {
@@ -56,4 +56,29 @@ fun String.toDate(dateFormat: Int): Date {
     val sdf = DateFormat.getDateInstance(dateFormat)
     sdf.isLenient = false
     return sdf.parse(this)
+}
+
+
+//
+
+fun String.isOnlyNumber(): Boolean = this.matches(Regex("[0-9]+"))
+
+fun String.onlyNumbers(): String = this.replace(Regex("[^0-9]"), "")
+
+fun String.removeInitialFinancial(currentLocale: Locale = Locale.getDefault()): String =
+    this.replace(Currency.getInstance(currentLocale).symbol, "")
+
+fun String?.orZero(): String = this ?: "0"
+
+fun Number.toStringMoney(
+    removeWhiteSpaces: Boolean = false,
+    useCurrency: Boolean = true,
+    currentLocale: Locale = Locale.getDefault()
+): String {
+    var formatted = NumberFormat.getCurrencyInstance(currentLocale).format((this))
+    if (!useCurrency) {
+        formatted = formatted.removeInitialFinancial(currentLocale)
+    }
+
+    return if (removeWhiteSpaces) formatted.replace(Regex("\\s"), "") else formatted
 }

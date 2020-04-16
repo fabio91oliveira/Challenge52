@@ -4,6 +4,9 @@
     <string name="goal_details_months">%s/%s meses</string>
     <string name="goal_details_weeks">%s/%s semanas</string>
     <string name="goal_details_days">%s/%s dias</string>
+    <string name="goal_details_month">Mês</string>
+    <string name="goal_details_week">Semana</string>
+    <string name="goal_details_day">Dia</string>
     <string name="goal_details_money">de %s</string>
     <string name="goal_details_item_updated">Um item foi atualizado</string>
 

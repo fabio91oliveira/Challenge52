@@ -1,8 +1,8 @@
 package oliveira.fabio.challenge52.domain.mapper
 
-import oliveira.fabio.challenge52.domain.model.Goal
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithItemsEntity
+import oliveira.fabio.challenge52.persistence.model.entity.GoalWithItemsEntity
+import oliveira.fabio.challenge52.presentation.vo.Goal
 
 interface GoalMapper {
-    operator fun invoke(goalWithItemsList: GoalWithItemsEntity): Goal
+    operator fun invoke(goalWithItemsEntity: GoalWithItemsEntity): Goal
 }

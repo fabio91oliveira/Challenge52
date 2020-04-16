@@ -8,14 +8,13 @@ data class Challenge(
     val id: Long,
     val name: String,
     val description: String,
-    val isAccumulative: Boolean,
-    val quantity: Int? = null,
-    val type: Type
+    val isAccumulative: Boolean = false,
+    val quantity: Int = 0,
+    val type: Type? = null
 ) : Parcelable {
     enum class Type {
         DAILY,
         WEEKLY,
-        MONTHLY,
-        NONE
+        MONTHLY
     }
 }

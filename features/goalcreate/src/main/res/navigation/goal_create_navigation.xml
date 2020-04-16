@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/goalCreateNameSuggestionsFragment"
-        android:name="oliveira.fabio.challenge52.goalcreate.presentation.fragment.GoalCreateNameSuggestionsFragment"
+        android:name="oliveira.fabio.challenge52.creategoal.presentation.fragment.GoalSuggestionsListFragment"
         android:label="GoalCreateNameSuggestionsFragment"
-        tools:layout="@layout/fragment_goal_create_name_suggestions">
+        tools:layout="@layout/fragment_goal_suggestions_list">
         <action
             android:id="@+id/action_go_to_goal_create_choose_name"
             app:destination="@id/goalCreateChooseNameFragment"
@@ -21,9 +21,9 @@
 
     <fragment
         android:id="@+id/goalCreateChooseNameFragment"
-        android:name="oliveira.fabio.challenge52.goalcreate.presentation.fragment.GoalCreateChooseNameFragment"
+        android:name="oliveira.fabio.challenge52.creategoal.presentation.fragment.GoalChooseNameFragment"
         android:label="GoalCreateChooseNameFragment"
-        tools:layout="@layout/fragment_goal_create_choose_name">
+        tools:layout="@layout/fragment_goal_choose_name">
         <action
             android:id="@+id/action_go_to_goal_create_name_suggestions"
             app:destination="@id/goalCreateNameSuggestionsFragment"
@@ -31,33 +31,6 @@
             app:exitAnim="@anim/exit_to_left"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/exit_to_right" />
-        <action
-            android:id="@+id/action_go_to_fragment_goal_create_set_periods"
-            app:destination="@id/goalCreateSetPeriodsFragment"
-            app:enterAnim="@anim/enter_from_right"
-            app:exitAnim="@anim/exit_to_left"
-            app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/exit_to_right" />
     </fragment>
-
-    <fragment
-        android:id="@+id/goalCreateSetPeriodsFragment"
-        android:name="oliveira.fabio.challenge52.goalcreate.presentation.fragment.GoalCreateSetPeriodsFragment"
-        android:label="GoalCreateSetPeriodsFragment"
-        tools:layout="@layout/fragment_goal_create_set_periods">
-        <action
-            android:id="@+id/action_go_to_fragment_goal_create_set_money"
-            app:destination="@id/goalCreateSetMoneyFragment"
-            app:enterAnim="@anim/enter_from_right"
-            app:exitAnim="@anim/exit_to_left"
-            app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/exit_to_right" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/goalCreateSetMoneyFragment"
-        android:name="oliveira.fabio.challenge52.goalcreate.presentation.fragment.GoalCreateSetMoneyFragment"
-        android:label="GoalCreateSetMoneyFragment"
-        tools:layout="@layout/fragment_goal_create_set_money" />
 
 </navigation>

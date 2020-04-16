@@ -22,11 +22,21 @@ internal class CreateScreensUseCaseImpl :
     }
 
     private fun createFirstScreen(challenge: Challenge) =
-        OverviewDetails(
-            resImage = if (challenge.isAccumulative) R.drawable.ic_business_man else R.drawable.ic_add_circle,
-            resTitle = if (challenge.isAccumulative) R.string.goal_create_challenge_overview_first_page_accumulative_title else R.string.goal_create_challenge_overview_first_page_title,
-            resDescription = if (challenge.isAccumulative) R.string.goal_create_challenge_overview_first_page_accumulative_description else R.string.goal_create_challenge_overview_first_page_description
-        )
+        challenge.type?.let {
+            challenge.isAccumulative?.let {
+                OverviewDetails(
+                    resImage = if (it) R.drawable.ic_business_man else R.drawable.ic_add_circle,
+                    resTitle = if (it) R.string.goal_create_challenge_overview_first_page_accumulative_title else R.string.goal_create_challenge_overview_first_page_title,
+                    resDescription = if (it) R.string.goal_create_challenge_overview_first_page_accumulative_description else R.string.goal_create_challenge_overview_first_page_description
+                )
+            }
+        } ?: run {
+            OverviewDetails(
+                resImage = R.drawable.ic_add_circle,
+                resTitle = R.string.goal_create_challenge_overview_first_page_title,
+                resDescription = R.string.goal_create_challenge_overview_first_page_description
+            )
+        }
 
     private fun createSecondScreen() =
         OverviewDetails(

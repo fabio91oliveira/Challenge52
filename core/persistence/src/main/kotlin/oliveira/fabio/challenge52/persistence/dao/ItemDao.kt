@@ -11,11 +11,11 @@ import oliveira.fabio.challenge52.persistence.model.entity.ItemEntity
 interface ItemDao {
     @Transaction
     @Query("UPDATE item SET isSaved = :isChecked WHERE id = :itemId AND idGoal = :goalId")
-    fun updateWeekStatus(goalId: Long, itemId: Long, isChecked: Boolean)
+    fun updateItemStatus(goalId: Long, itemId: Long, isChecked: Boolean)
 
     @Transaction
     @Query("DELETE FROM item WHERE idGoal = :goalId")
-    fun removeWeeksByGoalId(goalId: Long)
+    fun removeItemsByIdGoal(goalId: Long)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addItems(items: List<ItemEntity>): List<Long>

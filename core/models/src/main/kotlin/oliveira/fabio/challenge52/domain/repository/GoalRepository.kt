@@ -1,9 +1,9 @@
 package oliveira.fabio.challenge52.domain.repository
 
-import oliveira.fabio.challenge52.persistence.model.entity.GoalEntity
+import oliveira.fabio.challenge52.presentation.vo.GoalToSave
 
 interface GoalRepository {
-    fun addGoal(goal: GoalEntity): Long
-    fun removeGoal(idGoal: Long)
+    fun addGoal(goalToSave: GoalToSave): Long
     fun setGoalAsDone(idGoal: Long)
+    fun removeGoal(idGoal: Long)
 }

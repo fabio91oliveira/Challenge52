@@ -13,34 +13,40 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.EditText
 import androidx.core.content.ContextCompat
-import java.text.NumberFormat
-import java.util.*
 
 
-fun EditText.toCurrencyFormat(func: (() -> Unit?)? = null) {
+fun EditText.toCurrencyAndTextChangeAction(func: (() -> Unit?)? = null) {
     var current = ""
+    val maxLength = 22
     addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         override fun afterTextChanged(s: Editable?) {
-            if (s.toString() != current) {
+
+            if (current != s.toString() && s.toString().length < maxLength) {
                 removeTextChangedListener(this)
 
-                val defaultCurrencySymbol = Currency.getInstance(Locale.getDefault()).symbol
-                val regexPattern = "[$defaultCurrencySymbol,.]"
+                val parsedValue = s
+                    .toString()
+                    .onlyNumbers()
+                    .toDoubleOrNull()
+                    ?.div(100) ?: 0.0
 
-                val regex = Regex(regexPattern)
-                val cleanString = regex.replace(s.toString(), "")
+                val stringFormatted = parsedValue.toStringMoney(
+                    removeWhiteSpaces = true,
+                    useCurrency = true
+                )
 
-                val parsed = Regex("[1-9]\\d*|0\\d+").find(cleanString)?.value.toString().toDouble()
-                val formatted = NumberFormat.getCurrencyInstance().format((parsed / 100))
+                current = stringFormatted
 
-                current = formatted
-                setText(formatted)
-                setSelection(formatted.length)
+                setText(stringFormatted)
+                setSelection(text.length)
+
+                func?.invoke()
                 addTextChangedListener(this)
+            } else {
+                setText(current.onlyNumbers())
             }
-            func?.invoke()
         }
     })
 }
