@@ -31,17 +31,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name="oliveira.fabio.challenge52.creategoal.presentation.activity.GoalSetPeriodsActivity"
-            android:taskAffinity="oliveira.fabio.challenge52.goalcreate"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="oliveira.fabio.challenge52.goalsetperiods" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
         <activity
             android:name="oliveira.fabio.challenge52.creategoal.presentation.activity.CreateGoalFinalStepActivity"
             android:taskAffinity="oliveira.fabio.challenge52.goalcreate"
