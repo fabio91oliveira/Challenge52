@@ -12,21 +12,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_done_goals_list.*
-import oliveira.fabio.challenge52.actions.Actions
 import oliveira.fabio.challenge52.presentation.vo.Goal
 import oliveira.fabio.challenge52.extensions.isVisible
+import oliveira.fabio.challenge52.features.GoalDetailsNavigation
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsStateResources
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.adapter.DoneGoalsAdapter
+import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.fragment.OpenedGoalsListFragment
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.presentation.view.StateView
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 internal class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
     DoneGoalsAdapter.OnClickGoalListener {
 
     private val goalsListsViewModel: GoalsListsViewModel by sharedViewModel()
+    private val goalDetailsNavigation: GoalDetailsNavigation by inject()
     private val doneGoalsAdapter by lazy {
         DoneGoalsAdapter(
             this
@@ -55,7 +58,7 @@ internal class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_lis
     }
 
     override fun onClickGoal(goal: Goal) =
-        openGoalDetailsActivity(goal)
+        goToGoalDetails(goal)
 
     private fun init() {
         setupObservables()
@@ -151,11 +154,16 @@ internal class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_lis
             Snackbar.LENGTH_SHORT
         ).show()
 
-    private fun openGoalDetailsActivity(goal: Goal) = startActivityForResult(
-        Actions.openGoalDetails(requireContext()).putExtra(GOAL_TAG, goal)
-            .putExtra(IS_FROM_DONE_GOALS, true),
-        REQUEST_CODE_DETAILS
-    )
+    private fun goToGoalDetails(goal: Goal) {
+        context?.also {
+            startActivityForResult(
+                goalDetailsNavigation.navigateToFeature(it)
+                    .putExtra(GOAL_TAG, goal)
+                    .putExtra(IS_FROM_DONE_GOALS, true),
+                REQUEST_CODE_DETAILS
+            )
+        }
+    }
 
     private fun showStateView(
         stateView: StateView,

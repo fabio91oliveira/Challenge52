@@ -14,8 +14,9 @@ import com.google.android.material.snackbar.Snackbar
 import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_goals_lists.*
 import kotlinx.android.synthetic.main.fragment_opened_goals_list.*
-import oliveira.fabio.challenge52.actions.Actions
 import oliveira.fabio.challenge52.extensions.isVisible
+import oliveira.fabio.challenge52.features.CreateGoalNavigation
+import oliveira.fabio.challenge52.features.GoalDetailsNavigation
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.adapter.OpenedGoalAdapter
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
@@ -23,12 +24,15 @@ import oliveira.fabio.challenge52.model.vo.ActivityResultTypeEnum
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.presentation.view.StateView
 import oliveira.fabio.challenge52.presentation.vo.Goal
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
     OpenedGoalAdapter.OnClickGoalListener {
 
     private val goalsListsViewModel: GoalsListsViewModel by sharedViewModel()
+    private val createGoalNavigation: CreateGoalNavigation by inject()
+    private val goalDetailsNavigation: GoalDetailsNavigation by inject()
     private val openedGoalsAdapter by lazy {
         OpenedGoalAdapter(
             this
@@ -73,7 +77,6 @@ internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals
             }
             Activity.RESULT_CANCELED -> when (requestCode) {
                 REQUEST_CODE_CREATE -> {
-//                    goalsListsViewModel.showAddButton()
                     goalsListsViewModel.showMessageGoalHasBeenCreated()
                     goalsListsViewModel.listOpenedGoals()
                 }
@@ -166,26 +169,34 @@ internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals
 
     private fun setupClickListener() {
         parentFragment?.fabAdd?.setOnClickListener {
-            openGoalCreateActivity()
+            goToCreateGoal()
         }
     }
 
     private fun showSnackBar(@StringRes stringRes: Int) =
         Snackbar.make(content, resources.getText(stringRes), Snackbar.LENGTH_SHORT).show()
 
-    private fun openGoalCreateActivity() =
-        startActivityForResult(
-            Actions.openChallengeSelect(requireContext()),
-            REQUEST_CODE_CREATE
-        )
+    private fun goToCreateGoal() {
+        context?.also {
+            startActivityForResult(
+                createGoalNavigation.navigateToChallengeSelect(it),
+                REQUEST_CODE_CREATE
+            )
+        }
+    }
 
-    private fun openGoalDetailsActivity(goal: Goal) = startActivityForResult(
-        Actions.openGoalDetails(requireContext()).putExtra(GOAL_TAG, goal),
-        REQUEST_CODE_DETAILS
-    )
+    private fun goToGoalDetails(goal: Goal) {
+        context?.also {
+            startActivityForResult(
+                goalDetailsNavigation.navigateToFeature(it)
+                    .putExtra(GOAL_TAG, goal),
+                REQUEST_CODE_DETAILS
+            )
+        }
+    }
 
     override fun onClickGoal(goal: Goal) =
-        openGoalDetailsActivity(goal)
+        goToGoalDetails(goal)
 
     private fun showOpenedGoalsList(hasToShow: Boolean) {
         rvOpenedGoalsList.isVisible = hasToShow

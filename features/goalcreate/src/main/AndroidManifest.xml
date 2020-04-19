@@ -3,40 +3,42 @@
     package="features.goalcreate">
 
     <application android:theme="@style/AppTheme">
+        <!-- Challenge Select -->
         <activity
             android:name="oliveira.fabio.challenge52.challenge.challengeselect.presentation.activity.ChallengeSelectActivity"
-            android:taskAffinity="oliveira.fabio.challenge52.goalcreate"
+            android:taskAffinity="oliveira.fabio.challenge52.creategoal"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="oliveira.fabio.challenge52.challengeselect" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="oliveira.fabio.challenge52.challenge.challengeoverview.presentation.activity.ChallengeOverviewActivity"
-            android:taskAffinity="oliveira.fabio.challenge52.goalcreate"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="oliveira.fabio.challenge52.challengeoverview" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
+        <!-- Challenge Overview -->
         <activity
-            android:name="oliveira.fabio.challenge52.creategoal.presentation.activity.GoalNameActivity"
-            android:taskAffinity="oliveira.fabio.challenge52.goalcreate"
+            android:name="oliveira.fabio.challenge52.challenge.challengeoverview.presentation.activity.ChallengeOverviewActivity"
+            android:taskAffinity="oliveira.fabio.challenge52.creategoal"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="oliveira.fabio.challenge52.goalname" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <!-- Goal Name -->
         <activity
-            android:name="oliveira.fabio.challenge52.creategoal.presentation.activity.CreateGoalFinalStepActivity"
-            android:taskAffinity="oliveira.fabio.challenge52.goalcreate"
+            android:name="oliveira.fabio.challenge52.creategoal.presentation.activity.GoalNameActivity"
+            android:taskAffinity="oliveira.fabio.challenge52.creategoal"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="oliveira.fabio.challenge52.goalcreate" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- Create Goal -->
+        <activity
+            android:name="oliveira.fabio.challenge52.creategoal.presentation.activity.CreateGoalActivity"
+            android:taskAffinity="oliveira.fabio.challenge52.creategoal"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

@@ -1,19 +1,14 @@
 package oliveira.fabio.challenge52.creategoal.presentation.activity
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.findNavController
 import features.goalcreate.R
 import kotlinx.android.synthetic.main.activity_goal_name.*
 import oliveira.fabio.challenge52.BaseActivity
-import oliveira.fabio.challenge52.domain.vo.Challenge
 
 internal class GoalNameActivity : BaseActivity(R.layout.activity_goal_name) {
-
-    private val extras by lazy { intent.extras }
-    private val challenge by lazy {
-        extras.getParcelable<Challenge>(CHALLENGE)
-    }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +35,9 @@ internal class GoalNameActivity : BaseActivity(R.layout.activity_goal_name) {
     }
 
     companion object {
-        private const val CHALLENGE = "challenge"
+        fun newIntent(context: Context) = Intent(
+            context,
+            GoalNameActivity::class.java
+        )
     }
 }

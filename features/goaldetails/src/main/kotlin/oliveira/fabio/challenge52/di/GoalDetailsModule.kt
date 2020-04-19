@@ -13,6 +13,8 @@ import oliveira.fabio.challenge52.domain.usecase.impl.MountGoalsDetailsUseCaseIm
 import oliveira.fabio.challenge52.domain.usecase.impl.RemoveGoalUseCaseImpl
 import oliveira.fabio.challenge52.domain.usecase.impl.SetGoalAsDoneUseCaseImpl
 import oliveira.fabio.challenge52.domain.usecase.impl.VerifyAllWeekAreCompletedUseCaseImpl
+import oliveira.fabio.challenge52.features.GoalDetailsNavigation
+import oliveira.fabio.challenge52.presentation.navigation.GoalDetailsNavigationImpl
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
@@ -46,6 +48,7 @@ object GoalDetailsModule {
     }
 
     private val presentationModule = module {
+        factory<GoalDetailsNavigation> { GoalDetailsNavigationImpl() }
         viewModel { (handle: SavedStateHandle) ->
             GoalDetailsViewModel(handle, get(), get(), get(), get(), get())
         }

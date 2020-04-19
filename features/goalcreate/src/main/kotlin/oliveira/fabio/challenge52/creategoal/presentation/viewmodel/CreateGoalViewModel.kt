@@ -13,8 +13,8 @@ import oliveira.fabio.challenge52.creategoal.domain.usecase.AddItemsUseCase
 import oliveira.fabio.challenge52.creategoal.domain.usecase.CalculateMoneyUseCase
 import oliveira.fabio.challenge52.creategoal.domain.usecase.CreateItemsUseCase
 import oliveira.fabio.challenge52.creategoal.domain.usecase.GetMoneySuggestionsUseCase
-import oliveira.fabio.challenge52.creategoal.presentation.action.CreateGoalFinalStepActions
-import oliveira.fabio.challenge52.creategoal.presentation.viewstate.CreateGoalFinalStepViewState
+import oliveira.fabio.challenge52.creategoal.presentation.action.CreateGoalActions
+import oliveira.fabio.challenge52.creategoal.presentation.viewstate.CreateGoalViewState
 import oliveira.fabio.challenge52.creategoal.presentation.vo.MoneySuggestion
 import oliveira.fabio.challenge52.extensions.toFloatCurrency
 import oliveira.fabio.challenge52.extensions.toStringMoney
@@ -22,7 +22,7 @@ import oliveira.fabio.challenge52.presentation.vo.GoalToSave
 import oliveira.fabio.challenge52.presentation.vo.PeriodEnum
 import timber.log.Timber
 
-internal class CreateGoalFinalStepViewModel(
+internal class CreateGoalViewModel(
     private val state: SavedStateHandle,
     private val getMoneySuggestionsUseCase: GetMoneySuggestionsUseCase,
     private val calculateMoneyUseCase: CalculateMoneyUseCase,
@@ -32,11 +32,11 @@ internal class CreateGoalFinalStepViewModel(
 ) :
     ViewModel() {
 
-    private val _createGoalActions by lazy { MutableLiveData<CreateGoalFinalStepActions>() }
-    val createGoalFinalStepActions: LiveData<CreateGoalFinalStepActions> = _createGoalActions
+    private val _createGoalActions by lazy { MutableLiveData<CreateGoalActions>() }
+    val createGoalActions: LiveData<CreateGoalActions> = _createGoalActions
 
-    private val _createGoalViewState by lazy { MutableLiveData<CreateGoalFinalStepViewState>() }
-    val createGoalFinalStepViewState: LiveData<CreateGoalFinalStepViewState> = _createGoalViewState
+    private val _createGoalViewState by lazy { MutableLiveData<CreateGoalViewState>() }
+    val createGoalViewState: LiveData<CreateGoalViewState> = _createGoalViewState
 
     private val goal by lazy {
         state.get<GoalToSave>(GOAL) ?: initializerError() as GoalToSave
@@ -62,10 +62,10 @@ internal class CreateGoalFinalStepViewModel(
                                 addItemsUseCase(goal, it)
                             }.fold(
                                 success = {
-                                    CreateGoalFinalStepActions.GoalCreated.sendAction()
+                                    CreateGoalActions.GoalCreated.sendAction()
                                 },
                                 failure = {
-                                    CreateGoalFinalStepActions.CriticalError(
+                                    CreateGoalActions.CriticalError(
                                         R.string.goal_choose_name_error_title,
                                         R.string.goal_choose_name_list_error_description
                                     ).sendAction()
@@ -74,7 +74,7 @@ internal class CreateGoalFinalStepViewModel(
                             )
                         },
                         failure = {
-                            CreateGoalFinalStepActions.CriticalError(
+                            CreateGoalActions.CriticalError(
                                 R.string.goal_choose_name_error_title,
                                 R.string.goal_choose_name_list_error_description
                             ).sendAction()
@@ -83,7 +83,7 @@ internal class CreateGoalFinalStepViewModel(
                     )
                 },
                 failure = {
-                    CreateGoalFinalStepActions.CriticalError(
+                    CreateGoalActions.CriticalError(
                         R.string.goal_choose_name_error_title,
                         R.string.goal_choose_name_list_error_description
                     ).sendAction()
@@ -111,7 +111,7 @@ internal class CreateGoalFinalStepViewModel(
                     }
                 },
                 failure = {
-                    CreateGoalFinalStepActions.CriticalError(
+                    CreateGoalActions.CriticalError(
                         R.string.goal_choose_name_error_title,
                         R.string.goal_choose_name_list_error_description
                     ).sendAction()
@@ -127,7 +127,7 @@ internal class CreateGoalFinalStepViewModel(
                 getMoneySuggestionsUseCase()
             }.fold(
                 success = {
-                    CreateGoalFinalStepActions.ShowMoneySuggestions(it).sendAction()
+                    CreateGoalActions.ShowMoneySuggestions(it).sendAction()
                 },
                 failure = {
                     Timber.e(it)
@@ -164,22 +164,22 @@ internal class CreateGoalFinalStepViewModel(
     }
 
     private fun initializerError() {
-        CreateGoalFinalStepActions.CriticalError(
+        CreateGoalActions.CriticalError(
             R.string.goal_choose_name_error_title,
             R.string.goal_choose_name_list_error_description
         ).sendAction()
         Timber.e(ExceptionInInitializerError())
     }
 
-    private fun CreateGoalFinalStepActions.sendAction() {
+    private fun CreateGoalActions.sendAction() {
         _createGoalActions.value = this
     }
 
     private fun initViewState() {
-        _createGoalViewState.value = CreateGoalFinalStepViewState.init()
+        _createGoalViewState.value = CreateGoalViewState.init()
     }
 
-    private fun setViewState(state: (CreateGoalFinalStepViewState) -> CreateGoalFinalStepViewState) {
+    private fun setViewState(state: (CreateGoalViewState) -> CreateGoalViewState) {
         _createGoalViewState.value?.also {
             _createGoalViewState.value = state(it)
         }

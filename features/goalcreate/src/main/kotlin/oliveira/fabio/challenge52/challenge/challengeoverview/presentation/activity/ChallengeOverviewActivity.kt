@@ -1,5 +1,7 @@
 package oliveira.fabio.challenge52.challenge.challengeoverview.presentation.activity
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
@@ -9,10 +11,10 @@ import androidx.viewpager2.widget.ViewPager2
 import features.goalcreate.R
 import kotlinx.android.synthetic.main.activity_challenge_overview.*
 import oliveira.fabio.challenge52.BaseActivity
-import oliveira.fabio.challenge52.actions.Actions
 import oliveira.fabio.challenge52.challenge.challengeoverview.presentation.action.ChallengeOverviewActions
 import oliveira.fabio.challenge52.challenge.challengeoverview.presentation.adapter.OverviewDetailsAdapter
 import oliveira.fabio.challenge52.challenge.challengeoverview.presentation.viewmodel.ChallengeOverviewViewModel
+import oliveira.fabio.challenge52.creategoal.presentation.activity.GoalNameActivity
 import oliveira.fabio.challenge52.domain.vo.Challenge
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.extensions.setRipple
@@ -108,10 +110,7 @@ internal class ChallengeOverviewActivity : BaseActivity(R.layout.activity_challe
             goNext()
         }
         btnConfirm.setOnClickListener {
-            startActivity(
-                Actions.openGoalCreate(this)
-                    .putExtra(CHALLENGE, challenge)
-            )
+            openGoalName()
         }
     }
 
@@ -164,7 +163,20 @@ internal class ChallengeOverviewActivity : BaseActivity(R.layout.activity_challe
 
     private fun getVisibility(isVisible: Boolean) = if (isVisible) View.VISIBLE else View.INVISIBLE
 
+    private fun openGoalName() =
+        startActivity(
+            GoalNameActivity.newIntent(this)
+                .addFlags(
+                    Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                ).putExtra(CHALLENGE, challenge)
+        )
+
     companion object {
         private const val CHALLENGE = "challenge"
+
+        fun newIntent(context: Context) = Intent(
+            context,
+            ChallengeOverviewActivity::class.java
+        )
     }
 }

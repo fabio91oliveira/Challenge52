@@ -5,6 +5,7 @@ object Core {
     const val Actions = ":core:actions"
     const val Persistence = ":core:persistence"
     const val Models = ":core:models"
+    const val Navigation = ":core:navigation"
 }
 
 object Features {

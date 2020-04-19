@@ -1,9 +1,9 @@
 package oliveira.fabio.challenge52.home.presentation.activity
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import features.goalhome.R
@@ -93,5 +93,10 @@ class HomeActivity : BaseActivity(R.layout.activity_home),
 
     companion object {
         private const val CURRENT_TAB = "CURRENT_TAB"
+
+        fun newIntent(context: Context) = Intent(
+            context,
+            HomeActivity::class.java
+        )
     }
 }

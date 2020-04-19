@@ -35,7 +35,7 @@ internal class GoalChooseNameViewModel(private val state: SavedStateHandle) : Vi
 
     fun goToNextStep() {
         goal.period?.also {
-            GoalChooseNameActions.GoToFinalStepScreen(goal).sendAction()
+            GoalChooseNameActions.GoToCreateGoalScreen(goal).sendAction()
         } ?: run {
             GoalChooseNameActions.GoToDefinePeriodScreen(goal).sendAction()
         }

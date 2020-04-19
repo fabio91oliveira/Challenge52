@@ -23,10 +23,12 @@ import oliveira.fabio.challenge52.creategoal.domain.usecase.impl.CreateItemsUseC
 import oliveira.fabio.challenge52.creategoal.domain.usecase.impl.GetCurrentLocaleUseCaseImpl
 import oliveira.fabio.challenge52.creategoal.domain.usecase.impl.GetGoalSuggestionsUseCaseImpl
 import oliveira.fabio.challenge52.creategoal.domain.usecase.impl.GetMoneySuggestionsUseCaseImpl
-import oliveira.fabio.challenge52.creategoal.presentation.viewmodel.CreateGoalFinalStepViewModel
+import oliveira.fabio.challenge52.creategoal.presentation.viewmodel.CreateGoalViewModel
 import oliveira.fabio.challenge52.creategoal.presentation.viewmodel.GoalChooseNameViewModel
 import oliveira.fabio.challenge52.creategoal.presentation.viewmodel.GoalSuggestionsListViewModel
 import oliveira.fabio.challenge52.domain.vo.Challenge
+import oliveira.fabio.challenge52.features.CreateGoalNavigation
+import oliveira.fabio.challenge52.presentation.navigation.CreateGoalNavigationImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
@@ -46,6 +48,7 @@ object GoalCreateModule {
     }
 
     private val presentationModule = module {
+        factory<CreateGoalNavigation> { CreateGoalNavigationImpl() }
         viewModel {
             ChallengeSelectViewModel(
                 get()
@@ -64,7 +67,7 @@ object GoalCreateModule {
             GoalChooseNameViewModel(handle)
         }
         viewModel { (handle: SavedStateHandle) ->
-            CreateGoalFinalStepViewModel(handle, get(), get(), get(), get(), get())
+            CreateGoalViewModel(handle, get(), get(), get(), get(), get())
         }
     }
 

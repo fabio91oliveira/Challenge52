@@ -3,7 +3,7 @@ package oliveira.fabio.challenge52.creategoal.presentation.viewstate
 import androidx.annotation.StringRes
 import features.goalcreate.R
 
-internal data class CreateGoalFinalStepViewState(
+internal data class CreateGoalViewState(
     val isCreateButtonEnable: Boolean = false,
     val isCalculating: Boolean = false,
     val money: String = "0",
@@ -12,6 +12,6 @@ internal data class CreateGoalFinalStepViewState(
 ) {
     companion object {
         fun init() =
-            CreateGoalFinalStepViewState()
+            CreateGoalViewState()
     }
 }

@@ -1,15 +1,16 @@
 package oliveira.fabio.challenge52.creategoal.presentation.activity
 
-import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import features.goalcreate.R
-import kotlinx.android.synthetic.main.activity_create_goal_final_step.*
+import kotlinx.android.synthetic.main.activity_create_goal.*
 import oliveira.fabio.challenge52.BaseActivity
-import oliveira.fabio.challenge52.creategoal.presentation.action.CreateGoalFinalStepActions
+import oliveira.fabio.challenge52.creategoal.presentation.action.CreateGoalActions
 import oliveira.fabio.challenge52.creategoal.presentation.adapter.MoneySuggestionAdapter
-import oliveira.fabio.challenge52.creategoal.presentation.viewmodel.CreateGoalFinalStepViewModel
+import oliveira.fabio.challenge52.creategoal.presentation.viewmodel.CreateGoalViewModel
 import oliveira.fabio.challenge52.creategoal.presentation.vo.MoneySuggestion
 import oliveira.fabio.challenge52.extensions.setRipple
 import oliveira.fabio.challenge52.extensions.toCurrency
@@ -17,8 +18,8 @@ import oliveira.fabio.challenge52.extensions.toCurrencyAndTextChangeAction
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
 import org.koin.androidx.viewmodel.ext.android.getStateViewModel
 
-internal class CreateGoalFinalStepActivity :
-    BaseActivity(R.layout.activity_create_goal_final_step),
+internal class CreateGoalActivity :
+    BaseActivity(R.layout.activity_create_goal),
     MoneySuggestionAdapter.MoneySuggestionSuggestionClickListener {
 
     private val moneyAdapter by lazy { MoneySuggestionAdapter(this) }
@@ -26,7 +27,7 @@ internal class CreateGoalFinalStepActivity :
     private val money: String
         get() = edtMoney.text.toString()
 
-    private lateinit var createGoalFinalStepViewModel: CreateGoalFinalStepViewModel
+    private lateinit var createGoalViewModel: CreateGoalViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +50,7 @@ internal class CreateGoalFinalStepActivity :
     }
 
     private fun setupViewModel() {
-        createGoalFinalStepViewModel = getStateViewModel(bundle = intent.extras)
+        createGoalViewModel = getStateViewModel(bundle = intent.extras)
     }
 
     private fun setupToolbar() {
@@ -65,7 +66,7 @@ internal class CreateGoalFinalStepActivity :
 
     private fun setupClickListener() {
         btnCreate.setOnClickListener {
-            createGoalFinalStepViewModel.createGoal()
+            createGoalViewModel.createGoal()
         }
     }
 
@@ -76,7 +77,7 @@ internal class CreateGoalFinalStepActivity :
 
     private fun setupEditTextsListeners() {
         edtMoney.toCurrencyAndTextChangeAction {
-            createGoalFinalStepViewModel.calculateTotalMoney(money)
+            createGoalViewModel.calculateTotalMoney(money)
         }
     }
 
@@ -84,7 +85,7 @@ internal class CreateGoalFinalStepActivity :
         with(rvMoneySuggestions) {
             layoutManager =
                 androidx.recyclerview.widget.LinearLayoutManager(
-                    this@CreateGoalFinalStepActivity,
+                    this@CreateGoalActivity,
                     androidx.recyclerview.widget.RecyclerView.HORIZONTAL,
                     false
                 )
@@ -94,16 +95,16 @@ internal class CreateGoalFinalStepActivity :
     }
 
     private fun setupObservables() {
-        with(createGoalFinalStepViewModel) {
-            createGoalFinalStepActions.observe(this@CreateGoalFinalStepActivity, Observer {
+        with(createGoalViewModel) {
+            createGoalActions.observe(this@CreateGoalActivity, Observer {
                 when (it) {
-                    is CreateGoalFinalStepActions.ShowMoneySuggestions -> {
+                    is CreateGoalActions.ShowMoneySuggestions -> {
                         moneyAdapter.addSuggestions(it.moneySuggestions)
                     }
-                    is CreateGoalFinalStepActions.GoalCreated -> {
+                    is CreateGoalActions.GoalCreated -> {
                         finishAffinity()
                     }
-                    is CreateGoalFinalStepActions.CriticalError -> {
+                    is CreateGoalActions.CriticalError -> {
                         showFullScreenDialog(
                             it.titleRes,
                             it.descriptionRes
@@ -111,7 +112,7 @@ internal class CreateGoalFinalStepActivity :
                     }
                 }
             })
-            createGoalFinalStepViewState.observe(this@CreateGoalFinalStepActivity, Observer {
+            createGoalViewState.observe(this@CreateGoalActivity, Observer {
                 setPeriodType(it.periodType)
                 setTotalMoney(it.totalMoney)
                 enableFinishButton(it.isCreateButtonEnable)
@@ -161,5 +162,12 @@ internal class CreateGoalFinalStepActivity :
                 })
             .build()
             .show(supportFragmentManager, FullScreenDialog.TAG)
+    }
+
+    companion object {
+        fun newIntent(context: Context) = Intent(
+            context,
+            CreateGoalActivity::class.java
+        )
     }
 }

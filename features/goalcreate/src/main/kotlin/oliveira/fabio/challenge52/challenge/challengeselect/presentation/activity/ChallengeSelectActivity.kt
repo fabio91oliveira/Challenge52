@@ -1,13 +1,15 @@
 package oliveira.fabio.challenge52.challenge.challengeselect.presentation.activity
 
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import features.goalcreate.R
 import kotlinx.android.synthetic.main.activity_challenge_select.*
 import oliveira.fabio.challenge52.BaseActivity
-import oliveira.fabio.challenge52.actions.Actions
+import oliveira.fabio.challenge52.challenge.challengeoverview.presentation.activity.ChallengeOverviewActivity
 import oliveira.fabio.challenge52.challenge.challengeselect.presentation.action.ChallengeSelectActions
 import oliveira.fabio.challenge52.challenge.challengeselect.presentation.adapter.ChallengeAdapter
 import oliveira.fabio.challenge52.challenge.challengeselect.presentation.viewmodel.ChallengeSelectViewModel
@@ -38,8 +40,10 @@ class ChallengeSelectActivity : BaseActivity(R.layout.activity_challenge_select)
 
     override fun onChallengeClick(challenge: Challenge) {
         startActivity(
-            Actions.openChallengeOverview(this)
-                .putExtra(CHALLENGE, challenge)
+            ChallengeOverviewActivity.newIntent(this)
+                .addFlags(
+                    Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                ).putExtra(CHALLENGE, challenge)
         )
     }
 
@@ -126,6 +130,11 @@ class ChallengeSelectActivity : BaseActivity(R.layout.activity_challenge_select)
 
     companion object {
         private const val CHALLENGE = "challenge"
+
+        fun newIntent(context: Context) = Intent(
+            context,
+            ChallengeSelectActivity::class.java
+        )
     }
 
 }

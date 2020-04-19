@@ -5,6 +5,7 @@ apply plugin: 'kotlin-kapt'
 
 dependencies {
     implementation project(Core.Base)
+    implementation project(Core.Navigation)
     implementation project(Core.Models)
 
     implementation project(UI.Resources)
@@ -16,7 +17,12 @@ dependencies {
     implementation Deps.support_material
     implementation Deps.support_recyclerview
     implementation Deps.support_constraint_layout
+
+    // Lifecycle
+    implementation Deps.lifecycle_viewmodel
+    implementation Deps.lifecycle_livedata
     implementation Deps.lifecycle_viewmodel_savedstate
+    kapt Deps.lifecycle_compiler
 
     // Koin
     implementation Deps.koin_scope

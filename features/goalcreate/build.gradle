@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 
 dependencies {
     implementation project(Core.Base)
-    implementation project(Core.Actions)
+    implementation project(Core.Navigation)
     implementation project(Core.Models)
 
     implementation project(UI.Resources)

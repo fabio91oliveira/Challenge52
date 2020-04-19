@@ -11,10 +11,11 @@ import androidx.lifecycle.Observer
 import features.goalcreate.R
 import kotlinx.android.synthetic.main.fragment_goal_choose_name.*
 import oliveira.fabio.challenge52.creategoal.presentation.action.GoalChooseNameActions
-import oliveira.fabio.challenge52.creategoal.presentation.activity.CreateGoalFinalStepActivity
+import oliveira.fabio.challenge52.creategoal.presentation.activity.CreateGoalActivity
 import oliveira.fabio.challenge52.creategoal.presentation.viewmodel.GoalChooseNameViewModel
 import oliveira.fabio.challenge52.extensions.setRipple
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
+import oliveira.fabio.challenge52.presentation.vo.GoalToSave
 import org.koin.androidx.viewmodel.ext.android.getStateViewModel
 
 internal class GoalChooseNameFragment : Fragment(R.layout.fragment_goal_choose_name) {
@@ -77,11 +78,8 @@ internal class GoalChooseNameFragment : Fragment(R.layout.fragment_goal_choose_n
             goalChooseNameActions.observe(viewLifecycleOwner,
                 Observer {
                     when (it) {
-                        is GoalChooseNameActions.GoToFinalStepScreen -> {
-                            Intent(context, CreateGoalFinalStepActivity::class.java).apply {
-                                putExtra(GOAL, it.goalToSave)
-                                startActivity(this)
-                            }
+                        is GoalChooseNameActions.GoToCreateGoalScreen -> {
+                            goToCreateGoalScreen(it.goalToSave)
                         }
                         is GoalChooseNameActions.GoToDefinePeriodScreen -> {
 
@@ -136,6 +134,17 @@ internal class GoalChooseNameFragment : Fragment(R.layout.fragment_goal_choose_n
                 })
             .build()
             .show(childFragmentManager, FullScreenDialog.TAG)
+    }
+
+    private fun goToCreateGoalScreen(goalToSave: GoalToSave) {
+        context?.also {
+            startActivity(
+                CreateGoalActivity.newIntent(it)
+                    .addFlags(
+                        Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                    ).putExtra(GOAL, goalToSave)
+            )
+        }
     }
 
     companion object {

@@ -29,8 +29,11 @@ subprojects {
                     targetSdkVersion Config.targetSdk
                     testInstrumentationRunner Config.runner
                 }
-                androidExtensions {
-                    experimental = true
+
+                if (project.plugins.findPlugin('kotlin-android-extensions')) {
+                    androidExtensions {
+                        experimental = true
+                    }
                 }
                 sourceSets {
                     main.java.srcDirs += Config.srcDirMain

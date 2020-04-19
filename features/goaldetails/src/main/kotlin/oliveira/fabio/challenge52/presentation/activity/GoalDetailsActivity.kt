@@ -1,6 +1,7 @@
 package oliveira.fabio.challenge52.presentation.activity
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -15,17 +16,17 @@ import com.google.android.material.snackbar.Snackbar
 import features.goaldetails.R
 import kotlinx.android.synthetic.main.activity_goal_details.*
 import oliveira.fabio.challenge52.BaseActivity
-import oliveira.fabio.challenge52.presentation.vo.ItemDetail
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
 import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
-import oliveira.fabio.challenge52.presentation.adapter.ItemsAdapter
 import oliveira.fabio.challenge52.presentation.adapter.AdapterItem
+import oliveira.fabio.challenge52.presentation.adapter.ItemsAdapter
 import oliveira.fabio.challenge52.presentation.bottomsheetdialogfragment.OptionsBottomPopup
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
 import oliveira.fabio.challenge52.presentation.dialogfragment.PopupDialog
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
 import oliveira.fabio.challenge52.presentation.viewstate.Dialog
+import oliveira.fabio.challenge52.presentation.vo.ItemDetail
 import oliveira.fabio.challenge52.presentation.vo.TopDetails
 import org.koin.androidx.viewmodel.ext.android.getStateViewModel
 
@@ -371,5 +372,10 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     companion object {
         private const val HAS_CHANGED = "HAS_CHANGED"
         private const val IS_FROM_DONE_GOALS = "IS_FROM_DONE_GOALS"
+
+        fun newIntent(context: Context) = Intent(
+            context,
+            GoalDetailsActivity::class.java
+        )
     }
 }
