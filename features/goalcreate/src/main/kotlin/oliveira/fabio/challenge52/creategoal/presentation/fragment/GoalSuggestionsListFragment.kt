@@ -15,7 +15,7 @@ import oliveira.fabio.challenge52.creategoal.presentation.vo.GoalSuggestion
 import oliveira.fabio.challenge52.creategoal.presentation.action.GoalSuggestionsListActions
 import oliveira.fabio.challenge52.creategoal.presentation.adapter.GoalSuggestionAdapter
 import oliveira.fabio.challenge52.creategoal.presentation.viewmodel.GoalSuggestionsListViewModel
-import oliveira.fabio.challenge52.domain.vo.Challenge
+import oliveira.fabio.challenge52.presentation.vo.Challenge
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel

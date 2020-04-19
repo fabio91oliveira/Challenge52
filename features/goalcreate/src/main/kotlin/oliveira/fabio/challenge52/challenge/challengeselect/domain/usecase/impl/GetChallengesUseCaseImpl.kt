@@ -3,7 +3,7 @@ package oliveira.fabio.challenge52.challenge.challengeselect.domain.usecase.impl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import oliveira.fabio.challenge52.challenge.challengeselect.domain.usecase.GetChallengesUseCase
-import oliveira.fabio.challenge52.domain.vo.Challenge
+import oliveira.fabio.challenge52.presentation.vo.Challenge
 
 internal class GetChallengesUseCaseImpl :
     GetChallengesUseCase {

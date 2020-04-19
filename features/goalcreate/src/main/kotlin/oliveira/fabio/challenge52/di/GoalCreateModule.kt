@@ -26,7 +26,7 @@ import oliveira.fabio.challenge52.creategoal.domain.usecase.impl.GetMoneySuggest
 import oliveira.fabio.challenge52.creategoal.presentation.viewmodel.CreateGoalViewModel
 import oliveira.fabio.challenge52.creategoal.presentation.viewmodel.GoalChooseNameViewModel
 import oliveira.fabio.challenge52.creategoal.presentation.viewmodel.GoalSuggestionsListViewModel
-import oliveira.fabio.challenge52.domain.vo.Challenge
+import oliveira.fabio.challenge52.presentation.vo.Challenge
 import oliveira.fabio.challenge52.features.CreateGoalNavigation
 import oliveira.fabio.challenge52.presentation.navigation.CreateGoalNavigationImpl
 import org.koin.androidx.viewmodel.dsl.viewModel

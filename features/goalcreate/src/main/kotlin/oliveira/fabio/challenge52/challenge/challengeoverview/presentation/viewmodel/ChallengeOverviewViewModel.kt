@@ -10,7 +10,7 @@ import oliveira.fabio.challenge52.challenge.challengeoverview.domain.usecase.Cre
 import oliveira.fabio.challenge52.challenge.challengeoverview.presentation.action.ChallengeOverviewActions
 import oliveira.fabio.challenge52.challenge.challengeoverview.presentation.viewstate.ChallengeOverviewViewState
 import oliveira.fabio.challenge52.challenge.challengeoverview.presentation.vo.OverviewDetails
-import oliveira.fabio.challenge52.domain.vo.Challenge
+import oliveira.fabio.challenge52.presentation.vo.Challenge
 import timber.log.Timber
 
 internal class ChallengeOverviewViewModel(

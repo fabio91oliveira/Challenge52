@@ -15,7 +15,7 @@ import oliveira.fabio.challenge52.challenge.challengeoverview.presentation.actio
 import oliveira.fabio.challenge52.challenge.challengeoverview.presentation.adapter.OverviewDetailsAdapter
 import oliveira.fabio.challenge52.challenge.challengeoverview.presentation.viewmodel.ChallengeOverviewViewModel
 import oliveira.fabio.challenge52.creategoal.presentation.activity.GoalNameActivity
-import oliveira.fabio.challenge52.domain.vo.Challenge
+import oliveira.fabio.challenge52.presentation.vo.Challenge
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.extensions.setRipple
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog

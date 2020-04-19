@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import features.goalcreate.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_challenge.*
-import oliveira.fabio.challenge52.domain.vo.Challenge
+import oliveira.fabio.challenge52.presentation.vo.Challenge
 import oliveira.fabio.challenge52.extensions.doPopAnimation
 
 internal class ChallengeAdapter(

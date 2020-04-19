@@ -13,7 +13,7 @@ import oliveira.fabio.challenge52.challenge.challengeoverview.presentation.activ
 import oliveira.fabio.challenge52.challenge.challengeselect.presentation.action.ChallengeSelectActions
 import oliveira.fabio.challenge52.challenge.challengeselect.presentation.adapter.ChallengeAdapter
 import oliveira.fabio.challenge52.challenge.challengeselect.presentation.viewmodel.ChallengeSelectViewModel
-import oliveira.fabio.challenge52.domain.vo.Challenge
+import oliveira.fabio.challenge52.presentation.vo.Challenge
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel

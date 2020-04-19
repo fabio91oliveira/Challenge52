@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import oliveira.fabio.challenge52.challenge.challengeselect.domain.usecase.GetChallengesUseCase
 import oliveira.fabio.challenge52.challenge.challengeselect.presentation.action.ChallengeSelectActions
 import oliveira.fabio.challenge52.challenge.challengeselect.presentation.viewstate.ChallengeSelectViewState
-import oliveira.fabio.challenge52.domain.vo.Challenge
+import oliveira.fabio.challenge52.presentation.vo.Challenge
 import timber.log.Timber
 
 internal class ChallengeSelectViewModel(

@@ -12,7 +12,7 @@ import oliveira.fabio.challenge52.creategoal.presentation.vo.GoalSuggestion
 import oliveira.fabio.challenge52.creategoal.presentation.action.GoalSuggestionsListActions
 import oliveira.fabio.challenge52.creategoal.presentation.viewstate.GoalSuggestionsListViewState
 import oliveira.fabio.challenge52.presentation.vo.GoalToSave
-import oliveira.fabio.challenge52.domain.vo.Challenge
+import oliveira.fabio.challenge52.presentation.vo.Challenge
 import timber.log.Timber
 
 internal class GoalSuggestionsListViewModel(

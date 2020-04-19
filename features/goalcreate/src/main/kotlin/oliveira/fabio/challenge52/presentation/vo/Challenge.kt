@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.domain.vo
+package oliveira.fabio.challenge52.presentation.vo
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
