@@ -17,7 +17,7 @@ import features.goaldetails.R
 import kotlinx.android.synthetic.main.activity_goal_details.*
 import oliveira.fabio.challenge52.BaseActivity
 import oliveira.fabio.challenge52.extensions.isVisible
-import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
+import oliveira.fabio.challenge52.presentation.vo.GoalResult
 import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
 import oliveira.fabio.challenge52.presentation.adapter.AdapterItem
 import oliveira.fabio.challenge52.presentation.adapter.ItemsAdapter
@@ -59,7 +59,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     override fun onSaveInstanceState(outState: Bundle) {
         with(outState) {
             putParcelable(
-                HAS_CHANGED, newIntent.getParcelableExtra<ActivityResultValueObject>(
+                HAS_CHANGED, newIntent.getParcelableExtra<GoalResult>(
                     HAS_CHANGED
                 )
             )
@@ -104,13 +104,15 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         savedInstanceState?.also {
             newIntent = Intent().apply {
                 putExtra(
-                    HAS_CHANGED, it.getParcelable<ActivityResultValueObject>(
+                    HAS_CHANGED, it.getParcelable<GoalResult>(
                         HAS_CHANGED
                     )
                 )
             }
         } ?: run {
-            newIntent = Intent().apply { putExtra(HAS_CHANGED, ActivityResultValueObject()) }
+            newIntent = Intent().apply { putExtra(HAS_CHANGED,
+                GoalResult()
+            ) }
         }
     }
 
@@ -137,19 +139,22 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                         showSnackBar(it.stringRes)
                         newIntent.putExtra(
                             HAS_CHANGED,
-                            ActivityResultValueObject().apply { setChangeUpdated() })
+                            GoalResult()
+                                .apply { setChangeUpdated() })
                         goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated()
                     }
                     is GoalDetailsActions.RemoveGoal -> {
                         newIntent.putExtra(
                             HAS_CHANGED,
-                            ActivityResultValueObject().apply { setChangeRemoved() })
+                            GoalResult()
+                                .apply { setChangeRemoved() })
                         closeDetails()
                     }
                     is GoalDetailsActions.CompleteGoal -> {
                         newIntent.putExtra(
                             HAS_CHANGED,
-                            ActivityResultValueObject().apply { setChangeCompleted() })
+                            GoalResult()
+                                .apply { setChangeCompleted() })
                         closeDetails()
                     }
                     is GoalDetailsActions.CriticalError -> {

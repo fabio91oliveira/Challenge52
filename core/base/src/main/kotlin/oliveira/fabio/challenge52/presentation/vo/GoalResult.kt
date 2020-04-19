@@ -1,30 +1,33 @@
-package oliveira.fabio.challenge52.model.vo
+package oliveira.fabio.challenge52.presentation.vo
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ActivityResultValueObject(
+data class GoalResult(
     var hasChanged: Boolean = false,
-    var type: ActivityResultTypeEnum = ActivityResultTypeEnum.NONE
+    var type: GoalResultTypeEnum = GoalResultTypeEnum.NONE
 ) : Parcelable {
     fun setChangeUpdated() {
         hasChanged = true
-        type = ActivityResultTypeEnum.UPDATED
+        type =
+            GoalResultTypeEnum.UPDATED
     }
 
     fun setChangeRemoved() {
         hasChanged = true
-        type = ActivityResultTypeEnum.REMOVED
+        type =
+            GoalResultTypeEnum.REMOVED
     }
 
     fun setChangeCompleted() {
         hasChanged = true
-        type = ActivityResultTypeEnum.COMPLETED
+        type =
+            GoalResultTypeEnum.COMPLETED
     }
 }
 
-enum class ActivityResultTypeEnum {
+enum class GoalResultTypeEnum {
     NONE,
     UPDATED,
     REMOVED,

@@ -29,7 +29,7 @@ object GoalDetailsModule {
             MountGoalsDetailsUseCaseImpl(get())
         }
         factory<ChangeItemStatusUseCase> {
-            ChangeItemStatusUseCaseImpl(get())
+            ChangeItemStatusUseCaseImpl(get(), get())
         }
         factory<SetGoalAsDoneUseCase> {
             SetGoalAsDoneUseCaseImpl(

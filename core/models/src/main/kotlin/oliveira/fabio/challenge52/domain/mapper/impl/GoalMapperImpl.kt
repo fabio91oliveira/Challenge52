@@ -19,20 +19,12 @@ internal class GoalMapperImpl : GoalMapper {
         items = getItems(goalWithItemsEntity)
     )
 
-    private fun getStatus(goalWithItems: GoalWithItemsEntity): Goal.Status {
-        when (goalWithItems.goal.goalStatus == GoalStatusEnum.DONE) {
-            true -> {
-                return Goal.Status.DONE
-            }
-            else -> {
-                goalWithItems.items.forEach {
-                    if (it.isSaved)
-                        return Goal.Status.IN_PROGRESS
-                }
-                return Goal.Status.NEW
-            }
+    private fun getStatus(goalWithItems: GoalWithItemsEntity) =
+        when (goalWithItems.goal.goalStatus) {
+            GoalStatusEnum.NEW -> Goal.Status.NEW
+            GoalStatusEnum.IN_PROGRESS -> Goal.Status.IN_PROGRESS
+            GoalStatusEnum.DONE -> Goal.Status.DONE
         }
-    }
 
     private fun getPeriod(goalWithItems: GoalWithItemsEntity): PeriodEnum {
         return when (goalWithItems.goal.periodType) {

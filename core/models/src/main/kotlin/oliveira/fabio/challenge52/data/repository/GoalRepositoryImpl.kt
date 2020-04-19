@@ -16,6 +16,9 @@ internal class GoalRepositoryImpl(
     override fun setGoalAsDone(idGoal: Long) =
         goalLocalDataSource.setGoalAsDone(idGoal)
 
+    override fun setGoalAsInProgress(idGoal: Long) =
+        goalLocalDataSource.setGoalAsInProgress(idGoal)
+
     override fun removeGoal(idGoal: Long) {
         goalLocalDataSource.removeGoal(idGoal)
     }

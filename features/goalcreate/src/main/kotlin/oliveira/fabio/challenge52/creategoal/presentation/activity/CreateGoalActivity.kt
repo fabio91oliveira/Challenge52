@@ -13,8 +13,8 @@ import oliveira.fabio.challenge52.creategoal.presentation.adapter.MoneySuggestio
 import oliveira.fabio.challenge52.creategoal.presentation.viewmodel.CreateGoalViewModel
 import oliveira.fabio.challenge52.creategoal.presentation.vo.MoneySuggestion
 import oliveira.fabio.challenge52.extensions.setRipple
-import oliveira.fabio.challenge52.extensions.toCurrency
 import oliveira.fabio.challenge52.extensions.toCurrencyAndTextChangeAction
+import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
 import org.koin.androidx.viewmodel.ext.android.getStateViewModel
 
@@ -71,7 +71,7 @@ internal class CreateGoalActivity :
     }
 
     private fun setupEditTextHint() {
-        val hint = 0f.toCurrency()
+        val hint = 0.toDouble().toStringMoney()
         edtMoney.hint = hint
     }
 

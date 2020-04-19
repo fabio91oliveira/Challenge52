@@ -13,12 +13,11 @@ interface GoalDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addGoal(goal: GoalEntity): Long
 
-    //
     @Transaction
     @Query("DELETE FROM goal WHERE id = :goalId")
     fun removeGoal(goalId: Long)
 
     @Transaction
-    @Query("UPDATE goal SET goalStatus = :goalStatusDone  WHERE id = :goalId")
-    fun setGoalAsDone(goalId: Long, goalStatusDone: GoalStatusEnum = GoalStatusEnum.DONE)
+    @Query("UPDATE goal SET goalStatus = :goalStatus  WHERE id = :goalId")
+    fun setGoalStatus(goalId: Long, goalStatus: GoalStatusEnum)
 }

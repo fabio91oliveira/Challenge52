@@ -18,9 +18,8 @@ import oliveira.fabio.challenge52.features.GoalDetailsNavigation
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsStateResources
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.adapter.DoneGoalsAdapter
-import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.fragment.OpenedGoalsListFragment
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
-import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
+import oliveira.fabio.challenge52.presentation.vo.GoalResult
 import oliveira.fabio.challenge52.presentation.view.StateView
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -46,7 +45,7 @@ internal class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_lis
         when (resultCode) {
             Activity.RESULT_OK -> when (requestCode) {
                 REQUEST_CODE_DETAILS -> {
-                    (data?.getParcelableExtra<ActivityResultValueObject>(HAS_CHANGED))?.let {
+                    (data?.getParcelableExtra<GoalResult>(HAS_CHANGED))?.let {
                         if (it.hasChanged) with(goalsListsViewModel) {
                             showMessageHasOneDoneGoalDeleted()
                             listDoneGoals()

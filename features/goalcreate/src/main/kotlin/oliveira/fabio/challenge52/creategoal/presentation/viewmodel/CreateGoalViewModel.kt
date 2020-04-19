@@ -16,7 +16,6 @@ import oliveira.fabio.challenge52.creategoal.domain.usecase.GetMoneySuggestionsU
 import oliveira.fabio.challenge52.creategoal.presentation.action.CreateGoalActions
 import oliveira.fabio.challenge52.creategoal.presentation.viewstate.CreateGoalViewState
 import oliveira.fabio.challenge52.creategoal.presentation.vo.MoneySuggestion
-import oliveira.fabio.challenge52.extensions.toFloatCurrency
 import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.presentation.vo.GoalToSave
 import oliveira.fabio.challenge52.presentation.vo.PeriodEnum
@@ -106,7 +105,7 @@ internal class CreateGoalViewModel(
                         state.copy(
                             isCalculating = false,
                             totalMoney = it.toStringMoney(useCurrency = true),
-                            isCreateButtonEnable = it > 0
+                            isCreateButtonEnable = isMoreOrEqualsOne(it)
                         )
                     }
                 },
@@ -156,11 +155,8 @@ internal class CreateGoalViewModel(
         }
     }
 
-    private fun isMoreOrEqualsOne(value: String): Boolean {
-        if (value.isNotEmpty()) {
-            return value.toFloatCurrency() >= MONEY_MIN
-        }
-        return false
+    private fun isMoreOrEqualsOne(value: Double): Boolean {
+        return value >= MONEY_MIN
     }
 
     private fun initializerError() {

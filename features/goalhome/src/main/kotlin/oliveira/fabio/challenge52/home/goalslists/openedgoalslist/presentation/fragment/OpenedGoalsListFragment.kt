@@ -20,8 +20,8 @@ import oliveira.fabio.challenge52.features.GoalDetailsNavigation
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.adapter.OpenedGoalAdapter
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
-import oliveira.fabio.challenge52.model.vo.ActivityResultTypeEnum
-import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
+import oliveira.fabio.challenge52.presentation.vo.GoalResultTypeEnum
+import oliveira.fabio.challenge52.presentation.vo.GoalResult
 import oliveira.fabio.challenge52.presentation.view.StateView
 import oliveira.fabio.challenge52.presentation.vo.Goal
 import org.koin.android.ext.android.inject
@@ -51,23 +51,23 @@ internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals
             Activity.RESULT_OK -> when (requestCode) {
                 REQUEST_CODE_DETAILS -> {
                     data?.apply {
-                        (getParcelableExtra<ActivityResultValueObject>(HAS_CHANGED)).let {
+                        (getParcelableExtra<GoalResult>(HAS_CHANGED)).let {
                             if (it.hasChanged) {
                                 when (it.type) {
-                                    ActivityResultTypeEnum.REMOVED -> {
+                                    GoalResultTypeEnum.REMOVED -> {
                                         goalsListsViewModel.showMessageHasOneOpenedGoalDeleted()
                                         goalsListsViewModel.listOpenedGoals()
                                     }
-                                    ActivityResultTypeEnum.UPDATED -> {
+                                    GoalResultTypeEnum.UPDATED -> {
                                         goalsListsViewModel.showMessageHasOpenedGoalBeenUpdated()
                                         goalsListsViewModel.listOpenedGoals()
                                     }
-                                    ActivityResultTypeEnum.COMPLETED -> {
+                                    GoalResultTypeEnum.COMPLETED -> {
                                         goalsListsViewModel.showMessageHasOpenedGoalBeenCompleted()
                                         goalsListsViewModel.listOpenedGoals()
                                         goalsListsViewModel.listDoneGoals()
                                     }
-                                    ActivityResultTypeEnum.NONE -> {
+                                    GoalResultTypeEnum.NONE -> {
                                     }
                                 }
                             }
@@ -82,7 +82,7 @@ internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals
                 }
                 REQUEST_CODE_DETAILS -> {
                     data?.apply {
-                        (getParcelableExtra<ActivityResultValueObject>(HAS_CHANGED)).let {
+                        (getParcelableExtra<GoalResult>(HAS_CHANGED)).let {
                             if (it.hasChanged) goalsListsViewModel.showMessageHasOpenedGoalBeenUpdated()
                         }
                     }

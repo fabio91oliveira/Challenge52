@@ -13,8 +13,7 @@ import kotlinx.android.synthetic.main.item_details.*
 import kotlinx.android.synthetic.main.item_header.*
 import kotlinx.android.synthetic.main.item_to_save.*
 import oliveira.fabio.challenge52.extensions.doPopAnimation
-import oliveira.fabio.challenge52.extensions.toCurrentDateSystemString
-import oliveira.fabio.challenge52.extensions.toStringMoney
+import oliveira.fabio.challenge52.extensions.toStringCurrentDateWithFormat
 import oliveira.fabio.challenge52.presentation.vo.ItemDetail
 import oliveira.fabio.challenge52.presentation.vo.PeriodItemEnum
 import oliveira.fabio.challenge52.presentation.vo.TopDetails
@@ -133,7 +132,7 @@ internal class ItemsAdapter(
                     "${containerView.resources.getString(period)} ${item.position}"
                 txtMoney.text = item.moneyToSave
                 txtDate.text =
-                    item.date.toCurrentDateSystemString(DateFormat.SHORT)
+                    item.date.toStringCurrentDateWithFormat(DateFormat.SHORT)
 
                 if (isFromDoneGoal.not())
                     containerView.setOnClickListener {

@@ -24,8 +24,6 @@ object RepositoryModule {
     private val repositoryModule = module {
         factory<GoalRepository> { GoalRepositoryImpl(get(), get()) }
         factory<ItemRepository> { ItemRepositoryImpl(get(), get()) }
-
-        //
         factory<GoalWithWeeksRepository> {
             GoalWithWeeksRepositoryImpl(
                 get(), get()

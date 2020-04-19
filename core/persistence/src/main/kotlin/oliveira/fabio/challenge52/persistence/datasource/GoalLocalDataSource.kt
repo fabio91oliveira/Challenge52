@@ -5,5 +5,6 @@ import oliveira.fabio.challenge52.persistence.model.entity.GoalEntity
 interface GoalLocalDataSource {
     fun addGoal(goal: GoalEntity): Long
     fun setGoalAsDone(idGoal: Long)
+    fun setGoalAsInProgress(idGoal: Long)
     fun removeGoal(idGoal: Long)
 }
