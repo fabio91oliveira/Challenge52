@@ -36,4 +36,7 @@ dependencies {
     // Result
     implementation Deps.result_core
     implementation Deps.result_coroutines
+
+    // Timber
+    implementation Deps.timber
 }

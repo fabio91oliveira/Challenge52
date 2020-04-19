@@ -14,7 +14,4 @@ dependencies {
     implementation Deps.lifecycle_viewmodel
     implementation Deps.lifecycle_livedata
     kapt Deps.lifecycle_compiler
-
-    // Timber
-    api Deps.timber
 }
