@@ -1,11 +1,9 @@
 package oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.adapter
 
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -14,15 +12,14 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_goal.*
 import oliveira.fabio.challenge52.extensions.doPopAnimation
 import oliveira.fabio.challenge52.extensions.isVisible
-import oliveira.fabio.challenge52.extensions.toCurrency
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.extensions.toStringMoney
+import oliveira.fabio.challenge52.presentation.vo.Goal
+import oliveira.fabio.challenge52.presentation.vo.PeriodEnum
 
-
-class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
+internal class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
     RecyclerView.Adapter<OpenedGoalAdapter.GoalViewHolder>() {
 
-    private var lastPosition = 0
-    private var goalsList: MutableList<GoalWithWeeks> = mutableListOf()
+    private var goalsList: MutableList<Goal> = mutableListOf()
 
     override fun getItemCount() = goalsList.size
     override fun onBindViewHolder(holder: GoalViewHolder, position: Int) = holder.bind(position)
@@ -30,13 +27,12 @@ class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
         LayoutInflater.from(parent.context).inflate(R.layout.item_goal, parent, false)
     )
 
-    fun addList(goalsList: List<GoalWithWeeks>) {
+    fun addList(goalsList: List<Goal>) {
         this.goalsList.addAll(goalsList)
         notifyDataSetChanged()
     }
 
     fun clearList() {
-        lastPosition = goalsList.size
         goalsList.clear()
         notifyDataSetChanged()
     }
@@ -45,30 +41,23 @@ class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
         RecyclerView.ViewHolder(containerView),
         LayoutContainer {
         fun bind(position: Int) {
-            txtName.text = goalsList[position].goal.name
-            txtWeeksRemaining.text = containerView.resources.getString(
-                R.string.goals_lists_weeks_remaining,
-                goalsList[position].getWeeksDepositedCount().toString()
-            )
-            txtMoney.text = goalsList[position].getTotal().toCurrency()
-            val completedPercent = goalsList[position].getPercentOfConclusion()
+            txtName.text = goalsList[position].name
 
-            if (completedPercent > INITIAL_PERCENT) {
-                val color = ContextCompat.getColor(
-                    containerView.context,
-                    R.color.color_accent
-                )
-                txtPercent.setTextColor(color)
-                viewStatus.isVisible = false
-            } else {
-                txtPercent.setTextColor(
-                    ContextCompat.getColor(
-                        containerView.context,
-                        android.R.color.black
-                    )
-                )
-                viewStatus.isVisible = true
+            val period = when (goalsList[position].period) {
+                PeriodEnum.DAILY -> R.string.goals_lists_days_remaining
+                PeriodEnum.WEEKLY -> R.string.goals_lists_weeks_remaining
+                PeriodEnum.MONTHLY -> R.string.goals_lists_months_remaining
             }
+
+            txtCompletedItems.text = containerView.resources.getString(
+                period,
+                goalsList[position].getTotalItems().toString(), goalsList[position].items.size
+            )
+
+            txtMoney.text =
+                goalsList[position].totalMoney.toStringMoney(currentLocale = goalsList[position].currentLocale)
+            val completedPercent = goalsList[position].getTotalPercent()
+            viewStatus.isVisible = goalsList[position].status == Goal.Status.NEW
 
             ObjectAnimator.ofInt(progressBar, PROGRESS_TAG, INITIAL_VALUE, completedPercent).apply {
                 duration = PROGRESS_ANIMATION_DURATION
@@ -77,11 +66,48 @@ class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
                     val progress = it.animatedValue as Int
                     txtPercent.text =
                         progress.toString() + containerView.context.getString(R.string.progress_value_percent)
+
+                    when {
+                        progress == FINAL_PERCENT -> {
+                            val color = ContextCompat.getColor(
+                                containerView.context,
+                                R.color.color_green
+                            )
+                            progressBar.progressDrawable = ContextCompat.getDrawable(
+                                containerView.context,
+                                R.drawable.background_completed_progress_bar
+                            )
+                            txtPercent.setTextColor(color)
+                            txtMoney.setTextColor(color)
+                        }
+                        progress > INITIAL_PERCENT -> {
+                            val color = ContextCompat.getColor(
+                                containerView.context,
+                                R.color.color_accent
+                            )
+                            txtPercent.setTextColor(color)
+                            txtMoney.setTextColor(color)
+                            progressBar.progressDrawable = ContextCompat.getDrawable(
+                                containerView.context,
+                                R.drawable.background_uncompleted_progress_bar
+                            )
+                        }
+                        else -> {
+                            val color = ContextCompat.getColor(
+                                containerView.context,
+                                android.R.color.black
+                            )
+                            txtPercent.setTextColor(color)
+                            txtMoney.setTextColor(color)
+                            progressBar.progressDrawable = ContextCompat.getDrawable(
+                                containerView.context,
+                                R.drawable.background_uncompleted_progress_bar
+                            )
+                        }
+                    }
                 }
                 start()
             }
-
-//            if (position >= lastPosition) animate()
 
             containerView.setOnClickListener {
                 it.doPopAnimation(POP_ANIMATION_DURATION) {
@@ -89,28 +115,17 @@ class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
                 }
             }
         }
-
-        private fun animate() {
-            val valueAnimator = ValueAnimator.ofFloat(-500f, 0f)
-            valueAnimator.interpolator = AccelerateDecelerateInterpolator()
-            valueAnimator.duration = 500
-            valueAnimator.addUpdateListener {
-                val progress = it.animatedValue as Float
-                containerView.translationY = progress
-            }
-            valueAnimator.start()
-            lastPosition++
-        }
     }
 
     interface OnClickGoalListener {
-        fun onClickGoal(goal: GoalWithWeeks)
+        fun onClickGoal(goal: Goal)
     }
 
     companion object {
         private const val PROGRESS_TAG = "progress"
         private const val INITIAL_VALUE = 0
         private const val INITIAL_PERCENT = 0
+        private const val FINAL_PERCENT = 100
         private const val PROGRESS_ANIMATION_DURATION = 1000L
         private const val POP_ANIMATION_DURATION = 100L
     }

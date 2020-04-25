@@ -1,5 +1,7 @@
 package oliveira.fabio.challenge52.home.presentation.activity
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
@@ -10,7 +12,8 @@ import oliveira.fabio.challenge52.BaseActivity
 import oliveira.fabio.challenge52.home.goalslists.presentation.fragment.GoalsListsFragment
 import oliveira.fabio.challenge52.home.help.presentation.fragment.HelpFragment
 
-class HomeActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class HomeActivity : BaseActivity(R.layout.activity_home),
+    BottomNavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var goalsListsFragment: GoalsListsFragment
     private lateinit var helpFragment: HelpFragment
@@ -18,9 +21,7 @@ class HomeActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
         navigation.setOnNavigationItemSelectedListener(this)
-
         savedInstanceState?.let {
             initFragments()
 
@@ -92,5 +93,10 @@ class HomeActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
 
     companion object {
         private const val CURRENT_TAB = "CURRENT_TAB"
+
+        fun newIntent(context: Context) = Intent(
+            context,
+            HomeActivity::class.java
+        )
     }
 }

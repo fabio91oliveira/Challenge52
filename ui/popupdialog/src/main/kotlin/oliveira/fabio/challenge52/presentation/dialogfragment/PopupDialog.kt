@@ -71,10 +71,10 @@ class PopupDialog : DialogFragment() {
         ) as PopupDialogCancelListener?
     }
 
-    private val buttonColor: ButtonColor by lazy {
-        arguments?.getSerializable(CONFIRM_BUTTON_COLOR)?.let {
-            it as ButtonColor
-        } ?: ButtonColor.DEFAULT
+    private val resColor: Int by lazy {
+        arguments?.getInt(
+            CONFIRM_BUTTON_COLOR
+        ) ?: android.R.color.black
     }
 
     override fun onCreateView(
@@ -178,15 +178,21 @@ class PopupDialog : DialogFragment() {
             with(btnConfirm) {
                 when (background) {
                     is ShapeDrawable -> (background as ShapeDrawable).paint.color =
-                        ContextCompat.getColor(it, buttonColor.getColor())
+                        ContextCompat.getColor(
+                            it,
+                            if (resColor == 0) android.R.color.black else resColor
+                        )
                     is GradientDrawable -> (background as GradientDrawable).setColor(
                         ContextCompat.getColor(
                             it,
-                            buttonColor.getColor()
+                            if (resColor == 0) android.R.color.black else resColor
                         )
                     )
                     is ColorDrawable -> (background as ColorDrawable).color =
-                        ContextCompat.getColor(it, buttonColor.getColor())
+                        ContextCompat.getColor(
+                            it,
+                            if (resColor == 0) android.R.color.black else resColor
+                        )
                 }
                 background = getBackgroundDrawable(
                     ContextCompat.getColor(it, android.R.color.white),
@@ -198,7 +204,7 @@ class PopupDialog : DialogFragment() {
 
     private fun setupCancelButtonColor() {
         context?.also {
-            btnCancel.setTextColor(ContextCompat.getColor(it, buttonColor.getColor()))
+            btnCancel.setTextColor(ContextCompat.getColor(it, if(resColor == 0) android.R.color.black else resColor))
         }
     }
 
@@ -231,9 +237,9 @@ class PopupDialog : DialogFragment() {
             }
 
         fun setupConfirmButtonColor(
-            buttonColor: ButtonColor
+            @ColorRes resColor: Int
         ) = apply {
-            args.putSerializable(CONFIRM_BUTTON_COLOR, buttonColor)
+            args.putInt(CONFIRM_BUTTON_COLOR, resColor)
         }
 
         fun setupCancelButton(
@@ -262,17 +268,6 @@ class PopupDialog : DialogFragment() {
         override fun describeContents(): Int = 0
         override fun writeToParcel(dest: Parcel, flags: Int) {
         }
-    }
-
-    enum class ButtonColor(@ColorRes private val resColor: Int) {
-        DEFAULT(R.color.popup_dialog_color_default),
-        GREEN(R.color.popup_dialog_color_green),
-        YELLOW(R.color.popup_dialog_color_yellow),
-        RED(R.color.popup_dialog_color_red),
-        BLUE(R.color.popup_dialog_color_blue),
-        BLACK(android.R.color.black);
-
-        fun getColor() = resColor
     }
 
     companion object {

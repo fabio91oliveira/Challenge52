@@ -12,22 +12,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_done_goals_list.*
-import oliveira.fabio.challenge52.actions.Actions
-import oliveira.fabio.challenge52.extensions.doSlideDownAnimation
+import oliveira.fabio.challenge52.presentation.vo.Goal
 import oliveira.fabio.challenge52.extensions.isVisible
+import oliveira.fabio.challenge52.features.GoalDetailsNavigation
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsActions
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.action.DoneGoalsStateResources
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.adapter.DoneGoalsAdapter
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
-import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.presentation.vo.GoalResult
 import oliveira.fabio.challenge52.presentation.view.StateView
-import org.koin.android.viewmodel.ext.android.sharedViewModel
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
+internal class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
     DoneGoalsAdapter.OnClickGoalListener {
 
     private val goalsListsViewModel: GoalsListsViewModel by sharedViewModel()
+    private val goalDetailsNavigation: GoalDetailsNavigation by inject()
     private val doneGoalsAdapter by lazy {
         DoneGoalsAdapter(
             this
@@ -44,7 +45,7 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
         when (resultCode) {
             Activity.RESULT_OK -> when (requestCode) {
                 REQUEST_CODE_DETAILS -> {
-                    (data?.getSerializableExtra(HAS_CHANGED) as ActivityResultValueObject).let {
+                    (data?.getParcelableExtra<GoalResult>(HAS_CHANGED))?.let {
                         if (it.hasChanged) with(goalsListsViewModel) {
                             showMessageHasOneDoneGoalDeleted()
                             listDoneGoals()
@@ -55,8 +56,8 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
         }
     }
 
-    override fun onClickGoal(goal: GoalWithWeeks) =
-        openGoalDetailsActivity(goal)
+    override fun onClickGoal(goal: Goal) =
+        goToGoalDetails(goal)
 
     private fun init() {
         setupObservables()
@@ -66,13 +67,13 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
 
     private fun setupObservables() {
         with(goalsListsViewModel) {
-            doneGoalsViewState.observe(this@DoneGoalsListFragment, Observer {
+            doneGoalsViewState.observe(viewLifecycleOwner, Observer {
                 showLoading(it.isLoading)
                 showDoneGoalsList(it.isDoneGoalsListVisible)
                 showStateView(stateViewEmpty, it.isEmptyStateVisible)
                 showStateView(stateViewError, it.isErrorVisible)
             })
-            doneGoalsActions.observe(this@DoneGoalsListFragment, Observer {
+            doneGoalsActions.observe(viewLifecycleOwner, Observer {
                 when (it) {
                     is DoneGoalsActions.ShowMessage -> {
                         showSnackBar(resources.getString(it.stringRes))
@@ -152,17 +153,21 @@ class DoneGoalsListFragment : Fragment(R.layout.fragment_done_goals_list),
             Snackbar.LENGTH_SHORT
         ).show()
 
-    private fun openGoalDetailsActivity(goal: GoalWithWeeks) = startActivityForResult(
-        Actions.openGoalDetails(requireContext()).putExtra(GOAL_TAG, goal)
-            .putExtra(IS_FROM_DONE_GOALS, true),
-        REQUEST_CODE_DETAILS
-    )
+    private fun goToGoalDetails(goal: Goal) {
+        context?.also {
+            startActivityForResult(
+                goalDetailsNavigation.navigateToFeature(it)
+                    .putExtra(GOAL_TAG, goal)
+                    .putExtra(IS_FROM_DONE_GOALS, true),
+                REQUEST_CODE_DETAILS
+            )
+        }
+    }
 
     private fun showStateView(
         stateView: StateView,
         hasToShow: Boolean
     ) {
-        if (hasToShow) stateView.doSlideDownAnimation()
         stateView.isVisible = hasToShow
     }
 

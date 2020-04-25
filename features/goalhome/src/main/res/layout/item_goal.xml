@@ -11,6 +11,7 @@
     android:layout_marginBottom="@dimen/spacing_half"
     android:stateListAnimator="@anim/animation"
     app:cardCornerRadius="@dimen/spacing_02"
+    app:cardBackgroundColor="@android:color/white"
     app:cardElevation="@dimen/spacing_none">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -69,7 +70,7 @@
             tools:text="@tools:sample/lorem/random" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtWeeksRemaining"
+            android:id="@+id/txtCompletedItems"
             android:layout_width="@dimen/spacing_none"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -91,7 +92,7 @@
             android:textSize="@dimen/text_size_big"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/txtName"
-            app:layout_constraintTop_toBottomOf="@+id/txtWeeksRemaining"
+            app:layout_constraintTop_toBottomOf="@+id/txtCompletedItems"
             tools:text="0%" />
 
         <androidx.appcompat.widget.AppCompatTextView

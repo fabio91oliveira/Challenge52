@@ -11,6 +11,7 @@
     <string name="goals_lists_hello_user">Olá, %s</string>
 
     <string name="goals_lists_welcome">{0,choice,0#Deixe o app te ajudar a guardar dinheiro.|1#Você tem 1 tarefa para completar.|1&lt;Você tem {0} tarefas para completar.}</string>
+    <string name="goals_lists_description">Suas metas totalizam</string>
 
     <string name="goals_lists_opened_goals">Abertos</string>
     <string name="goals_lists_done_goals">Concluídos</string>
@@ -19,7 +20,9 @@
 
     <string name="goals_lists_my_goals">Minhas metas</string>
 
-    <string name="goals_lists_weeks_remaining">%s de 52 semanas</string>
+    <string name="goals_lists_days_remaining">%s de %s dias</string>
+    <string name="goals_lists_weeks_remaining">%s de %s semanas</string>
+    <string name="goals_lists_months_remaining">%s de %s meses</string>
     <string name="goals_lists_completed">completo</string>
     <string name="progress_value_percent">%</string>
 

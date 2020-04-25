@@ -1,16 +1,25 @@
 package oliveira.fabio.challenge52.data.repository
 
+import oliveira.fabio.challenge52.domain.mapper.GoalEntityMapper
 import oliveira.fabio.challenge52.domain.repository.GoalRepository
 import oliveira.fabio.challenge52.persistence.datasource.GoalLocalDataSource
-import oliveira.fabio.challenge52.persistence.model.entity.Goal
+import oliveira.fabio.challenge52.presentation.vo.GoalToSave
 
-class GoalRepositoryImpl(private val goalLocalDataSource: GoalLocalDataSource) : GoalRepository {
-    override fun addGoal(goal: Goal) =
-        goalLocalDataSource.addGoal(goal)
+internal class GoalRepositoryImpl(
+    private val goalLocalDataSource: GoalLocalDataSource,
+    private val goalEntityMapper: GoalEntityMapper
+) :
+    GoalRepository {
+    override fun addGoal(goalToSave: GoalToSave) =
+        goalLocalDataSource.addGoal(goalEntityMapper(goalToSave))
 
-    override fun updateGoal(goal: Goal) =
-        goalLocalDataSource.updateGoal(goal)
+    override fun setGoalAsDone(idGoal: Long) =
+        goalLocalDataSource.setGoalAsDone(idGoal)
 
-    override fun removeGoal(goal: Goal) =
-        goalLocalDataSource.removeGoal(goal)
+    override fun setGoalAsInProgress(idGoal: Long) =
+        goalLocalDataSource.setGoalAsInProgress(idGoal)
+
+    override fun removeGoal(idGoal: Long) {
+        goalLocalDataSource.removeGoal(idGoal)
+    }
 }

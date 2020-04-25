@@ -3,20 +3,17 @@ package oliveira.fabio.challenge52.domain.usecase.impl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import oliveira.fabio.challenge52.domain.repository.GoalRepository
-import oliveira.fabio.challenge52.domain.repository.WeekRepository
+import oliveira.fabio.challenge52.domain.repository.ItemRepository
 import oliveira.fabio.challenge52.domain.usecase.RemoveGoalUseCase
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
 
-class RemoveGoalUseCaseImpl(
+internal class RemoveGoalUseCaseImpl(
     private val goalRepository: GoalRepository,
-    private val weekRepository: WeekRepository
+    private val weekRepository: ItemRepository
 ) : RemoveGoalUseCase {
-    override suspend operator fun invoke(goalWithWeeks: GoalWithWeeks) {
+    override suspend operator fun invoke(idGoal: Long) {
         withContext(Dispatchers.IO) {
-            with(goalWithWeeks) {
-                goalRepository.removeGoal(goal)
-                weekRepository.removeWeeks(weeks)
-            }
+            goalRepository.removeGoal(idGoal)
+            weekRepository.removeItemsByIdGoal(idGoal)
         }
     }
 }

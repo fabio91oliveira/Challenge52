@@ -14,23 +14,25 @@ import com.google.android.material.snackbar.Snackbar
 import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_goals_lists.*
 import kotlinx.android.synthetic.main.fragment_opened_goals_list.*
-import oliveira.fabio.challenge52.actions.Actions
-import oliveira.fabio.challenge52.extensions.doSlideDownAnimation
 import oliveira.fabio.challenge52.extensions.isVisible
+import oliveira.fabio.challenge52.features.CreateGoalNavigation
+import oliveira.fabio.challenge52.features.GoalDetailsNavigation
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
-import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.action.OpenedGoalsStateResources
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.adapter.OpenedGoalAdapter
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
-import oliveira.fabio.challenge52.model.vo.ActivityResultTypeEnum
-import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.presentation.vo.GoalResultTypeEnum
+import oliveira.fabio.challenge52.presentation.vo.GoalResult
 import oliveira.fabio.challenge52.presentation.view.StateView
-import org.koin.android.viewmodel.ext.android.sharedViewModel
+import oliveira.fabio.challenge52.presentation.vo.Goal
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
+internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
     OpenedGoalAdapter.OnClickGoalListener {
 
     private val goalsListsViewModel: GoalsListsViewModel by sharedViewModel()
+    private val createGoalNavigation: CreateGoalNavigation by inject()
+    private val goalDetailsNavigation: GoalDetailsNavigation by inject()
     private val openedGoalsAdapter by lazy {
         OpenedGoalAdapter(
             this
@@ -47,29 +49,25 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
 
         when (resultCode) {
             Activity.RESULT_OK -> when (requestCode) {
-                REQUEST_CODE_CREATE -> {
-                    goalsListsViewModel.showMessageGoalHasBeenCreated()
-                    goalsListsViewModel.listOpenedGoals()
-                }
                 REQUEST_CODE_DETAILS -> {
                     data?.apply {
-                        (getSerializableExtra(HAS_CHANGED) as ActivityResultValueObject).let {
+                        (getParcelableExtra<GoalResult>(HAS_CHANGED)).let {
                             if (it.hasChanged) {
                                 when (it.type) {
-                                    ActivityResultTypeEnum.REMOVED -> {
+                                    GoalResultTypeEnum.REMOVED -> {
                                         goalsListsViewModel.showMessageHasOneOpenedGoalDeleted()
                                         goalsListsViewModel.listOpenedGoals()
                                     }
-                                    ActivityResultTypeEnum.UPDATED -> {
+                                    GoalResultTypeEnum.UPDATED -> {
                                         goalsListsViewModel.showMessageHasOpenedGoalBeenUpdated()
                                         goalsListsViewModel.listOpenedGoals()
                                     }
-                                    ActivityResultTypeEnum.COMPLETED -> {
+                                    GoalResultTypeEnum.COMPLETED -> {
                                         goalsListsViewModel.showMessageHasOpenedGoalBeenCompleted()
                                         goalsListsViewModel.listOpenedGoals()
                                         goalsListsViewModel.listDoneGoals()
                                     }
-                                    ActivityResultTypeEnum.NONE -> {
+                                    GoalResultTypeEnum.NONE -> {
                                     }
                                 }
                             }
@@ -79,11 +77,12 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
             }
             Activity.RESULT_CANCELED -> when (requestCode) {
                 REQUEST_CODE_CREATE -> {
-                    goalsListsViewModel.showAddButton()
+                    goalsListsViewModel.showMessageGoalHasBeenCreated()
+                    goalsListsViewModel.listOpenedGoals()
                 }
                 REQUEST_CODE_DETAILS -> {
                     data?.apply {
-                        (getSerializableExtra(HAS_CHANGED) as ActivityResultValueObject).let {
+                        (getParcelableExtra<GoalResult>(HAS_CHANGED)).let {
                             if (it.hasChanged) goalsListsViewModel.showMessageHasOpenedGoalBeenUpdated()
                         }
                     }
@@ -101,14 +100,14 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
 
     private fun setupObservables() {
         with(goalsListsViewModel) {
-            openedGoalsViewState.observe(this@OpenedGoalsListFragment, Observer {
+            openedGoalsViewState.observe(viewLifecycleOwner, Observer {
                 showAddButton(it.isAddButtonVisible)
                 showLoading(it.isLoading)
                 showOpenedGoalsList(it.isOpenedGoalsListVisible)
                 showStateView(stateViewEmpty, it.isEmptyStateVisible)
                 showStateView(stateViewError, it.isErrorVisible)
             })
-            openedGoalsActions.observe(this@OpenedGoalsListFragment, Observer {
+            openedGoalsActions.observe(viewLifecycleOwner, Observer {
                 when (it) {
                     is OpenedGoalsActions.ShowMessage -> {
                         showSnackBar(it.stringRes)
@@ -170,26 +169,34 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
 
     private fun setupClickListener() {
         parentFragment?.fabAdd?.setOnClickListener {
-            openGoalCreateActivity()
+            goToCreateGoal()
         }
     }
 
     private fun showSnackBar(@StringRes stringRes: Int) =
         Snackbar.make(content, resources.getText(stringRes), Snackbar.LENGTH_SHORT).show()
 
-    private fun openGoalCreateActivity() =
-        startActivityForResult(
-            Actions.openGoalCreate(requireContext()),
-            REQUEST_CODE_CREATE
-        )
+    private fun goToCreateGoal() {
+        context?.also {
+            startActivityForResult(
+                createGoalNavigation.navigateToChallengeSelect(it),
+                REQUEST_CODE_CREATE
+            )
+        }
+    }
 
-    private fun openGoalDetailsActivity(goal: GoalWithWeeks) = startActivityForResult(
-        Actions.openGoalDetails(requireContext()).putExtra(GOAL_TAG, goal),
-        REQUEST_CODE_DETAILS
-    )
+    private fun goToGoalDetails(goal: Goal) {
+        context?.also {
+            startActivityForResult(
+                goalDetailsNavigation.navigateToFeature(it)
+                    .putExtra(GOAL_TAG, goal),
+                REQUEST_CODE_DETAILS
+            )
+        }
+    }
 
-    override fun onClickGoal(goal: GoalWithWeeks) =
-        openGoalDetailsActivity(goal)
+    override fun onClickGoal(goal: Goal) =
+        goToGoalDetails(goal)
 
     private fun showOpenedGoalsList(hasToShow: Boolean) {
         rvOpenedGoalsList.isVisible = hasToShow
@@ -199,7 +206,6 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
         stateView: StateView,
         hasToShow: Boolean
     ) {
-        if (hasToShow) stateView.doSlideDownAnimation()
         stateView.isVisible = hasToShow
     }
 
@@ -209,7 +215,7 @@ class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals_list),
 
     private fun setStateView(
         stateView: StateView,
-        openedGoalsStateResources: OpenedGoalsStateResources,
+        openedGoalsStateResources: OpenedGoalsActions.OpenedGoalsStateResources,
         block: (() -> Unit)? = null
     ) {
         stateView.apply {

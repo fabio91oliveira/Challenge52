@@ -1,12 +1,13 @@
 package oliveira.fabio.challenge52.presentation.viewstate
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import oliveira.fabio.challenge52.persistence.model.entity.Week
+import oliveira.fabio.challenge52.presentation.vo.ItemDetail
 
-data class GoalDetailsViewState(
+internal data class GoalDetailsViewState(
     val isLoading: Boolean = false,
+    val isWeekBeingUpdated: Boolean = false,
     val isContentVisible: Boolean = false,
-    val isBarExpanded: Boolean = false,
     val dialog: Dialog = Dialog.NoDialog
 ) {
     companion object {
@@ -16,10 +17,37 @@ data class GoalDetailsViewState(
 
 sealed class Dialog {
     object NoDialog : Dialog()
-    data class ConfirmationDialogDoneGoal(@StringRes val stringRes: Int) : Dialog()
-    data class ConfirmationDialogRemoveGoal(@StringRes val stringRes: Int) : Dialog()
-    data class ConfirmationDialogUpdateWeek(@StringRes val stringRes: Int, val week: Week) :
+    data class ConfirmationDialogDoneGoal(
+        @DrawableRes val imageRes: Int,
+        @StringRes val titleRes: Int,
+        @StringRes val descriptionRes: Int
+    ) :
         Dialog()
 
-    data class DefaultDialogMoveToDone(@StringRes val stringRes: Int) : Dialog()
+    data class ConfirmationDialogRemoveGoal(
+        @DrawableRes val imageRes: Int,
+        @StringRes val titleRes: Int,
+        @StringRes val descriptionRes: Int
+    ) :
+        Dialog()
+
+    data class ConfirmationDialogUpdateWeek(
+        @DrawableRes val imageRes: Int,
+        @StringRes val titleRes: Int,
+        @StringRes val descriptionRes: Int,
+        val itemDetail: ItemDetail
+    ) :
+        Dialog()
+
+    data class DefaultDialogMoveToDone(
+        @DrawableRes val imageRes: Int,
+        @StringRes val titleRes: Int,
+        @StringRes val descriptionRes: Int
+    ) : Dialog()
+
+    data class RegularErrorDialog(
+        @DrawableRes val imageRes: Int,
+        @StringRes val titleRes: Int,
+        @StringRes val descriptionRes: Int
+    ) : Dialog()
 }

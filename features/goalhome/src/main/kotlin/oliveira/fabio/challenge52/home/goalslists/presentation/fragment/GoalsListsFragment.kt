@@ -10,19 +10,18 @@ import features.goalhome.R
 import kotlinx.android.synthetic.main.fragment_goals_lists.*
 import oliveira.fabio.challenge52.home.goalslists.donegoalslist.presentation.fragment.DoneGoalsListFragment
 import oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.fragment.OpenedGoalsListFragment
-import oliveira.fabio.challenge52.home.goalslists.presentation.adapter.CustomFragmentPagerAdapter
 import oliveira.fabio.challenge52.home.goalslists.presentation.viewmodel.GoalsListsViewModel
-import org.koin.android.viewmodel.ext.android.sharedViewModel
+import oliveira.fabio.challenge52.presentation.adapter.CustomFragmentPagerAdapter
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.text.MessageFormat
 
-
-class GoalsListsFragment : Fragment(R.layout.fragment_goals_lists) {
+internal class GoalsListsFragment : Fragment(R.layout.fragment_goals_lists) {
 
     private val goalsListsViewModel: GoalsListsViewModel by sharedViewModel()
 
     private val fragmentPagerAdapter by lazy {
         CustomFragmentPagerAdapter(
-            this
+            childFragmentManager, lifecycle
         )
     }
 
@@ -64,7 +63,7 @@ class GoalsListsFragment : Fragment(R.layout.fragment_goals_lists) {
 
     private fun setupObservables() {
         with(goalsListsViewModel) {
-            goalsListsViewState.observe(this@GoalsListsFragment, Observer {
+            goalsListsViewState.observe(viewLifecycleOwner, Observer {
                 setUserName(it.userName)
                 setTotalTasks(it.totalTasks)
             })

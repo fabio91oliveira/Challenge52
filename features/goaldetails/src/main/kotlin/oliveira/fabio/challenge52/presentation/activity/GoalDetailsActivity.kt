@@ -1,59 +1,65 @@
 package oliveira.fabio.challenge52.presentation.activity
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.Window
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import features.goaldetails.R
 import kotlinx.android.synthetic.main.activity_goal_details.*
 import oliveira.fabio.challenge52.BaseActivity
-import oliveira.fabio.challenge52.domain.model.vo.Item
 import oliveira.fabio.challenge52.extensions.isVisible
-import oliveira.fabio.challenge52.model.vo.ActivityResultValueObject
-import oliveira.fabio.challenge52.persistence.model.entity.Week
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.presentation.vo.GoalResult
 import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
-import oliveira.fabio.challenge52.presentation.adapter.WeeksAdapter
+import oliveira.fabio.challenge52.presentation.adapter.AdapterItem
+import oliveira.fabio.challenge52.presentation.adapter.ItemsAdapter
+import oliveira.fabio.challenge52.presentation.bottomsheetdialogfragment.OptionsBottomPopup
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
 import oliveira.fabio.challenge52.presentation.dialogfragment.PopupDialog
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
 import oliveira.fabio.challenge52.presentation.viewstate.Dialog
-import org.koin.android.viewmodel.ext.android.viewModel
+import oliveira.fabio.challenge52.presentation.vo.ItemDetail
+import oliveira.fabio.challenge52.presentation.vo.TopDetails
+import org.koin.androidx.viewmodel.ext.android.getStateViewModel
 
 class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
-    WeeksAdapter.OnClickWeekListener {
+    ItemsAdapter.OnClickItemListener {
 
-    private val goalDetailsViewModel: GoalDetailsViewModel by viewModel()
-    private val isFromDoneGoals by lazy {
-        intent.extras?.getBoolean(IS_FROM_DONE_GOALS) ?: false
+    private val intentExtras by lazy { intent.extras }
+    private val isFromDoneGoals by lazy { intentExtras?.getBoolean(IS_FROM_DONE_GOALS) ?: false }
+
+    private lateinit var goalDetailsViewModel: GoalDetailsViewModel
+
+    private val weeksAdapter by lazy { ItemsAdapter(this@GoalDetailsActivity, isFromDoneGoals) }
+    private val progressDialog by lazy {
+        android.app.Dialog(this).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+            setContentView(R.layout.layout_progress);
+        }
     }
-    private lateinit var goalWithWeeks: GoalWithWeeks
-    private lateinit var weeksAdapter: WeeksAdapter
+
     private lateinit var newIntent: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initSavedValues(savedInstanceState)
-        savedInstanceState?.let {
-            setupToolbar()
-            initRecyclerView()
-            initObservables()
-        } ?: run {
-            init()
-        }
+        setupSavedValues(savedInstanceState)
+        setup()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         with(outState) {
-            putSerializable(GOAL_TAG, goalWithWeeks)
-            putSerializable(
-                HAS_CHANGED, newIntent.getSerializableExtra(
+            putParcelable(
+                HAS_CHANGED, newIntent.getParcelableExtra<GoalResult>(
                     HAS_CHANGED
                 )
             )
@@ -64,108 +70,98 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     override fun onBackPressed() = closeDetails()
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        when (isFromDoneGoals) {
-            true -> menuInflater.inflate(R.menu.goal_details_menu_from_done, menu)
-            else -> menuInflater.inflate(R.menu.goal_details_menu, menu)
-        }
+        menuInflater.inflate(R.menu.goal_details_menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.details_done -> {
-                goalDetailsViewModel.showConfirmationDialogDoneGoal(goalWithWeeks)
-                true
-            }
-            R.id.details_remove -> {
-                goalDetailsViewModel.showConfirmationDialogRemoveGoal()
+            R.id.more_options -> {
+                showOptions()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    override fun onClickWeek(week: Week) {
-        // TODO COMO EXECUTAR ANIMACAO?
-        // TODO para que servia isso?
-        //  goalWithWeeks.lastPosition = position
+    override fun onClickItem(itemDetail: ItemDetail) {
         with(goalDetailsViewModel) {
-            if (isDateAfterTodayWhenWeekIsNotDeposited(week))
-                showConfirmationDialogUpdateWeek(week)
+            if (isDateAfterTodayWhenWeekIsNotChecked(itemDetail))
+                showConfirmationDialogUpdateWeek(itemDetail)
             else
-                changeWeekDepositStatus(week)
+                changeWeekStatus(itemDetail)
         }
     }
 
-    private fun initSavedValues(savedInstanceState: Bundle? = null) {
+    private fun setup() {
+        setupViewModel()
+        setupToolbar()
+        setupRecyclerView()
+        setupObservables()
+    }
+
+    private fun setupSavedValues(savedInstanceState: Bundle? = null) {
         savedInstanceState?.also {
-            goalWithWeeks = it.getSerializable(GOAL_TAG) as GoalWithWeeks
             newIntent = Intent().apply {
                 putExtra(
-                    HAS_CHANGED, it.getSerializable(
+                    HAS_CHANGED, it.getParcelable<GoalResult>(
                         HAS_CHANGED
                     )
                 )
             }
         } ?: run {
-            goalWithWeeks = intent.extras?.getSerializable(GOAL_TAG) as GoalWithWeeks
-            newIntent = Intent().apply { putExtra(HAS_CHANGED, ActivityResultValueObject()) }
+            newIntent = Intent().apply { putExtra(HAS_CHANGED,
+                GoalResult()
+            ) }
         }
     }
 
-    private fun init() {
-        setupToolbar()
-        initRecyclerView()
-        initObservables()
-
-        // TODO BUSCAR DO BANCO ATRAVES DO ID E CARREGAR TUDO
-        goalDetailsViewModel.getWeeksList(goalWithWeeks)
+    private fun setupViewModel() {
+        goalDetailsViewModel = getStateViewModel(bundle = intentExtras)
     }
 
-    private fun initObservables() {
+    private fun setupObservables() {
         with(goalDetailsViewModel) {
             goalDetailsViewState.observe(this@GoalDetailsActivity, Observer {
                 showLoading(it.isLoading)
+                showWeekLoading(it.isWeekBeingUpdated)
                 handleDialog(it.dialog)
                 showContent(it.isContentVisible)
-                expandBar(it.isBarExpanded)
             })
             goalDetailsActions.observe(this@GoalDetailsActivity, Observer {
                 when (it) {
-                    is GoalDetailsActions.AddedGoalsFirstTime -> {
-                        updateItemList(it.itemsList)
-                        rvWeeks.scheduleLayoutAnimation()
+                    is GoalDetailsActions.PopulateGoalInformation -> {
+                        addDetailsGoal(it.list)
                         if (!isFromDoneGoals)
-                            goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated(
-                                goalWithWeeks
-                            )
+                            goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated()
                     }
-                    is GoalDetailsActions.AddedGoals -> {
-                        updateItemList(it.itemsList)
-                        showContent(true)
-                        expandBar(false)
-                    }
-                    is GoalDetailsActions.UpdatedGoal -> {
-                        goalDetailsViewModel.getWeeksList(goalWithWeeks, it.week)
+                    is GoalDetailsActions.ShowUpdateWeekMessage -> {
+                        showSnackBar(it.stringRes)
                         newIntent.putExtra(
                             HAS_CHANGED,
-                            ActivityResultValueObject().apply { setChangeUpdated() })
-                        goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated(goalWithWeeks)
+                            GoalResult()
+                                .apply { setChangeUpdated() })
+                        goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated()
                     }
-                    is GoalDetailsActions.RemovedGoal -> {
+                    is GoalDetailsActions.RemoveGoal -> {
                         newIntent.putExtra(
                             HAS_CHANGED,
-                            ActivityResultValueObject().apply { setChangeRemoved() })
+                            GoalResult()
+                                .apply { setChangeRemoved() })
                         closeDetails()
                     }
-                    is GoalDetailsActions.CompletedGoal -> {
+                    is GoalDetailsActions.CompleteGoal -> {
                         newIntent.putExtra(
                             HAS_CHANGED,
-                            ActivityResultValueObject().apply { setChangeCompleted() })
+                            GoalResult()
+                                .apply { setChangeCompleted() })
                         closeDetails()
                     }
-                    is GoalDetailsActions.Error -> {
-                        showFullScreenDialog(it.errorMessageRes)
+                    is GoalDetailsActions.CriticalError -> {
+                        showFullScreenDialog(
+                            it.titleRes,
+                            it.descriptionRes
+                        )
                     }
                 }
             })
@@ -175,24 +171,15 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     private fun setupToolbar() {
         with(toolbar) {
             setSupportActionBar(this)
-            supportActionBar?.title = goalWithWeeks.goal.name
+            supportActionBar?.title = goalDetailsViewModel.goalName
             setNavigationOnClickListener { closeDetails() }
-        }
-        collapsingToolbar.apply {
-            val tf = ResourcesCompat.getFont(context, R.font.manjari_regular)
-            setCollapsedTitleTypeface(tf)
-            setExpandedTitleTypeface(tf)
         }
     }
 
-    private fun initRecyclerView() {
+    private fun setupRecyclerView() {
         with(rvWeeks) {
             layoutManager =
                 LinearLayoutManager(this@GoalDetailsActivity, RecyclerView.VERTICAL, false)
-            weeksAdapter = WeeksAdapter(
-                this@GoalDetailsActivity,
-                isFromDoneGoals
-            )
             adapter = weeksAdapter
             itemAnimator = null
         }
@@ -203,62 +190,78 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         finish()
     }
 
-    private fun updateItemList(list: MutableList<Item>) {
-        goalWithWeeks.lastPosition?.also { position ->
-            weeksAdapter.addSingleItem(
-                list[FIRST_POSITION],
-                FIRST_POSITION
-            )
-            weeksAdapter.addSingleItem(list[position], position)
-            goalWithWeeks.lastPosition = null
-        } ?: run {
-            weeksAdapter.clearList()
-            weeksAdapter.addList(list)
-        }
-    }
-
     private fun showLoading(hasToShow: Boolean) {
         loading.isVisible = hasToShow
     }
+
+    private fun showWeekLoading(hasToShow: Boolean) =
+        if (hasToShow) progressDialog.show() else progressDialog.dismiss()
 
     private fun showContent(hasToShow: Boolean) {
         rvWeeks.isVisible = hasToShow
     }
 
+    private fun addDetailsGoal(list: MutableList<AdapterItem<TopDetails, String, ItemDetail>>) {
+        weeksAdapter.addList(list)
+    }
+
     private fun handleDialog(dialogViewState: Dialog) {
         when (dialogViewState) {
             is Dialog.DefaultDialogMoveToDone -> {
-                showDefaultDialog(dialogViewState.stringRes)
+                showDefaultDialog(
+                    dialogViewState.imageRes,
+                    dialogViewState.titleRes,
+                    dialogViewState.descriptionRes
+                )
+            }
+            is Dialog.RegularErrorDialog -> {
+                showDefaultDialog(
+                    dialogViewState.imageRes,
+                    dialogViewState.titleRes,
+                    dialogViewState.descriptionRes
+                )
             }
             is Dialog.ConfirmationDialogRemoveGoal -> {
                 showConfirmDialog(
-                    dialogViewState.stringRes
+                    dialogViewState.imageRes,
+                    dialogViewState.titleRes,
+                    dialogViewState.descriptionRes
                 ) {
-                    goalDetailsViewModel.removeGoal(goalWithWeeks)
+                    goalDetailsViewModel.removeGoal()
                     goalDetailsViewModel.hideDialogs()
                 }
             }
             is Dialog.ConfirmationDialogDoneGoal -> {
                 showConfirmDialog(
-                    dialogViewState.stringRes
+                    dialogViewState.imageRes,
+                    dialogViewState.titleRes,
+                    dialogViewState.descriptionRes
                 ) {
-                    goalDetailsViewModel.completeGoal(goalWithWeeks)
+                    goalDetailsViewModel.completeGoal()
                 }
             }
             is Dialog.ConfirmationDialogUpdateWeek -> {
                 showConfirmDialog(
-                    dialogViewState.stringRes
+                    dialogViewState.imageRes,
+                    dialogViewState.titleRes,
+                    dialogViewState.descriptionRes
                 ) {
-                    goalDetailsViewModel.changeWeekDepositStatus(dialogViewState.week)
+                    goalDetailsViewModel.changeWeekStatus(dialogViewState.itemDetail)
                 }
             }
         }
     }
 
-    private fun showFullScreenDialog(stringResource: Int) {
+    private fun showSnackBar(@StringRes stringRes: Int) =
+        Snackbar.make(content, resources.getText(stringRes), Snackbar.LENGTH_SHORT).show()
+
+    private fun showFullScreenDialog(
+        @StringRes titleRes: Int,
+        @StringRes descriptionRes: Int
+    ) {
         FullScreenDialog.Builder()
-            .setTitle(R.string.goal_oops_title)
-            .setSubtitle(stringResource)
+            .setTitle(titleRes)
+            .setSubtitle(descriptionRes)
             .setCloseAction(object : FullScreenDialog.FullScreenDialogCloseListener {
                 override fun onClickCloseButton() {
                     finish()
@@ -282,13 +285,16 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             .show(supportFragmentManager, FullScreenDialog.TAG)
     }
 
-    private fun showConfirmDialog(
-        @StringRes resString: Int,
-        block: () -> Unit
+    private inline fun showConfirmDialog(
+        @DrawableRes resImage: Int,
+        @StringRes resTitle: Int,
+        @StringRes resDescription: Int,
+        crossinline block: () -> Unit
     ) =
         PopupDialog.Builder()
-            .setTitle(R.string.goal_warning_title)
-            .setSubtitle(resString)
+            .setImage(resImage)
+            .setTitle(resTitle)
+            .setSubtitle(resDescription)
             .setupConfirmButton(
                 android.R.string.ok,
                 object : PopupDialog.PopupDialogConfirmListener {
@@ -297,6 +303,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                     }
                 }
             )
+            .setupConfirmButtonColor(R.color.color_primary)
             .setupCancelButton(
                 android.R.string.cancel,
                 object : PopupDialog.PopupDialogCancelListener {
@@ -307,10 +314,16 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             .build()
             .show(supportFragmentManager, PopupDialog.TAG)
 
-    private fun showDefaultDialog(resString: Int) =
+    private fun showDefaultDialog(
+        @DrawableRes resImage: Int,
+        @StringRes resTitle: Int,
+        @StringRes resDescription: Int
+    ) =
         PopupDialog.Builder()
-            .setTitle(R.string.goal_warning_title)
-            .setSubtitle(resString)
+            .setTitle(resTitle)
+            .setSubtitle(resDescription)
+            .setupConfirmButtonColor(R.color.color_primary)
+            .setImage(resImage)
             .setupConfirmButton(
                 R.string.button_ok,
                 object : PopupDialog.PopupDialogConfirmListener {
@@ -322,12 +335,52 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
             .build()
             .show(supportFragmentManager, PopupDialog.TAG)
 
-    private fun expandBar(hasToExpand: Boolean) = appBarLayout.setExpanded(hasToExpand)
+    private fun showOptions() {
+        OptionsBottomPopup.Builder()
+            .setOptions(createOptionsToDetailsScreen(isFromDoneGoals))
+            .setFinishWhenClickOption(true)
+            .build()
+            .show(supportFragmentManager, OptionsBottomPopup.TAG)
+
+    }
+
+    private fun createOptionsToDetailsScreen(isFromDone: Boolean) =
+        mutableListOf<OptionsBottomPopup.Option>().apply {
+            if (isFromDone.not()) {
+                add(
+                    OptionsBottomPopup.Option(
+                        R.drawable.ic_done,
+                        R.string.goal_details_option_mark_as_done,
+                        object : OptionsBottomPopup.Option.OptionsBottomPopupOptionListener {
+                            override fun onClickOption() {
+                                goalDetailsViewModel.showConfirmationDialogDoneGoal()
+                            }
+                        },
+                        R.color.color_soft_grey_5
+                    )
+                )
+            }
+            add(
+                OptionsBottomPopup.Option(
+                    R.drawable.ic_remove,
+                    R.string.goal_details_option_remove,
+                    object : OptionsBottomPopup.Option.OptionsBottomPopupOptionListener {
+                        override fun onClickOption() {
+                            goalDetailsViewModel.showConfirmationDialogRemoveGoal()
+                        }
+                    },
+                    R.color.color_soft_grey_5
+                )
+            )
+        }.toTypedArray()
 
     companion object {
-        private const val GOAL_TAG = "GOAL"
         private const val HAS_CHANGED = "HAS_CHANGED"
         private const val IS_FROM_DONE_GOALS = "IS_FROM_DONE_GOALS"
-        private const val FIRST_POSITION = 0
+
+        fun newIntent(context: Context) = Intent(
+            context,
+            GoalDetailsActivity::class.java
+        )
     }
 }

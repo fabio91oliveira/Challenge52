@@ -32,7 +32,7 @@
                     android:id="@+id/imgProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_margin="@dimen/spacing_03"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_profile" />
@@ -42,11 +42,10 @@
                     android:layout_width="@dimen/spacing_none"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_06"
-                    android:layout_marginEnd="@dimen/spacing_12"
                     android:includeFontPadding="false"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/text_size_biggest"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/gdlEnd"
                     app:layout_constraintStart_toStartOf="@id/imgProfile"
                     app:layout_constraintTop_toBottomOf="@+id/imgProfile"
                     tools:text="@string/goals_lists_hello" />
@@ -55,19 +54,23 @@
                     android:id="@+id/txtSubtitle"
                     android:layout_width="@dimen/spacing_none"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/spacing_12"
                     android:ellipsize="end"
                     android:includeFontPadding="false"
                     android:maxLines="2"
-                    android:textColor="@color/color_soft_grey_3"
+                    android:textColor="@color/color_soft_grey_5"
                     android:textSize="@dimen/text_size_half"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/gdlEnd"
                     app:layout_constraintStart_toStartOf="@id/imgProfile"
                     app:layout_constraintTop_toBottomOf="@+id/txtTitle"
                     tools:text="@tools:sample/lorem/random" />
 
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gdlEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/spacing_12" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -83,7 +86,7 @@
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/color_primary_dark"
             app:tabTextAppearance="@style/LowerCaseTabTextAppearance"
-            app:tabTextColor="@color/color_soft_grey_2" />
+            app:tabTextColor="@color/color_soft_grey_4" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -96,7 +99,7 @@
         android:clickable="true"
         android:focusable="true"
         app:backgroundTint="@color/color_primary"
-        app:rippleColor="@color/color_primary_dark"
+        app:rippleColor="@android:color/white"
         app:srcCompat="@android:drawable/ic_input_add"
         app:tint="@android:color/white" />
 

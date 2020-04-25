@@ -5,6 +5,7 @@ object Core {
     const val Actions = ":core:actions"
     const val Persistence = ":core:persistence"
     const val Models = ":core:models"
+    const val Navigation = ":core:navigation"
 }
 
 object Features {
@@ -18,4 +19,5 @@ object UI {
     const val FullScreenDialog = ":ui:fullscreendialog"
     const val PopupDialog = ":ui:popupdialog"
     const val StateView = ":ui:stateview"
+    const val OptionsBottomPopUp = ":ui:optionsbottompopup"
 }

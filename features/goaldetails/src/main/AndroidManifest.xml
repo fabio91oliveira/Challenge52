@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="features.goaldetails">
+    package="features.goaldetails">
 
     <application android:theme="@style/AppTheme">
-        <activity android:name="oliveira.fabio.challenge52.presentation.activity.GoalDetailsActivity"
-                  android:windowSoftInputMode="adjustResize">
+        <activity
+            android:name="oliveira.fabio.challenge52.presentation.activity.GoalDetailsActivity"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="oliveira.fabio.challenge52.goaldetails"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

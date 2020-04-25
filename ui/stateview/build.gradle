@@ -5,6 +5,6 @@ apply plugin: 'kotlin-kapt'
 
 dependencies {
     // Support
-    api Deps.support_app_compat
-    api Deps.support_constraint_layout
+    implementation Deps.support_app_compat
+    implementation Deps.support_constraint_layout
 }

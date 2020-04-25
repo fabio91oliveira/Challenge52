@@ -4,16 +4,14 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    api project(UI.Resources)
+    implementation project(UI.Resources)
 
     // Support
-    api Deps.support_app_compat
+    implementation Deps.support_app_compat
+    implementation Deps.support_material
 
     // Lifecycle
-    api Deps.lifecycle_viewmodel
-    api Deps.lifecycle_livedata
+    implementation Deps.lifecycle_viewmodel
+    implementation Deps.lifecycle_livedata
     kapt Deps.lifecycle_compiler
-
-    // Timber
-    api Deps.timber
 }

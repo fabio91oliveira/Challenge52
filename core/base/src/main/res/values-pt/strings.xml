@@ -1,88 +1,10 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">CashLab</string>
 
     <!-- All -->
     <string name="all_button_ok">Ok</string>
     <string name="all_button_go_back">Voltar</string>
+    <string name="all_button_continue">Continuar</string>
 
     <string name="progress_value_percent">%</string>
-
-    <!-- Goal Create -->
-    <string name="goal_create_new_goal">Nova meta</string>
-    <string name="goal_create_goal_name">Qual é o nome da sua meta?</string>
-    <string name="goal_create_goal_value">Qual é valor para começar? (Min: %s)</string>
-    <string name="goal_create_goal_data">Qual a data para começar?</string>
-    <string name="goal_create_create_goal">Criar meta</string>
-    <string name="goal_create_calendar_choose_date">Escolher data</string>
-    <string name="goal_create_calendar_select_date">Selecionar data</string>
-
-    <!-- Goal Details -->
-    <string name="goal_details_week">Semana %s</string>
-    <string name="goal_details_weeks">Semanas:</string>
-    <string name="goal_details_goal">Meta alcançada:</string>
-    <string name="goal_details_of_weeks">de %s semanas</string>
-    <string name="goal_details_of_money">de %s</string>
-
-    <string name="goal_details_remove">Remover</string>
-    <string name="goal_details_make_it_done">Marcar como realizado</string>
-
-    <string name="goal_details_are_you_sure_remove">Você tem certeza que deseja remover meta?</string>
-    <plurals name="goal_details_are_you_sure_removes">
-        <item quantity="one" tools:ignore="ImpliedQuantity">Você tem certeza que deseja remover meta selecionada?</item>
-        <item quantity="other">Você tem certeza que deseja remover metas selecionadas?</item>
-    </plurals>
-    <string name="goal_details_are_you_sure_done">Você tem certeza que deseja marcar meta como realizada?</string>
-    <string name="goal_details_cannot_move_to_done">Você não pode mover a meta para realizada até completar todas as
-        semanas.
-    </string>
-    <string name="goal_details_move_to_done_first_dialog">Todas as semanas tiveram suas quantias depositadas. Deseja
-        mover a meta para realizada?
-    </string>
-    <string name="goal_details_date_after_today">Esta data é posterior a data atual. Você quer realmente confirmar o
-        depósito do dinheira para esta semana?
-    </string>
-
-    <!-- Help Questions -->
-    <string name="help_first_question">O que é o Desafio 52 semanas?</string>
-    <string name="help_first_question_answer">O desafio consiste em um jeito bem simples de poupar, mas que exige muita
-        disciplina. Basicamente, você vai precisar guardar um pouquinho de dinheiro toda semana e
-        controlar o que é guardado, mas pode deixar que nesse controle a gente te ajuda. O dinheiro pode ir para um
-        cofrinho ou para a poupança, mas recomendados você dar uma olhada a fundo caso prefira investir.
-    </string>
-
-    <string name="help_second_question">Qual é o propósito do desafio?</string>
-    <string name="help_second_question_answer">O objetivo maior não é que você acumule, o grande objetivo aqui é que
-        você adquira o hábito de poupar,
-        que é o primeiro passo para você acumular patrimônio e alcançar seus maiores objetivos financeiros.
-    </string>
-
-    <string name="help_third_question">O meu principal desafio é acumular?</string>
-    <string name="help_third_question_answer">O que é o Desafio 52 semanas?</string>
-
-
-    <!-- Error -->
-    <string name="goal_warning_title">Atenção</string>
-    <string name="goal_oops_title">Oops! Algo inesperado acabou de acontecer.</string>
-    <string name="goals_generic_error">Ocorreu um erro, tente novamente ou contate o
-        desenvolvedor.
-    </string>
-    <string name="goals_list_error_delete">Ocorreu um erro ao tentar deletar meta(s), tente novamente ou contate o
-        desenvolvedor.
-    </string>
-    <string name="goal_create_error_message">Ocorreu um erro ao tentar criar meta, tente novamente ou contate o
-        desenvolvedor.
-    </string>
-    <string name="goal_details_list_error_message">Ocorreu um erro ao tentar detalhar meta, tente novamente ou contate o
-        desenvolvedor.
-    </string>
-    <string name="goal_details_update_error_message">Ocorreu um erro ao atualizar semana, tente novamente ou contate o
-        desenvolvedor.
-    </string>
-    <string name="goal_details_remove_error_message">Ocorreu um erro ao remover meta, tente novamente ou contate o
-        desenvolvedor.
-    </string>
-    <string name="goal_details_make_done_error_message">Ocorreu um erro ao marcar meta como realizada, tente novamente
-        ou contate o
-        desenvolvedor.
-    </string>
 </resources>

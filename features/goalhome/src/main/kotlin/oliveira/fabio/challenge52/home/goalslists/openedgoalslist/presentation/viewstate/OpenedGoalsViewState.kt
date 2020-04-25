@@ -1,6 +1,6 @@
 package oliveira.fabio.challenge52.home.goalslists.openedgoalslist.presentation.viewstate
 
-data class OpenedGoalsViewState
+internal data class OpenedGoalsViewState
     (
     val isLoading: Boolean = false,
     val isAddButtonVisible: Boolean = false,

@@ -4,5 +4,9 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    api project(Core.Persistence)
+    // Persistence
+    implementation project(Core.Persistence)
+
+    // Koin
+    implementation Deps.koin_scope
 }

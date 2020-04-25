@@ -6,7 +6,8 @@
 
     <dimen name="corner_radius">10dp</dimen>
     <dimen name="margin_top_all">8dp</dimen>
-    <dimen name="margin_top_title">12dp</dimen>
+    <dimen name="margin_top_img">32dp</dimen>
+    <dimen name="popup_margin_top_title">24dp</dimen>
     <dimen name="margin_sides_title">6dp</dimen>
     <dimen name="margin_top_subtitle">1dp</dimen>
 

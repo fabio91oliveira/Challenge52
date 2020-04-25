@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.item_question.*
 import oliveira.fabio.challenge52.home.help.domain.model.vo.Question
 
 
-class QuestionsAdapter :
+internal class QuestionsAdapter :
     RecyclerView.Adapter<QuestionsAdapter.ViewHolder>() {
     private var list: MutableList<Question> = mutableListOf()
     private var lastPosition = 0

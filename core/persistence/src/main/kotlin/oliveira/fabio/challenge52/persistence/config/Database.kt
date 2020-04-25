@@ -4,16 +4,24 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import oliveira.fabio.challenge52.persistence.dao.GoalDao
-import oliveira.fabio.challenge52.persistence.dao.GoalWithWeeksDao
-import oliveira.fabio.challenge52.persistence.dao.WeekDao
-import oliveira.fabio.challenge52.persistence.model.entity.Goal
-import oliveira.fabio.challenge52.persistence.model.entity.Week
-import oliveira.fabio.challenge52.persistence.model.entity.converter.DateConverter
+import oliveira.fabio.challenge52.persistence.dao.GoalWithItemsDao
+import oliveira.fabio.challenge52.persistence.dao.ItemDao
+import oliveira.fabio.challenge52.persistence.model.converter.LocaleConverter
+import oliveira.fabio.challenge52.persistence.model.converter.DateConverter
+import oliveira.fabio.challenge52.persistence.model.converter.PeriodTypeEnumConverter
+import oliveira.fabio.challenge52.persistence.model.converter.StatusEnumConverter
+import oliveira.fabio.challenge52.persistence.model.entity.GoalEntity
+import oliveira.fabio.challenge52.persistence.model.entity.ItemEntity
 
-@Database(entities = [(Goal::class), (Week::class)], version = 1, exportSchema = false)
-@TypeConverters(DateConverter::class)
-abstract class Database : RoomDatabase() {
+@Database(entities = [(GoalEntity::class), (ItemEntity::class)], version = 1, exportSchema = false)
+@TypeConverters(
+    DateConverter::class,
+    StatusEnumConverter::class,
+    PeriodTypeEnumConverter::class,
+    LocaleConverter::class
+)
+internal abstract class Database : RoomDatabase() {
     abstract fun goalDao(): GoalDao
-    abstract fun goalWithWeeksDao(): GoalWithWeeksDao
-    abstract fun weekDao(): WeekDao
+    abstract fun itemsDao(): ItemDao
+    abstract fun goalWithItemsDao(): GoalWithItemsDao
 }

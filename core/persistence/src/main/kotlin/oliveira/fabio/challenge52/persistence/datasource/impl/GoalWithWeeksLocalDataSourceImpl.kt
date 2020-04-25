@@ -1,12 +1,12 @@
 package oliveira.fabio.challenge52.persistence.datasource.impl
 
-import oliveira.fabio.challenge52.persistence.dao.GoalWithWeeksDao
+import oliveira.fabio.challenge52.persistence.dao.GoalWithItemsDao
 import oliveira.fabio.challenge52.persistence.datasource.GoalWithWeeksLocalDataSource
 
-class GoalWithWeeksLocalDataSourceImpl(
-    private val goalWithWeeksDao: GoalWithWeeksDao
+internal class GoalWithWeeksLocalDataSourceImpl(
+    private val goalWithItemsDao: GoalWithItemsDao
 ) :
     GoalWithWeeksLocalDataSource {
-    override fun getAllGoalsWithWeeks() = goalWithWeeksDao.getAllGoalsWithWeeks()
-    override fun getDoneAllGoalsWithWeeks() = goalWithWeeksDao.getAllDoneGoalsWithWeeks()
+    override fun getAllOpenedGoalsWithWeeks() = goalWithItemsDao.getAllOpenedGoalsWithWeeks()
+    override fun getAllDoneGoalsWithWeeks() = goalWithItemsDao.getAllDoneGoalsWithWeeks()
 }

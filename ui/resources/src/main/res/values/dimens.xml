@@ -6,8 +6,10 @@
     <dimen name="text_size_big">20sp</dimen>
     <dimen name="text_size_bigger">24sp</dimen>
     <dimen name="text_size_biggest">32sp</dimen>
+    <dimen name="text_size_really_big">48sp</dimen>
 
     <dimen name="spacing_none">0dp</dimen>
+    <dimen name="spacing_min">1dp</dimen>
     <dimen name="spacing_half">4dp</dimen>
     <dimen name="spacing_01">8dp</dimen>
     <dimen name="spacing_02">16dp</dimen>

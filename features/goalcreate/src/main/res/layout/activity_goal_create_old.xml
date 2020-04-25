@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stateListAnimator="@null"
+        android:theme="@style/AppToolBarTheme"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="?attr/homeAsUpIndicator" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_02"
+                android:layout_marginTop="@dimen/spacing_01"
+                android:layout_marginEnd="@dimen/spacing_02"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:stateListAnimator="@anim/animation"
+                app:cardCornerRadius="@dimen/spacing_01"
+                app:cardElevation="@dimen/spacing_none"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintBottom_toTopOf="@+id/btnCreate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_03"
+                    android:layout_marginTop="@dimen/spacing_03"
+                    android:layout_marginEnd="@dimen/spacing_03"
+                    android:layout_marginBottom="@dimen/spacing_04">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilName"
+                        android:layout_width="@dimen/spacing_none"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/color_soft_grey_4"
+                        app:boxBackgroundColor="@android:color/transparent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:maxLength="25"
+                            android:nextFocusDown="@id/txtDate"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_half" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilValue"
+                        android:layout_width="@dimen/spacing_none"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_02"
+                        android:textColorHint="@color/color_soft_grey_4"
+                        app:boxBackgroundColor="@android:color/transparent"
+                        app:layout_constraintEnd_toEndOf="@id/tilName"
+                        app:layout_constraintStart_toStartOf="@id/tilName"
+                        app:layout_constraintTop_toBottomOf="@id/tilName">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:maxLength="14"
+                            android:nextFocusRight="@id/txtDate"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_half" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilData"
+                        android:layout_width="@dimen/spacing_none"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_02"
+                        android:textColorHint="@color/color_soft_grey_4"
+                        app:boxBackgroundColor="@android:color/transparent"
+                        app:layout_constraintEnd_toEndOf="@id/tilValue"
+                        app:layout_constraintStart_toStartOf="@id/tilValue"
+                        app:layout_constraintTop_toBottomOf="@id/tilValue">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="true"
+                            android:focusable="false"
+                            android:imeOptions="actionDone"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_half" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCreate"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="@dimen/spacing_none"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="@dimen/spacing_02"
+                android:layout_marginBottom="@dimen/spacing_03"
+                android:background="@drawable/selector_button"
+                android:enabled="false"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/card"
+                app:layout_constraintStart_toStartOf="@id/card" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

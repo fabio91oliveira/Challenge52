@@ -1,32 +1,35 @@
 package oliveira.fabio.challenge52.di
 
-import oliveira.fabio.challenge52.domain.mapper.ItemMapper
-import oliveira.fabio.challenge52.domain.mapper.impl.ItemsMapperImpl
-import oliveira.fabio.challenge52.domain.usecase.ChangeWeekDepositStatusUseCase
-import oliveira.fabio.challenge52.domain.usecase.CheckAllWeeksAreDepositedUseCase
-import oliveira.fabio.challenge52.domain.usecase.GetItemsListUseCase
+import androidx.lifecycle.SavedStateHandle
+import oliveira.fabio.challenge52.domain.mapper.DetailsMapper
+import oliveira.fabio.challenge52.domain.mapper.impl.DetailsMapperImpl
+import oliveira.fabio.challenge52.domain.usecase.ChangeItemStatusUseCase
+import oliveira.fabio.challenge52.domain.usecase.MountGoalsDetailsUseCase
 import oliveira.fabio.challenge52.domain.usecase.RemoveGoalUseCase
 import oliveira.fabio.challenge52.domain.usecase.SetGoalAsDoneUseCase
-import oliveira.fabio.challenge52.domain.usecase.impl.ChangeWeekDepositStatusUseCaseImpl
-import oliveira.fabio.challenge52.domain.usecase.impl.CheckAllWeeksAreDepositedUseCaseImpl
-import oliveira.fabio.challenge52.domain.usecase.impl.GetItemsListUseCaseImpl
+import oliveira.fabio.challenge52.domain.usecase.VerifyAllWeekAreCompletedUseCase
+import oliveira.fabio.challenge52.domain.usecase.impl.ChangeItemStatusUseCaseImpl
+import oliveira.fabio.challenge52.domain.usecase.impl.MountGoalsDetailsUseCaseImpl
 import oliveira.fabio.challenge52.domain.usecase.impl.RemoveGoalUseCaseImpl
 import oliveira.fabio.challenge52.domain.usecase.impl.SetGoalAsDoneUseCaseImpl
+import oliveira.fabio.challenge52.domain.usecase.impl.VerifyAllWeekAreCompletedUseCaseImpl
+import oliveira.fabio.challenge52.features.GoalDetailsNavigation
+import oliveira.fabio.challenge52.presentation.navigation.GoalDetailsNavigationImpl
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
-import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
 
 object GoalDetailsModule {
     private val domainModule = module {
-        factory<ItemMapper> {
-            ItemsMapperImpl()
+        factory<DetailsMapper> {
+            DetailsMapperImpl()
         }
-        factory<GetItemsListUseCase> {
-            GetItemsListUseCaseImpl(get())
+        factory<MountGoalsDetailsUseCase> {
+            MountGoalsDetailsUseCaseImpl(get())
         }
-        factory<ChangeWeekDepositStatusUseCase> {
-            ChangeWeekDepositStatusUseCaseImpl(get())
+        factory<ChangeItemStatusUseCase> {
+            ChangeItemStatusUseCaseImpl(get(), get())
         }
         factory<SetGoalAsDoneUseCase> {
             SetGoalAsDoneUseCaseImpl(
@@ -39,13 +42,16 @@ object GoalDetailsModule {
                 get()
             )
         }
-        factory<CheckAllWeeksAreDepositedUseCase> {
-            CheckAllWeeksAreDepositedUseCaseImpl()
+        factory<VerifyAllWeekAreCompletedUseCase> {
+            VerifyAllWeekAreCompletedUseCaseImpl()
         }
     }
 
     private val presentationModule = module {
-        viewModel { GoalDetailsViewModel(get(), get(), get(), get(), get()) }
+        factory<GoalDetailsNavigation> { GoalDetailsNavigationImpl() }
+        viewModel { (handle: SavedStateHandle) ->
+            GoalDetailsViewModel(handle, get(), get(), get(), get(), get())
+        }
     }
 
     fun load() = loadKoinModules(listOf(domainModule, presentationModule))

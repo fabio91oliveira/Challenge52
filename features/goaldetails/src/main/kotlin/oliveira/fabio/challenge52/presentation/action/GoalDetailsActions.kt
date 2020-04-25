@@ -1,13 +1,19 @@
 package oliveira.fabio.challenge52.presentation.action
 
-import oliveira.fabio.challenge52.domain.model.vo.Item
-import oliveira.fabio.challenge52.persistence.model.entity.Week
+import androidx.annotation.StringRes
+import oliveira.fabio.challenge52.presentation.vo.ItemDetail
+import oliveira.fabio.challenge52.presentation.adapter.AdapterItem
+import oliveira.fabio.challenge52.presentation.vo.TopDetails
 
-sealed class GoalDetailsActions {
-    data class AddedGoalsFirstTime(val itemsList: MutableList<Item>) : GoalDetailsActions()
-    data class AddedGoals(val itemsList: MutableList<Item>) : GoalDetailsActions()
-    data class UpdatedGoal(val week: Week) : GoalDetailsActions()
-    object RemovedGoal : GoalDetailsActions()
-    object CompletedGoal : GoalDetailsActions()
-    data class Error(val errorMessageRes: Int) : GoalDetailsActions()
+internal sealed class GoalDetailsActions {
+    data class PopulateGoalInformation(val list: MutableList<AdapterItem<TopDetails, String, ItemDetail>>) :
+        GoalDetailsActions()
+
+    data class ShowUpdateWeekMessage(@StringRes val stringRes: Int) : GoalDetailsActions()
+    object RemoveGoal : GoalDetailsActions()
+    object CompleteGoal : GoalDetailsActions()
+    data class CriticalError(
+        @StringRes val titleRes: Int,
+        @StringRes val descriptionRes: Int
+    ) : GoalDetailsActions()
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/goal_create_navigation"
+    app:startDestination="@id/goalCreateNameSuggestionsFragment">
+
+    <fragment
+        android:id="@+id/goalCreateNameSuggestionsFragment"
+        android:name="oliveira.fabio.challenge52.creategoal.presentation.fragment.GoalSuggestionsListFragment"
+        android:label="GoalCreateNameSuggestionsFragment"
+        tools:layout="@layout/fragment_goal_suggestions_list">
+        <action
+            android:id="@+id/action_go_to_goal_create_choose_name"
+            app:destination="@id/goalCreateChooseNameFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/goalCreateChooseNameFragment"
+        android:name="oliveira.fabio.challenge52.creategoal.presentation.fragment.GoalChooseNameFragment"
+        android:label="GoalCreateChooseNameFragment"
+        tools:layout="@layout/fragment_goal_choose_name">
+        <action
+            android:id="@+id/action_go_to_goal_create_name_suggestions"
+            app:destination="@id/goalCreateNameSuggestionsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+    </fragment>
+
+</navigation>

@@ -4,29 +4,39 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    api project(Core.Base)
-    api project(Core.Actions)
-    api project(Core.Models)
+    // Core
+    implementation project(Core.Base)
+    implementation project(Core.Navigation)
+    implementation project(Core.Models)
 
-    api project(UI.Resources)
-    api project(UI.FullScreenDialog)
-    api project(UI.StateView)
+    // UI
+    implementation project(UI.Resources)
+    implementation project(UI.FullScreenDialog)
+    implementation project(UI.StateView)
 
     // Support
-    api Deps.support_material
-    api Deps.support_recyclerview
-    api Deps.support_constraint_layout
-    api Deps.viewpager2
-    api Deps.swipe_refresh_layout
+    implementation Deps.support_material
+    implementation Deps.support_recyclerview
+    implementation Deps.support_constraint_layout
+    implementation Deps.viewpager2
+    implementation Deps.swipe_refresh_layout
+
+    // Lifecycle
+    implementation Deps.lifecycle_viewmodel
+    implementation Deps.lifecycle_livedata
+    kapt Deps.lifecycle_compiler
 
     // Koin
-    api Deps.koin_viewmodel
+    implementation Deps.koin_viemmodel
 
     // Coroutines
-    api Deps.coroutines_core
-    api Deps.coroutines_android
+    implementation Deps.coroutines_core
+    implementation Deps.coroutines_android
 
     // Result
-    api Deps.result_core
-    api Deps.result_coroutines
+    implementation Deps.result_core
+    implementation Deps.result_coroutines
+
+    // Timber
+    implementation Deps.timber
 }

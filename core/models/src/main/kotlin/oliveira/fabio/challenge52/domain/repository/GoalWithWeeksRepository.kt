@@ -1,8 +1,8 @@
 package oliveira.fabio.challenge52.domain.repository
 
-import oliveira.fabio.challenge52.persistence.model.vo.GoalWithWeeks
+import oliveira.fabio.challenge52.presentation.vo.Goal
 
 interface GoalWithWeeksRepository {
-    fun getAllOpenedGoalsWithWeeks(): List<GoalWithWeeks>
-    fun getAllDoneGoalsWithWeeks(): List<GoalWithWeeks>
+    fun getOpenedGoalsList(): List<Goal>
+    fun getDoneGoalsList(): List<Goal>
 }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/guideline_horizontal"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/guideline_vertical"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgIco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintStart_toEndOf="@id/gdStart"
+        app:layout_constraintTop_toBottomOf="@+id/gdTop"
+        tools:src="@android:drawable/ic_dialog_map"
+        tools:tint="@android:color/black"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtOption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_start_option"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="2dp"
+        android:textSize="@dimen/text_size_regular"
+        app:layout_constraintBottom_toBottomOf="@+id/imgIco"
+        app:layout_constraintStart_toEndOf="@+id/imgIco"
+        app:layout_constraintTop_toTopOf="@+id/imgIco"
+        tools:text="@tools:sample/lorem" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/guideline_horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/txtOption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txtOption"
+        app:srcCompat="@drawable/ic_arrow_enter" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_min"
+        android:background="@color/color_line"
+        android:layout_marginTop="@dimen/guideline_horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/imgIco"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

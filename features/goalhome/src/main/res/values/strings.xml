@@ -11,6 +11,7 @@
     <string name="goals_lists_hello_user">Hello, %s</string>
 
     <string name="goals_lists_welcome">{0,choice,0#Let it help you to save money.|1#You have 1 task to complete.|1&lt;You have {0} tasks to complete.}</string>
+    <string name="goals_lists_description">Your balance is</string>
 
     <string name="goals_lists_opened_goals">Opened</string>
     <string name="goals_lists_done_goals">Done</string>
@@ -19,7 +20,9 @@
 
     <string name="goals_lists_my_goals">My Goals</string>
 
-    <string name="goals_lists_weeks_remaining">%s of 52 weeks</string>
+    <string name="goals_lists_days_remaining">%s of %s days</string>
+    <string name="goals_lists_weeks_remaining">%s of %s weeks</string>
+    <string name="goals_lists_months_remaining">%s of %s months</string>
     <string name="goals_lists_completed">completed</string>
     <string name="progress_value_percent">%</string>
 
