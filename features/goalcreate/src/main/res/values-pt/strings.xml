@@ -11,11 +11,11 @@
     <!-- Challenge Overview -->
     <string name="goal_create_challenge_overview_first_page_accumulative_title">Essa modalidade é acumulativa,
         isso quer dizer que o dinheiro que você início a guardar, será somado com ele mesmo até atingir o objetivo.</string>
-    <string name="goal_create_challenge_overview_first_page_accumulative_description">Por exemplo:\nDia 1: R$ 2.00\nDia 2: R$ 4.00\nDIa 3: R$ 6.00\nDia 4: R$ 8.00 </string>
+    <string name="goal_create_challenge_overview_first_page_accumulative_description">Por exemplo:\nDia 1: R$ 1.00\nDia 2: R$ 2.00\nDIa 3: R$ 3.00\nDia 4: R$ 4.00 </string>
 
     <string name="goal_create_challenge_overview_first_page_title">Essa não é modalidade acumulativa,
         isso significa que você tem um valor fixo para guardar.</string>
-    <string name="goal_create_challenge_overview_first_page_description">Por exemplo:\nDia 1: $ 2,00\nDia 2: $ 2,00\nDia 3: $ 2,00\nDia 4: $ 2,00 </string>
+    <string name="goal_create_challenge_overview_first_page_description">Por exemplo:\nDia 1: $ 1,00\nDia 2: $ 1,00\nDia 3: $ 1,00\nDia 4: $ 1,00 </string>
 
     <string name="goal_create_challenge_overview_second_page_title">Quando você concluir sua meta, apenas marque-a como finalizada</string>
     <string name="goal_create_challenge_overview_second_page_description">Isso é muito simples de fazer, basta ir nas opções da tela de detalhes e concluir sua meta.</string>
