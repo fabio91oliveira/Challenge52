@@ -7,7 +7,7 @@ import oliveira.fabio.challenge52.creategoal.domain.usecase.GetCurrentLocaleUseC
 import oliveira.fabio.challenge52.creategoal.presentation.vo.GoalSuggestion
 import oliveira.fabio.challenge52.presentation.vo.Challenge
 import oliveira.fabio.challenge52.presentation.vo.GoalToSave
-import oliveira.fabio.challenge52.presentation.vo.PeriodEnum
+import oliveira.fabio.challenge52.presentation.vo.enums.PeriodEnum
 
 internal class CreateGoalToSaveObjectUseCaseImpl(
     private val getCurrentLocaleUseCase: GetCurrentLocaleUseCase

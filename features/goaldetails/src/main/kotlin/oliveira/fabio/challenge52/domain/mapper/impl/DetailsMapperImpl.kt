@@ -9,7 +9,7 @@ import oliveira.fabio.challenge52.presentation.adapter.AdapterItem
 import oliveira.fabio.challenge52.presentation.vo.Goal
 import oliveira.fabio.challenge52.presentation.vo.Item
 import oliveira.fabio.challenge52.presentation.vo.ItemDetail
-import oliveira.fabio.challenge52.presentation.vo.PeriodEnum
+import oliveira.fabio.challenge52.presentation.vo.enums.PeriodEnum
 import oliveira.fabio.challenge52.presentation.vo.PeriodItemEnum
 import oliveira.fabio.challenge52.presentation.vo.TopDetails
 import java.util.*

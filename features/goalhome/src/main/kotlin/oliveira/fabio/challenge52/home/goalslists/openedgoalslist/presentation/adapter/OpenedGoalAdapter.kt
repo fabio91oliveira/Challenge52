@@ -12,9 +12,11 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_goal.*
 import oliveira.fabio.challenge52.extensions.doPopAnimation
 import oliveira.fabio.challenge52.extensions.isVisible
+import oliveira.fabio.challenge52.extensions.stylizeTextCurrency
 import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.presentation.vo.Goal
-import oliveira.fabio.challenge52.presentation.vo.PeriodEnum
+import oliveira.fabio.challenge52.presentation.vo.enums.PeriodEnum
+import oliveira.fabio.challenge52.presentation.vo.enums.StatusEnum
 
 internal class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalListener) :
     RecyclerView.Adapter<OpenedGoalAdapter.GoalViewHolder>() {
@@ -57,7 +59,7 @@ internal class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalLis
             txtMoney.text =
                 goalsList[position].totalMoney.toStringMoney(currentLocale = goalsList[position].currentLocale)
             val completedPercent = goalsList[position].getTotalPercent()
-            viewStatus.isVisible = goalsList[position].status == Goal.Status.NEW
+            viewStatus.isVisible = goalsList[position].statusEnum == StatusEnum.NEW
 
             ObjectAnimator.ofInt(progressBar, PROGRESS_TAG, INITIAL_VALUE, completedPercent).apply {
                 duration = PROGRESS_ANIMATION_DURATION
@@ -83,7 +85,7 @@ internal class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalLis
                         progress > INITIAL_PERCENT -> {
                             val color = ContextCompat.getColor(
                                 containerView.context,
-                                R.color.color_accent
+                                R.color.color_red
                             )
                             txtPercent.setTextColor(color)
                             txtMoney.setTextColor(color)
@@ -105,6 +107,7 @@ internal class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalLis
                             )
                         }
                     }
+                    txtMoney.stylizeTextCurrency()
                 }
                 start()
             }

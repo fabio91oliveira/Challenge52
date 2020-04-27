@@ -18,7 +18,7 @@ import oliveira.fabio.challenge52.creategoal.presentation.viewstate.CreateGoalVi
 import oliveira.fabio.challenge52.creategoal.presentation.vo.MoneySuggestion
 import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.presentation.vo.GoalToSave
-import oliveira.fabio.challenge52.presentation.vo.PeriodEnum
+import oliveira.fabio.challenge52.presentation.vo.enums.PeriodEnum
 import timber.log.Timber
 
 internal class CreateGoalViewModel(

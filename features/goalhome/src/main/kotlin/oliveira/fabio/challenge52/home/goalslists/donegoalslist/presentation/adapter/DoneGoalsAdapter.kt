@@ -11,9 +11,10 @@ import features.goalhome.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_done_goal.*
 import oliveira.fabio.challenge52.extensions.doPopAnimation
+import oliveira.fabio.challenge52.extensions.stylizeTextCurrency
 import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.presentation.vo.Goal
-import oliveira.fabio.challenge52.presentation.vo.PeriodEnum
+import oliveira.fabio.challenge52.presentation.vo.enums.PeriodEnum
 
 internal class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalListener) :
     RecyclerView.Adapter<DoneGoalsAdapter.GoalViewHolder>() {
@@ -82,7 +83,7 @@ internal class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalList
                         progress > INITIAL_PERCENT -> {
                             val color = ContextCompat.getColor(
                                 containerView.context,
-                                R.color.color_accent
+                                R.color.color_red
                             )
                             txtMoney.setTextColor(color)
                             txtPercent.setTextColor(color)
@@ -104,6 +105,7 @@ internal class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalList
                             )
                         }
                     }
+                    txtMoney.stylizeTextCurrency()
                     txtPercent.text =
                         progress.toString() + containerView.context.getString(R.string.progress_value_percent)
                 }

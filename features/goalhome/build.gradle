@@ -13,6 +13,7 @@ dependencies {
     implementation project(UI.Resources)
     implementation project(UI.FullScreenDialog)
     implementation project(UI.StateView)
+    implementation project(UI.Icons)
 
     // Support
     implementation Deps.support_material

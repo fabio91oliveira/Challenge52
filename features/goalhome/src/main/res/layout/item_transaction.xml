@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/spacing_01"
+    android:layout_marginBottom="@dimen/spacing_02"
+    android:layout_marginStart="@dimen/spacing_02"
+    android:layout_marginEnd="@dimen/spacing_02">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgTransaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/txtDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txtDescription"
+        app:srcCompat="@drawable/ic_salary"
+        tools:rotation="180" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_01"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_size_half"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imgTransaction"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Salary" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_smaller"
+        app:layout_constraintStart_toStartOf="@+id/txtDescription"
+        app:layout_constraintTop_toBottomOf="@+id/txtDescription"
+        tools:text="12 June 2020" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_02"
+        android:textColor="@color/color_green"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="+ 30,000" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

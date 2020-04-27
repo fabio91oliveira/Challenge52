@@ -5,7 +5,7 @@ import oliveira.fabio.challenge52.persistence.model.entity.GoalEntity
 import oliveira.fabio.challenge52.persistence.model.enums.GoalStatusEnum
 import oliveira.fabio.challenge52.persistence.model.enums.PeriodTypeEnum
 import oliveira.fabio.challenge52.presentation.vo.GoalToSave
-import oliveira.fabio.challenge52.presentation.vo.PeriodEnum
+import oliveira.fabio.challenge52.presentation.vo.enums.PeriodEnum
 
 internal class GoalEntityMapperImpl :
     GoalEntityMapper {

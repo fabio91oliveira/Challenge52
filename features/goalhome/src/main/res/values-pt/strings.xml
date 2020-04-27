@@ -1,7 +1,7 @@
 <resources>
     <!-- Menu -->
     <string name="navigation_menu_home">Metas</string>
-    <string name="navigation_menu_facilitator">Facilitador</string>
+    <string name="navigation_menu_organizer">Organizador</string>
     <string name="navigation_menu_tips">Dicas</string>
     <string name="navigation_menu_notifications">Notificações</string>
     <string name="navigation_menu_options">Opções</string>

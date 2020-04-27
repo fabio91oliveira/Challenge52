@@ -8,6 +8,7 @@ import oliveira.fabio.challenge52.domain.repository.ItemRepository
 import oliveira.fabio.challenge52.domain.usecase.ChangeItemStatusUseCase
 import oliveira.fabio.challenge52.presentation.vo.Goal
 import oliveira.fabio.challenge52.presentation.vo.ItemDetail
+import oliveira.fabio.challenge52.presentation.vo.enums.StatusEnum
 
 internal class ChangeItemStatusUseCaseImpl(
     private val goalRepository: GoalRepository,
@@ -28,7 +29,7 @@ internal class ChangeItemStatusUseCaseImpl(
                 isChecked = isChecked
             )
 
-            if (isGoalNew(goal.status))
+            if (isGoalNew(goal.statusEnum))
                 goalRepository.setGoalAsInProgress(goal.id)
         }
     }
@@ -36,5 +37,5 @@ internal class ChangeItemStatusUseCaseImpl(
     private fun getSelectedItem(goal: Goal, itemDetail: ItemDetail) =
         goal.items.first { it.id == itemDetail.id }
 
-    private fun isGoalNew(status: Goal.Status) = status == Goal.Status.NEW
+    private fun isGoalNew(statusEnum: StatusEnum) = statusEnum == StatusEnum.NEW
 }

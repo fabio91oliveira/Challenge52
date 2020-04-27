@@ -2,6 +2,7 @@ package oliveira.fabio.challenge52.presentation.vo
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import oliveira.fabio.challenge52.presentation.vo.enums.PeriodEnum
 import java.util.*
 
 @Parcelize

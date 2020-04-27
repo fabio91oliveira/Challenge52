@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contentBalance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/color_primary"
+            android:elevation="8dp"
+            android:paddingStart="@dimen/spacing_04"
+            android:paddingTop="@dimen/spacing_02"
+            android:paddingEnd="@dimen/spacing_04"
+            android:paddingBottom="@dimen/spacing_07"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtBalanceTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_02"
+                android:includeFontPadding="false"
+                android:text="Balance"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_medium"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtBalance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:text="3,000.00"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_really_big"
+                android:textStyle="bold"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/txtBalanceTitle"
+                app:layout_constraintTop_toBottomOf="@+id/txtBalanceTitle" />
+
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/progressIncome"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/background_progress_circle_organizer"
+                android:indeterminate="false"
+                android:progress="70"
+                android:progressDrawable="@drawable/background_progress_income"
+                app:layout_constraintBottom_toBottomOf="@+id/txtIncome"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txtIncomeTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtIncomeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_02"
+                android:layout_marginTop="@dimen/spacing_04"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:text="Income"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toTopOf="@+id/txtIncome"
+                app:layout_constraintStart_toEndOf="@+id/progressIncome"
+                app:layout_constraintTop_toBottomOf="@+id/txtBalance"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtIncome"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="$2,522"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_bigger"
+                android:textStyle="bold"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintEnd_toStartOf="@+id/progressSpent"
+                app:layout_constraintStart_toStartOf="@+id/txtIncomeTitle"
+                app:layout_constraintTop_toBottomOf="@+id/txtIncomeTitle" />
+
+
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/progressSpent"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="@dimen/spacing_09"
+                android:background="@drawable/background_progress_circle_organizer"
+                android:indeterminate="false"
+                android:progress="70"
+                android:progressDrawable="@drawable/background_progress_spent"
+                app:layout_constraintBottom_toBottomOf="@+id/txtSpent"
+                app:layout_constraintStart_toEndOf="@+id/txtIncomeTitle"
+                app:layout_constraintTop_toTopOf="@+id/txtSpentTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtSpentTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_02"
+                android:layout_marginTop="@dimen/spacing_04"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:text="Spent"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintStart_toEndOf="@+id/progressSpent"
+                app:layout_constraintTop_toBottomOf="@+id/txtBalance" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtSpent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="$6,125"
+                android:textColor="@color/color_spent"
+                android:textSize="@dimen/text_size_bigger"
+                android:textStyle="bold"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/txtSpentTitle"
+                app:layout_constraintTop_toBottomOf="@+id/txtSpentTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtTransactions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_02"
+            android:text="Transactions"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="@id/gdlEnd"
+            app:layout_constraintStart_toStartOf="@id/gdlStart"
+            app:layout_constraintTop_toBottomOf="@id/contentBalance" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupTransactions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_01"
+            app:checkedChip="@+id/chipAll"
+            app:layout_constraintEnd_toEndOf="@id/gdlEnd"
+            app:layout_constraintStart_toStartOf="@id/gdlStart"
+            app:layout_constraintTop_toBottomOf="@+id/txtTransactions"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="All"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                app:checkedIconEnabled="false"
+                app:chipBackgroundColor="@color/selector_chip_transactions"
+                app:chipEndPadding="@dimen/spacing_02"
+                app:chipStartPadding="@dimen/spacing_02" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipIncome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="Income"
+                android:textAlignment="center"
+                app:checkedIconEnabled="false"
+                app:chipBackgroundColor="@color/selector_chip_transactions"
+                app:chipEndPadding="@dimen/spacing_02"
+                app:chipStartPadding="@dimen/spacing_02" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSpent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="Spent"
+                android:textAlignment="center"
+                app:checkedIconEnabled="false"
+                app:chipBackgroundColor="@color/selector_chip_transactions"
+                app:chipEndPadding="@dimen/spacing_02"
+                app:chipStartPadding="@dimen/spacing_02" />
+
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTransactions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chipGroupTransactions"
+            tools:listitem="@layout/item_transaction" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gdlStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="395dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gdlEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/spacing_02" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

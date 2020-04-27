@@ -11,11 +11,13 @@ import kotlinx.android.synthetic.main.activity_home.*
 import oliveira.fabio.challenge52.BaseActivity
 import oliveira.fabio.challenge52.home.goalslists.presentation.fragment.GoalsListsFragment
 import oliveira.fabio.challenge52.home.help.presentation.fragment.HelpFragment
+import oliveira.fabio.challenge52.home.organizer.presentation.fragment.OrganizerFragment
 
 class HomeActivity : BaseActivity(R.layout.activity_home),
     BottomNavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var goalsListsFragment: GoalsListsFragment
+    private lateinit var organizerFragment: OrganizerFragment
     private lateinit var helpFragment: HelpFragment
     private lateinit var activeFragment: Fragment
 
@@ -27,6 +29,8 @@ class HomeActivity : BaseActivity(R.layout.activity_home),
 
             supportFragmentManager.findFragmentByTag(GoalsListsFragment::class.java.simpleName)
                 ?.let { goalsListsFragment = it as GoalsListsFragment }
+            supportFragmentManager.findFragmentByTag(OrganizerFragment::class.java.simpleName)
+                ?.let { organizerFragment = it as OrganizerFragment }
             supportFragmentManager.findFragmentByTag(HelpFragment::class.java.simpleName)
                 ?.let { helpFragment = it as HelpFragment }
 
@@ -34,6 +38,8 @@ class HomeActivity : BaseActivity(R.layout.activity_home),
             when (supportFragmentManager.findFragmentByTag(tag)) {
                 is GoalsListsFragment -> activeFragment =
                     supportFragmentManager.findFragmentByTag(tag) as GoalsListsFragment
+                is OrganizerFragment -> activeFragment =
+                    supportFragmentManager.findFragmentByTag(tag) as OrganizerFragment
                 is HelpFragment -> activeFragment =
                     supportFragmentManager.findFragmentByTag(tag) as HelpFragment
             }
@@ -57,6 +63,10 @@ class HomeActivity : BaseActivity(R.layout.activity_home),
                 changeFragment(goalsListsFragment)
                 return true
             }
+            R.id.navigation_organizer -> {
+                changeFragment(organizerFragment)
+                return true
+            }
             R.id.navigation_help -> {
                 changeFragment(helpFragment)
                 return true
@@ -70,6 +80,7 @@ class HomeActivity : BaseActivity(R.layout.activity_home),
 
     private fun initFragments() {
         goalsListsFragment = GoalsListsFragment.newInstance()
+        organizerFragment = OrganizerFragment.newInstance()
         helpFragment = HelpFragment.newInstance()
     }
 

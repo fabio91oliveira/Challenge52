@@ -81,10 +81,10 @@
             android:layout_gravity="end"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:tabBackground="@drawable/background_tablayout"
-            app:tabIndicatorColor="@color/color_primary"
+            app:tabIndicatorColor="@color/color_accent"
             app:tabMinWidth="@dimen/spacing_11"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/color_primary_dark"
+            app:tabSelectedTextColor="@color/color_accent_dark"
             app:tabTextAppearance="@style/LowerCaseTabTextAppearance"
             app:tabTextColor="@color/color_soft_grey_4" />
 

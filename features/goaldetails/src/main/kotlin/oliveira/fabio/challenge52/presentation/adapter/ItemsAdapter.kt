@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.item_details.*
 import kotlinx.android.synthetic.main.item_header.*
 import kotlinx.android.synthetic.main.item_to_save.*
 import oliveira.fabio.challenge52.extensions.doPopAnimation
+import oliveira.fabio.challenge52.extensions.stylizeTextCurrency
 import oliveira.fabio.challenge52.extensions.toStringCurrentDateWithFormat
 import oliveira.fabio.challenge52.presentation.vo.ItemDetail
 import oliveira.fabio.challenge52.presentation.vo.PeriodItemEnum
@@ -83,10 +84,12 @@ internal class ItemsAdapter(
                     it.totalCompletedItems.toString(), it.totalItems.toString()
                 )
                 txtMoneySaved.text = it.totalMoneySaved
+                txtMoneySaved.stylizeTextCurrency()
                 txtMoneyToSave.text = containerView.resources.getString(
                     R.string.goal_details_money,
                     it.totalMoneyToSave
                 )
+                txtMoneyToSave.stylizeTextCurrency()
 
                 ObjectAnimator.ofInt(
                     progressBar,

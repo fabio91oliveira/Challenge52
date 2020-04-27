@@ -8,6 +8,7 @@ include ':app',
         ':ui:popupdialog',
         ':ui:stateview',
         ':ui:optionsbottompopup',
+        ':ui:icons',
         ':features:goalcreate',
         ':features:goaldetails',
         ':features:goalhome'

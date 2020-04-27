@@ -6,12 +6,13 @@ import oliveira.fabio.challenge52.persistence.model.enums.GoalStatusEnum
 import oliveira.fabio.challenge52.persistence.model.enums.PeriodTypeEnum
 import oliveira.fabio.challenge52.presentation.vo.Goal
 import oliveira.fabio.challenge52.presentation.vo.Item
-import oliveira.fabio.challenge52.presentation.vo.PeriodEnum
+import oliveira.fabio.challenge52.presentation.vo.enums.PeriodEnum
+import oliveira.fabio.challenge52.presentation.vo.enums.StatusEnum
 
 internal class GoalMapperImpl : GoalMapper {
     override fun invoke(goalWithItemsEntity: GoalWithItemsEntity) = Goal(
         id = goalWithItemsEntity.goal.id,
-        status = getStatus(goalWithItemsEntity),
+        statusEnum = getStatus(goalWithItemsEntity),
         name = goalWithItemsEntity.goal.name,
         currentLocale = goalWithItemsEntity.goal.currentLocale,
         totalMoney = goalWithItemsEntity.goal.totalMoney,
@@ -21,9 +22,9 @@ internal class GoalMapperImpl : GoalMapper {
 
     private fun getStatus(goalWithItems: GoalWithItemsEntity) =
         when (goalWithItems.goal.goalStatus) {
-            GoalStatusEnum.NEW -> Goal.Status.NEW
-            GoalStatusEnum.IN_PROGRESS -> Goal.Status.IN_PROGRESS
-            GoalStatusEnum.DONE -> Goal.Status.DONE
+            GoalStatusEnum.NEW -> StatusEnum.NEW
+            GoalStatusEnum.IN_PROGRESS -> StatusEnum.IN_PROGRESS
+            GoalStatusEnum.DONE -> StatusEnum.DONE
         }
 
     private fun getPeriod(goalWithItems: GoalWithItemsEntity): PeriodEnum {

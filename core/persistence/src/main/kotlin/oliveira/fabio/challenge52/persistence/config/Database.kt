@@ -10,6 +10,7 @@ import oliveira.fabio.challenge52.persistence.model.converter.LocaleConverter
 import oliveira.fabio.challenge52.persistence.model.converter.DateConverter
 import oliveira.fabio.challenge52.persistence.model.converter.PeriodTypeEnumConverter
 import oliveira.fabio.challenge52.persistence.model.converter.StatusEnumConverter
+import oliveira.fabio.challenge52.persistence.model.converter.TransactionTypeEnumConverter
 import oliveira.fabio.challenge52.persistence.model.entity.GoalEntity
 import oliveira.fabio.challenge52.persistence.model.entity.ItemEntity
 
@@ -18,7 +19,8 @@ import oliveira.fabio.challenge52.persistence.model.entity.ItemEntity
     DateConverter::class,
     StatusEnumConverter::class,
     PeriodTypeEnumConverter::class,
-    LocaleConverter::class
+    LocaleConverter::class,
+    TransactionTypeEnumConverter::class
 )
 internal abstract class Database : RoomDatabase() {
     abstract fun goalDao(): GoalDao

@@ -5,7 +5,7 @@ import kotlinx.coroutines.withContext
 import oliveira.fabio.challenge52.creategoal.domain.usecase.CreateItemsUseCase
 import oliveira.fabio.challenge52.presentation.vo.GoalToSave
 import oliveira.fabio.challenge52.presentation.vo.ItemToSave
-import oliveira.fabio.challenge52.presentation.vo.PeriodEnum
+import oliveira.fabio.challenge52.presentation.vo.enums.PeriodEnum
 import java.util.*
 
 internal class CreateItemsUseCaseImpl : CreateItemsUseCase {
