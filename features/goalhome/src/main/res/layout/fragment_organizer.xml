@@ -11,6 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <oliveira.fabio.challenge52.presentation.view.SelectHeaderView
+            android:id="@+id/selectHeaderView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:backgroundColor="@color/color_primary_dark"
+            app:componentsColor="@android:color/white"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contentBalance"
             android:layout_width="0dp"
@@ -23,7 +31,7 @@
             android:paddingBottom="@dimen/spacing_07"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/selectHeaderView">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtBalanceTitle"
@@ -151,7 +159,7 @@
             android:layout_marginTop="@dimen/spacing_02"
             android:text="Transactions"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_half"
             android:textStyle="bold"
             app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="@id/gdlEnd"
@@ -162,7 +170,7 @@
             android:id="@+id/chipGroupTransactions"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_01"
+            android:layout_marginTop="@dimen/spacing_02"
             app:checkedChip="@+id/chipAll"
             app:layout_constraintEnd_toEndOf="@id/gdlEnd"
             app:layout_constraintStart_toStartOf="@id/gdlStart"
@@ -219,6 +227,8 @@
             android:id="@+id/rvTransactions"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_01"
+            android:overScrollMode="never"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/chipGroupTransactions"
@@ -229,7 +239,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="395dp" />
+            app:layout_constraintGuide_begin="@dimen/spacing_02" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gdlEnd"

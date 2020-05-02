@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/spacing_01"
-    android:layout_marginBottom="@dimen/spacing_02"
-    android:layout_marginStart="@dimen/spacing_02"
-    android:layout_marginEnd="@dimen/spacing_02">
+    android:layout_marginBottom="@dimen/spacing_min"
+    android:background="@android:color/white"
+    android:padding="@dimen/spacing_02">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgTransaction"
@@ -24,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_01"
+        android:paddingBottom="@dimen/spacing_min"
         android:textColor="@android:color/black"
         android:textSize="@dimen/text_size_half"
         android:textStyle="bold"

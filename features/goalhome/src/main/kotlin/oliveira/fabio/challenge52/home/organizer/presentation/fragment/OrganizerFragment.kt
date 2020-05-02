@@ -1,7 +1,10 @@
 package oliveira.fabio.challenge52.home.organizer.presentation.fragment
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +29,6 @@ internal class OrganizerFragment : Fragment(R.layout.fragment_organizer) {
 
     private fun init() {
         setupRecyclerview()
-        setupTextsStyle()
         setupObservables()
     }
 
@@ -89,19 +91,34 @@ internal class OrganizerFragment : Fragment(R.layout.fragment_organizer) {
 
         transactionAdapter.setLocale(balance.currentLocale)
         transactionAdapter.addList(balance.transactions)
-        txtBalance.text = 3000.0.toStringMoney(currentLocale = balance.currentLocale)
-        txtIncome.text = 4000.0.toStringMoney(currentLocale = balance.currentLocale)
-        txtSpent.text = 1000.0.toStringMoney(currentLocale = balance.currentLocale)
+
+        txtBalance.doIncreaseMoneyAnimation(3000.0, balance.currentLocale)
+        txtIncome.doIncreaseMoneyAnimation(4000.0, balance.currentLocale)
+        txtSpent.doIncreaseMoneyAnimation(1000.0, balance.currentLocale)
     }
 
     private fun setupObservables() {
 
     }
 
-    private fun setupTextsStyle() {
-        txtBalance.stylizeTextCurrency()
-        txtIncome.stylizeTextCurrency()
-        txtSpent.stylizeTextCurrency()
+    private fun TextView.doIncreaseMoneyAnimation(
+        finalMoney: Double,
+        currentLocale: Locale = Locale.getDefault()
+    ) {
+        ValueAnimator.ofFloat(0f, finalMoney.toFloat()).apply {
+            interpolator = AccelerateDecelerateInterpolator()
+            duration = 2300
+            addUpdateListener {
+                val progress = it.animatedValue as Float
+                if (progress == finalMoney.toFloat()) {
+                    text = finalMoney.toStringMoney(currentLocale = currentLocale)
+                } else {
+                    text = progress.toStringMoney(currentLocale = currentLocale)
+                }
+                stylizeTextCurrency()
+            }
+            start()
+        }
     }
 
     companion object {

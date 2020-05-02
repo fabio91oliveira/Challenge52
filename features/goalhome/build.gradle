@@ -14,6 +14,7 @@ dependencies {
     implementation project(UI.FullScreenDialog)
     implementation project(UI.StateView)
     implementation project(UI.Icons)
+    implementation project(UI.SelectHeader)
 
     // Support
     implementation Deps.support_material

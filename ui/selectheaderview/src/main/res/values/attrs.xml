@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SelectHeaderView">
+        <attr name="backgroundColor" format="color" />
+        <attr name="componentsColor" format="color" />
+        <attr name="textColor" format="color" />
+    </declare-styleable>
+</resources>

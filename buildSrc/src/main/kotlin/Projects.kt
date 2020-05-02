@@ -21,4 +21,5 @@ object UI {
     const val StateView = ":ui:stateview"
     const val OptionsBottomPopUp = ":ui:optionsbottompopup"
     const val Icons = ":ui:icons"
+    const val SelectHeader = ":ui:selectheaderview"
 }

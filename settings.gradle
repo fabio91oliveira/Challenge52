@@ -9,6 +9,7 @@ include ':app',
         ':ui:stateview',
         ':ui:optionsbottompopup',
         ':ui:icons',
+        ':ui:selectheaderview',
         ':features:goalcreate',
         ':features:goaldetails',
         ':features:goalhome'
