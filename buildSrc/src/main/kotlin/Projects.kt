@@ -9,9 +9,13 @@ object Core {
 }
 
 object Features {
+    const val Main = ":features:home:main"
+    const val GoalsLists = ":features:home:goalslists"
+    const val Organizer = ":features:home:organizer"
+    const val Help = ":features:home:help"
+    const val Profile = ":features:home:profile"
     const val GoalCreate = ":features:goalcreate"
     const val GoalDetails = ":features:goaldetails"
-    const val GoalHome = ":features:goalhome"
 }
 
 object UI {

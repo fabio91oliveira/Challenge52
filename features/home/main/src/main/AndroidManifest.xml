@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="features.home.main">
+
+    <application
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="oliveira.fabio.challenge52.main.presentation.activity.HomeActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

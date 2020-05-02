@@ -6,7 +6,10 @@ import oliveira.fabio.challenge52.persistence.di.DataSourceModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
-import org.koin.core.logger.Level.*
+import org.koin.core.logger.Level.DEBUG
+import org.koin.core.logger.Level.ERROR
+import org.koin.core.logger.Level.INFO
+import org.koin.core.logger.Level.NONE
 import org.koin.core.logger.Logger
 import org.koin.core.logger.MESSAGE
 import timber.log.Timber
@@ -23,7 +26,8 @@ object KoinStarter {
                         DEBUG -> Timber.d(msg)
                         INFO -> Timber.i(msg)
                         ERROR -> Timber.e(msg)
-                        NONE -> {}
+                        NONE -> {
+                        }
                     }
                 }
             })
@@ -33,7 +37,7 @@ object KoinStarter {
             DataSourceModule.load()
             RepositoryModule.load()
 
-            GoalHomeModule.load()
+            MainModule.load()
             GoalCreateModule.load()
             GoalDetailsModule.load()
         }

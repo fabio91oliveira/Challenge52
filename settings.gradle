@@ -12,4 +12,8 @@ include ':app',
         ':ui:selectheaderview',
         ':features:goalcreate',
         ':features:goaldetails',
-        ':features:goalhome'
+        ':features:home:main',
+        ':features:home:goalslists',
+        ':features:home:organizer',
+        ':features:home:help',
+        ':features:home:profile'

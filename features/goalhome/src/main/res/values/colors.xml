@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="color_balance_ok_card">#1faf9b</color>
-    <color name="color_income_card">#2e3032</color>
-    <color name="color_spent_card">#052084</color>
-
-    <color name="color_spent">#f0624d</color>
-</resources>
