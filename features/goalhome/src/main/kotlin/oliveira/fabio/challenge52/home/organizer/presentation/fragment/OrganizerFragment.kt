@@ -29,6 +29,7 @@ internal class OrganizerFragment : Fragment(R.layout.fragment_organizer) {
 
     private fun init() {
         setupRecyclerview()
+        setupClickListener()
         setupObservables()
     }
 
@@ -95,6 +96,12 @@ internal class OrganizerFragment : Fragment(R.layout.fragment_organizer) {
         txtBalance.doIncreaseMoneyAnimation(3000.0, balance.currentLocale)
         txtIncome.doIncreaseMoneyAnimation(4000.0, balance.currentLocale)
         txtSpent.doIncreaseMoneyAnimation(1000.0, balance.currentLocale)
+    }
+
+    private fun setupClickListener() {
+        imgEyes.setOnClickListener {
+
+        }
     }
 
     private fun setupObservables() {

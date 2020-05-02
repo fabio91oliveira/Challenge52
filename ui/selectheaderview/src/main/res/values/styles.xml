@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="colorControlHighlight">
-        <item name="colorControlHighlight">@android:color/white</item>
+    <style name="themeRipple">
+        <item name="colorControlHighlight">#0AFFFFFF</item>
     </style>
 </resources>

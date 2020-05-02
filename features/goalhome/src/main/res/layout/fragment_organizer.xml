@@ -28,7 +28,7 @@
             android:paddingStart="@dimen/spacing_04"
             android:paddingTop="@dimen/spacing_02"
             android:paddingEnd="@dimen/spacing_04"
-            android:paddingBottom="@dimen/spacing_07"
+            android:paddingBottom="@dimen/spacing_05"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/selectHeaderView">
@@ -58,9 +58,23 @@
                 android:textSize="@dimen/text_size_really_big"
                 android:textStyle="bold"
                 app:autoSizeTextType="uniform"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imgEyes"
                 app:layout_constraintStart_toStartOf="@+id/txtBalanceTitle"
                 app:layout_constraintTop_toBottomOf="@+id/txtBalanceTitle" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgEyes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:theme="@style/themeRippleRegularImage"
+                android:padding="@dimen/spacing_02"
+                app:layout_constraintBottom_toBottomOf="@+id/txtBalance"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txtBalance"
+                app:srcCompat="@drawable/ic_eye_on" />
 
             <androidx.core.widget.ContentLoadingProgressBar
                 android:id="@+id/progressIncome"
@@ -227,7 +241,7 @@
             android:id="@+id/rvTransactions"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_01"
+            android:layout_marginTop="@dimen/spacing_02"
             android:overScrollMode="never"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

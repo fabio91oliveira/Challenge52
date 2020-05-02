@@ -10,5 +10,6 @@ data class BalanceEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0,
     val currentLocale: Locale,
-    val startDate: Date
+    val startDate: Date,
+    val isHide: Boolean
 ) : Serializable

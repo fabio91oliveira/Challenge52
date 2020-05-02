@@ -28,6 +28,10 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="themeRippleRegularImage">
+        <item name="colorControlHighlight">#0AFFFFFF</item>
+    </style>
+
     <style name="buttonStyle" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@drawable/selector_button</item>
