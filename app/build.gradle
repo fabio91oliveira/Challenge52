@@ -23,7 +23,7 @@ dependencies {
 
     // Features
     implementation project(Features.Main)
-    implementation project(Features.GoalCreate)
+    implementation project(Features.NewGoal)
     implementation project(Features.GoalDetails)
 
     // Koin

@@ -38,7 +38,7 @@ object KoinStarter {
             RepositoryModule.load()
 
             MainModule.load()
-            GoalCreateModule.load()
+            NewGoalModule.load()
             GoalDetailsModule.load()
         }
     }

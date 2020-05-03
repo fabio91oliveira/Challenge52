@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Challenge Select -->
+    <string name="new_goal_select_challenge_title">Escolha um desafio</string>
+    <string name="new_goal_select_challenge_error_title">Oops!</string>
+    <string name="new_goal_select_challenge_error_description">Error</string>
+    <string name="new_goal_select_challenge_skip">Pular</string>
+    <string name="new_goal_select_challenge_next">Próximo</string>
+    <string name="new_goal_select_challenge_select">Escolher</string>
+
+    <!-- Challenge Overview -->
+    <string name="new_goal_challenge_overview_first_page_accumulative_title">Essa modalidade é acumulativa,
+        isso quer dizer que o dinheiro que você início a guardar, será somado com ele mesmo até atingir o objetivo.</string>
+    <string name="new_goal_challenge_overview_first_page_accumulative_description">Por exemplo:\nDia 1: R$ 1.00\nDia 2: R$ 2.00\nDIa 3: R$ 3.00\nDia 4: R$ 4.00 </string>
+
+    <string name="new_goal_challenge_overview_first_page_title">Essa não é modalidade acumulativa,
+        isso significa que você tem um valor fixo para guardar.</string>
+    <string name="new_goal_challenge_overview_first_page_description">Por exemplo:\nDia 1: $ 1,00\nDia 2: $ 1,00\nDia 3: $ 1,00\nDia 4: $ 1,00 </string>
+
+    <string name="new_goal_challenge_overview_second_page_title">Quando você concluir sua meta, apenas marque-a como finalizada</string>
+    <string name="new_goal_challenge_overview_second_page_description">Isso é muito simples de fazer, basta ir nas opções da tela de detalhes e concluir sua meta.</string>
+
+    <string name="new_goal_challenge_overview_third_page_title">Perfeito! Você está preparado para guardar grana e deixar a gente te ajudar</string>
+    <string name="new_goal_challenge_overview_third_page_description">Bora começar! Você está escolhendo essa modalidade e logo você estará indo criar sua meta!</string>
+
+    <string name="new_goal_challenge_overview_error_title">Oops!</string>
+    <string name="new_goal_challenge_overview_error_description">Error</string>
+
+    <!-- Goal Name -->
+    <string name="goal_name_title">Define o nome da meta</string>
+
+    <!-- Goal Create Name Suggestions -->
+    <string name="goal_suggestions_list_title">Você pode escolher uma sugestão ou criar uma nova.</string>
+    <string name="goal_suggestions_list_item_not_a_suggestion">Eu não quero uma sugestão</string>
+    <string name="goal_suggestions_list_error_title">Oops!</string>
+    <string name="goal_suggestions_list_error_description">Error</string>
+
+    <!-- Goal Choose Name -->
+    <string name="goal_choose_name_top_text">Vamos criar a sua meta</string>
+    <string name="goal_choose_name_min_max_characters">Mín 5/Máx 35 caractéres</string>
+    <string name="goal_choose_name_hint_goal_name">Nome da meta</string>
+    <string name="goal_choose_name_error_title">Oops!</string>
+    <string name="goal_choose_name_list_error_description">Error</string>
+
+    <!-- Goal Create -->
+    <string name="create_goal_title">Criando meta</string>
+    <string name="create_goal_btn_create">Finalizar</string>
+    <string name="create_goal_period_default">por ...</string>
+    <string name="create_goal_period_day">por dia</string>
+    <string name="create_goal_period_week">por semana</string>
+    <string name="create_goal_period_month">por mês</string>
+    <string name="create_goal_total">valor total</string>
+</resources>

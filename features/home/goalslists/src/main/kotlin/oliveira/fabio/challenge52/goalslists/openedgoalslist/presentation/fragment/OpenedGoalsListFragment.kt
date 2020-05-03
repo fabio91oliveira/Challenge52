@@ -15,7 +15,7 @@ import features.home.goalslists.R
 import kotlinx.android.synthetic.main.fragment_goals_lists.*
 import kotlinx.android.synthetic.main.fragment_opened_goals_list.*
 import oliveira.fabio.challenge52.extensions.isVisible
-import oliveira.fabio.challenge52.features.CreateGoalNavigation
+import oliveira.fabio.challenge52.features.NewGoalNavigation
 import oliveira.fabio.challenge52.features.GoalDetailsNavigation
 import oliveira.fabio.challenge52.goalslists.openedgoalslist.presentation.action.OpenedGoalsActions
 import oliveira.fabio.challenge52.goalslists.openedgoalslist.presentation.adapter.OpenedGoalAdapter
@@ -31,7 +31,7 @@ internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals
     OpenedGoalAdapter.OnClickGoalListener {
 
     private val goalsListsViewModel: GoalsListsViewModel by sharedViewModel()
-    private val createGoalNavigation: CreateGoalNavigation by inject()
+    private val newGoalNavigation: NewGoalNavigation by inject()
     private val goalDetailsNavigation: GoalDetailsNavigation by inject()
     private val openedGoalsAdapter by lazy {
         OpenedGoalAdapter(
@@ -179,7 +179,7 @@ internal class OpenedGoalsListFragment : Fragment(R.layout.fragment_opened_goals
     private fun goToCreateGoal() {
         context?.also {
             startActivityForResult(
-                createGoalNavigation.navigateToChallengeSelect(it),
+                newGoalNavigation.navigateToChallengeSelect(it),
                 REQUEST_CODE_CREATE
             )
         }

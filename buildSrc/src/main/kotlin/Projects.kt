@@ -14,7 +14,7 @@ object Features {
     const val Organizer = ":features:home:organizer"
     const val Help = ":features:home:help"
     const val Profile = ":features:home:profile"
-    const val GoalCreate = ":features:goalcreate"
+    const val NewGoal = ":features:newgoal"
     const val GoalDetails = ":features:goaldetails"
 }
 
