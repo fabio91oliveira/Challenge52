@@ -8,10 +8,13 @@ import java.util.*
 
 @Entity(tableName = "transaction")
 data class TransactionEntity(
+    var idBalance: Long,
+    var icoResource: String,
+    var description: String,
+    var money: Double,
+    var date: Date,
+    var type: TransactionTypeEnum
+) : Serializable {
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0,
-    val idBalance: Long,
-    val money: Double,
-    val date: Date,
-    val type: TransactionTypeEnum
-) : Serializable
+    var id: Long = 0
+}

@@ -11,7 +11,6 @@ import features.home.goalslists.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_done_goal.*
 import oliveira.fabio.challenge52.extensions.doPopAnimation
-import oliveira.fabio.challenge52.extensions.stylizeTextCurrency
 import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.presentation.vo.Goal
 import oliveira.fabio.challenge52.presentation.vo.enums.PeriodEnum
@@ -106,7 +105,6 @@ internal class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalList
                             )
                         }
                     }
-                    txtMoney.stylizeTextCurrency()
                     txtPercent.text =
                         progress.toString() + containerView.context.getString(R.string.progress_value_percent)
                 }

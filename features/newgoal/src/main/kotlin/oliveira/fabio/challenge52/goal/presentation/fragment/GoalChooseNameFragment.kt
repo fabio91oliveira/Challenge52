@@ -85,7 +85,7 @@ internal class GoalChooseNameFragment : Fragment(R.layout.fragment_goal_choose_n
 
                         }
                         is GoalChooseNameActions.SetNameGoal -> {
-                            edtName.setText(it.goalName)
+                            setupGoalName(it.goalName)
                         }
                         is GoalChooseNameActions.CriticalError -> {
                             showFullScreenDialog(
@@ -96,6 +96,11 @@ internal class GoalChooseNameFragment : Fragment(R.layout.fragment_goal_choose_n
                     }
                 })
         }
+    }
+
+    private fun setupGoalName(goalName: String) {
+        edtName.setText(goalName)
+        edtName.requestFocus()
     }
 
     private fun validateGoalName() {

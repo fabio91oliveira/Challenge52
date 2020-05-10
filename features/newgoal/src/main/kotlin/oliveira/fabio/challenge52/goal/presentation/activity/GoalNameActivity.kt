@@ -26,6 +26,7 @@ internal class GoalNameActivity : BaseActivity(R.layout.activity_goal_name) {
     private fun setupToolbar() {
         with(toolbar) {
             setSupportActionBar(this)
+            supportActionBar?.setDisplayShowTitleEnabled(false)
             setNavigationOnClickListener { finish() }
         }
     }

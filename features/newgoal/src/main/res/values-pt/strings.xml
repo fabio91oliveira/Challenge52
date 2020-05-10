@@ -27,10 +27,10 @@
     <string name="new_goal_challenge_overview_error_description">Error</string>
 
     <!-- Goal Name -->
-    <string name="goal_name_title">Define o nome da meta</string>
+    <string name="goal_name_hint">Escreva um nome</string>
 
     <!-- Goal Create Name Suggestions -->
-    <string name="goal_suggestions_list_title">Você pode escolher uma sugestão ou criar uma nova.</string>
+    <string name="goal_suggestions_list_title">Selecione um nome para a sua meta</string>
     <string name="goal_suggestions_list_item_not_a_suggestion">Eu não quero uma sugestão</string>
     <string name="goal_suggestions_list_error_title">Oops!</string>
     <string name="goal_suggestions_list_error_description">Error</string>
@@ -45,9 +45,9 @@
     <!-- Goal Create -->
     <string name="create_goal_title">Criando meta</string>
     <string name="create_goal_btn_create">Finalizar</string>
-    <string name="create_goal_period_default">por ...</string>
-    <string name="create_goal_period_day">por dia</string>
-    <string name="create_goal_period_week">por semana</string>
-    <string name="create_goal_period_month">por mês</string>
-    <string name="create_goal_total">valor total</string>
+    <string name="create_goal_period_default">Quanto você quer guardar por ...</string>
+    <string name="create_goal_period_day">Quanto você quer guardar por dia</string>
+    <string name="create_goal_period_week">Quanto você quer guardar por semana</string>
+    <string name="create_goal_period_month">Quanto você quer guardar por mês</string>
+    <string name="create_goal_total">Total</string>
 </resources>

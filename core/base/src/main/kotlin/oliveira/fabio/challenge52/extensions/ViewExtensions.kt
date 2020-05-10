@@ -14,6 +14,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import java.text.NumberFormat
+import java.util.*
 
 fun EditText.toCurrencyAndTextChangeAction(func: (() -> Unit?)? = null) {
     var current = ""
@@ -94,16 +96,6 @@ fun View.doSlideDownAnimation() {
         translationY = progress
     }
     valueAnimator.start()
-}
-
-fun TextView.stylizeTextCurrency(initRange: Int = 0, finalRange: Int = 1) {
-    text = try {
-        text.substring(initRange, finalRange)
-            .makeAnotherSize(0.6f)
-            .plus(text.substring(finalRange, text.length))
-    } catch (e: Exception) {
-        text
-    }
 }
 
 inline var View.isVisible: Boolean

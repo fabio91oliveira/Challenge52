@@ -1,6 +1,6 @@
-package oliveira.fabio.challenge52.domain.mapper.impl
+package oliveira.fabio.challenge52.data.mapper.impl
 
-import oliveira.fabio.challenge52.domain.mapper.ItemEntityMapper
+import oliveira.fabio.challenge52.data.mapper.ItemEntityMapper
 import oliveira.fabio.challenge52.persistence.model.entity.ItemEntity
 import oliveira.fabio.challenge52.presentation.vo.GoalToSave
 

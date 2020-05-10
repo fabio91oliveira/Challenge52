@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import features.home.organizer.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_transaction.*
+import oliveira.fabio.challenge52.extensions.getDateStringByFormat
 import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.presentation.vo.Transaction
 import oliveira.fabio.challenge52.presentation.vo.enums.TypeTransactionEnum
@@ -30,6 +31,11 @@ internal class TransactionAdapter :
         notifyDataSetChanged()
     }
 
+    fun clearList() {
+        list.clear()
+        notifyDataSetChanged()
+    }
+
     fun setLocale(locale: Locale) {
         currentLocale = locale
     }
@@ -40,7 +46,21 @@ internal class TransactionAdapter :
 
         fun bind(transaction: Transaction) {
             txtDescription.text = transaction.description
-            txtDate.text = transaction.description
+            txtDate.text = transaction.date.getDateStringByFormat(DATE_PATTERN)
+
+            val image = try {
+                containerView.context.resources.getIdentifier(
+                    transaction.icoResource, RESOURCE_TYPE,
+                    containerView.context.packageName
+                ).let {
+                    if (it == 0) R.drawable.ic_no_avatar else it
+                }
+            } catch (ex: Exception) {
+                R.drawable.ic_no_avatar
+            }
+
+            imgTransaction.setImageResource(image)
+
             when (transaction.typeTransaction) {
                 TypeTransactionEnum.INCOME -> {
                     txtValue.setTextColor(
@@ -64,5 +84,10 @@ internal class TransactionAdapter :
                 }
             }
         }
+    }
+
+    companion object {
+        private const val DATE_PATTERN = "dd MMMM yyyy"
+        private const val RESOURCE_TYPE = "drawable"
     }
 }

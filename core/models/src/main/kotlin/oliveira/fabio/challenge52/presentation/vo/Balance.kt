@@ -6,8 +6,12 @@ import java.util.*
 
 @Parcelize
 data class Balance(
-    val id: Long,
-    val date: Date,
-    val currentLocale: Locale,
-    val transactions: MutableList<Transaction>
+    val id: Long? = null,
+    var date: Date? = null,
+    var currentLocale: Locale = Locale.getDefault(),
+    val total: Double = 0.0,
+    val totalIncomes: Double = 0.0,
+    val totalSpent: Double = 0.0,
+    var isHide: Boolean = false,
+    val transactions: MutableList<Transaction>? = null
 ) : Parcelable

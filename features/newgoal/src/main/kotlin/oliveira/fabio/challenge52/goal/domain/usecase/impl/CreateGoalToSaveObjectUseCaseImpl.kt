@@ -3,7 +3,7 @@ package oliveira.fabio.challenge52.goal.domain.usecase.impl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import oliveira.fabio.challenge52.goal.domain.usecase.CreateGoalToSaveObjectUseCase
-import oliveira.fabio.challenge52.goal.domain.usecase.GetCurrentLocaleUseCase
+import oliveira.fabio.challenge52.domain.usecase.GetCurrentLocaleUseCase
 import oliveira.fabio.challenge52.goal.presentation.vo.GoalSuggestion
 import oliveira.fabio.challenge52.challenge.selectchallenge.presentation.vo.Challenge
 import oliveira.fabio.challenge52.presentation.vo.GoalToSave

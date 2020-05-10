@@ -8,13 +8,13 @@ import androidx.lifecycle.Observer
 import features.newgoal.R
 import kotlinx.android.synthetic.main.activity_create_goal.*
 import oliveira.fabio.challenge52.BaseActivity
+import oliveira.fabio.challenge52.extensions.setRipple
+import oliveira.fabio.challenge52.extensions.toCurrencyAndTextChangeAction
+import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.goal.presentation.action.CreateGoalActions
 import oliveira.fabio.challenge52.goal.presentation.adapter.MoneySuggestionAdapter
 import oliveira.fabio.challenge52.goal.presentation.viewmodel.CreateGoalViewModel
 import oliveira.fabio.challenge52.goal.presentation.vo.MoneySuggestion
-import oliveira.fabio.challenge52.extensions.setRipple
-import oliveira.fabio.challenge52.extensions.toCurrencyAndTextChangeAction
-import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
 import org.koin.androidx.viewmodel.ext.android.getStateViewModel
 
@@ -43,9 +43,8 @@ internal class CreateGoalActivity :
         setupToolbar()
         setupSelectButtonRipple()
         setupClickListener()
-        setupEditTextHint()
+        setupEditText()
         setupEditTextsListeners()
-        setupRecyclerView()
         setupObservables()
     }
 
@@ -56,6 +55,7 @@ internal class CreateGoalActivity :
     private fun setupToolbar() {
         with(toolbar) {
             setSupportActionBar(this)
+            supportActionBar?.setDisplayShowTitleEnabled(false)
             setNavigationOnClickListener { finish() }
         }
     }
@@ -70,27 +70,15 @@ internal class CreateGoalActivity :
         }
     }
 
-    private fun setupEditTextHint() {
+    private fun setupEditText() {
         val hint = 0.toDouble().toStringMoney()
         edtMoney.hint = hint
+        edtMoney.requestFocus()
     }
 
     private fun setupEditTextsListeners() {
         edtMoney.toCurrencyAndTextChangeAction {
             createGoalViewModel.calculateTotalMoney(money)
-        }
-    }
-
-    private fun setupRecyclerView() {
-        with(rvMoneySuggestions) {
-            layoutManager =
-                androidx.recyclerview.widget.LinearLayoutManager(
-                    this@CreateGoalActivity,
-                    androidx.recyclerview.widget.RecyclerView.HORIZONTAL,
-                    false
-                )
-            adapter = moneyAdapter
-            itemAnimator = null
         }
     }
 
@@ -121,7 +109,7 @@ internal class CreateGoalActivity :
     }
 
     private fun setPeriodType(@StringRes periodType: Int) {
-        txtPeriod.setText(periodType)
+        txtTitle.text = getString(periodType)
     }
 
     private fun setTotalMoney(totalMoney: String) {

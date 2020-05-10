@@ -7,6 +7,10 @@ dependencies {
     // Persistence
     implementation project(Core.Persistence)
 
+    // Coroutines
+    implementation Deps.coroutines_core
+    implementation Deps.coroutines_android
+
     // Koin
     implementation Deps.koin_scope
 }

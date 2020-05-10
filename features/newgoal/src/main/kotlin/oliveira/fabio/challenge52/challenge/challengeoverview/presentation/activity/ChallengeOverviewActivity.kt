@@ -58,7 +58,7 @@ internal class ChallengeOverviewActivity : BaseActivity(R.layout.activity_challe
     private fun setupToolbar() {
         with(toolbar) {
             setSupportActionBar(this)
-            supportActionBar?.title = challenge.name
+            supportActionBar?.setDisplayShowTitleEnabled(false)
             setNavigationOnClickListener { finish() }
         }
     }

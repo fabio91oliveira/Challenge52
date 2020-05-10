@@ -1,6 +1,6 @@
-package oliveira.fabio.challenge52.domain.mapper.impl
+package oliveira.fabio.challenge52.data.mapper.impl
 
-import oliveira.fabio.challenge52.domain.mapper.GoalMapper
+import oliveira.fabio.challenge52.data.mapper.GoalMapper
 import oliveira.fabio.challenge52.persistence.model.entity.GoalWithItemsEntity
 import oliveira.fabio.challenge52.persistence.model.enums.GoalStatusEnum
 import oliveira.fabio.challenge52.persistence.model.enums.PeriodTypeEnum
@@ -9,7 +9,8 @@ import oliveira.fabio.challenge52.presentation.vo.Item
 import oliveira.fabio.challenge52.presentation.vo.enums.PeriodEnum
 import oliveira.fabio.challenge52.presentation.vo.enums.StatusEnum
 
-internal class GoalMapperImpl : GoalMapper {
+internal class GoalMapperImpl :
+    GoalMapper {
     override fun invoke(goalWithItemsEntity: GoalWithItemsEntity) = Goal(
         id = goalWithItemsEntity.goal.id,
         statusEnum = getStatus(goalWithItemsEntity),

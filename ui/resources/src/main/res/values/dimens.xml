@@ -1,12 +1,16 @@
 <resources>
-    <dimen name="text_size_smaller">12sp</dimen>
-    <dimen name="text_size_small">14sp</dimen>
-    <dimen name="text_size_half">16sp</dimen>
-    <dimen name="text_size_medium">18sp</dimen>
-    <dimen name="text_size_big">20sp</dimen>
-    <dimen name="text_size_bigger">24sp</dimen>
-    <dimen name="text_size_biggest">32sp</dimen>
-    <dimen name="text_size_really_big">48sp</dimen>
+    <dimen name="text_size_01">12sp</dimen>
+    <dimen name="text_size_02">14sp</dimen>
+    <dimen name="text_size_03">16sp</dimen>
+    <dimen name="text_size_04">18sp</dimen>
+    <dimen name="text_size_05">20sp</dimen>
+    <dimen name="text_size_06">22sp</dimen>
+    <dimen name="text_size_07">24sp</dimen>
+    <dimen name="text_size_08">26sp</dimen>
+    <dimen name="text_size_09">28sp</dimen>
+    <dimen name="text_size_10">30sp</dimen>
+    <dimen name="text_size_11">32sp</dimen>
+    <dimen name="text_size_12">34sp</dimen>
 
     <dimen name="spacing_none">0dp</dimen>
     <dimen name="spacing_min">1dp</dimen>

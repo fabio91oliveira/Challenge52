@@ -11,6 +11,9 @@ object DaoModule {
         factory { get<Database>().goalDao() }
         factory { get<Database>().itemsDao() }
         factory { get<Database>().goalWithItemsDao() }
+        factory { get<Database>().balanceDao() }
+        factory { get<Database>().transactionDao() }
+        factory { get<Database>().balanceWithTransactionsDao() }
     }
 
     fun load() = loadKoinModules(daoModule)

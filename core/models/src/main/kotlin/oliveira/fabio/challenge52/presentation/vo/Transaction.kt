@@ -7,8 +7,9 @@ import java.util.*
 
 @Parcelize
 data class Transaction(
-    val id: Long,
+    val id: Long = 0,
     val idBalance: Long,
+    val icoResource: String,
     val description: String,
     val date: Date,
     val money: Double,

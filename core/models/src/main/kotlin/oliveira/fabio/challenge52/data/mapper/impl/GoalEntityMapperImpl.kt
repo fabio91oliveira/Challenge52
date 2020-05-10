@@ -1,6 +1,6 @@
-package oliveira.fabio.challenge52.domain.mapper.impl
+package oliveira.fabio.challenge52.data.mapper.impl
 
-import oliveira.fabio.challenge52.domain.mapper.GoalEntityMapper
+import oliveira.fabio.challenge52.data.mapper.GoalEntityMapper
 import oliveira.fabio.challenge52.persistence.model.entity.GoalEntity
 import oliveira.fabio.challenge52.persistence.model.enums.GoalStatusEnum
 import oliveira.fabio.challenge52.persistence.model.enums.PeriodTypeEnum

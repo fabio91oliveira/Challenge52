@@ -28,7 +28,6 @@
         android:gravity="center"
         android:includeFontPadding="false"
         android:maxLines="2"
-        android:textAllCaps="true"
         android:textColor="@color/state_view_color_default"
         android:textSize="@dimen/text_size_title"
         android:textStyle="bold"

@@ -11,12 +11,12 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import features.newgoal.R
 import kotlinx.android.synthetic.main.fragment_goal_suggestions_list.*
-import oliveira.fabio.challenge52.goal.presentation.vo.GoalSuggestion
+import oliveira.fabio.challenge52.challenge.selectchallenge.presentation.vo.Challenge
+import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.goal.presentation.action.GoalSuggestionsListActions
 import oliveira.fabio.challenge52.goal.presentation.adapter.GoalSuggestionAdapter
 import oliveira.fabio.challenge52.goal.presentation.viewmodel.GoalSuggestionsListViewModel
-import oliveira.fabio.challenge52.challenge.selectchallenge.presentation.vo.Challenge
-import oliveira.fabio.challenge52.extensions.isVisible
+import oliveira.fabio.challenge52.goal.presentation.vo.GoalSuggestion
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -44,7 +44,6 @@ internal class GoalSuggestionsListFragment :
     private fun init() {
         setupRecyclerView()
         setupObservables()
-        initAnimations()
     }
 
     private fun setupRecyclerView() {
@@ -83,26 +82,6 @@ internal class GoalSuggestionsListFragment :
                 }
             })
         }
-    }
-
-    private fun initAnimations() {
-        val valueAnimator = ValueAnimator.ofFloat(-700f, 0f)
-        valueAnimator.interpolator = AccelerateDecelerateInterpolator()
-        valueAnimator.duration = 800
-        valueAnimator.addUpdateListener {
-            val progress = it.animatedValue as Float
-            viewTop.translationY = progress
-        }
-        valueAnimator.start()
-
-        val valueAnimator2 = ValueAnimator.ofFloat(-700f, 0f)
-        valueAnimator2.interpolator = AccelerateDecelerateInterpolator()
-        valueAnimator2.duration = 800
-        valueAnimator2.addUpdateListener {
-            val progress = it.animatedValue as Float
-            txtTitle?.translationY = progress
-        }
-        valueAnimator2.start()
     }
 
     private fun showLoading(hasToShow: Boolean) {

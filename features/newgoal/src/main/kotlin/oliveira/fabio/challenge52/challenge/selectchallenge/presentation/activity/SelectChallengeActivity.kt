@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import features.newgoal.R
-import kotlinx.android.synthetic.main.activity_selenct_challenge.*
+import kotlinx.android.synthetic.main.activity_select_challenge.*
 import oliveira.fabio.challenge52.BaseActivity
 import oliveira.fabio.challenge52.challenge.challengeoverview.presentation.activity.ChallengeOverviewActivity
 import oliveira.fabio.challenge52.challenge.selectchallenge.presentation.action.ChallengeSelectActions
@@ -18,7 +18,7 @@ import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SelectChallengeActivity : BaseActivity(R.layout.activity_selenct_challenge),
+class SelectChallengeActivity : BaseActivity(R.layout.activity_select_challenge),
     ChallengeAdapter.ChallengeSelectListener {
 
     private val challengeAdapter by lazy {
@@ -56,6 +56,7 @@ class SelectChallengeActivity : BaseActivity(R.layout.activity_selenct_challenge
     private fun setupToolbar() {
         with(toolbar) {
             setSupportActionBar(this)
+            supportActionBar?.setDisplayShowTitleEnabled(false)
             setNavigationOnClickListener {
                 setResult(Activity.RESULT_OK)
                 finish()

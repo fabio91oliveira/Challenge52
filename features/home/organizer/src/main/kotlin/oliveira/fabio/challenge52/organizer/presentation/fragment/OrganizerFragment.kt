@@ -5,31 +5,55 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import features.home.organizer.R
 import kotlinx.android.synthetic.main.fragment_organizer.*
-import oliveira.fabio.challenge52.extensions.stylizeTextCurrency
+import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.extensions.toStringMoney
+import oliveira.fabio.challenge52.organizer.presentation.action.OrganizerActions
 import oliveira.fabio.challenge52.organizer.presentation.adapter.TransactionAdapter
+import oliveira.fabio.challenge52.organizer.presentation.viewmodel.OrganizerViewModel
+import oliveira.fabio.challenge52.presentation.view.SelectHeaderView
 import oliveira.fabio.challenge52.presentation.vo.Balance
-import oliveira.fabio.challenge52.presentation.vo.Transaction
-import oliveira.fabio.challenge52.presentation.vo.enums.TypeTransactionEnum
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import java.util.*
 
-class OrganizerFragment : Fragment(R.layout.fragment_organizer) {
+class OrganizerFragment : Fragment(R.layout.fragment_organizer),
+    SelectHeaderView.ClickButtonsListener {
 
     private val transactionAdapter by lazy { TransactionAdapter() }
+
+    private val organizerViewModel: OrganizerViewModel by viewModel {
+        parametersOf(
+            Calendar.getInstance(),
+            Balance()
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
     }
 
+    override fun onClickLeftListener() {
+        organizerViewModel.goToPreviousMonth()
+    }
+
+    override fun onClickRightListener() {
+        organizerViewModel.goToNextMonth()
+    }
+
     private fun init() {
         setupRecyclerview()
+        setupScrollView()
+        setupSelectHeaderView()
         setupClickListener()
+        setupChipClickListener()
         setupObservables()
     }
 
@@ -39,73 +63,135 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer) {
             adapter = transactionAdapter
             itemAnimator = null
         }
+    }
 
-        val a = Transaction(
-            1,
-            2,
-            "Salary",
-            Date(),
-            30000.0,
-            TypeTransactionEnum.INCOME
-        )
+    private fun setupScrollView() {
+        content.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            if (scrollY > oldScrollY) {
+                organizerViewModel.hideAddButton()
+            } else {
+                organizerViewModel.showAddButton()
+            }
+        })
+    }
 
-        val b = Transaction(
-            1,
-            2,
-            "Investiments",
-            Date(),
-            10.0,
-            TypeTransactionEnum.SPENT
-        )
-        val c = Transaction(
-            1,
-            2,
-            "Investiments",
-            Date(),
-            10.0,
-            TypeTransactionEnum.SPENT
-        )
-        val d = Transaction(
-            1,
-            2,
-            "Investiments",
-            Date(),
-            10.0,
-            TypeTransactionEnum.SPENT
-        )
-        val e = Transaction(
-            1,
-            2,
-            "Investiments",
-            Date(),
-            10.0,
-            TypeTransactionEnum.SPENT
-        )
-
-        val balance = Balance(
-            0,
-            Date(),
-            Locale.getDefault(),
-            arrayListOf(a, b, c, d, e, b, c, d, e, b, c, d, e)
-        )
-
-
-        transactionAdapter.setLocale(balance.currentLocale)
-        transactionAdapter.addList(balance.transactions)
-
-        txtBalance.doIncreaseMoneyAnimation(3000.0, balance.currentLocale)
-        txtIncome.doIncreaseMoneyAnimation(4000.0, balance.currentLocale)
-        txtSpent.doIncreaseMoneyAnimation(1000.0, balance.currentLocale)
+    private fun setupSelectHeaderView() {
+        selectHeaderView.setClickButtonsListener(this)
     }
 
     private fun setupClickListener() {
-        imgEyes.setOnClickListener {
+        viewClickHide.setOnClickListener {
+            organizerViewModel.changeHideOption()
+        }
+        fabAdd.setOnClickListener {
+            organizerViewModel.addTransaction()
+        }
+    }
+
+    private fun setupChipClickListener() {
+        chipGroupTransactions.setOnCheckedChangeListener { _, checkedId ->
 
         }
     }
 
     private fun setupObservables() {
+        with(organizerViewModel) {
+            organizerActions.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                when (it) {
+                    is OrganizerActions.ShowBalance -> {
+                        setBalance(it.balance)
+                        setTransactions(it.balance)
+                    }
+                }
+            })
+            organizerViewState.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                showTransactions(it.isTransactionsVisible)
+                showEmptyState(it.isEmptyStateVisible)
+                showLoading(it.isLoading)
+                setupHide(it.isHide)
+                showLoadingHide(it.isHideLoading)
+                setTextInSelectHeaderView(it.currentMonthYear)
+                showAddButton(it.isAddButtonVisible)
+            })
+        }
+    }
 
+    private fun setBalance(balance: Balance) {
+        with(balance) {
+            txtIncome.doIncreaseMoneyAnimation(
+                totalIncomes,
+                currentLocale
+            )
+            txtSpent.doIncreaseMoneyAnimation(
+                totalSpent,
+                currentLocale
+            )
+            txtBalance.doIncreaseMoneyAnimation(
+                total,
+                currentLocale
+            )
+            setBalanceTextColor(total)
+        }
+    }
+
+    private fun setTransactions(balance: Balance) {
+        balance.transactions?.also {
+            transactionAdapter.setLocale(balance.currentLocale)
+            transactionAdapter.clearList()
+            transactionAdapter.addList(it)
+        } ?: run {
+            transactionAdapter.clearList()
+        }
+    }
+
+    private fun showTransactions(hasToShow: Boolean) {
+        rvTransactions.isVisible = hasToShow
+        chipGroupTransactions.isVisible = hasToShow
+        viewLine.isVisible = hasToShow
+        txtTransactions.isVisible = hasToShow
+    }
+
+    private fun showEmptyState(hasToShow: Boolean) {
+        stateViewEmpty.isVisible = hasToShow
+    }
+
+    private fun showLoading(hasToShow: Boolean) {
+
+    }
+
+    private fun showAddButton(hasToShow: Boolean) =
+        if (hasToShow) fabAdd.show() else fabAdd.hide()
+
+    private fun showLoadingHide(hasToShow: Boolean) {
+        progressHide.isVisible = hasToShow
+        imgEyes.isVisible = hasToShow.not()
+    }
+
+    private fun setTextInSelectHeaderView(text: String) {
+        selectHeaderView.setTitleText(text)
+    }
+
+    private fun setBalanceTextColor(value: Double) {
+        context?.also {
+            txtBalance.setTextColor(
+                ContextCompat.getColor(
+                    it,
+                    if (value < 0) R.color.color_spent else android.R.color.white
+                )
+            )
+        }
+    }
+
+    private fun setupHide(isHide: Boolean) {
+        if (isHide) {
+            groupMoney.visibility = View.INVISIBLE
+            groupHide.visibility = View.VISIBLE
+            imgEyes.setImageResource(R.drawable.ic_eye_off)
+        } else {
+            groupMoney.visibility = View.VISIBLE
+            groupHide.visibility = View.GONE
+            imgEyes.setImageResource(R.drawable.ic_eye_on)
+        }
     }
 
     private fun TextView.doIncreaseMoneyAnimation(
@@ -114,15 +200,14 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer) {
     ) {
         ValueAnimator.ofFloat(0f, finalMoney.toFloat()).apply {
             interpolator = AccelerateDecelerateInterpolator()
-            duration = 2300
+            duration = 500
             addUpdateListener {
                 val progress = it.animatedValue as Float
-                if (progress == finalMoney.toFloat()) {
-                    text = finalMoney.toStringMoney(currentLocale = currentLocale)
+                text = if (progress == finalMoney.toFloat()) {
+                    finalMoney.toStringMoney(currentLocale = currentLocale)
                 } else {
-                    text = progress.toStringMoney(currentLocale = currentLocale)
+                    progress.toStringMoney(currentLocale = currentLocale)
                 }
-                stylizeTextCurrency()
             }
             start()
         }

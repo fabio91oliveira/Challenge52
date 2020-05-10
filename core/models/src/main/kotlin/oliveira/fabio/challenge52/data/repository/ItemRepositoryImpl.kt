@@ -1,6 +1,6 @@
 package oliveira.fabio.challenge52.data.repository
 
-import oliveira.fabio.challenge52.domain.mapper.ItemEntityMapper
+import oliveira.fabio.challenge52.data.mapper.ItemEntityMapper
 import oliveira.fabio.challenge52.domain.repository.ItemRepository
 import oliveira.fabio.challenge52.persistence.datasource.ItemLocalDataSource
 import oliveira.fabio.challenge52.presentation.vo.GoalToSave

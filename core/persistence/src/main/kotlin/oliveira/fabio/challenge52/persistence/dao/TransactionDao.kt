@@ -10,8 +10,8 @@ import oliveira.fabio.challenge52.persistence.model.entity.TransactionEntity
 @Dao
 interface TransactionDao {
     @Transaction
-    @Query("DELETE FROM `transaction` WHERE idBalance = :idBalance")
-    fun removeTransactionByIdBalance(idBalance: Long)
+    @Query("DELETE FROM `transaction` WHERE idBalance = :idBalance and id = :idTransaction")
+    fun removeTransactionByIdBalance(idBalance: Long, idTransaction: Long)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addTransaction(transactionEntity: TransactionEntity): Long

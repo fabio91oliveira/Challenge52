@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.goal.domain.usecase
+package oliveira.fabio.challenge52.domain.usecase
 
 import java.util.*
 

@@ -2,7 +2,7 @@ package oliveira.fabio.challenge52.goal.domain.usecase.impl
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import oliveira.fabio.challenge52.goal.domain.usecase.GetCurrentLocaleUseCase
+import oliveira.fabio.challenge52.domain.usecase.GetCurrentLocaleUseCase
 import oliveira.fabio.challenge52.goal.domain.usecase.GetMoneySuggestionsUseCase
 import oliveira.fabio.challenge52.goal.presentation.vo.MoneySuggestion
 import oliveira.fabio.challenge52.extensions.toStringMoney

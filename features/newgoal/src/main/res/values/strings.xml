@@ -27,10 +27,10 @@
     <string name="new_goal_challenge_overview_error_description">Error</string>
 
     <!-- Goal Name -->
-    <string name="goal_name_title">Define a goal name</string>
+    <string name="goal_name_hint">Type a name</string>
 
     <!-- Goal Suggestions List-->
-    <string name="goal_suggestions_list_title">You can choose a suggestion or just create a new one.</string>
+    <string name="goal_suggestions_list_title">Select a suggestion</string>
     <string name="goal_suggestions_list_item_not_a_suggestion">I don`t what any suggestion</string>
     <string name="goal_suggestions_list_error_title">Oops!</string>
     <string name="goal_suggestions_list_error_description">Error</string>
@@ -45,9 +45,9 @@
     <!-- Goal Create -->
     <string name="create_goal_title">Creating goal</string>
     <string name="create_goal_btn_create">Finish</string>
-    <string name="create_goal_period_default">per ...</string>
-    <string name="create_goal_period_day">per day</string>
-    <string name="create_goal_period_week">per week</string>
-    <string name="create_goal_period_month">per month</string>
-    <string name="create_goal_total">total</string>
+    <string name="create_goal_period_default">How many you want to save per ...</string>
+    <string name="create_goal_period_day">How many you want to save per day</string>
+    <string name="create_goal_period_week">How many you want to save per week</string>
+    <string name="create_goal_period_month">How many you want to save per month</string>
+    <string name="create_goal_total">Total</string>
 </resources>

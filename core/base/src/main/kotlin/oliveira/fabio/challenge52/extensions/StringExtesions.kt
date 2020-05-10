@@ -14,9 +14,10 @@ fun String.isOnlyNumber(): Boolean = this.matches(Regex("[0-9]+"))
 
 fun String.onlyNumbers(): String = this.replace(Regex("[^0-9]"), "")
 
-fun String.removeInitialFinancial(currentLocale: Locale = Locale.getDefault()): String =
+fun String.removeInitialFinancial(currentLocale: Locale): String =
     this.replace(Currency.getInstance(currentLocale).symbol, "")
 
+@Deprecated("Improve it")
 fun Number.toStringMoney(
     removeWhiteSpaces: Boolean = false,
     useCurrency: Boolean = true,

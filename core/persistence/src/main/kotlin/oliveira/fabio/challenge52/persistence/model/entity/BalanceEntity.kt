@@ -9,7 +9,7 @@ import java.util.*
 data class BalanceEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0,
-    val currentLocale: Locale,
-    val startDate: Date,
-    val isHide: Boolean
+    var currentLocale: Locale,
+    var startDate: Date,
+    var isHide: Boolean = false
 ) : Serializable

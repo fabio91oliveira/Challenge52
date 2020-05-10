@@ -7,9 +7,7 @@ import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.layout_select_header_view.view.*
-import oliveira.fabio.challenge52.extensions.getDateStringByFormat
 import ui.selectheaderview.R
-import java.util.*
 
 class SelectHeaderView @JvmOverloads constructor(
     context: Context,
@@ -17,7 +15,7 @@ class SelectHeaderView @JvmOverloads constructor(
     defStyle: Int = DEFAULT_STYLE_RES
 ) : ConstraintLayout(context, attrs, defStyle) {
 
-    private var currentDate = Calendar.getInstance()
+    private var clickButtonsListener: ClickButtonsListener? = null
 
     init {
         LayoutInflater.from(context).inflate(R.layout.layout_select_header_view, this, true)
@@ -47,8 +45,6 @@ class SelectHeaderView @JvmOverloads constructor(
             )
             attributes.recycle()
         }
-
-        refreshDate()
         setupClickListeners()
     }
 
@@ -67,28 +63,23 @@ class SelectHeaderView @JvmOverloads constructor(
         if (color != 0) txtItem.setTextColor(ContextCompat.getColor(context, color))
     }
 
-    private fun refreshDate() {
-        txtItem.text = currentDate.time.getDateStringByFormat(DATE_PATTERN)
+    fun setClickButtonsListener(clickButtonsListener: ClickButtonsListener) {
+        this.clickButtonsListener = clickButtonsListener
+    }
+
+    fun setTitleText(text: String) {
+        txtItem.text = text
+        //currentDate.time.getDateStringByFormat(DATE_PATTERN)
     }
 
     private fun setupClickListeners() {
         imgArrowLeft.setOnClickListener {
-            previousDate()
-            animateTextToLeft()
+            clickButtonsListener?.onClickLeftListener()
         }
 
         imgArrowRight.setOnClickListener {
-            nextDate()
-            animateTextToRight()
+            clickButtonsListener?.onClickRightListener()
         }
-    }
-
-    private fun previousDate() {
-        currentDate.add(Calendar.MONTH, -1)
-    }
-
-    private fun nextDate() {
-        currentDate.add(Calendar.MONTH, 1)
     }
 
     private fun animateTextToLeft() {
@@ -100,7 +91,8 @@ class SelectHeaderView @JvmOverloads constructor(
                 duration = 0
                 translationX(0f)
                 translationY(-100f)
-                refreshDate()
+
+                //
                 withEndAction {
                     duration = 50
                     translationY(0f)
@@ -119,7 +111,8 @@ class SelectHeaderView @JvmOverloads constructor(
                 duration = 0
                 translationX(0f)
                 translationY(-100f)
-                refreshDate()
+                //
+
                 withEndAction {
                     duration = 50
                     translationY(0f)
@@ -132,6 +125,10 @@ class SelectHeaderView @JvmOverloads constructor(
     private companion object {
         private const val DEFAULT_STYLE_ATTR = 0
         private const val DEFAULT_STYLE_RES = 0
-        private const val DATE_PATTERN = "MMMM/yyyy"
+    }
+
+    interface ClickButtonsListener {
+        fun onClickLeftListener()
+        fun onClickRightListener()
     }
 }
