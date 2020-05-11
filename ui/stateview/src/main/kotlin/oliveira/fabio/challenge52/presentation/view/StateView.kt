@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.layout_state_view.view.*
@@ -34,7 +35,9 @@ class StateView @JvmOverloads constructor(
                 )
             )
             setTitle(attributes.getString(R.styleable.StateView_stateViewTitle).orEmpty())
-            setDescription(attributes.getString(R.styleable.StateView_stateViewDescription).orEmpty())
+            setDescription(
+                attributes.getString(R.styleable.StateView_stateViewDescription).orEmpty()
+            )
             attributes.recycle()
         }
 
@@ -46,8 +49,18 @@ class StateView @JvmOverloads constructor(
         txtTitle.visibility = View.VISIBLE
     }
 
+    fun setTitle(@StringRes strRes: Int) {
+        txtTitle.setText(strRes)
+        txtTitle.visibility = View.VISIBLE
+    }
+
     fun setDescription(description: String) {
         txtDescription.text = description
+        txtDescription.visibility = View.VISIBLE
+    }
+
+    fun setDescription(@StringRes strRes: Int) {
+        txtDescription.setText(strRes)
         txtDescription.visibility = View.VISIBLE
     }
 

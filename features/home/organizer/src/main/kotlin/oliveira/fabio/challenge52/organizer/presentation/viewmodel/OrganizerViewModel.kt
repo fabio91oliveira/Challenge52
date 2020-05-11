@@ -8,9 +8,10 @@ import com.github.kittinunf.result.coroutines.SuspendableResult
 import kotlinx.coroutines.launch
 import oliveira.fabio.challenge52.extensions.getDateStringByFormat
 import oliveira.fabio.challenge52.organizer.domain.usecase.ChangeHideOptionUseCase
+import oliveira.fabio.challenge52.organizer.domain.usecase.ChangeTransactionFilterUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.CreateBalanceUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.CreateTransactionUseCase
-import oliveira.fabio.challenge52.organizer.domain.usecase.GetBalanceByDateUseCase
+import oliveira.fabio.challenge52.organizer.domain.usecase.GetBalanceByDateAndTypeUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.GoToNextDateUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.GoToPreviousDateUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.ResetDateUseCase
@@ -26,7 +27,8 @@ import kotlin.random.Random
 internal class OrganizerViewModel(
     private val currentDate: Calendar,
     private var balance: Balance,
-    private val getBalanceByDateUseCase: GetBalanceByDateUseCase,
+    private val getBalanceByDateAndTypeUseCase: GetBalanceByDateAndTypeUseCase,
+    private val changeTransactionFilterUseCase: ChangeTransactionFilterUseCase,
     private val goToNextDateUseCase: GoToNextDateUseCase,
     private val goToPreviousDateUseCase: GoToPreviousDateUseCase,
     private val changeHideOptionUseCase: ChangeHideOptionUseCase,
@@ -58,9 +60,6 @@ internal class OrganizerViewModel(
                     }
                 },
                 failure = {
-                    setViewState { viewState ->
-                        viewState.copy(isLoading = false)
-                    }
                     Timber.e(it)
                 }
             )
@@ -79,9 +78,6 @@ internal class OrganizerViewModel(
                     }
                 },
                 failure = {
-                    setViewState { viewState ->
-                        viewState.copy(isLoading = false)
-                    }
                     Timber.e(it)
                 }
             )
@@ -139,6 +135,47 @@ internal class OrganizerViewModel(
         }
     }
 
+    fun changeTransactionFilter(id: Int) {
+        viewModelScope.launch {
+            setViewState {
+                it.copy(
+                    isLoading = true,
+                    isTransactionsVisible = false,
+                    isEmptyStateVisible = false,
+                    isEmptyStateFilterTransactionVisible = false,
+                    isChipsEnabled = false
+                )
+            }
+            balance.transactions?.also {
+                SuspendableResult.of<List<Transaction>, Exception> {
+                    changeTransactionFilterUseCase(it, id)
+                }.fold(
+                    success = {
+                        OrganizerActions.UpdateTransactions(it).sendAction()
+                        setViewState { viewState ->
+                            viewState.copy(
+                                isLoading = false,
+                                isTransactionsVisible = it.isNotEmpty(),
+                                isEmptyStateFilterTransactionVisible = it.isEmpty(),
+                                isChipsEnabled = true
+                            )
+                        }
+                    },
+                    failure = {
+                        setViewState { viewState ->
+                            viewState.copy(
+                                isLoading = false,
+                                isTransactionsVisible = false,
+                                isEmptyStateFilterTransactionVisible = true,
+                                isChipsEnabled = true
+                            )
+                        }
+                    }
+                )
+            }
+        }
+    }
+
     fun showAddButton() {
         setViewState {
             it.copy(isAddButtonVisible = true)
@@ -152,12 +189,19 @@ internal class OrganizerViewModel(
     }
 
     private fun getBalance() {
-        setViewState {
-            it.copy(isLoading = true)
-        }
         viewModelScope.launch {
+            resetTransactionFilter()
+            setViewState { viewState ->
+                viewState.copy(
+                    isLoading = true,
+                    isTransactionsVisible = false,
+                    isChipsEnabled = false,
+                    isEmptyStateFilterTransactionVisible = false,
+                    isEmptyStateVisible = false
+                )
+            }
             SuspendableResult.of<Balance, Exception> {
-                getBalanceByDateUseCase(currentDate)
+                getBalanceByDateAndTypeUseCase(currentDate)
             }.fold(
                 success = {
                     OrganizerActions.ShowBalance(it).sendAction()
@@ -203,6 +247,10 @@ internal class OrganizerViewModel(
         )
     }
 
+    private fun resetTransactionFilter() {
+        OrganizerActions.ResetTransactionsFilter.sendAction()
+    }
+
     private fun resetDate() {
         viewModelScope.launch {
             SuspendableResult.of<Unit, Exception> {
@@ -218,7 +266,6 @@ internal class OrganizerViewModel(
                 }
             )
         }
-
     }
 
     private fun setBalance(balance: Balance) {

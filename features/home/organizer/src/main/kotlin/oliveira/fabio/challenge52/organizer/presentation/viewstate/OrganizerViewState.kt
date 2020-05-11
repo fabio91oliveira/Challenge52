@@ -7,7 +7,9 @@ internal data class OrganizerViewState
     val isHide: Boolean = false,
     val isTransactionsVisible: Boolean = false,
     val isEmptyStateVisible: Boolean = false,
+    val isEmptyStateFilterTransactionVisible: Boolean = false,
     val isAddButtonVisible: Boolean = true,
+    val isChipsEnabled: Boolean = false,
     val currentMonthYear: String
 ) {
     companion object {

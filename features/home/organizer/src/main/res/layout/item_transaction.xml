@@ -12,11 +12,10 @@
         android:id="@+id/imgTransaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/txtDate"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/txtDescription"
-        app:srcCompat="@drawable/ic_no_avatar"
-        tools:rotation="180" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_no_avatar" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtDescription"
@@ -30,7 +29,8 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/txtValue"
         app:layout_constraintStart_toEndOf="@+id/imgTransaction"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imgTransaction"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="Salary" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -39,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/spacing_02"
         android:textSize="@dimen/text_size_01"
+        app:layout_constraintBottom_toBottomOf="@id/imgTransaction"
         app:layout_constraintEnd_toStartOf="@+id/txtValue"
         app:layout_constraintStart_toStartOf="@+id/txtDescription"
         app:layout_constraintTop_toBottomOf="@+id/txtDescription"
@@ -46,17 +47,25 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtValue"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/spacing_none"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_02"
+        android:gravity="end"
         android:maxLength="14"
         android:textColor="@color/color_green"
         android:textSize="@dimen/text_size_03"
         android:textStyle="bold"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/txtDate"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="+ 30,000" />
+        app:layout_constraintStart_toStartOf="@+id/gdlHalf"
+        app:layout_constraintTop_toTopOf="@id/txtDescription"
+        tools:text="+ 30,000.00" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdlHalf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.55" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

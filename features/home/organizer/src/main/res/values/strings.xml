@@ -3,12 +3,19 @@
     <string name="organizer_balance">Balance</string>
     <string name="organizer_income">Income</string>
     <string name="organizer_spent">Spent</string>
+    <string name="organizer_default_value">0</string>
 
     <string name="organizer_no_transactions_title">No transactions here</string>
     <string name="organizer_no_transactions_description">Add your first transaction!</string>
+
+    <string name="organizer_no_transactions_filter_title">No transactions found</string>
+    <string name="organizer_no_transactions_filter_description">There are no transactions for this filter!</string>
 
     <string name="organizer_transactions">Transactions</string>
     <string name="organizer_chip_all">All</string>
     <string name="organizer_chip_income">Income</string>
     <string name="organizer_chip_spent">Spent</string>
+    <string name="organizer_chip_all_param">All(%s)</string>
+    <string name="organizer_chip_income_param">Income(%s)</string>
+    <string name="organizer_chip_spent_param">Spent(%s)</string>
 </resources>

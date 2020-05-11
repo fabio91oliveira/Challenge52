@@ -12,6 +12,9 @@ data class Balance(
     val total: Double = 0.0,
     val totalIncomes: Double = 0.0,
     val totalSpent: Double = 0.0,
+    val totalAllFilter: Int = 0,
+    val totalIncomeFilter: Int = 0,
+    val totalSpentFilter: Int = 0,
     var isHide: Boolean = false,
     val transactions: MutableList<Transaction>? = null
 ) : Parcelable

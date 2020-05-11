@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="checkAll" type="id" />
+    <item name="checkIncome" type="id" />
+    <item name="checkSpent" type="id" />
+</resources>

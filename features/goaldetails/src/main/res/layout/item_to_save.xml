@@ -25,10 +25,11 @@
             android:id="@+id/line"
             android:layout_width="@dimen/spacing_half"
             android:layout_height="@dimen/spacing_none"
+            android:background="@drawable/bg_rounded"
+            android:backgroundTint="@color/color_transparent_grey"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:background="@color/color_green" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtDate"

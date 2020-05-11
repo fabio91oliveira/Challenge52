@@ -153,12 +153,12 @@ internal class ItemsAdapter(
                 if (imgNotChecked.visibility != View.INVISIBLE) View.INVISIBLE else imgNotChecked.visibility
             imgChecked.visibility =
                 if (imgChecked.visibility != View.VISIBLE) View.VISIBLE else imgChecked.visibility
-            val color = ContextCompat.getColor(
+            val color = ContextCompat.getColorStateList(
                 containerView.context,
                 R.color.color_green
             )
             txtMoney.setTextColor(color)
-            line.setBackgroundColor(color)
+            line.backgroundTintList = color
         }
 
         private fun bindUncheck() {
@@ -166,12 +166,12 @@ internal class ItemsAdapter(
                 if (imgChecked.visibility != View.INVISIBLE) View.INVISIBLE else imgChecked.visibility
             imgNotChecked.visibility =
                 if (imgNotChecked.visibility != View.VISIBLE) View.VISIBLE else imgNotChecked.visibility
-            val color = ContextCompat.getColor(
+            val color = ContextCompat.getColorStateList(
                 containerView.context,
                 R.color.color_transparent_grey
             )
             txtMoney.setTextColor(color)
-            line.setBackgroundColor(color)
+            line.backgroundTintList = color
         }
     }
 

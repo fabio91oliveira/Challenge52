@@ -10,6 +10,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
 import features.home.organizer.R
 import kotlinx.android.synthetic.main.fragment_organizer.*
 import oliveira.fabio.challenge52.extensions.isVisible
@@ -17,8 +18,10 @@ import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.organizer.presentation.action.OrganizerActions
 import oliveira.fabio.challenge52.organizer.presentation.adapter.TransactionAdapter
 import oliveira.fabio.challenge52.organizer.presentation.viewmodel.OrganizerViewModel
+import oliveira.fabio.challenge52.organizer.presentation.vo.TypeOfTransactionEnum
 import oliveira.fabio.challenge52.presentation.view.SelectHeaderView
 import oliveira.fabio.challenge52.presentation.vo.Balance
+import oliveira.fabio.challenge52.presentation.vo.Transaction
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.util.*
@@ -52,6 +55,7 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
         setupRecyclerview()
         setupScrollView()
         setupSelectHeaderView()
+        setupChip()
         setupClickListener()
         setupChipClickListener()
         setupObservables()
@@ -59,7 +63,7 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
 
     private fun setupRecyclerview() {
         with(rvTransactions) {
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, true)
             adapter = transactionAdapter
             itemAnimator = null
         }
@@ -79,6 +83,20 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
         selectHeaderView.setClickButtonsListener(this)
     }
 
+    private fun setupChip() {
+        // TODO IMPROVE IT
+        chipGroupTransactions.isSingleSelection = true
+        TypeOfTransactionEnum.values().forEach {
+            (layoutInflater.inflate(R.layout.item_chip, null) as Chip).apply {
+                text = resources.getString(it.resStringDefault)
+                id = it.resId
+                tag = it.value
+                chipGroupTransactions.addView(this)
+                if (it == TypeOfTransactionEnum.ALL) chipGroupTransactions.check(id)
+            }
+        }
+    }
+
     private fun setupClickListener() {
         viewClickHide.setOnClickListener {
             organizerViewModel.changeHideOption()
@@ -89,8 +107,9 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
     }
 
     private fun setupChipClickListener() {
-        chipGroupTransactions.setOnCheckedChangeListener { _, checkedId ->
-
+        chipGroupTransactions.setOnCheckedChangeListener { group, checkedId ->
+            val chip = group.findViewById<Chip>(checkedId).tag as Int
+            organizerViewModel.changeTransactionFilter(chip)
         }
     }
 
@@ -101,6 +120,14 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
                     is OrganizerActions.ShowBalance -> {
                         setBalance(it.balance)
                         setTransactions(it.balance)
+                        setFiltersCount(it.balance)
+
+                    }
+                    is OrganizerActions.UpdateTransactions -> {
+                        updateTransactions(it.transactions)
+                    }
+                    is OrganizerActions.ResetTransactionsFilter -> {
+                        resetTransactionFilter()
                     }
                 }
             })
@@ -112,6 +139,8 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
                 showLoadingHide(it.isHideLoading)
                 setTextInSelectHeaderView(it.currentMonthYear)
                 showAddButton(it.isAddButtonVisible)
+                showTransactionFilterEmptyState(it.isEmptyStateFilterTransactionVisible)
+                enableChips(it.isChipsEnabled)
             })
         }
     }
@@ -137,26 +166,51 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
     private fun setTransactions(balance: Balance) {
         balance.transactions?.also {
             transactionAdapter.setLocale(balance.currentLocale)
-            transactionAdapter.clearList()
-            transactionAdapter.addList(it)
+            updateTransactions(it)
         } ?: run {
             transactionAdapter.clearList()
         }
     }
 
+    private fun setFiltersCount(balance: Balance) {
+        chipGroupTransactions.findViewById<Chip>(TypeOfTransactionEnum.ALL.resId).text =
+            getString(TypeOfTransactionEnum.ALL.resStringParams, balance.totalAllFilter)
+
+        chipGroupTransactions.findViewById<Chip>(TypeOfTransactionEnum.INCOME.resId).text =
+            getString(TypeOfTransactionEnum.INCOME.resStringParams, balance.totalIncomeFilter)
+
+        chipGroupTransactions.findViewById<Chip>(TypeOfTransactionEnum.SPENT.resId).text =
+            getString(TypeOfTransactionEnum.SPENT.resStringParams, balance.totalSpentFilter)
+    }
+
+
+    private fun updateTransactions(transactions: List<Transaction>) {
+        transactionAdapter.clearList()
+        transactionAdapter.addList(transactions)
+    }
+
+    private fun resetTransactionFilter() {
+        chipGroupTransactions.check(chipGroupTransactions.getChildAt(FIRST_ITEM).id)
+    }
+
     private fun showTransactions(hasToShow: Boolean) {
         rvTransactions.isVisible = hasToShow
-        chipGroupTransactions.isVisible = hasToShow
-        viewLine.isVisible = hasToShow
-        txtTransactions.isVisible = hasToShow
     }
 
     private fun showEmptyState(hasToShow: Boolean) {
         stateViewEmpty.isVisible = hasToShow
     }
 
-    private fun showLoading(hasToShow: Boolean) {
+    private fun showTransactionFilterEmptyState(hasToShow: Boolean) {
+        stateViewTransactionsEmpty.isVisible = hasToShow
+    }
 
+    private fun showLoading(hasToShow: Boolean) {
+        loading.isVisible = hasToShow
+    }
+
+    private fun enableChips(hasToEnable: Boolean) {
+        chipGroupTransactions.isEnabled = hasToEnable
     }
 
     private fun showAddButton(hasToShow: Boolean) =
@@ -180,6 +234,10 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
                 )
             )
         }
+    }
+
+    private fun setFilterCounter() {
+
     }
 
     private fun setupHide(isHide: Boolean) {
@@ -216,5 +274,7 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
     companion object {
         fun newInstance() =
             OrganizerFragment()
+
+        private const val FIRST_ITEM = 0
     }
 }

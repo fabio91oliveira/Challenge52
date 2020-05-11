@@ -33,7 +33,6 @@ internal class TransactionAdapter :
 
     fun clearList() {
         list.clear()
-        notifyDataSetChanged()
     }
 
     fun setLocale(locale: Locale) {

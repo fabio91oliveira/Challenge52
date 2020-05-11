@@ -14,12 +14,17 @@ internal class BalanceMapperImpl :
             var totalIncomes = 0.0
             var totalSpent = 0.0
 
+            var totalFilterIncomes = 0
+            var totalFilterSpent = 0
+
             val transactions = mutableListOf<Transaction>().apply {
                 balanceWithTransactionsEntity.transactions.forEach {
                     if (it.type == TransactionTypeEnum.INCOME) {
                         totalIncomes += it.money
+                        totalFilterIncomes++
                     } else {
                         totalSpent += it.money
+                        totalFilterSpent++
                     }
                     add(
                         Transaction(
@@ -34,7 +39,6 @@ internal class BalanceMapperImpl :
                     )
                 }
             }
-            transactions.sortByDescending { it.id }
             return Balance(
                 id = balanceWithTransactionsEntity.balance.id,
                 date = balanceWithTransactionsEntity.balance.startDate,
@@ -43,6 +47,9 @@ internal class BalanceMapperImpl :
                 total = totalIncomes - totalSpent,
                 totalIncomes = totalIncomes,
                 totalSpent = totalSpent,
+                totalAllFilter = totalFilterIncomes + totalFilterSpent,
+                totalIncomeFilter = totalFilterIncomes,
+                totalSpentFilter = totalFilterSpent,
                 isHide = balanceWithTransactionsEntity.balance.isHide
             )
         }

@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
-        android:padding="@dimen/spacing_02">
+        android:padding="@dimen/spacing_03">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgNext"

@@ -58,6 +58,7 @@
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
                     android:maxLines="1"
+                    android:text="@string/organizer_default_value"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_10"
                     android:textStyle="bold"
@@ -71,7 +72,7 @@
                 <View
                     android:id="@+id/viewBalanceHide"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/spacing_02"
+                    android:layout_height="@dimen/spacing_01"
                     android:layout_marginEnd="@dimen/spacing_04"
                     android:background="@color/color_transparent_grey"
                     app:layout_constraintBottom_toBottomOf="@+id/txtBalance"
@@ -151,6 +152,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_half"
                     android:maxLines="1"
+                    android:text="@string/organizer_default_value"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_03"
                     android:textStyle="bold"
@@ -163,7 +165,7 @@
                 <View
                     android:id="@+id/viewIncomeHide"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/spacing_02"
+                    android:layout_height="@dimen/spacing_01"
                     android:layout_marginEnd="@dimen/spacing_09"
                     android:background="@color/color_transparent_grey"
                     app:layout_constraintBottom_toBottomOf="@+id/txtIncome"
@@ -205,6 +207,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
+                    android:text="@string/organizer_default_value"
                     android:textColor="@color/color_spent"
                     android:textSize="@dimen/text_size_03"
                     android:textStyle="bold"
@@ -217,7 +220,7 @@
                 <View
                     android:id="@+id/viewSpentHide"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/spacing_02"
+                    android:layout_height="@dimen/spacing_01"
                     android:layout_marginEnd="@dimen/spacing_09"
                     android:background="@color/color_transparent_grey"
                     app:layout_constraintBottom_toBottomOf="@+id/txtSpent"
@@ -251,7 +254,8 @@
                 android:id="@+id/viewLine"
                 android:layout_width="@dimen/spacing_half"
                 android:layout_height="0dp"
-                android:background="@color/color_primary"
+                android:background="@drawable/bg_rounded"
+                android:backgroundTint="@color/color_primary"
                 app:layout_constraintBottom_toBottomOf="@id/txtTransactions"
                 app:layout_constraintStart_toStartOf="@id/gdlStart"
                 app:layout_constraintTop_toTopOf="@id/txtTransactions" />
@@ -264,6 +268,8 @@
                 android:layout_marginTop="@dimen/spacing_03"
                 android:text="@string/organizer_transactions"
                 android:textAllCaps="true"
+                android:paddingTop="@dimen/spacing_min"
+                android:paddingBottom="@dimen/spacing_min"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/text_size_02"
                 app:autoSizeTextType="uniform"
@@ -277,7 +283,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_02"
-                app:checkedChip="@+id/chipAll"
                 app:layout_constraintEnd_toEndOf="@id/gdlEnd"
                 app:layout_constraintStart_toStartOf="@id/gdlStart"
                 app:layout_constraintTop_toBottomOf="@+id/txtTransactions"
@@ -285,53 +290,66 @@
                 app:singleSelection="true"
                 tools:visibility="visible">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipAll"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="@string/organizer_chip_all"
-                    android:textAlignment="center"
-                    app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/selector_chip_transactions"
-                    app:chipEndPadding="@dimen/spacing_02"
-                    app:chipStartPadding="@dimen/spacing_02" />
+                <!--                <com.google.android.material.chip.Chip-->
+                <!--                    android:id="@+id/chipAll"-->
+                <!--                    style="@style/Widget.MaterialComponents.Chip.Choice"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:checkable="true"-->
+                <!--                    android:clickable="true"-->
+                <!--                    android:focusable="true"-->
+                <!--                    android:text="@string/organizer_chip_all"-->
+                <!--                    android:textAlignment="center"-->
+                <!--                    app:checkedIconEnabled="false"-->
+                <!--                    app:chipBackgroundColor="@color/selector_chip_transactions"-->
+                <!--                    app:chipEndPadding="@dimen/spacing_02"-->
+                <!--                    app:chipStartPadding="@dimen/spacing_02" />-->
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipIncome"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="@string/organizer_chip_income"
-                    android:textAlignment="center"
-                    app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/selector_chip_transactions"
-                    app:chipEndPadding="@dimen/spacing_02"
-                    app:chipStartPadding="@dimen/spacing_02" />
+                <!--                <com.google.android.material.chip.Chip-->
+                <!--                    android:id="@+id/chipIncome"-->
+                <!--                    style="@style/Widget.MaterialComponents.Chip.Choice"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:checkable="true"-->
+                <!--                    android:clickable="true"-->
+                <!--                    android:focusable="true"-->
+                <!--                    android:text="@string/organizer_chip_income"-->
+                <!--                    android:textAlignment="center"-->
+                <!--                    app:checkedIconEnabled="false"-->
+                <!--                    app:chipBackgroundColor="@color/selector_chip_transactions"-->
+                <!--                    app:chipEndPadding="@dimen/spacing_02"-->
+                <!--                    app:chipStartPadding="@dimen/spacing_02" />-->
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSpent"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="@string/organizer_chip_spent"
-                    android:textAlignment="center"
-                    app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/selector_chip_transactions"
-                    app:chipEndPadding="@dimen/spacing_02"
-                    app:chipStartPadding="@dimen/spacing_02" />
+                <!--                <com.google.android.material.chip.Chip-->
+                <!--                    android:id="@+id/chipSpent"-->
+                <!--                    style="@style/Widget.MaterialComponents.Chip.Choice"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:checkable="true"-->
+                <!--                    android:clickable="true"-->
+                <!--                    android:focusable="true"-->
+                <!--                    android:text="@string/organizer_chip_spent"-->
+                <!--                    android:textAlignment="center"-->
+                <!--                    app:checkedIconEnabled="false"-->
+                <!--                    app:chipBackgroundColor="@color/selector_chip_transactions"-->
+                <!--                    app:chipEndPadding="@dimen/spacing_02"-->
+                <!--                    app:chipStartPadding="@dimen/spacing_02" />-->
 
 
             </com.google.android.material.chip.ChipGroup>
+
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/loading"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chipGroupTransactions"
+                app:layout_constraintVertical_bias="0.4"
+                tools:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTransactions"
@@ -342,19 +360,31 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/chipGroupTransactions"
-                tools:listitem="@layout/item_transaction"
-                tools:visibility="visible" />
+                tools:listitem="@layout/item_transaction" />
+
+            <oliveira.fabio.challenge52.presentation.view.StateView
+                android:id="@+id/stateViewTransactionsEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_01"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/chipGroupTransactions"
+                app:stateViewDescription="@string/organizer_no_transactions_filter_description"
+                app:stateViewImage="@drawable/ic_salary"
+                app:stateViewTitle="@string/organizer_no_transactions_filter_title"
+                tools:visibility="gone" />
 
             <oliveira.fabio.challenge52.presentation.view.StateView
                 android:id="@+id/stateViewEmpty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_04"
+                android:layout_marginTop="@dimen/spacing_01"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/contentBalance"
+                app:layout_constraintTop_toBottomOf="@id/chipGroupTransactions"
                 app:stateViewDescription="@string/organizer_no_transactions_description"
-                app:stateViewImage="@drawable/ic_not_found"
+                app:stateViewImage="@drawable/ic_no_avatar"
                 app:stateViewTitle="@string/organizer_no_transactions_title"
                 tools:visibility="gone" />
 
