@@ -214,6 +214,12 @@ internal class OrganizerViewModel(
         }
     }
 
+    fun hideDialogs() {
+        setViewState {
+            it.copy(dialog = Dialog.NoDialog)
+        }
+    }
+
     fun showConfirmationDialogRemoveTransaction(position: Int) =
         setViewState {
             it.copy(

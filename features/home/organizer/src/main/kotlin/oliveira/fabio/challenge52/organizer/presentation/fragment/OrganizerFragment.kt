@@ -320,6 +320,7 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
                 object : PopupDialog.PopupDialogCancelListener {
                     override fun onClickCancelButton() {
                         transactionAdapter.notifyDataSetChanged()
+                        organizerViewModel.hideDialogs()
                     }
                 })
             .build()

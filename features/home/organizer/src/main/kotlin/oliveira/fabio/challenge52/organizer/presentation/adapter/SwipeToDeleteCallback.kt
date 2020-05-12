@@ -33,7 +33,7 @@ internal abstract class SwipeToDeleteCallback(context: Context) :
          * if (viewHolder?.itemViewType == YourAdapter.SOME_TYPE) return 0
          * if (viewHolder?.adapterPosition == 0) return 0
          */
-        if (viewHolder.adapterPosition == 10) return 0
+//        if (viewHolder.adapterPosition == 10) return 0
         return super.getMovementFlags(recyclerView, viewHolder)
     }
 
