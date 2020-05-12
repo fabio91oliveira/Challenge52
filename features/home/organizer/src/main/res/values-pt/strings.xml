@@ -18,4 +18,7 @@
     <string name="organizer_chip_all_param">Todas(%s)</string>
     <string name="organizer_chip_income_param">Entradas(%s)</string>
     <string name="organizer_chip_spent_param">Despesas(%s)</string>
+
+    <string name="organizer_dialog_remove_transaction_title">Atenção</string>
+    <string name="organizer_dialog_remove_transaction_description">Tem certeza que deseja remover essa transação?</string>
 </resources>

@@ -8,7 +8,7 @@
     android:layout_marginStart="@dimen/spacing_01"
     android:layout_marginTop="@dimen/spacing_half"
     android:layout_marginEnd="@dimen/spacing_01"
-    android:layout_marginBottom="@dimen/spacing_half"
+    android:layout_marginBottom="@dimen/spacing_min"
     android:stateListAnimator="@anim/animation"
     app:cardCornerRadius="@dimen/spacing_01"
     app:cardBackgroundColor="@android:color/white"

@@ -7,6 +7,7 @@ import oliveira.fabio.challenge52.organizer.domain.usecase.CreateTransactionUseC
 import oliveira.fabio.challenge52.organizer.domain.usecase.GetBalanceByDateAndTypeUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.GoToNextDateUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.GoToPreviousDateUseCase
+import oliveira.fabio.challenge52.organizer.domain.usecase.RemoveTransactionUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.ResetDateUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.ChangeHideOptionUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.ChangeTransactionFilterUseCaseImpl
@@ -15,6 +16,7 @@ import oliveira.fabio.challenge52.organizer.domain.usecase.impl.CreateTransactio
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.GetBalanceByDateAndTypeUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.GoToNextDateUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.GoToPreviousDateUseCaseImpl
+import oliveira.fabio.challenge52.organizer.domain.usecase.impl.RemoveTransactionUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.ResetDateUseCaseImpl
 import oliveira.fabio.challenge52.organizer.presentation.viewmodel.OrganizerViewModel
 import oliveira.fabio.challenge52.presentation.vo.Balance
@@ -33,6 +35,7 @@ object OrganizerModule {
         factory<CreateBalanceUseCase> { CreateBalanceUseCaseImpl(get(), get()) }
         factory<CreateTransactionUseCase> { CreateTransactionUseCaseImpl(get()) }
         factory<ChangeHideOptionUseCase> { ChangeHideOptionUseCaseImpl(get()) }
+        factory<RemoveTransactionUseCase> { RemoveTransactionUseCaseImpl(get()) }
     }
     private val presentationModule = module {
         viewModel { (calendar: Calendar, balance: Balance) ->
@@ -46,7 +49,8 @@ object OrganizerModule {
                 resetDateUseCase = get(),
                 createBalanceUseCase = get(),
                 createTransactionUseCase = get(),
-                changeHideOptionUseCase = get()
+                changeHideOptionUseCase = get(),
+                removeTransactionUseCase = get()
             )
         }
     }

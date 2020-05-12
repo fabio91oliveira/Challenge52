@@ -14,7 +14,7 @@ import oliveira.fabio.challenge52.presentation.vo.Transaction
 import oliveira.fabio.challenge52.presentation.vo.enums.TypeTransactionEnum
 import java.util.*
 
-internal class TransactionAdapter :
+internal class TransactionAdapter(private val onSwipeLeftTransactionListener: OnSwipeLeftTransactionListener) :
     RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
     private var list: MutableList<Transaction> = mutableListOf()
     private var currentLocale: Locale = Locale.getDefault()
@@ -37,6 +37,10 @@ internal class TransactionAdapter :
 
     fun setLocale(locale: Locale) {
         currentLocale = locale
+    }
+
+    fun removeTransaction(position: Int) {
+        onSwipeLeftTransactionListener?.onDeleteTransaction(list[position])
     }
 
     inner class ViewHolder(override val containerView: View) :
@@ -83,6 +87,10 @@ internal class TransactionAdapter :
                 }
             }
         }
+    }
+
+    interface OnSwipeLeftTransactionListener {
+        fun onDeleteTransaction(transaction: Transaction)
     }
 
     companion object {

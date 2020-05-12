@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.kittinunf.result.coroutines.SuspendableResult
+import features.home.organizer.R
 import kotlinx.coroutines.launch
 import oliveira.fabio.challenge52.extensions.getDateStringByFormat
 import oliveira.fabio.challenge52.organizer.domain.usecase.ChangeHideOptionUseCase
@@ -14,8 +15,10 @@ import oliveira.fabio.challenge52.organizer.domain.usecase.CreateTransactionUseC
 import oliveira.fabio.challenge52.organizer.domain.usecase.GetBalanceByDateAndTypeUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.GoToNextDateUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.GoToPreviousDateUseCase
+import oliveira.fabio.challenge52.organizer.domain.usecase.RemoveTransactionUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.ResetDateUseCase
 import oliveira.fabio.challenge52.organizer.presentation.action.OrganizerActions
+import oliveira.fabio.challenge52.organizer.presentation.viewstate.Dialog
 import oliveira.fabio.challenge52.organizer.presentation.viewstate.OrganizerViewState
 import oliveira.fabio.challenge52.presentation.vo.Balance
 import oliveira.fabio.challenge52.presentation.vo.Transaction
@@ -34,7 +37,8 @@ internal class OrganizerViewModel(
     private val changeHideOptionUseCase: ChangeHideOptionUseCase,
     private val resetDateUseCase: ResetDateUseCase,
     private val createBalanceUseCase: CreateBalanceUseCase,
-    private val createTransactionUseCase: CreateTransactionUseCase
+    private val createTransactionUseCase: CreateTransactionUseCase,
+    private val removeTransactionUseCase: RemoveTransactionUseCase
 ) : ViewModel() {
 
     private val _organizerActions by lazy { MutableLiveData<OrganizerActions>() }
@@ -176,6 +180,28 @@ internal class OrganizerViewModel(
         }
     }
 
+    fun removeTransaction(transaction: Transaction) {
+        viewModelScope.launch {
+            setViewState {
+                it.copy(
+                    dialog = Dialog.NoDialog,
+                    isLoadingRemove = true
+                )
+            }
+            SuspendableResult.of<Unit, Exception> {
+                removeTransactionUseCase(transaction)
+            }.fold(
+                success = {
+                    getBalance()
+                },
+                failure = {
+                    //todo fazer nada no adapter
+                    Timber.e(it)
+                }
+            )
+        }
+    }
+
     fun showAddButton() {
         setViewState {
             it.copy(isAddButtonVisible = true)
@@ -187,6 +213,18 @@ internal class OrganizerViewModel(
             it.copy(isAddButtonVisible = false)
         }
     }
+
+    fun showConfirmationDialogRemoveTransaction(position: Int) =
+        setViewState {
+            it.copy(
+                dialog = Dialog.ConfirmationDialogRemoveTransaction(
+                    R.drawable.ic_business_man,
+                    R.string.organizer_dialog_remove_transaction_title,
+                    R.string.organizer_dialog_remove_transaction_description,
+                    position
+                )
+            )
+        }
 
     private fun getBalance() {
         viewModelScope.launch {

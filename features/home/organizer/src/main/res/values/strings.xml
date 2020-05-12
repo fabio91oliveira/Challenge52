@@ -18,4 +18,7 @@
     <string name="organizer_chip_all_param">All(%s)</string>
     <string name="organizer_chip_income_param">Income(%s)</string>
     <string name="organizer_chip_spent_param">Spent(%s)</string>
+
+    <string name="organizer_dialog_remove_transaction_title">Attention</string>
+    <string name="organizer_dialog_remove_transaction_description">Are you sure to remove this transaction?</string>
 </resources>

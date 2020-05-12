@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -16,9 +19,12 @@ import kotlinx.android.synthetic.main.fragment_organizer.*
 import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.organizer.presentation.action.OrganizerActions
+import oliveira.fabio.challenge52.organizer.presentation.adapter.SwipeToDeleteCallback
 import oliveira.fabio.challenge52.organizer.presentation.adapter.TransactionAdapter
 import oliveira.fabio.challenge52.organizer.presentation.viewmodel.OrganizerViewModel
+import oliveira.fabio.challenge52.organizer.presentation.viewstate.Dialog
 import oliveira.fabio.challenge52.organizer.presentation.vo.TypeOfTransactionEnum
+import oliveira.fabio.challenge52.presentation.dialogfragment.PopupDialog
 import oliveira.fabio.challenge52.presentation.view.SelectHeaderView
 import oliveira.fabio.challenge52.presentation.vo.Balance
 import oliveira.fabio.challenge52.presentation.vo.Transaction
@@ -27,9 +33,9 @@ import org.koin.core.parameter.parametersOf
 import java.util.*
 
 class OrganizerFragment : Fragment(R.layout.fragment_organizer),
-    SelectHeaderView.ClickButtonsListener {
+    SelectHeaderView.ClickButtonsListener, TransactionAdapter.OnSwipeLeftTransactionListener {
 
-    private val transactionAdapter by lazy { TransactionAdapter() }
+    private val transactionAdapter by lazy { TransactionAdapter(this) }
 
     private val organizerViewModel: OrganizerViewModel by viewModel {
         parametersOf(
@@ -51,6 +57,10 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
         organizerViewModel.goToNextMonth()
     }
 
+    override fun onDeleteTransaction(transaction: Transaction) {
+        organizerViewModel.removeTransaction(transaction)
+    }
+
     private fun init() {
         setupRecyclerview()
         setupScrollView()
@@ -65,7 +75,13 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
         with(rvTransactions) {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, true)
             adapter = transactionAdapter
-            itemAnimator = null
+            val swipeHandler = object : SwipeToDeleteCallback(context) {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    organizerViewModel.showConfirmationDialogRemoveTransaction(viewHolder.adapterPosition)
+                }
+            }
+            val itemTouchHelper = ItemTouchHelper(swipeHandler)
+            itemTouchHelper.attachToRecyclerView(this)
         }
     }
 
@@ -141,6 +157,7 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
                 showAddButton(it.isAddButtonVisible)
                 showTransactionFilterEmptyState(it.isEmptyStateFilterTransactionVisible)
                 enableChips(it.isChipsEnabled)
+                handleDialog(it.dialog)
             })
         }
     }
@@ -236,8 +253,17 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
         }
     }
 
-    private fun setFilterCounter() {
-
+    private fun handleDialog(dialogViewState: Dialog) {
+        when (dialogViewState) {
+            is Dialog.ConfirmationDialogRemoveTransaction -> {
+                showDefaultDialog(
+                    dialogViewState.imageRes,
+                    dialogViewState.titleRes,
+                    dialogViewState.descriptionRes,
+                    dialogViewState.positionTransaction
+                )
+            }
+        }
     }
 
     private fun setupHide(isHide: Boolean) {
@@ -270,6 +296,34 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
             start()
         }
     }
+
+    private fun showDefaultDialog(
+        @DrawableRes resImage: Int,
+        @StringRes resTitle: Int,
+        @StringRes resDescription: Int,
+        position: Int
+    ) =
+        PopupDialog.Builder()
+            .setTitle(resTitle)
+            .setSubtitle(resDescription)
+            .setupConfirmButtonColor(R.color.color_primary)
+            .setImage(resImage)
+            .setupConfirmButton(
+                R.string.all_button_yes,
+                object : PopupDialog.PopupDialogConfirmListener {
+                    override fun onClickConfirmButton() {
+                        transactionAdapter.removeTransaction(position)
+                    }
+                }
+            )
+            .setupCancelButton(R.string.all_button_no,
+                object : PopupDialog.PopupDialogCancelListener {
+                    override fun onClickCancelButton() {
+                        transactionAdapter.notifyDataSetChanged()
+                    }
+                })
+            .build()
+            .show(childFragmentManager, PopupDialog.TAG)
 
     companion object {
         fun newInstance() =
