@@ -1,6 +1,7 @@
 package oliveira.fabio.challenge52.presentation.adapter
 
 import android.animation.ObjectAnimator
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -153,12 +154,12 @@ internal class ItemsAdapter(
                 if (imgNotChecked.visibility != View.INVISIBLE) View.INVISIBLE else imgNotChecked.visibility
             imgChecked.visibility =
                 if (imgChecked.visibility != View.VISIBLE) View.VISIBLE else imgChecked.visibility
-            val color = ContextCompat.getColorStateList(
+            val color = ContextCompat.getColor(
                 containerView.context,
                 R.color.color_green
             )
             txtMoney.setTextColor(color)
-            line.backgroundTintList = color
+            line.background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
         }
 
         private fun bindUncheck() {
@@ -166,12 +167,12 @@ internal class ItemsAdapter(
                 if (imgChecked.visibility != View.INVISIBLE) View.INVISIBLE else imgChecked.visibility
             imgNotChecked.visibility =
                 if (imgNotChecked.visibility != View.VISIBLE) View.VISIBLE else imgNotChecked.visibility
-            val color = ContextCompat.getColorStateList(
+            val color = ContextCompat.getColor(
                 containerView.context,
                 R.color.color_transparent_grey
             )
             txtMoney.setTextColor(color)
-            line.backgroundTintList = color
+            line.background.setColorFilter(color, PorterDuff.Mode.SRC)
         }
     }
 

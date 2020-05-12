@@ -254,7 +254,7 @@
                 android:id="@+id/viewLine"
                 android:layout_width="@dimen/spacing_half"
                 android:layout_height="0dp"
-                android:background="@drawable/bg_rounded"
+                android:background="@drawable/bg_title_rounded"
                 android:backgroundTint="@color/color_primary"
                 app:layout_constraintBottom_toBottomOf="@id/txtTransactions"
                 app:layout_constraintStart_toStartOf="@id/gdlStart"
