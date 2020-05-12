@@ -73,7 +73,7 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
 
     private fun setupRecyclerview() {
         with(rvTransactions) {
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, true)
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = transactionAdapter
             val swipeHandler = object : SwipeToDeleteCallback(context) {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {

@@ -9,8 +9,7 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:fitsSystemWindows="true">
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -60,7 +59,7 @@
                     android:maxLines="1"
                     android:text="@string/organizer_default_value"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_10"
+                    android:textSize="@dimen/text_size_09"
                     android:textStyle="bold"
                     android:visibility="visible"
                     app:autoSizeTextType="uniform"
@@ -154,7 +153,7 @@
                     android:maxLines="1"
                     android:text="@string/organizer_default_value"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_03"
+                    android:textSize="@dimen/text_size_02"
                     android:textStyle="bold"
                     app:autoSizeTextType="uniform"
                     app:layout_constraintEnd_toStartOf="@+id/gdlHalf"
@@ -209,7 +208,7 @@
                     android:maxLines="1"
                     android:text="@string/organizer_default_value"
                     android:textColor="@color/color_spent"
-                    android:textSize="@dimen/text_size_03"
+                    android:textSize="@dimen/text_size_02"
                     android:textStyle="bold"
                     app:autoSizeTextType="uniform"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -266,10 +265,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_01"
                 android:layout_marginTop="@dimen/spacing_03"
-                android:text="@string/organizer_transactions"
-                android:textAllCaps="true"
                 android:paddingTop="@dimen/spacing_min"
                 android:paddingBottom="@dimen/spacing_min"
+                android:text="@string/organizer_transactions"
+                android:textAllCaps="true"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/text_size_02"
                 app:autoSizeTextType="uniform"
@@ -288,55 +287,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtTransactions"
                 app:selectionRequired="true"
                 app:singleSelection="true"
-                tools:visibility="visible">
-
-                <!--                <com.google.android.material.chip.Chip-->
-                <!--                    android:id="@+id/chipAll"-->
-                <!--                    style="@style/Widget.MaterialComponents.Chip.Choice"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:checkable="true"-->
-                <!--                    android:clickable="true"-->
-                <!--                    android:focusable="true"-->
-                <!--                    android:text="@string/organizer_chip_all"-->
-                <!--                    android:textAlignment="center"-->
-                <!--                    app:checkedIconEnabled="false"-->
-                <!--                    app:chipBackgroundColor="@color/selector_chip_transactions"-->
-                <!--                    app:chipEndPadding="@dimen/spacing_02"-->
-                <!--                    app:chipStartPadding="@dimen/spacing_02" />-->
-
-                <!--                <com.google.android.material.chip.Chip-->
-                <!--                    android:id="@+id/chipIncome"-->
-                <!--                    style="@style/Widget.MaterialComponents.Chip.Choice"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:checkable="true"-->
-                <!--                    android:clickable="true"-->
-                <!--                    android:focusable="true"-->
-                <!--                    android:text="@string/organizer_chip_income"-->
-                <!--                    android:textAlignment="center"-->
-                <!--                    app:checkedIconEnabled="false"-->
-                <!--                    app:chipBackgroundColor="@color/selector_chip_transactions"-->
-                <!--                    app:chipEndPadding="@dimen/spacing_02"-->
-                <!--                    app:chipStartPadding="@dimen/spacing_02" />-->
-
-                <!--                <com.google.android.material.chip.Chip-->
-                <!--                    android:id="@+id/chipSpent"-->
-                <!--                    style="@style/Widget.MaterialComponents.Chip.Choice"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:checkable="true"-->
-                <!--                    android:clickable="true"-->
-                <!--                    android:focusable="true"-->
-                <!--                    android:text="@string/organizer_chip_spent"-->
-                <!--                    android:textAlignment="center"-->
-                <!--                    app:checkedIconEnabled="false"-->
-                <!--                    app:chipBackgroundColor="@color/selector_chip_transactions"-->
-                <!--                    app:chipEndPadding="@dimen/spacing_02"-->
-                <!--                    app:chipStartPadding="@dimen/spacing_02" />-->
-
-
-            </com.google.android.material.chip.ChipGroup>
+                tools:visibility="visible" />
 
             <androidx.core.widget.ContentLoadingProgressBar
                 android:id="@+id/loading"
@@ -353,9 +304,10 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTransactions"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/spacing_02"
+                android:descendantFocusability="blocksDescendants"
                 android:overScrollMode="never"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

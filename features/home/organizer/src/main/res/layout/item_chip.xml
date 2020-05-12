@@ -9,7 +9,8 @@
     android:focusable="true"
     android:textAlignment="center"
     android:textAllCaps="false"
+    android:textAppearance="@style/ChipTextAppearanceSmall"
     app:checkedIconEnabled="false"
     app:chipBackgroundColor="@color/selector_chip_transactions"
-    app:chipEndPadding="@dimen/spacing_02"
-    app:chipStartPadding="@dimen/spacing_02" />
+    app:chipEndPadding="@dimen/spacing_01"
+    app:chipStartPadding="@dimen/spacing_01" />

@@ -29,7 +29,7 @@
     </style>
 
     <style name="themeRippleRegularImage">
-        <item name="colorControlHighlight">#0AFFFFFF</item>
+        <item name="colorControlHighlight">#1DFFFFFF</item>
     </style>
 
     <style name="buttonStyle" parent="Widget.AppCompat.Button.Borderless">
