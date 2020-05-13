@@ -9,7 +9,13 @@ import oliveira.fabio.challenge52.presentation.vo.Transaction
 internal class CreateTransactionUseCaseImpl(
     private val transactionRepository: TransactionRepository
 ) : CreateTransactionUseCase {
-    override suspend fun invoke(transaction: Transaction) = withContext(Dispatchers.IO) {
-        transactionRepository.addTransaction(transaction)
+    override suspend fun invoke(
+        transaction: Transaction,
+        idBalance: Long
+    ) = withContext(Dispatchers.IO) {
+        transaction.let {
+            it.idBalance = idBalance
+            transactionRepository.addTransaction(it)
+        }
     }
 }

@@ -23,7 +23,7 @@ import oliveira.fabio.challenge52.organizer.presentation.adapter.SwipeToDeleteCa
 import oliveira.fabio.challenge52.organizer.presentation.adapter.TransactionAdapter
 import oliveira.fabio.challenge52.organizer.presentation.viewmodel.OrganizerViewModel
 import oliveira.fabio.challenge52.organizer.presentation.viewstate.Dialog
-import oliveira.fabio.challenge52.organizer.presentation.vo.TypeOfTransactionEnum
+import oliveira.fabio.challenge52.organizer.presentation.vo.FilterEnum
 import oliveira.fabio.challenge52.presentation.dialogfragment.PopupDialog
 import oliveira.fabio.challenge52.presentation.view.SelectHeaderView
 import oliveira.fabio.challenge52.presentation.vo.Balance
@@ -102,13 +102,13 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
     private fun setupChip() {
         // TODO IMPROVE IT
         chipGroupTransactions.isSingleSelection = true
-        TypeOfTransactionEnum.values().forEach {
+        FilterEnum.values().forEach {
             (layoutInflater.inflate(R.layout.item_chip, null) as Chip).apply {
                 text = resources.getString(it.resStringDefault)
                 id = it.resId
                 tag = it.value
                 chipGroupTransactions.addView(this)
-                if (it == TypeOfTransactionEnum.ALL) chipGroupTransactions.check(id)
+                if (it == FilterEnum.ALL) chipGroupTransactions.check(id)
             }
         }
     }
@@ -124,7 +124,7 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
 
     private fun setupChipClickListener() {
         chipGroupTransactions.setOnCheckedChangeListener { group, checkedId ->
-            val chip = group.findViewById<Chip>(checkedId).tag as Int
+            val chip = group.findViewById<Chip>(checkedId).tag as String
             organizerViewModel.changeTransactionFilter(chip)
         }
     }
@@ -137,7 +137,6 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
                         setBalance(it.balance)
                         setTransactions(it.balance)
                         setFiltersCount(it.balance)
-
                     }
                     is OrganizerActions.UpdateTransactions -> {
                         updateTransactions(it.transactions)
@@ -150,7 +149,8 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
             organizerViewState.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                 showTransactions(it.isTransactionsVisible)
                 showEmptyState(it.isEmptyStateVisible)
-                showLoading(it.isLoading)
+                showLoadingBalance(it.isLoadingBalance)
+                showLoadingTransactions(it.isLoadingTransactions)
                 setupHide(it.isHide)
                 showLoadingHide(it.isHideLoading)
                 setTextInSelectHeaderView(it.currentMonthYear)
@@ -164,40 +164,44 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
 
     private fun setBalance(balance: Balance) {
         with(balance) {
-            txtIncome.doIncreaseMoneyAnimation(
-                totalIncomes,
-                currentLocale
-            )
-            txtSpent.doIncreaseMoneyAnimation(
-                totalSpent,
-                currentLocale
-            )
-            txtBalance.doIncreaseMoneyAnimation(
-                total,
-                currentLocale
-            )
-            setBalanceTextColor(total)
+            txtIncome.postOnAnimation {
+                txtIncome.doIncreaseMoneyAnimation(
+                    totalIncomes,
+                    currentLocale
+                )
+            }
+            txtSpent.postOnAnimation {
+                txtSpent.doIncreaseMoneyAnimation(
+                    totalSpent,
+                    currentLocale
+                )
+            }
+            txtBalance.postOnAnimation {
+                setBalanceTextColor(total)
+                txtBalance.doIncreaseMoneyAnimation(
+                    total,
+                    currentLocale
+                )
+            }
         }
     }
 
     private fun setTransactions(balance: Balance) {
-        balance.transactions?.also {
+        balance.transactionsFiltered?.also {
             transactionAdapter.setLocale(balance.currentLocale)
             updateTransactions(it)
-        } ?: run {
-            transactionAdapter.clearList()
         }
     }
 
     private fun setFiltersCount(balance: Balance) {
-        chipGroupTransactions.findViewById<Chip>(TypeOfTransactionEnum.ALL.resId).text =
-            getString(TypeOfTransactionEnum.ALL.resStringParams, balance.totalAllFilter)
+        chipGroupTransactions.findViewById<Chip>(FilterEnum.ALL.resId).text =
+            getString(FilterEnum.ALL.resStringParams, balance.totalAllFilter)
 
-        chipGroupTransactions.findViewById<Chip>(TypeOfTransactionEnum.INCOME.resId).text =
-            getString(TypeOfTransactionEnum.INCOME.resStringParams, balance.totalIncomeFilter)
+        chipGroupTransactions.findViewById<Chip>(FilterEnum.INCOME.resId).text =
+            getString(FilterEnum.INCOME.resStringParams, balance.totalIncomeFilter)
 
-        chipGroupTransactions.findViewById<Chip>(TypeOfTransactionEnum.SPENT.resId).text =
-            getString(TypeOfTransactionEnum.SPENT.resStringParams, balance.totalSpentFilter)
+        chipGroupTransactions.findViewById<Chip>(FilterEnum.SPENT.resId).text =
+            getString(FilterEnum.SPENT.resStringParams, balance.totalSpentFilter)
     }
 
 
@@ -222,8 +226,12 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
         stateViewTransactionsEmpty.isVisible = hasToShow
     }
 
-    private fun showLoading(hasToShow: Boolean) {
-        loading.isVisible = hasToShow
+    private fun showLoadingBalance(hasToShow: Boolean) {
+        shimmerLayoutTop.isVisible = hasToShow
+    }
+
+    private fun showLoadingTransactions(hasToShow: Boolean) {
+        shimmerLayoutBottom.isVisible = hasToShow
     }
 
     private fun enableChips(hasToEnable: Boolean) {
@@ -284,7 +292,7 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
     ) {
         ValueAnimator.ofFloat(0f, finalMoney.toFloat()).apply {
             interpolator = AccelerateDecelerateInterpolator()
-            duration = 500
+            duration = 1000
             addUpdateListener {
                 val progress = it.animatedValue as Float
                 text = if (progress == finalMoney.toFloat()) {

@@ -5,7 +5,8 @@ import androidx.annotation.StringRes
 
 internal data class OrganizerViewState
     (
-    val isLoading: Boolean = false,
+    val isLoadingBalance: Boolean = false,
+    val isLoadingTransactions: Boolean = false,
     val isLoadingRemove: Boolean = false,
     val isHideLoading: Boolean = false,
     val isHide: Boolean = false,

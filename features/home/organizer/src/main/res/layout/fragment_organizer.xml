@@ -249,6 +249,16 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <include
+                android:id="@+id/shimmerLayoutTop"
+                layout="@layout/layout_shimmer_top_balance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/selectHeaderView" />
+
             <View
                 android:id="@+id/viewLine"
                 android:layout_width="@dimen/spacing_half"
@@ -289,23 +299,10 @@
                 app:singleSelection="true"
                 tools:visibility="visible" />
 
-            <androidx.core.widget.ContentLoadingProgressBar
-                android:id="@+id/loading"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminate="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chipGroupTransactions"
-                app:layout_constraintVertical_bias="0.4"
-                tools:visibility="gone" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTransactions"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_02"
                 android:descendantFocusability="blocksDescendants"
                 android:overScrollMode="never"
@@ -313,6 +310,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/chipGroupTransactions"
                 tools:listitem="@layout/item_transaction" />
+
+            <include
+                android:id="@+id/shimmerLayoutBottom"
+                layout="@layout/layout_shimmer_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_02"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chipGroupTransactions" />
 
             <oliveira.fabio.challenge52.presentation.view.StateView
                 android:id="@+id/stateViewTransactionsEmpty"

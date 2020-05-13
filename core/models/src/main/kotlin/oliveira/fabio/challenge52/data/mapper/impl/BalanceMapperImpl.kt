@@ -6,10 +6,14 @@ import oliveira.fabio.challenge52.persistence.model.enums.TransactionTypeEnum
 import oliveira.fabio.challenge52.presentation.vo.Balance
 import oliveira.fabio.challenge52.presentation.vo.Transaction
 import oliveira.fabio.challenge52.presentation.vo.enums.TypeTransactionEnum
+import java.util.*
 
 internal class BalanceMapperImpl :
     BalanceMapper {
-    override fun invoke(balanceWithTransactionsEntity: BalanceWithTransactionsEntity?): Balance {
+    override fun invoke(
+        balanceWithTransactionsEntity: BalanceWithTransactionsEntity?,
+        date: Date
+    ): Balance {
         balanceWithTransactionsEntity?.also {
             var totalIncomes = 0.0
             var totalSpent = 0.0
@@ -17,7 +21,7 @@ internal class BalanceMapperImpl :
             var totalFilterIncomes = 0
             var totalFilterSpent = 0
 
-            val transactions = mutableListOf<Transaction>().apply {
+            val transactions = LinkedList<Transaction>().apply {
                 balanceWithTransactionsEntity.transactions.forEach {
                     if (it.type == TransactionTypeEnum.INCOME) {
                         totalIncomes += it.money
@@ -43,7 +47,8 @@ internal class BalanceMapperImpl :
                 id = balanceWithTransactionsEntity.balance.id,
                 date = balanceWithTransactionsEntity.balance.startDate,
                 currentLocale = balanceWithTransactionsEntity.balance.currentLocale,
-                transactions = transactions,
+                transactionsFiltered = transactions,
+                allTransactions = LinkedList(transactions),
                 total = totalIncomes - totalSpent,
                 totalIncomes = totalIncomes,
                 totalSpent = totalSpent,
@@ -53,7 +58,7 @@ internal class BalanceMapperImpl :
                 isHide = balanceWithTransactionsEntity.balance.isHide
             )
         }
-        return Balance()
+        return Balance(date = date)
     }
 
     private fun getType(transactionTypeEnum: TransactionTypeEnum): TypeTransactionEnum {

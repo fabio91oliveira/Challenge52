@@ -1,7 +1,7 @@
 package oliveira.fabio.challenge52.di
 
 import oliveira.fabio.challenge52.organizer.domain.usecase.ChangeHideOptionUseCase
-import oliveira.fabio.challenge52.organizer.domain.usecase.ChangeTransactionFilterUseCase
+import oliveira.fabio.challenge52.organizer.domain.usecase.GetTransactionsByFilter
 import oliveira.fabio.challenge52.organizer.domain.usecase.CreateBalanceUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.CreateTransactionUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.GetBalanceByDateAndTypeUseCase
@@ -10,7 +10,7 @@ import oliveira.fabio.challenge52.organizer.domain.usecase.GoToPreviousDateUseCa
 import oliveira.fabio.challenge52.organizer.domain.usecase.RemoveTransactionUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.ResetDateUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.ChangeHideOptionUseCaseImpl
-import oliveira.fabio.challenge52.organizer.domain.usecase.impl.ChangeTransactionFilterUseCaseImpl
+import oliveira.fabio.challenge52.organizer.domain.usecase.impl.GetTransactionsByFilterImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.CreateBalanceUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.CreateTransactionUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.GetBalanceByDateAndTypeUseCaseImpl
@@ -28,7 +28,7 @@ import java.util.*
 object OrganizerModule {
     private val domainModule = module {
         factory<GetBalanceByDateAndTypeUseCase> { GetBalanceByDateAndTypeUseCaseImpl(get()) }
-        factory<ChangeTransactionFilterUseCase> { ChangeTransactionFilterUseCaseImpl() }
+        factory<GetTransactionsByFilter> { GetTransactionsByFilterImpl() }
         factory<GoToNextDateUseCase> { GoToNextDateUseCaseImpl() }
         factory<GoToPreviousDateUseCase> { GoToPreviousDateUseCaseImpl() }
         factory<ResetDateUseCase> { ResetDateUseCaseImpl() }
@@ -43,7 +43,7 @@ object OrganizerModule {
                 currentDate = calendar,
                 balance = balance,
                 getBalanceByDateAndTypeUseCase = get(),
-                changeTransactionFilterUseCase = get(),
+                getTransactionsByFilter = get(),
                 goToNextDateUseCase = get(),
                 goToPreviousDateUseCase = get(),
                 resetDateUseCase = get(),

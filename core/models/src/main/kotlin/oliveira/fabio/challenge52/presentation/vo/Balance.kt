@@ -16,5 +16,7 @@ data class Balance(
     val totalIncomeFilter: Int = 0,
     val totalSpentFilter: Int = 0,
     var isHide: Boolean = false,
-    val transactions: MutableList<Transaction>? = null
+    val transactionsFiltered: LinkedList<Transaction> = LinkedList(),
+    val allTransactions: LinkedList<Transaction> = LinkedList(),
+    var filter: String = "all"
 ) : Parcelable

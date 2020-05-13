@@ -12,9 +12,8 @@ internal class BalanceWithTransactionsRepositoryImpl(
 ) : BalanceWithTransactionsRepository {
     override fun getBalanceByDate(date: Date): Balance {
         return balanceMapper(
-            balanceWithTransactionsLocalDataSource.getBalanceWithTransactionsByDate(
-                date
-            )
+            balanceWithTransactionsLocalDataSource.getBalanceWithTransactionsByDate(date),
+            date
         )
     }
 }

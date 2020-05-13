@@ -40,7 +40,7 @@ internal class TransactionAdapter(private val onSwipeLeftTransactionListener: On
     }
 
     fun removeTransaction(position: Int) {
-        onSwipeLeftTransactionListener?.onDeleteTransaction(list[position])
+        onSwipeLeftTransactionListener.onDeleteTransaction(list[position])
     }
 
     inner class ViewHolder(override val containerView: View) :
