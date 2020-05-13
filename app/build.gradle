@@ -22,8 +22,8 @@ dependencies {
     implementation project(Core.Models)
 
     // Features
-    implementation project(Features.GoalHome)
-    implementation project(Features.GoalCreate)
+    implementation project(Features.Main)
+    implementation project(Features.NewGoal)
     implementation project(Features.GoalDetails)
 
     // Koin

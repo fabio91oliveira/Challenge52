@@ -1,6 +1,6 @@
 package oliveira.fabio.challenge52.data.repository
 
-import oliveira.fabio.challenge52.domain.mapper.GoalMapper
+import oliveira.fabio.challenge52.data.mapper.GoalMapper
 import oliveira.fabio.challenge52.domain.repository.GoalWithWeeksRepository
 import oliveira.fabio.challenge52.persistence.datasource.GoalWithWeeksLocalDataSource
 

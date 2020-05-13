@@ -1,0 +1,8 @@
+<resources>
+    <!-- Menu -->
+    <string name="navigation_menu_home">Metas</string>
+    <string name="navigation_menu_organizer">Organizador</string>
+    <string name="navigation_menu_help">Ajuda</string>
+    <string name="navigation_menu_notifications">Notificações</string>
+    <string name="navigation_menu_options">Opções</string>
+</resources>

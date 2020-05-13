@@ -1,6 +1,7 @@
 package oliveira.fabio.challenge52.presentation.adapter
 
 import android.animation.ObjectAnimator
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -109,7 +110,7 @@ internal class ItemsAdapter(
     inner class HeaderViewHolder(override val containerView: View) :
         ItemViewHolder(containerView) {
         override fun bind(itemDetail: AdapterItem<TopDetails, String, ItemDetail>) {
-            chHeader.text = itemDetail.second
+            txtPeriod.text = itemDetail.second
         }
     }
 
@@ -158,7 +159,7 @@ internal class ItemsAdapter(
                 R.color.color_green
             )
             txtMoney.setTextColor(color)
-            line.setBackgroundColor(color)
+            line.background.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
         }
 
         private fun bindUncheck() {
@@ -171,7 +172,7 @@ internal class ItemsAdapter(
                 R.color.color_transparent_grey
             )
             txtMoney.setTextColor(color)
-            line.setBackgroundColor(color)
+            line.background.setColorFilter(color, PorterDuff.Mode.SRC)
         }
     }
 

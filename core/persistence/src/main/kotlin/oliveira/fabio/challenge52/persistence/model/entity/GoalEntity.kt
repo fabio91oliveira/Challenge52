@@ -14,7 +14,7 @@ data class GoalEntity(
     var idChallenge: Long,
     var goalStatus: GoalStatusEnum,
     var name: String,
-    val currentLocale: Locale,
+    var currentLocale: Locale,
     var periodType: PeriodTypeEnum,
     var totalPeriod: Int,
     var totalMoney: Double

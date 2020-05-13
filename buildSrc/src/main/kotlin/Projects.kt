@@ -9,9 +9,13 @@ object Core {
 }
 
 object Features {
-    const val GoalCreate = ":features:goalcreate"
+    const val Main = ":features:home:main"
+    const val GoalsLists = ":features:home:goalslists"
+    const val Organizer = ":features:home:organizer"
+    const val Help = ":features:home:help"
+    const val Profile = ":features:home:profile"
+    const val NewGoal = ":features:newgoal"
     const val GoalDetails = ":features:goaldetails"
-    const val GoalHome = ":features:goalhome"
 }
 
 object UI {
@@ -20,4 +24,6 @@ object UI {
     const val PopupDialog = ":ui:popupdialog"
     const val StateView = ":ui:stateview"
     const val OptionsBottomPopUp = ":ui:optionsbottompopup"
+    const val Icons = ":ui:icons"
+    const val SelectHeader = ":ui:selectheaderview"
 }

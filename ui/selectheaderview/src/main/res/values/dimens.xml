@@ -1,0 +1,8 @@
+<resources>
+    <dimen name="select_header_view_spacing_none">0dp</dimen>
+    <dimen name="select_header_view_content_padding">6dp</dimen>
+    <dimen name="select_header_view_arrows_padding">16dp</dimen>
+    <dimen name="select_header_view_arrows_margins">24dp</dimen>
+    <dimen name="select_header_view_arrows_margin_top">4dp</dimen>
+    <dimen name="select_header_view_text_title_size">18sp</dimen>
+</resources>

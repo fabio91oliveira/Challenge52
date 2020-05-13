@@ -5,6 +5,8 @@
     <string name="all_button_ok">Ok</string>
     <string name="all_button_go_back">Back</string>
     <string name="all_button_continue">Continue</string>
+    <string name="all_button_yes">Yes</string>
+    <string name="all_button_no">No</string>
 
     <string name="progress_value_percent">%</string>
 </resources>

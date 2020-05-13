@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/chHeader"
-    android:layout_width="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/spacing_01"
-    android:clickable="false"
-    android:textColor="@color/color_accent"
-    app:chipBackgroundColor="@color/color_transparent_grey_2"
-    tools:text="Maio">
+    android:paddingStart="@dimen/spacing_01"
+    android:paddingTop="@dimen/spacing_02"
+    android:paddingBottom="@dimen/spacing_02">
 
-</com.google.android.material.chip.Chip>
+    <View
+        android:id="@+id/viewLine"
+        android:layout_width="@dimen/spacing_half"
+        android:layout_height="@dimen/spacing_none"
+        android:background="@drawable/bg_title_rounded"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtPeriod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_01"
+        android:paddingTop="@dimen/spacing_min"
+        android:paddingBottom="@dimen/spacing_min"
+        android:textAllCaps="true"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_size_02"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/viewLine"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="May/2020" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

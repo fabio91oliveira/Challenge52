@@ -2,12 +2,12 @@ package oliveira.fabio.challenge52
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import oliveira.fabio.challenge52.features.GoalHomeNavigation
+import oliveira.fabio.challenge52.features.HomeNavigation
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
 
-    private val goalHomeNavigation: GoalHomeNavigation by inject()
+    private val homeNavigation: HomeNavigation by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        startActivity(goalHomeNavigation.navigateToFeature(this))
+        startActivity(homeNavigation.navigateToFeature(this))
         finish()
     }
 }

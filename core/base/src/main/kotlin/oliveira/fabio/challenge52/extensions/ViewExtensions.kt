@@ -12,7 +12,10 @@ import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.core.content.ContextCompat
+import java.text.NumberFormat
+import java.util.*
 
 fun EditText.toCurrencyAndTextChangeAction(func: (() -> Unit?)? = null) {
     var current = ""

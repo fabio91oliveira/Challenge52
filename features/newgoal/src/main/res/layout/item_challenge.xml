@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardChallenge"
+    style="@style/Widget.MaterialComponents.CardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/spacing_01"
+    android:layout_marginTop="@dimen/spacing_01"
+    android:layout_marginEnd="@dimen/spacing_01"
+    android:layout_marginBottom="@dimen/spacing_half"
+    android:stateListAnimator="@anim/animation"
+    app:cardCornerRadius="@dimen/spacing_half"
+    app:cardElevation="@dimen/spacing_none">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contentCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="@dimen/spacing_02">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_next" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:layout_marginEnd="@dimen/spacing_02"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_04"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/imgNext"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="52 Challenge" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_01"
+            android:ellipsize="end"
+            android:lineSpacingExtra="@dimen/spacing_half"
+            android:maxLines="5"
+            android:textSize="@dimen/text_size_01"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtTitle"
+            tools:text="@tools:sample/lorem/random" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

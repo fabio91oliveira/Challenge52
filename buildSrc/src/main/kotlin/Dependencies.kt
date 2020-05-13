@@ -26,7 +26,7 @@ object Versions {
     const val android_gradle_plugin = "3.4.0"
 
     const val support = "1.1.0"
-    const val material = "1.1.0"
+    const val material = "1.2.0-alpha06"
     const val recyclerview = "1.0.0"
     const val constraint_layout = "1.1.3"
     const val viewpager2 = "1.0.0"

@@ -2,12 +2,19 @@ package oliveira.fabio.challenge52.extensions
 
 import java.text.DateFormat
 import java.text.DateFormatSymbols
+import java.text.SimpleDateFormat
 import java.util.*
 
+@Deprecated("Use getDateStringByFormat for it")
 fun Date.toStringCurrentDateWithFormat(dateFormat: Int): String {
     val sdf = DateFormat.getDateInstance(dateFormat)
     sdf.isLenient = false
     return sdf.format(time)
+}
+
+fun Date.getDateStringByFormat(pattern: String): String {
+    val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())
+    return dateFormat.format(this).capitalize()
 }
 
 fun Date.getMonthNumber(): Int {

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="features.newgoal">
+
+    <application android:theme="@style/AppTheme">
+        <!-- Select Challenge -->
+        <activity
+            android:name="oliveira.fabio.challenge52.challenge.selectchallenge.presentation.activity.SelectChallengeActivity"
+            android:taskAffinity="oliveira.fabio.challenge52.newgoal"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- Challenge Overview -->
+        <activity
+            android:name="oliveira.fabio.challenge52.challenge.challengeoverview.presentation.activity.ChallengeOverviewActivity"
+            android:taskAffinity="oliveira.fabio.challenge52.newgoal"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- Goal Name -->
+        <activity
+            android:name="oliveira.fabio.challenge52.goal.presentation.activity.GoalNameActivity"
+            android:taskAffinity="oliveira.fabio.challenge52.newgoal"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- Create Goal -->
+        <activity
+            android:name="oliveira.fabio.challenge52.goal.presentation.activity.CreateGoalActivity"
+            android:taskAffinity="oliveira.fabio.challenge52.newgoal"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
