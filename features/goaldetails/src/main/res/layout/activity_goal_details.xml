@@ -28,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/spacing_none"
         android:layoutAnimation="@anim/layout_animation_slide_from_bottom"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBar"
         tools:listitem="@layout/item_to_save"

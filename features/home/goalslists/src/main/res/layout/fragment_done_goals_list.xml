@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content"
+    android:overScrollMode="never"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -22,12 +23,13 @@
                 android:id="@+id/rvDoneGoalsList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:overScrollMode="never"
                 android:visibility="gone"
                 tools:layoutAnimation="@null"
                 tools:listitem="@layout/item_goal"
                 tools:visibility="visible" />
 
-<!--            android:layoutAnimation="@anim/layout_animation_slide_from_bottom"-->
+            <!--            android:layoutAnimation="@anim/layout_animation_slide_from_bottom"-->
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
