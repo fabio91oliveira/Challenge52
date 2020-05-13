@@ -17,6 +17,7 @@ dependencies {
     implementation Deps.support_material
     implementation Deps.support_recyclerview
     implementation Deps.support_constraint_layout
+    implementation Deps.swipe_refresh_layout
 
     // Lifecycle
     implementation Deps.lifecycle_viewmodel

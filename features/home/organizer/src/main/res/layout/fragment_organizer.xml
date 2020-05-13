@@ -5,174 +5,181 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/content"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srlBalance"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:overScrollMode="never"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:overScrollMode="never">
 
-            <View
-                android:id="@+id/viewLine"
-                android:layout_width="@dimen/spacing_half"
-                android:layout_height="0dp"
-                android:background="@drawable/bg_title_rounded"
-                android:backgroundTint="@color/color_primary"
-                app:layout_constraintBottom_toBottomOf="@id/txtTransactions"
-                app:layout_constraintStart_toStartOf="@id/gdlStart"
-                app:layout_constraintTop_toTopOf="@id/txtTransactions" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtTransactions"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_01"
-                android:layout_marginTop="@dimen/spacing_03"
-                android:paddingTop="@dimen/spacing_min"
-                android:paddingBottom="@dimen/spacing_min"
-                android:text="@string/organizer_transactions"
-                android:textAllCaps="true"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_02"
-                app:autoSizeTextType="uniform"
-                app:layout_constraintEnd_toEndOf="@id/gdlEnd"
-                app:layout_constraintStart_toEndOf="@id/viewLine"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible" />
+                <View
+                    android:id="@+id/viewLine"
+                    android:layout_width="@dimen/spacing_half"
+                    android:layout_height="0dp"
+                    android:background="@drawable/bg_title_rounded"
+                    android:backgroundTint="@color/color_primary"
+                    app:layout_constraintBottom_toBottomOf="@id/txtTransactions"
+                    app:layout_constraintStart_toStartOf="@id/gdlStart"
+                    app:layout_constraintTop_toTopOf="@id/txtTransactions" />
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroupTransactions"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_02"
-                app:checkedChip="@id/checkAll"
-                app:layout_constraintEnd_toEndOf="@id/gdlEnd"
-                app:layout_constraintStart_toStartOf="@id/gdlStart"
-                app:layout_constraintTop_toBottomOf="@+id/txtTransactions"
-                app:selectionRequired="true"
-                app:singleSelection="true"
-                tools:visibility="visible">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtTransactions"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_01"
+                    android:layout_marginTop="@dimen/spacing_03"
+                    android:paddingTop="@dimen/spacing_min"
+                    android:paddingBottom="@dimen/spacing_min"
+                    android:text="@string/organizer_transactions"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_02"
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintEnd_toEndOf="@id/gdlEnd"
+                    app:layout_constraintStart_toEndOf="@id/viewLine"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/checkAll"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupTransactions"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_02"
+                    app:checkedChip="@id/checkAll"
+                    app:layout_constraintEnd_toEndOf="@id/gdlEnd"
+                    app:layout_constraintStart_toStartOf="@id/gdlStart"
+                    app:layout_constraintTop_toBottomOf="@+id/txtTransactions"
+                    app:selectionRequired="true"
+                    app:singleSelection="true"
+                    tools:visibility="visible">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/checkAll"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text="@string/organizer_chip_all"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/ChipTextAppearanceSmall"
+                        app:checkedIconEnabled="false"
+                        app:chipBackgroundColor="@color/selector_chip_transactions"
+                        app:chipEndPadding="@dimen/spacing_01"
+                        app:chipStartPadding="@dimen/spacing_01" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/checkIncome"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text="@string/organizer_chip_income"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/ChipTextAppearanceSmall"
+                        app:checkedIconEnabled="false"
+                        app:chipBackgroundColor="@color/selector_chip_transactions"
+                        app:chipEndPadding="@dimen/spacing_01"
+                        app:chipStartPadding="@dimen/spacing_01" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/checkSpent"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text="@string/organizer_chip_spent"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/ChipTextAppearanceSmall"
+                        app:checkedIconEnabled="false"
+                        app:chipBackgroundColor="@color/selector_chip_transactions"
+                        app:chipEndPadding="@dimen/spacing_01"
+                        app:chipStartPadding="@dimen/spacing_01" />
+
+                </com.google.android.material.chip.ChipGroup>
+
+                <oliveira.fabio.challenge52.presentation.view.StateView
+                    android:id="@+id/stateViewTransactionsEmpty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_01"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/chipGroupTransactions"
+                    app:stateViewDescription="@string/organizer_no_transactions_filter_description"
+                    app:stateViewImage="@drawable/ic_salary"
+                    app:stateViewTitle="@string/organizer_no_transactions_filter_title"
+                    tools:visibility="gone" />
+
+                <oliveira.fabio.challenge52.presentation.view.StateView
+                    android:id="@+id/stateViewEmpty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_01"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/chipGroupTransactions"
+                    app:stateViewDescription="@string/organizer_no_transactions_description"
+                    app:stateViewImage="@drawable/ic_no_avatar"
+                    app:stateViewTitle="@string/organizer_no_transactions_title"
+                    tools:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTransactions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_02"
+                    android:overScrollMode="never"
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupTransactions"
+                    tools:listitem="@layout/item_transaction" />
+
+                <include
+                    android:id="@+id/shimmerLayoutBottom"
+                    layout="@layout/layout_shimmer_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_02"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupTransactions" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gdlStart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="@string/organizer_chip_all"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textAppearance="@style/ChipTextAppearanceSmall"
-                    app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/selector_chip_transactions"
-                    app:chipEndPadding="@dimen/spacing_01"
-                    app:chipStartPadding="@dimen/spacing_01" />
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/spacing_02" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/checkIncome"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gdlEnd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="@string/organizer_chip_income"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textAppearance="@style/ChipTextAppearanceSmall"
-                    app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/selector_chip_transactions"
-                    app:chipEndPadding="@dimen/spacing_01"
-                    app:chipStartPadding="@dimen/spacing_01" />
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/spacing_02" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/checkSpent"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="@string/organizer_chip_spent"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textAppearance="@style/ChipTextAppearanceSmall"
-                    app:checkedIconEnabled="false"
-                    app:chipBackgroundColor="@color/selector_chip_transactions"
-                    app:chipEndPadding="@dimen/spacing_01"
-                    app:chipStartPadding="@dimen/spacing_01" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
-            </com.google.android.material.chip.ChipGroup>
-
-            <oliveira.fabio.challenge52.presentation.view.StateView
-                android:id="@+id/stateViewTransactionsEmpty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_01"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/chipGroupTransactions"
-                app:stateViewDescription="@string/organizer_no_transactions_filter_description"
-                app:stateViewImage="@drawable/ic_salary"
-                app:stateViewTitle="@string/organizer_no_transactions_filter_title"
-                tools:visibility="gone" />
-
-            <oliveira.fabio.challenge52.presentation.view.StateView
-                android:id="@+id/stateViewEmpty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_01"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/chipGroupTransactions"
-                app:stateViewDescription="@string/organizer_no_transactions_description"
-                app:stateViewImage="@drawable/ic_no_avatar"
-                app:stateViewTitle="@string/organizer_no_transactions_title"
-                tools:visibility="gone" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTransactions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_02"
-                android:overScrollMode="never"
-                app:layout_constraintTop_toBottomOf="@+id/chipGroupTransactions"
-                tools:listitem="@layout/item_transaction" />
-
-            <include
-                android:id="@+id/shimmerLayoutBottom"
-                layout="@layout/layout_shimmer_bottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_02"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chipGroupTransactions" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gdlStart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/spacing_02" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gdlEnd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/spacing_02" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

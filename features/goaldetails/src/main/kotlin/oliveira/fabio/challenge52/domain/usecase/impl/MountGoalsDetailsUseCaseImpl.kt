@@ -1,6 +1,7 @@
 package oliveira.fabio.challenge52.domain.usecase.impl
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import oliveira.fabio.challenge52.domain.mapper.DetailsMapper
 import oliveira.fabio.challenge52.domain.usecase.MountGoalsDetailsUseCase
@@ -11,6 +12,7 @@ internal class MountGoalsDetailsUseCaseImpl(
 ) : MountGoalsDetailsUseCase {
     override suspend operator fun invoke(goal: Goal) =
         withContext(Dispatchers.Default) {
+            delay(1000)
             detailsMapper(goal)
         }
 }

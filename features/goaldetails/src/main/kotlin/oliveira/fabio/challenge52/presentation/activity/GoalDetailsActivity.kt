@@ -17,7 +17,6 @@ import features.goaldetails.R
 import kotlinx.android.synthetic.main.activity_goal_details.*
 import oliveira.fabio.challenge52.BaseActivity
 import oliveira.fabio.challenge52.extensions.isVisible
-import oliveira.fabio.challenge52.presentation.vo.GoalResult
 import oliveira.fabio.challenge52.presentation.action.GoalDetailsActions
 import oliveira.fabio.challenge52.presentation.adapter.AdapterItem
 import oliveira.fabio.challenge52.presentation.adapter.ItemsAdapter
@@ -26,6 +25,7 @@ import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
 import oliveira.fabio.challenge52.presentation.dialogfragment.PopupDialog
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
 import oliveira.fabio.challenge52.presentation.viewstate.Dialog
+import oliveira.fabio.challenge52.presentation.vo.GoalResult
 import oliveira.fabio.challenge52.presentation.vo.ItemDetail
 import oliveira.fabio.challenge52.presentation.vo.TopDetails
 import org.koin.androidx.viewmodel.ext.android.getStateViewModel
@@ -97,6 +97,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         setupViewModel()
         setupToolbar()
         setupRecyclerView()
+        setupSwipeRefreshLayout()
         setupObservables()
     }
 
@@ -110,9 +111,12 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                 )
             }
         } ?: run {
-            newIntent = Intent().apply { putExtra(HAS_CHANGED,
-                GoalResult()
-            ) }
+            newIntent = Intent().apply {
+                putExtra(
+                    HAS_CHANGED,
+                    GoalResult()
+                )
+            }
         }
     }
 
@@ -177,11 +181,28 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     }
 
     private fun setupRecyclerView() {
-        with(rvWeeks) {
+        with(rvDetails) {
             layoutManager =
                 LinearLayoutManager(this@GoalDetailsActivity, RecyclerView.VERTICAL, false)
             adapter = weeksAdapter
             itemAnimator = null
+        }
+    }
+
+    private fun setupSwipeRefreshLayout() {
+        with(srlDetails) {
+            setColorSchemeResources(
+                android.R.color.white
+            )
+            setProgressBackgroundColorSchemeColor(
+                androidx.core.content.ContextCompat.getColor(
+                    context,
+                    R.color.color_primary
+                )
+            )
+            setOnRefreshListener {
+                goalDetailsViewModel.mountDetails()
+            }
         }
     }
 
@@ -191,14 +212,15 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     }
 
     private fun showLoading(hasToShow: Boolean) {
-        loading.isVisible = hasToShow
+        srlDetails.isRefreshing = hasToShow
+        shimmerContent.isVisible = hasToShow
     }
 
     private fun showWeekLoading(hasToShow: Boolean) =
         if (hasToShow) progressDialog.show() else progressDialog.dismiss()
 
     private fun showContent(hasToShow: Boolean) {
-        rvWeeks.isVisible = hasToShow
+        rvDetails.isVisible = hasToShow
     }
 
     private fun addDetailsGoal(list: MutableList<AdapterItem<TopDetails, String, ItemDetail>>) {

@@ -272,7 +272,7 @@ internal class OrganizerViewModel(
 //            )
 //        }
 
-    private fun getBalance(hasToShowLoadingBalance: Boolean = true) {
+    fun getBalance(hasToShowLoadingBalance: Boolean = true) {
         viewModelScope.launch {
             resetTransactionFilter()
             setViewState { viewState ->

@@ -62,6 +62,7 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
     private fun init() {
         setupRecyclerview()
         setupScrollView()
+        setupSwipeRefreshLayout()
         setupSelectHeaderView()
         setupChip()
         setupClickListener()
@@ -98,6 +99,23 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
                 organizerViewModel.showAddButton()
             }
         })
+    }
+
+    private fun setupSwipeRefreshLayout() {
+        with(srlBalance) {
+            setColorSchemeResources(
+                android.R.color.white
+            )
+            setProgressBackgroundColorSchemeColor(
+                androidx.core.content.ContextCompat.getColor(
+                    context,
+                    R.color.color_primary
+                )
+            )
+            setOnRefreshListener {
+                organizerViewModel.getBalance()
+            }
+        }
     }
 
     private fun setupSelectHeaderView() {
@@ -290,10 +308,16 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
 
     private fun showLoadingBalance(hasToShow: Boolean) {
         shimmerLayoutTop.isVisible = hasToShow
+        showRefreshing(hasToShow)
     }
 
     private fun showLoadingTransactions(hasToShow: Boolean) {
         shimmerLayoutBottom.isVisible = hasToShow
+        showRefreshing(hasToShow)
+    }
+
+    private fun showRefreshing(hasToShow: Boolean) {
+        srlBalance.isRefreshing = hasToShow
     }
 
     private fun enableChips(hasToEnable: Boolean) {

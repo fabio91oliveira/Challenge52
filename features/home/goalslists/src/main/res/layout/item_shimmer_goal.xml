@@ -32,7 +32,7 @@
             android:id="@+id/viewStatus"
             android:layout_width="@dimen/spacing_04"
             android:layout_height="@dimen/spacing_02"
-            android:background="@color/color_shimmer"
+            android:background="@drawable/bg_shimmer_rounded"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,7 +42,7 @@
             android:layout_height="@dimen/spacing_01"
             android:layout_marginTop="@dimen/spacing_02"
             android:layout_marginEnd="@dimen/spacing_06"
-            android:background="@color/color_shimmer"
+            android:background="@drawable/bg_shimmer_rounded"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewStatus" />
@@ -61,7 +61,7 @@
             android:layout_width="@dimen/spacing_12"
             android:layout_height="@dimen/spacing_01"
             android:layout_marginTop="@dimen/spacing_04"
-            android:background="@color/color_shimmer"
+            android:background="@drawable/bg_shimmer_rounded"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewCompletedItems" />
 
@@ -81,7 +81,7 @@
             android:layout_width="@dimen/spacing_12"
             android:layout_height="@dimen/spacing_01"
             android:layout_marginTop="@dimen/spacing_04"
-            android:background="@color/color_shimmer"
+            android:background="@drawable/bg_shimmer_rounded"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewCompletedItems" />
 

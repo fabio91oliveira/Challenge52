@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardWeek"
+    style="@style/Widget.MaterialComponents.CardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/spacing_01"
+    android:layout_marginEnd="@dimen/spacing_01"
+    android:layout_marginBottom="@dimen/spacing_01"
+    android:stateListAnimator="@anim/animation"
+    app:cardCornerRadius="@dimen/spacing_half"
+    app:cardElevation="@dimen/spacing_none">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contentCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingTop="@dimen/spacing_03"
+        android:paddingBottom="@dimen/spacing_03">
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="@dimen/spacing_half"
+            android:layout_height="@dimen/spacing_none"
+            android:background="@drawable/bg_shimmer_rounded"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgNotChecked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_04"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_shimmer_check" />
+
+        <View
+            android:id="@+id/viewDate"
+            android:layout_width="@dimen/spacing_12"
+            android:layout_height="@dimen/spacing_01"
+            android:layout_marginStart="@dimen/spacing_04"
+            android:layout_marginTop="@dimen/spacing_01"
+            android:background="@drawable/bg_shimmer_rounded"
+            app:layout_constraintBottom_toTopOf="@+id/viewItem"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/line"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <View
+            android:id="@+id/viewItem"
+            android:layout_width="@dimen/spacing_08"
+            android:layout_height="@dimen/spacing_01"
+            android:layout_marginTop="@dimen/spacing_01"
+            android:layout_marginBottom="@dimen/spacing_half"
+            android:background="@drawable/bg_shimmer_rounded"
+            app:layout_constraintBottom_toBottomOf="@+id/line"
+            app:layout_constraintStart_toStartOf="@id/viewDate"
+            app:layout_constraintTop_toBottomOf="@+id/viewDate" />
+
+        <View
+            android:id="@+id/viewMoney"
+            android:layout_width="@dimen/spacing_08"
+            android:layout_height="@dimen/spacing_01"
+            android:layout_marginEnd="@dimen/spacing_04"
+            android:background="@drawable/bg_shimmer_rounded"
+            app:layout_constraintBottom_toBottomOf="@+id/imgNotChecked"
+            app:layout_constraintEnd_toStartOf="@id/imgNotChecked"
+            app:layout_constraintTop_toTopOf="@+id/imgNotChecked" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
