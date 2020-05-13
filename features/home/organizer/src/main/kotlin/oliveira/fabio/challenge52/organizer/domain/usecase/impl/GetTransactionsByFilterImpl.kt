@@ -14,7 +14,7 @@ internal class GetTransactionsByFilterImpl : GetTransactionsByFilter {
         withContext(Dispatchers.Default) {
             balance.filter = value
 
-            if (value == FilterEnum.ALL.value) {
+            if (value == FilterEnum.ALL.tag) {
                 balance.transactionsFiltered.clear()
                 balance.transactionsFiltered.addAll(balance.allTransactions)
             } else {

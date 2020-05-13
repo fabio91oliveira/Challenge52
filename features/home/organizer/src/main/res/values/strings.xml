@@ -21,4 +21,8 @@
 
     <string name="organizer_dialog_remove_transaction_title">Attention</string>
     <string name="organizer_dialog_remove_transaction_description">Are you sure to remove this transaction?</string>
+
+    <string name="organizer_dialog_remove_transaction_message_confirmation">Transaction has been removed</string>
+    <string name="organizer_dialog_add_transaction_message_confirmation">Transaction has been created</string>
+    <string name="organizer_dialog_update_transaction_message_confirmation_error">An error has occurred</string>
 </resources>

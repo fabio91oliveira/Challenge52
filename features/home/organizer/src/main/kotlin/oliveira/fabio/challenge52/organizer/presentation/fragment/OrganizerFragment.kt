@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import features.home.organizer.R
 import kotlinx.android.synthetic.main.fragment_organizer.*
 import oliveira.fabio.challenge52.extensions.isVisible
@@ -22,9 +22,7 @@ import oliveira.fabio.challenge52.organizer.presentation.action.OrganizerActions
 import oliveira.fabio.challenge52.organizer.presentation.adapter.SwipeToDeleteCallback
 import oliveira.fabio.challenge52.organizer.presentation.adapter.TransactionAdapter
 import oliveira.fabio.challenge52.organizer.presentation.viewmodel.OrganizerViewModel
-import oliveira.fabio.challenge52.organizer.presentation.viewstate.Dialog
 import oliveira.fabio.challenge52.organizer.presentation.vo.FilterEnum
-import oliveira.fabio.challenge52.presentation.dialogfragment.PopupDialog
 import oliveira.fabio.challenge52.presentation.view.SelectHeaderView
 import oliveira.fabio.challenge52.presentation.vo.Balance
 import oliveira.fabio.challenge52.presentation.vo.Transaction
@@ -57,8 +55,8 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
         organizerViewModel.goToNextMonth()
     }
 
-    override fun onDeleteTransaction(transaction: Transaction) {
-        organizerViewModel.removeTransaction(transaction)
+    override fun onDeleteTransaction(transaction: Transaction, position: Int) {
+        organizerViewModel.removeTransaction(transaction, position)
     }
 
     private fun init() {
@@ -77,7 +75,14 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
             adapter = transactionAdapter
             val swipeHandler = object : SwipeToDeleteCallback(context) {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    organizerViewModel.showConfirmationDialogRemoveTransaction(viewHolder.adapterPosition)
+//                    organizerViewModel.showConfirmationDialogRemoveTransaction(viewHolder.adapterPosition)
+                    val transaction =
+                        transactionAdapter.getTransactionByPosition(viewHolder.adapterPosition)
+
+                    organizerViewModel.removeTransaction(
+                        transaction,
+                        viewHolder.adapterPosition
+                    )
                 }
             }
             val itemTouchHelper = ItemTouchHelper(swipeHandler)
@@ -101,15 +106,20 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
 
     private fun setupChip() {
         // TODO IMPROVE IT
-        chipGroupTransactions.isSingleSelection = true
+//        chipGroupTransactions.isSingleSelection = true
+//        FilterEnum.values().forEach {
+//            (layoutInflater.inflate(R.layout.item_chip, null) as Chip).apply {
+//                text = resources.getString(it.resStringDefault)
+//                id = it.resId
+//                tag = it.value
+//                chipGroupTransactions.addView(this)
+//                if (it == FilterEnum.ALL) chipGroupTransactions.check(id)
+//            }
+//        }
+
         FilterEnum.values().forEach {
-            (layoutInflater.inflate(R.layout.item_chip, null) as Chip).apply {
-                text = resources.getString(it.resStringDefault)
-                id = it.resId
-                tag = it.value
-                chipGroupTransactions.addView(this)
-                if (it == FilterEnum.ALL) chipGroupTransactions.check(id)
-            }
+            val chip = chipGroupTransactions.findViewById<Chip>(it.resId)
+            chip.tag = it.tag
         }
     }
 
@@ -138,11 +148,26 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
                         setTransactions(it.balance)
                         setFiltersCount(it.balance)
                     }
+                    is OrganizerActions.UpdateBalance -> {
+                        updateBalance(it.balance)
+                    }
                     is OrganizerActions.UpdateTransactions -> {
                         updateTransactions(it.transactions)
                     }
+                    is OrganizerActions.RemoveTransaction -> {
+                        transactionAdapter.removeItem(it.position)
+                    }
                     is OrganizerActions.ResetTransactionsFilter -> {
                         resetTransactionFilter()
+                    }
+                    is OrganizerActions.DefaultTransactionFilterValues -> {
+                        setDefaultValuesTransactionFilters()
+                    }
+                    is OrganizerActions.CancelRemoveTransaction -> {
+                        transactionAdapter.notifyDataSetChanged()
+                    }
+                    is OrganizerActions.ShowConfirmationMessage -> {
+                        showSnackBar(it.strRes)
                     }
                 }
             })
@@ -157,7 +182,7 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
                 showAddButton(it.isAddButtonVisible)
                 showTransactionFilterEmptyState(it.isEmptyStateFilterTransactionVisible)
                 enableChips(it.isChipsEnabled)
-                handleDialog(it.dialog)
+//                handleDialog(it.dialog)
             })
         }
     }
@@ -186,8 +211,34 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
         }
     }
 
+    private fun updateBalance(balance: Balance) {
+        with(balance) {
+            txtIncome.postOnAnimation {
+                txtIncome.doIncreaseMoneyAnimation(
+                    totalIncomes,
+                    currentLocale
+                )
+            }
+            txtSpent.postOnAnimation {
+                txtSpent.doIncreaseMoneyAnimation(
+                    totalSpent,
+                    currentLocale
+                )
+            }
+            txtBalance.postOnAnimation {
+                setBalanceTextColor(total)
+                txtBalance.doIncreaseMoneyAnimation(
+                    total,
+                    currentLocale
+                )
+            }
+
+            setFiltersCount(this)
+        }
+    }
+
     private fun setTransactions(balance: Balance) {
-        balance.transactionsFiltered?.also {
+        balance.transactionsFiltered.also {
             transactionAdapter.setLocale(balance.currentLocale)
             updateTransactions(it)
         }
@@ -212,6 +263,17 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
 
     private fun resetTransactionFilter() {
         chipGroupTransactions.check(chipGroupTransactions.getChildAt(FIRST_ITEM).id)
+    }
+
+    private fun setDefaultValuesTransactionFilters() {
+        chipGroupTransactions.findViewById<Chip>(FilterEnum.ALL.resId).text =
+            getString(FilterEnum.ALL.resStringDefault)
+
+        chipGroupTransactions.findViewById<Chip>(FilterEnum.INCOME.resId).text =
+            getString(FilterEnum.INCOME.resStringDefault)
+
+        chipGroupTransactions.findViewById<Chip>(FilterEnum.SPENT.resId).text =
+            getString(FilterEnum.SPENT.resStringDefault)
     }
 
     private fun showTransactions(hasToShow: Boolean) {
@@ -261,18 +323,18 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
         }
     }
 
-    private fun handleDialog(dialogViewState: Dialog) {
-        when (dialogViewState) {
-            is Dialog.ConfirmationDialogRemoveTransaction -> {
-                showDefaultDialog(
-                    dialogViewState.imageRes,
-                    dialogViewState.titleRes,
-                    dialogViewState.descriptionRes,
-                    dialogViewState.positionTransaction
-                )
-            }
-        }
-    }
+//    private fun handleDialog(dialogViewState: Dialog) {
+//        when (dialogViewState) {
+//            is Dialog.ConfirmationDialogRemoveTransaction -> {
+//                showDefaultDialog(
+//                    dialogViewState.imageRes,
+//                    dialogViewState.titleRes,
+//                    dialogViewState.descriptionRes,
+//                    dialogViewState.positionTransaction
+//                )
+//            }
+//        }
+//    }
 
     private fun setupHide(isHide: Boolean) {
         if (isHide) {
@@ -305,34 +367,44 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
         }
     }
 
-    private fun showDefaultDialog(
-        @DrawableRes resImage: Int,
-        @StringRes resTitle: Int,
-        @StringRes resDescription: Int,
-        position: Int
-    ) =
-        PopupDialog.Builder()
-            .setTitle(resTitle)
-            .setSubtitle(resDescription)
-            .setupConfirmButtonColor(R.color.color_primary)
-            .setImage(resImage)
-            .setupConfirmButton(
-                R.string.all_button_yes,
-                object : PopupDialog.PopupDialogConfirmListener {
-                    override fun onClickConfirmButton() {
-                        transactionAdapter.removeTransaction(position)
-                    }
-                }
-            )
-            .setupCancelButton(R.string.all_button_no,
-                object : PopupDialog.PopupDialogCancelListener {
-                    override fun onClickCancelButton() {
-                        transactionAdapter.notifyDataSetChanged()
-                        organizerViewModel.hideDialogs()
-                    }
-                })
-            .build()
-            .show(childFragmentManager, PopupDialog.TAG)
+//    private fun showDefaultDialog(
+//        @DrawableRes resImage: Int,
+//        @StringRes resTitle: Int,
+//        @StringRes resDescription: Int,
+//        position: Int
+//    ) =
+//        PopupDialog.Builder()
+//            .setTitle(resTitle)
+//            .setSubtitle(resDescription)
+//            .setupConfirmButtonColor(R.color.color_primary)
+//            .setImage(resImage)
+//            .setupConfirmButton(
+//                R.string.all_button_yes,
+//                object : PopupDialog.PopupDialogConfirmListener {
+//                    override fun onClickConfirmButton() {
+//                        transactionAdapter.removeTransaction(position)
+//                    }
+//                }
+//            )
+//            .setupCancelButton(R.string.all_button_no,
+//                object : PopupDialog.PopupDialogCancelListener {
+//                    override fun onClickCancelButton() {
+//                        transactionAdapter.notifyDataSetChanged()
+//                        organizerViewModel.hideDialogs()
+//                    }
+//                })
+//            .build()
+//            .show(childFragmentManager, PopupDialog.TAG)
+
+    private fun showSnackBar(@StringRes strRes: Int) {
+        context?.also {
+            Snackbar.make(
+                content,
+                strRes,
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
+    }
 
     companion object {
         fun newInstance() =

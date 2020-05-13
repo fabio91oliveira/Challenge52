@@ -9,10 +9,18 @@ internal sealed class OrganizerActions {
     data class ShowBalance(val balance: Balance) :
         OrganizerActions()
 
+    data class UpdateBalance(val balance: Balance) :
+        OrganizerActions()
+
     data class UpdateTransactions(val transactions: LinkedList<Transaction>) :
         OrganizerActions()
 
+    data class RemoveTransaction(val position: Int) : OrganizerActions()
+    data class CancelRemoveTransaction(val position: Int) : OrganizerActions()
+    data class ShowConfirmationMessage(@StringRes val strRes: Int) : OrganizerActions()
+
     object ResetTransactionsFilter : OrganizerActions()
+    object DefaultTransactionFilterValues : OrganizerActions()
 
     data class CriticalError(
         @StringRes val titleRes: Int,

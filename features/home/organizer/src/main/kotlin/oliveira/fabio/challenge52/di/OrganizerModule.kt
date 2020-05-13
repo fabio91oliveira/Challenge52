@@ -1,23 +1,25 @@
 package oliveira.fabio.challenge52.di
 
 import oliveira.fabio.challenge52.organizer.domain.usecase.ChangeHideOptionUseCase
-import oliveira.fabio.challenge52.organizer.domain.usecase.GetTransactionsByFilter
 import oliveira.fabio.challenge52.organizer.domain.usecase.CreateBalanceUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.CreateTransactionUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.GetBalanceByDateAndTypeUseCase
+import oliveira.fabio.challenge52.organizer.domain.usecase.GetTransactionsByFilter
 import oliveira.fabio.challenge52.organizer.domain.usecase.GoToNextDateUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.GoToPreviousDateUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.RemoveTransactionUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.ResetDateUseCase
+import oliveira.fabio.challenge52.organizer.domain.usecase.UpdateBalanceAfterRemoveTransactionUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.ChangeHideOptionUseCaseImpl
-import oliveira.fabio.challenge52.organizer.domain.usecase.impl.GetTransactionsByFilterImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.CreateBalanceUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.CreateTransactionUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.GetBalanceByDateAndTypeUseCaseImpl
+import oliveira.fabio.challenge52.organizer.domain.usecase.impl.GetTransactionsByFilterImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.GoToNextDateUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.GoToPreviousDateUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.RemoveTransactionUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.ResetDateUseCaseImpl
+import oliveira.fabio.challenge52.organizer.domain.usecase.impl.UpdateBalanceAfterRemoveTransactionUseCaseImpl
 import oliveira.fabio.challenge52.organizer.presentation.viewmodel.OrganizerViewModel
 import oliveira.fabio.challenge52.presentation.vo.Balance
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -36,6 +38,7 @@ object OrganizerModule {
         factory<CreateTransactionUseCase> { CreateTransactionUseCaseImpl(get()) }
         factory<ChangeHideOptionUseCase> { ChangeHideOptionUseCaseImpl(get()) }
         factory<RemoveTransactionUseCase> { RemoveTransactionUseCaseImpl(get()) }
+        factory<UpdateBalanceAfterRemoveTransactionUseCase> { UpdateBalanceAfterRemoveTransactionUseCaseImpl() }
     }
     private val presentationModule = module {
         viewModel { (calendar: Calendar, balance: Balance) ->
@@ -50,7 +53,8 @@ object OrganizerModule {
                 createBalanceUseCase = get(),
                 createTransactionUseCase = get(),
                 changeHideOptionUseCase = get(),
-                removeTransactionUseCase = get()
+                removeTransactionUseCase = get(),
+                updateBalanceAfterRemoveTransactionUseCase = get()
             )
         }
     }

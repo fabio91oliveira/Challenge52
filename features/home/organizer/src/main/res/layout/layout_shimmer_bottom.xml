@@ -14,4 +14,10 @@
 
     <include layout="@layout/item_shimmer_bottom" />
 
+    <include layout="@layout/item_shimmer_bottom" />
+
+    <include layout="@layout/item_shimmer_bottom" />
+
+    <include layout="@layout/item_shimmer_bottom" />
+
 </LinearLayout>

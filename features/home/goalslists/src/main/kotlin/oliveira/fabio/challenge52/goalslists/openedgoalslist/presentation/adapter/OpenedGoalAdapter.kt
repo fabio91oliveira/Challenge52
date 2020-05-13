@@ -11,7 +11,6 @@ import features.home.goalslists.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_goal.*
 import oliveira.fabio.challenge52.extensions.doPopAnimation
-import oliveira.fabio.challenge52.extensions.isVisible
 import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.presentation.vo.Goal
 import oliveira.fabio.challenge52.presentation.vo.enums.PeriodEnum
@@ -58,7 +57,8 @@ internal class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalLis
             txtMoney.text =
                 goalsList[position].totalMoney.toStringMoney(currentLocale = goalsList[position].currentLocale)
             val completedPercent = goalsList[position].getTotalPercent()
-            viewStatus.isVisible = goalsList[position].statusEnum == StatusEnum.NEW
+            viewStatus.visibility =
+                if (goalsList[position].statusEnum == StatusEnum.NEW) View.VISIBLE else View.INVISIBLE
 
             ObjectAnimator.ofInt(
                 progressBar,

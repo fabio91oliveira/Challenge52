@@ -15,8 +15,8 @@ internal data class OrganizerViewState
     val isEmptyStateFilterTransactionVisible: Boolean = false,
     val isAddButtonVisible: Boolean = true,
     val isChipsEnabled: Boolean = false,
-    val currentMonthYear: String,
-    val dialog: Dialog = Dialog.NoDialog
+    val currentMonthYear: String
+//    val dialog: Dialog = Dialog.NoDialog
 ) {
     companion object {
         fun init(currentMonthYear: String) = OrganizerViewState(currentMonthYear = currentMonthYear)

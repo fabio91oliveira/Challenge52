@@ -39,8 +39,15 @@ internal class TransactionAdapter(private val onSwipeLeftTransactionListener: On
         currentLocale = locale
     }
 
+    fun getTransactionByPosition(position: Int) = list[position]
+
     fun removeTransaction(position: Int) {
-        onSwipeLeftTransactionListener.onDeleteTransaction(list[position])
+        onSwipeLeftTransactionListener.onDeleteTransaction(list[position], position)
+    }
+
+    fun removeItem(position: Int) {
+        list.removeAt(position)
+        notifyItemRemoved(position)
     }
 
     inner class ViewHolder(override val containerView: View) :
@@ -90,7 +97,7 @@ internal class TransactionAdapter(private val onSwipeLeftTransactionListener: On
     }
 
     interface OnSwipeLeftTransactionListener {
-        fun onDeleteTransaction(transaction: Transaction)
+        fun onDeleteTransaction(transaction: Transaction, position: Int)
     }
 
     companion object {

@@ -8,7 +8,7 @@ enum class FilterEnum(
     @StringRes val resStringDefault: Int,
     @StringRes val resStringParams: Int,
     @IdRes val resId: Int,
-    val value: String
+    val tag: String
 ) {
     ALL(
         R.string.organizer_chip_all,

@@ -19,8 +19,8 @@ import oliveira.fabio.challenge52.organizer.domain.usecase.GoToNextDateUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.GoToPreviousDateUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.RemoveTransactionUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.ResetDateUseCase
+import oliveira.fabio.challenge52.organizer.domain.usecase.UpdateBalanceAfterRemoveTransactionUseCase
 import oliveira.fabio.challenge52.organizer.presentation.action.OrganizerActions
-import oliveira.fabio.challenge52.organizer.presentation.viewstate.Dialog
 import oliveira.fabio.challenge52.organizer.presentation.viewstate.OrganizerViewState
 import oliveira.fabio.challenge52.presentation.vo.Balance
 import oliveira.fabio.challenge52.presentation.vo.Transaction
@@ -40,7 +40,8 @@ internal class OrganizerViewModel(
     private val resetDateUseCase: ResetDateUseCase,
     private val createBalanceUseCase: CreateBalanceUseCase,
     private val createTransactionUseCase: CreateTransactionUseCase,
-    private val removeTransactionUseCase: RemoveTransactionUseCase
+    private val removeTransactionUseCase: RemoveTransactionUseCase,
+    private val updateBalanceAfterRemoveTransactionUseCase: UpdateBalanceAfterRemoveTransactionUseCase
 ) : ViewModel() {
 
     private val _organizerActions by lazy { MutableLiveData<OrganizerActions>() }
@@ -59,10 +60,11 @@ internal class OrganizerViewModel(
             Result.of(goToPreviousDateUseCase(currentDate))
                 .fold(
                     success = {
+                        OrganizerActions.DefaultTransactionFilterValues.sendAction()
                         setViewState {
                             it.copy(currentMonthYear = getFormattedDate())
                         }
-                        delay(500)
+                        delay(300)
                         getBalance()
                     },
                     failure = {
@@ -77,6 +79,7 @@ internal class OrganizerViewModel(
             Result.of(goToNextDateUseCase(currentDate))
                 .fold(
                     success = {
+                        OrganizerActions.DefaultTransactionFilterValues.sendAction()
                         setViewState {
                             it.copy(currentMonthYear = getFormattedDate())
                         }
@@ -105,7 +108,7 @@ internal class OrganizerViewModel(
                     createTransactionUseCase(transaction, idBalance)
                 ).fold(
                     success = {
-                        getBalance()
+                        getBalance(false)
                     },
                     failure = {
                         Timber.e(it)
@@ -200,21 +203,39 @@ internal class OrganizerViewModel(
         }
     }
 
-    fun removeTransaction(transaction: Transaction) {
+    fun removeTransaction(
+        transaction: Transaction,
+        position: Int
+    ) {
         viewModelScope.launch {
-            setViewState {
-                it.copy(
-                    dialog = Dialog.NoDialog,
-                    isLoadingRemove = true
-                )
-            }
+//            setViewState {
+//                it.copy(
+//                    dialog = Dialog.NoDialog,
+//                    isLoadingRemove = true
+//                )
+//            }
             Result.of(removeTransactionUseCase(transaction))
+                .map {
+                    updateBalanceAfterRemoveTransactionUseCase(balance, transaction)
+                }
                 .fold(
                     success = {
-                        getBalance()
+                        setViewState { viewState ->
+                            viewState.copy(
+                                isTransactionsVisible = balance.transactionsFiltered.isNotEmpty(),
+                                isEmptyStateVisible = balance.transactionsFiltered.isEmpty()
+                            )
+                        }
+                        OrganizerActions.RemoveTransaction(position).sendAction()
+                        OrganizerActions.ShowConfirmationMessage(R.string.organizer_dialog_remove_transaction_message_confirmation)
+                            .sendAction()
+                        OrganizerActions.UpdateBalance(balance).sendAction()
                     },
                     failure = {
-                        //todo fazer nada no adapter
+                        OrganizerActions.CancelRemoveTransaction(position).sendAction()
+                        OrganizerActions.ShowConfirmationMessage(R.string.organizer_dialog_update_transaction_message_confirmation_error)
+                            .sendAction()
+                        getBalance()
                         Timber.e(it)
                     }
                 )
@@ -233,30 +254,30 @@ internal class OrganizerViewModel(
         }
     }
 
-    fun hideDialogs() {
-        setViewState {
-            it.copy(dialog = Dialog.NoDialog)
-        }
-    }
+//    fun hideDialogs() {
+//        setViewState {
+//            it.copy(dialog = Dialog.NoDialog)
+//        }
+//    }
 
-    fun showConfirmationDialogRemoveTransaction(position: Int) =
-        setViewState {
-            it.copy(
-                dialog = Dialog.ConfirmationDialogRemoveTransaction(
-                    R.drawable.ic_business_man,
-                    R.string.organizer_dialog_remove_transaction_title,
-                    R.string.organizer_dialog_remove_transaction_description,
-                    position
-                )
-            )
-        }
+//    fun showConfirmationDialogRemoveTransaction(position: Int) =
+//        setViewState {
+//            it.copy(
+//                dialog = Dialog.ConfirmationDialogRemoveTransaction(
+//                    R.drawable.ic_business_man,
+//                    R.string.organizer_dialog_remove_transaction_title,
+//                    R.string.organizer_dialog_remove_transaction_description,
+//                    position
+//                )
+//            )
+//        }
 
-    private fun getBalance() {
+    private fun getBalance(hasToShowLoadingBalance: Boolean = true) {
         viewModelScope.launch {
             resetTransactionFilter()
             setViewState { viewState ->
                 viewState.copy(
-                    isLoadingBalance = true,
+                    isLoadingBalance = hasToShowLoadingBalance,
                     isLoadingTransactions = true,
                     isTransactionsVisible = false,
                     isChipsEnabled = false,

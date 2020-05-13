@@ -13,6 +13,7 @@
         <item name="colorOnPrimary">@color/color_accent</item>
         <item name="android:textSize">@dimen/text_size_05</item>
         <item name="android:fontFamily">@font/manjari_bold</item>
+        <item name="colorControlHighlight">@color/color_shimmer</item>
     </style>
 
     <style name="LowerCaseTabTextAppearance" parent="TextAppearance.Design.Tab">
@@ -30,6 +31,10 @@
 
     <style name="themeRippleRegularImage">
         <item name="colorControlHighlight">#1DFFFFFF</item>
+    </style>
+
+    <style name="Theme.Toolbar.Collapsing" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="actionBarItemBackground">?attr/selectableItemBackground</item>
     </style>
 
     <style name="buttonStyle" parent="Widget.AppCompat.Button.Borderless">

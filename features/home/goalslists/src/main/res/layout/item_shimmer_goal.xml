@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardGoal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/spacing_01"
+    android:layout_marginTop="@dimen/spacing_half"
+    android:layout_marginEnd="@dimen/spacing_01"
+    android:layout_marginBottom="@dimen/spacing_min"
+    android:stateListAnimator="@anim/animation"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="@dimen/spacing_01"
+    app:cardElevation="@dimen/spacing_none">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contentCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="@dimen/spacing_03">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_next" />
+
+        <View
+            android:id="@+id/viewStatus"
+            android:layout_width="@dimen/spacing_04"
+            android:layout_height="@dimen/spacing_02"
+            android:background="@color/color_shimmer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/viewName"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/spacing_01"
+            android:layout_marginTop="@dimen/spacing_02"
+            android:layout_marginEnd="@dimen/spacing_06"
+            android:background="@color/color_shimmer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewStatus" />
+
+        <View
+            android:id="@+id/viewCompletedItems"
+            android:layout_width="@dimen/spacing_10"
+            android:layout_height="@dimen/spacing_01"
+            android:layout_marginTop="@dimen/spacing_01"
+            android:background="@color/color_shimmer"
+            app:layout_constraintStart_toStartOf="@id/viewName"
+            app:layout_constraintTop_toBottomOf="@+id/viewName" />
+
+        <View
+            android:id="@+id/viewCompleted"
+            android:layout_width="@dimen/spacing_12"
+            android:layout_height="@dimen/spacing_01"
+            android:layout_marginTop="@dimen/spacing_04"
+            android:background="@color/color_shimmer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewCompletedItems" />
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacing_none"
+            android:layout_marginTop="@dimen/spacing_half"
+            android:includeFontPadding="false"
+            android:indeterminate="false"
+            android:progressDrawable="@drawable/background_uncompleted_progress_bar"
+            app:layout_constraintTop_toBottomOf="@id/viewCompleted" />
+
+        <View
+            android:id="@+id/viewMoney"
+            android:layout_width="@dimen/spacing_12"
+            android:layout_height="@dimen/spacing_01"
+            android:layout_marginTop="@dimen/spacing_04"
+            android:background="@color/color_shimmer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewCompletedItems" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
