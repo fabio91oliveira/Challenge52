@@ -73,6 +73,8 @@ internal class ItemsAdapter(
         ItemViewHolder(containerView) {
         override fun bind(itemDetail: AdapterItem<TopDetails, String, ItemDetail>) {
             itemDetail.first?.also {
+                txtName.text = it.goalName
+
                 val period = when (it.periodItemEnum) {
                     PeriodItemEnum.DAY -> R.string.goal_details_days
                     PeriodItemEnum.WEEK -> R.string.goal_details_weeks

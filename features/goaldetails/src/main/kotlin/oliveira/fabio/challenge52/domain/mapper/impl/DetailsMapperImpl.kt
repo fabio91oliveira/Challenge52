@@ -9,9 +9,9 @@ import oliveira.fabio.challenge52.presentation.adapter.AdapterItem
 import oliveira.fabio.challenge52.presentation.vo.Goal
 import oliveira.fabio.challenge52.presentation.vo.Item
 import oliveira.fabio.challenge52.presentation.vo.ItemDetail
-import oliveira.fabio.challenge52.presentation.vo.enums.PeriodEnum
 import oliveira.fabio.challenge52.presentation.vo.PeriodItemEnum
 import oliveira.fabio.challenge52.presentation.vo.TopDetails
+import oliveira.fabio.challenge52.presentation.vo.enums.PeriodEnum
 import java.util.*
 
 internal class DetailsMapperImpl : DetailsMapper {
@@ -68,6 +68,7 @@ internal class DetailsMapperImpl : DetailsMapper {
         }
 
         return TopDetails(
+            goalName = goal.name,
             totalCompletedItems = totalCompletedWeeks,
             totalPercentsCompleted = (((totalCompletedWeeks.toFloat()) / goal.items.size.toFloat()) * PERCENT).toInt(),
             totalItems = goal.items.size,

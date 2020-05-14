@@ -5,6 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class TopDetails(
+    val goalName: String,
     val totalCompletedItems: Int,
     val totalPercentsCompleted: Int,
     val totalItems: Int,

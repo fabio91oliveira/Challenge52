@@ -175,7 +175,7 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
     private fun setupToolbar() {
         with(toolbar) {
             setSupportActionBar(this)
-            supportActionBar?.title = goalDetailsViewModel.goalName
+            supportActionBar?.setDisplayShowTitleEnabled(false)
             setNavigationOnClickListener { closeDetails() }
         }
     }
