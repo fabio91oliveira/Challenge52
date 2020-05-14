@@ -57,8 +57,39 @@ internal class OpenedGoalAdapter(private val onClickGoalListener: OnClickGoalLis
             txtMoney.text =
                 goalsList[position].totalMoney.toStringMoney(currentLocale = goalsList[position].currentLocale)
             val completedPercent = goalsList[position].getTotalPercent()
-            viewStatus.visibility =
-                if (goalsList[position].statusEnum == StatusEnum.NEW) View.VISIBLE else View.INVISIBLE
+
+            when (goalsList[position].statusEnum) {
+                StatusEnum.NEW -> {
+                    viewStatus.setBackgroundColor(
+                        ContextCompat.getColor(
+                            containerView.context,
+                            R.color.color_yellow
+                        )
+                    )
+                    txtStatus.text =
+                        containerView.resources.getString(R.string.goals_lists_status_new)
+                }
+                StatusEnum.IN_PROGRESS -> {
+                    viewStatus.setBackgroundColor(
+                        ContextCompat.getColor(
+                            containerView.context,
+                            R.color.color_red_dark
+                        )
+                    )
+                    txtStatus.text =
+                        containerView.resources.getString(R.string.goals_lists_status_in_progress)
+                }
+                StatusEnum.DONE -> {
+                    viewStatus.setBackgroundColor(
+                        ContextCompat.getColor(
+                            containerView.context,
+                            R.color.color_green_dark
+                        )
+                    )
+                    txtStatus.text =
+                        containerView.resources.getString(R.string.goals_lists_status_done)
+                }
+            }
 
             ObjectAnimator.ofInt(
                 progressBar,

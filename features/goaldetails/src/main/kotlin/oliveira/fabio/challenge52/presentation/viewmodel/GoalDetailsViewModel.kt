@@ -41,7 +41,6 @@ internal class GoalDetailsViewModel(
         get() = _goalDetailsViewState
 
     private val goal by lazy { state.get<Goal>(GOAL_TAG) ?: initializerError() as Goal }
-    val goalName = goal.name
 
     init {
         initState()

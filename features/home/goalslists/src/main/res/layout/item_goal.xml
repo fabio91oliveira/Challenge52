@@ -10,8 +10,8 @@
     android:layout_marginEnd="@dimen/spacing_01"
     android:layout_marginBottom="@dimen/spacing_min"
     android:stateListAnimator="@anim/animation"
-    app:cardCornerRadius="@dimen/spacing_01"
     app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="@dimen/spacing_01"
     app:cardElevation="@dimen/spacing_none">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,7 +33,7 @@
             android:id="@+id/viewStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/color_yellow"
+            tools:background="@color/color_accent_dark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -46,7 +46,7 @@
                 android:paddingTop="@dimen/spacing_half"
                 android:paddingEnd="@dimen/spacing_half"
                 android:paddingBottom="2dp"
-                android:text="@string/goals_lists_status_new"
+                tools:text="in progress"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_01"
                 android:textStyle="bold" />
@@ -101,8 +101,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_01"
             android:text="@string/goals_lists_completed"
-            android:textSize="@dimen/text_size_02"
             android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_02"
             app:layout_constraintBottom_toBottomOf="@+id/txtPercent"
             app:layout_constraintStart_toEndOf="@+id/txtPercent"
             app:layout_constraintTop_toTopOf="@+id/txtPercent" />

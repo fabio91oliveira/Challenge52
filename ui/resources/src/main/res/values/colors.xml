@@ -8,8 +8,10 @@
     <color name="color_accent_dark">#48216D</color>
 
     <color name="color_green">#00CA9D</color>
+    <color name="color_green_dark">#028E6F</color>
     <color name="color_yellow">#FFC107</color>
     <color name="color_red">#fb2c4f</color>
+    <color name="color_red_dark">#A21C33</color>
 
     <color name="color_soft_grey">#F7F7F7</color>
     <color name="color_soft_grey_2">#eeeeee</color>

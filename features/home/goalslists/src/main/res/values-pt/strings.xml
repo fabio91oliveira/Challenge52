@@ -9,7 +9,9 @@
     <string name="goals_lists_opened_goals">Abertos</string>
     <string name="goals_lists_done_goals">Concluídos</string>
 
-    <string name="goals_lists_status_new">Novo</string>
+    <string name="goals_lists_status_new">novo</string>
+    <string name="goals_lists_status_in_progress">em progress</string>
+    <string name="goals_lists_status_done">concluído</string>
 
     <string name="goals_lists_my_goals">Minhas metas</string>
 

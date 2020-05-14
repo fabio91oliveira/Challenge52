@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import features.home.goalslists.R
@@ -49,6 +50,7 @@ class GoalsListsFragment : Fragment(R.layout.fragment_goals_lists) {
                         goalsListsViewModel.hideAddButton()
                 }
             })
+            (getChildAt(0) as RecyclerView).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         }
     }
 

@@ -17,7 +17,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtBalanceTitle"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/spacing_none"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_02"
         android:includeFontPadding="false"
@@ -31,7 +31,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtBalance"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/spacing_none"
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
         android:maxLines="1"
@@ -48,7 +48,7 @@
 
     <View
         android:id="@+id/viewBalanceHide"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/spacing_none"
         android:layout_height="@dimen/spacing_01"
         android:layout_marginEnd="@dimen/spacing_04"
         android:background="@color/color_transparent_grey_3"
@@ -89,7 +89,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtIncome"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/spacing_none"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/spacing_half"
         android:maxLines="1"
@@ -105,7 +105,7 @@
 
     <View
         android:id="@+id/viewIncomeHide"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/spacing_none"
         android:layout_height="@dimen/spacing_01"
         android:layout_marginEnd="@dimen/spacing_09"
         android:background="@color/color_transparent_grey_3"
@@ -145,7 +145,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtSpent"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/spacing_none"
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:text="@string/organizer_default_value"
@@ -160,7 +160,7 @@
 
     <View
         android:id="@+id/viewSpentHide"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/spacing_none"
         android:layout_height="@dimen/spacing_01"
         android:layout_marginEnd="@dimen/spacing_09"
         android:background="@color/color_transparent_grey_3"

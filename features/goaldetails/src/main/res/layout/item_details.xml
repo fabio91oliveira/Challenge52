@@ -83,7 +83,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtTitle"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/spacing_none"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_04"
             android:ellipsize="end"
@@ -99,7 +99,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtMoneySaved"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/spacing_none"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/color_red"
@@ -112,7 +112,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtMoneyToSave"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/spacing_none"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="center"

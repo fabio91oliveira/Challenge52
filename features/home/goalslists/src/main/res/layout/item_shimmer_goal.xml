@@ -30,7 +30,7 @@
 
         <View
             android:id="@+id/viewStatus"
-            android:layout_width="@dimen/spacing_04"
+            android:layout_width="@dimen/spacing_07"
             android:layout_height="@dimen/spacing_02"
             android:background="@drawable/bg_shimmer_rounded"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,10 +38,10 @@
 
         <View
             android:id="@+id/viewName"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/spacing_none"
             android:layout_height="@dimen/spacing_01"
             android:layout_marginTop="@dimen/spacing_02"
-            android:layout_marginEnd="@dimen/spacing_06"
+            android:layout_marginEnd="@dimen/spacing_12"
             android:background="@drawable/bg_shimmer_rounded"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,10 +49,11 @@
 
         <View
             android:id="@+id/viewCompletedItems"
-            android:layout_width="@dimen/spacing_10"
+            android:layout_width="@dimen/spacing_08"
             android:layout_height="@dimen/spacing_01"
             android:layout_marginTop="@dimen/spacing_01"
-            android:background="@color/color_shimmer"
+            android:layout_marginEnd="@dimen/spacing_12"
+            android:background="@drawable/bg_shimmer_rounded"
             app:layout_constraintStart_toStartOf="@id/viewName"
             app:layout_constraintTop_toBottomOf="@+id/viewName" />
 
@@ -78,7 +79,7 @@
 
         <View
             android:id="@+id/viewMoney"
-            android:layout_width="@dimen/spacing_12"
+            android:layout_width="@dimen/spacing_05"
             android:layout_height="@dimen/spacing_01"
             android:layout_marginTop="@dimen/spacing_04"
             android:background="@drawable/bg_shimmer_rounded"

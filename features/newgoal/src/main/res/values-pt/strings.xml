@@ -36,7 +36,7 @@
     <string name="goal_suggestions_list_error_description">Error</string>
 
     <!-- Goal Choose Name -->
-    <string name="goal_choose_name_top_text">Vamos criar a sua meta</string>
+    <string name="goal_choose_name_top_text">Coloque o nome da meta</string>
     <string name="goal_choose_name_min_max_characters">Mín 5/Máx 35 caractéres</string>
     <string name="goal_choose_name_hint_goal_name">Nome da meta</string>
     <string name="goal_choose_name_error_title">Oops!</string>

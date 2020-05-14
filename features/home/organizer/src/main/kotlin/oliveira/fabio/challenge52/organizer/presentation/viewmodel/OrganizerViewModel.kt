@@ -44,6 +44,11 @@ internal class OrganizerViewModel(
     private val updateBalanceAfterRemoveTransactionUseCase: UpdateBalanceAfterRemoveTransactionUseCase
 ) : ViewModel() {
 
+    // fazer loading do remover
+    // colocar a lista para view state
+    // colocar os dados do balance para viewstate
+    // ao remover, mandar a lista toda e a position q foi removida e ver como o adapter se comporta
+
     private val _organizerActions by lazy { MutableLiveData<OrganizerActions>() }
     val organizerActions: LiveData<OrganizerActions> = _organizerActions
 
@@ -64,7 +69,6 @@ internal class OrganizerViewModel(
                         setViewState {
                             it.copy(currentMonthYear = getFormattedDate())
                         }
-                        delay(300)
                         getBalance()
                     },
                     failure = {
@@ -208,12 +212,11 @@ internal class OrganizerViewModel(
         position: Int
     ) {
         viewModelScope.launch {
-//            setViewState {
-//                it.copy(
-//                    dialog = Dialog.NoDialog,
-//                    isLoadingRemove = true
-//                )
-//            }
+            setViewState {
+                it.copy(
+                    isLoadingRemove = true
+                )
+            }
             Result.of(removeTransactionUseCase(transaction))
                 .map {
                     updateBalanceAfterRemoveTransactionUseCase(balance, transaction)
@@ -223,7 +226,8 @@ internal class OrganizerViewModel(
                         setViewState { viewState ->
                             viewState.copy(
                                 isTransactionsVisible = balance.transactionsFiltered.isNotEmpty(),
-                                isEmptyStateVisible = balance.transactionsFiltered.isEmpty()
+                                isEmptyStateVisible = balance.transactionsFiltered.isEmpty(),
+                                isLoadingRemove = false
                             )
                         }
                         OrganizerActions.RemoveTransaction(position).sendAction()
@@ -232,6 +236,11 @@ internal class OrganizerViewModel(
                         OrganizerActions.UpdateBalance(balance).sendAction()
                     },
                     failure = {
+                        setViewState { viewState ->
+                            viewState.copy(
+                                isLoadingRemove = false
+                            )
+                        }
                         OrganizerActions.CancelRemoveTransaction(position).sendAction()
                         OrganizerActions.ShowConfirmationMessage(R.string.organizer_dialog_update_transaction_message_confirmation_error)
                             .sendAction()

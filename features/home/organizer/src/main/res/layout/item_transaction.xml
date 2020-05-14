@@ -32,10 +32,12 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtDescription"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/spacing_none"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_01"
             android:layout_marginEnd="@dimen/spacing_01"
+            android:ellipsize="end"
+            android:maxLength="18"
             android:paddingBottom="@dimen/spacing_min"
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_size_02"
@@ -48,7 +50,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtDate"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/spacing_none"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_02"
             android:textSize="@dimen/text_size_01"
@@ -62,6 +64,7 @@
             android:id="@+id/txtValue"
             android:layout_width="@dimen/spacing_none"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:gravity="end"
             android:maxLength="14"
             android:textColor="@color/color_green"

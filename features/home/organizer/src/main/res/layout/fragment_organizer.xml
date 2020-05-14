@@ -25,7 +25,7 @@
                 <View
                     android:id="@+id/viewLine"
                     android:layout_width="@dimen/spacing_half"
-                    android:layout_height="0dp"
+                    android:layout_height="@dimen/spacing_none"
                     android:background="@drawable/bg_title_rounded"
                     android:backgroundTint="@color/color_primary"
                     app:layout_constraintBottom_toBottomOf="@id/txtTransactions"
@@ -34,7 +34,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtTransactions"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/spacing_none"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_01"
                     android:layout_marginTop="@dimen/spacing_03"
@@ -52,7 +52,7 @@
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGroupTransactions"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/spacing_none"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_02"
                     app:checkedChip="@id/checkAll"
@@ -217,7 +217,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/txtBalanceTitle"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/spacing_none"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_02"
                         android:includeFontPadding="false"
@@ -231,7 +231,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/txtBalance"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/spacing_none"
                         android:layout_height="wrap_content"
                         android:includeFontPadding="false"
                         android:maxLines="1"
@@ -248,7 +248,7 @@
 
                     <View
                         android:id="@+id/viewBalanceHide"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/spacing_none"
                         android:layout_height="@dimen/spacing_01"
                         android:layout_marginEnd="@dimen/spacing_04"
                         android:background="@color/color_transparent_grey"
@@ -259,8 +259,8 @@
 
                     <View
                         android:id="@+id/viewClickHide"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
+                        android:layout_width="@dimen/spacing_none"
+                        android:layout_height="@dimen/spacing_none"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
                         android:focusable="true"
@@ -325,7 +325,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/txtIncome"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/spacing_none"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/spacing_half"
                         android:maxLines="1"
@@ -341,7 +341,7 @@
 
                     <View
                         android:id="@+id/viewIncomeHide"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/spacing_none"
                         android:layout_height="@dimen/spacing_01"
                         android:layout_marginEnd="@dimen/spacing_09"
                         android:background="@color/color_transparent_grey"
@@ -381,7 +381,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/txtSpent"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/spacing_none"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:text="@string/organizer_default_value"
@@ -396,7 +396,7 @@
 
                     <View
                         android:id="@+id/viewSpentHide"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/spacing_none"
                         android:layout_height="@dimen/spacing_01"
                         android:layout_marginEnd="@dimen/spacing_09"
                         android:background="@color/color_transparent_grey"
@@ -498,7 +498,7 @@
 
     <!--                    <androidx.appcompat.widget.AppCompatTextView-->
     <!--                        android:id="@+id/txtBalanceTitle"-->
-    <!--                        android:layout_width="0dp"-->
+    <!--                        android:layout_width="@dimen/spacing_none"-->
     <!--                        android:layout_height="wrap_content"-->
     <!--                        android:layout_marginTop="@dimen/spacing_02"-->
     <!--                        android:includeFontPadding="false"-->
@@ -512,7 +512,7 @@
 
     <!--                    <androidx.appcompat.widget.AppCompatTextView-->
     <!--                        android:id="@+id/txtBalance"-->
-    <!--                        android:layout_width="0dp"-->
+    <!--                        android:layout_width="@dimen/spacing_none"-->
     <!--                        android:layout_height="wrap_content"-->
     <!--                        android:includeFontPadding="false"-->
     <!--                        android:maxLines="1"-->
@@ -529,7 +529,7 @@
 
     <!--                    <View-->
     <!--                        android:id="@+id/viewBalanceHide"-->
-    <!--                        android:layout_width="0dp"-->
+    <!--                        android:layout_width="@dimen/spacing_none"-->
     <!--                        android:layout_height="@dimen/spacing_01"-->
     <!--                        android:layout_marginEnd="@dimen/spacing_04"-->
     <!--                        android:background="@color/color_transparent_grey"-->
@@ -540,8 +540,8 @@
 
     <!--                    <View-->
     <!--                        android:id="@+id/viewClickHide"-->
-    <!--                        android:layout_width="0dp"-->
-    <!--                        android:layout_height="0dp"-->
+    <!--                        android:layout_width="@dimen/spacing_none"-->
+    <!--                        android:layout_height="@dimen/spacing_none"-->
     <!--                        android:background="?attr/selectableItemBackgroundBorderless"-->
     <!--                        android:clickable="true"-->
     <!--                        android:focusable="true"-->
@@ -606,7 +606,7 @@
 
     <!--                    <androidx.appcompat.widget.AppCompatTextView-->
     <!--                        android:id="@+id/txtIncome"-->
-    <!--                        android:layout_width="0dp"-->
+    <!--                        android:layout_width="@dimen/spacing_none"-->
     <!--                        android:layout_height="wrap_content"-->
     <!--                        android:layout_marginEnd="@dimen/spacing_half"-->
     <!--                        android:maxLines="1"-->
@@ -622,7 +622,7 @@
 
     <!--                    <View-->
     <!--                        android:id="@+id/viewIncomeHide"-->
-    <!--                        android:layout_width="0dp"-->
+    <!--                        android:layout_width="@dimen/spacing_none"-->
     <!--                        android:layout_height="@dimen/spacing_01"-->
     <!--                        android:layout_marginEnd="@dimen/spacing_09"-->
     <!--                        android:background="@color/color_transparent_grey"-->
@@ -662,7 +662,7 @@
 
     <!--                    <androidx.appcompat.widget.AppCompatTextView-->
     <!--                        android:id="@+id/txtSpent"-->
-    <!--                        android:layout_width="0dp"-->
+    <!--                        android:layout_width="@dimen/spacing_none"-->
     <!--                        android:layout_height="wrap_content"-->
     <!--                        android:maxLines="1"-->
     <!--                        android:text="@string/organizer_default_value"-->
@@ -677,7 +677,7 @@
 
     <!--                    <View-->
     <!--                        android:id="@+id/viewSpentHide"-->
-    <!--                        android:layout_width="0dp"-->
+    <!--                        android:layout_width="@dimen/spacing_none"-->
     <!--                        android:layout_height="@dimen/spacing_01"-->
     <!--                        android:layout_marginEnd="@dimen/spacing_09"-->
     <!--                        android:background="@color/color_transparent_grey"-->
@@ -721,7 +721,7 @@
     <!--                <View-->
     <!--                    android:id="@+id/viewLine"-->
     <!--                    android:layout_width="@dimen/spacing_half"-->
-    <!--                    android:layout_height="0dp"-->
+    <!--                    android:layout_height="@dimen/spacing_none"-->
     <!--                    android:background="@drawable/bg_title_rounded"-->
     <!--                    android:backgroundTint="@color/color_primary"-->
     <!--                    app:layout_constraintBottom_toBottomOf="@id/txtTransactions"-->
@@ -730,7 +730,7 @@
 
     <!--                <androidx.appcompat.widget.AppCompatTextView-->
     <!--                    android:id="@+id/txtTransactions"-->
-    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_width="@dimen/spacing_none"-->
     <!--                    android:layout_height="wrap_content"-->
     <!--                    android:layout_marginStart="@dimen/spacing_01"-->
     <!--                    android:layout_marginTop="@dimen/spacing_03"-->
@@ -748,7 +748,7 @@
 
     <!--                <com.google.android.material.chip.ChipGroup-->
     <!--                    android:id="@+id/chipGroupTransactions"-->
-    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_width="@dimen/spacing_none"-->
     <!--                    android:layout_height="wrap_content"-->
     <!--                    android:layout_marginTop="@dimen/spacing_02"-->
     <!--                    app:checkedChip="@id/checkAll"-->
