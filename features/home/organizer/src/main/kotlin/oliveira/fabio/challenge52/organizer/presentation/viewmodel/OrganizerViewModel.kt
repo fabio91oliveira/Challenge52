@@ -123,30 +123,13 @@ internal class OrganizerViewModel(
                     updateBalanceAfterCreateTransactionUseCase(balance, transaction)
                 }.fold(
                     success = {
-                        setViewState { viewState ->
-                            viewState.copy(
-                                isTransactionsVisible = balance.transactionsFiltered.isNotEmpty(),
-                                isEmptyStateVisible = balance.transactionsFiltered.isEmpty(),
-                                isFiltersVisible = balance.transactionsFiltered.isNotEmpty(),
-                                isLoadingRemove = false
-                            )
-                        }
-                        setBalanceValues(balance)
-                        setTransactionsValues(balance)
-                        OrganizerActions.UpdateTransactionsAfterCreate.sendAction()
+                        getBalance(false)
                         OrganizerActions.ShowConfirmationMessage(R.string.organizer_dialog_add_transaction_message_confirmation)
                             .sendAction()
                     },
                     failure = {
-                        setViewState { viewState ->
-                            viewState.copy(
-                                isLoadingRemove = false
-                            )
-                        }
-                        OrganizerActions.UpdateTransactions.sendAction()
                         OrganizerActions.ShowConfirmationMessage(R.string.organizer_dialog_update_transaction_message_confirmation_error)
                             .sendAction()
-                        getBalance()
                         Timber.e(it)
                     }
                 )
@@ -161,27 +144,11 @@ internal class OrganizerViewModel(
                     }
             }.fold(
                 success = {
-                    setViewState { viewState ->
-                        viewState.copy(
-                            isTransactionsVisible = balance.transactionsFiltered.isNotEmpty(),
-                            isEmptyStateVisible = balance.transactionsFiltered.isEmpty(),
-                            isFiltersVisible = balance.transactionsFiltered.isNotEmpty(),
-                            isLoadingRemove = false
-                        )
-                    }
-                    setBalanceValues(balance)
-                    setTransactionsValues(balance)
-                    OrganizerActions.UpdateTransactionsAfterCreate.sendAction()
+                    getBalance(false)
                     OrganizerActions.ShowConfirmationMessage(R.string.organizer_dialog_add_transaction_message_confirmation)
                         .sendAction()
                 },
                 failure = {
-                    setViewState { viewState ->
-                        viewState.copy(
-                            isLoadingRemove = false
-                        )
-                    }
-                    OrganizerActions.UpdateTransactions.sendAction()
                     OrganizerActions.ShowConfirmationMessage(R.string.organizer_dialog_update_transaction_message_confirmation_error)
                         .sendAction()
                     getBalance()

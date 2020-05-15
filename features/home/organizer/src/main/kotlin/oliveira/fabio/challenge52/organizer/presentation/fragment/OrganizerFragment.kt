@@ -146,9 +146,6 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
                     is OrganizerActions.UpdateTransactions -> {
                         refreshTransaction()
                     }
-                    is OrganizerActions.UpdateTransactionsAfterCreate -> {
-                        refreshTransactionAfterCreate()
-                    }
                     is OrganizerActions.UpdateTransactionsAfterRemove -> {
                         refreshTransactionAfterRemove(it.position)
                     }
@@ -219,10 +216,6 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
 
     private fun refreshTransactionAfterRemove(position: Int) {
         transactionAdapter.notifyItemRemoved(position)
-    }
-
-    private fun refreshTransactionAfterCreate() {
-        transactionAdapter.notifyItemInserted(FIRST_ITEM)
     }
 
     private fun setFiltersCounters(balanceBottom: BalanceBottom) {
