@@ -42,7 +42,7 @@
 
     <View
         android:id="@+id/viewValue"
-        android:layout_width="@dimen/spacing_11"
+        android:layout_width="@dimen/spacing_06"
         android:layout_height="@dimen/spacing_01"
         android:layout_marginTop="@dimen/spacing_min"
         android:background="@drawable/bg_shimmer_rounded"

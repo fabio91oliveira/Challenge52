@@ -1,4 +1,4 @@
-package oliveira.fabio.challenge52.organizer.presentation.vo
+package oliveira.fabio.challenge52.organizer.presentation.enums
 
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes

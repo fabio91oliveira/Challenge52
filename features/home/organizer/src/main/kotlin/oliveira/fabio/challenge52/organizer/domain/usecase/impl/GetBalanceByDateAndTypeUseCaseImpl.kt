@@ -5,10 +5,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import oliveira.fabio.challenge52.domain.repository.BalanceWithTransactionsRepository
 import oliveira.fabio.challenge52.organizer.domain.usecase.GetBalanceByDateAndTypeUseCase
+import oliveira.fabio.challenge52.organizer.domain.usecase.SortTransactionsUseCase
 import java.util.*
 
 internal class GetBalanceByDateAndTypeUseCaseImpl(
-    private val balanceWithTransactionsRepository: BalanceWithTransactionsRepository
+    private val balanceWithTransactionsRepository: BalanceWithTransactionsRepository,
+    private val sortTransactionsUseCase: SortTransactionsUseCase
 ) : GetBalanceByDateAndTypeUseCase {
     override suspend fun invoke(
         calendar: Calendar
@@ -16,7 +18,7 @@ internal class GetBalanceByDateAndTypeUseCaseImpl(
         withContext(Dispatchers.IO) {
             delay(ONE_SECOND)
             balanceWithTransactionsRepository.getBalanceByDate(calendar.time).apply {
-                transactionsFiltered.sortByDescending { it.id }
+                sortTransactionsUseCase(transactionsFiltered)
             }
         }
 

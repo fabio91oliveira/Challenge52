@@ -16,7 +16,7 @@ import java.util.*
 
 internal class TransactionAdapter(private val onSwipeLeftTransactionListener: OnSwipeLeftTransactionListener) :
     RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
-    private var list: MutableList<Transaction> = mutableListOf()
+    private var list: LinkedList<Transaction> = LinkedList()
     private var currentLocale: Locale = Locale.getDefault()
 
     override fun getItemCount() = list.size
@@ -26,17 +26,16 @@ internal class TransactionAdapter(private val onSwipeLeftTransactionListener: On
             LayoutInflater.from(parent.context).inflate(R.layout.item_transaction, parent, false)
         )
 
+    fun setLocale(locale: Locale) {
+        currentLocale = locale
+    }
+
     fun addList(transactions: List<Transaction>) {
         list.addAll(transactions)
-        notifyDataSetChanged()
     }
 
     fun clearList() {
         list.clear()
-    }
-
-    fun setLocale(locale: Locale) {
-        currentLocale = locale
     }
 
     fun getTransactionByPosition(position: Int) = list[position]

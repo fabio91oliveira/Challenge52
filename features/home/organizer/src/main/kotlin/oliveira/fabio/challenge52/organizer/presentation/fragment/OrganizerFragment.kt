@@ -21,13 +21,13 @@ import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.organizer.presentation.action.OrganizerActions
 import oliveira.fabio.challenge52.organizer.presentation.adapter.SwipeToDeleteCallback
 import oliveira.fabio.challenge52.organizer.presentation.adapter.TransactionAdapter
+import oliveira.fabio.challenge52.organizer.presentation.enums.FilterEnum
 import oliveira.fabio.challenge52.organizer.presentation.viewmodel.OrganizerViewModel
-import oliveira.fabio.challenge52.organizer.presentation.vo.FilterEnum
+import oliveira.fabio.challenge52.organizer.presentation.vo.BalanceBottom
+import oliveira.fabio.challenge52.organizer.presentation.vo.BalanceTop
 import oliveira.fabio.challenge52.presentation.view.SelectHeaderView
-import oliveira.fabio.challenge52.presentation.vo.Balance
 import oliveira.fabio.challenge52.presentation.vo.Transaction
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import java.util.*
 
 class OrganizerFragment : Fragment(R.layout.fragment_organizer),
@@ -35,12 +35,7 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
 
     private val transactionAdapter by lazy { TransactionAdapter(this) }
 
-    private val organizerViewModel: OrganizerViewModel by viewModel {
-        parametersOf(
-            Calendar.getInstance(),
-            Balance()
-        )
-    }
+    private val organizerViewModel: OrganizerViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -107,7 +102,7 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
                 android.R.color.white
             )
             setProgressBackgroundColorSchemeColor(
-                androidx.core.content.ContextCompat.getColor(
+                ContextCompat.getColor(
                     context,
                     R.color.color_primary
                 )
@@ -123,18 +118,6 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
     }
 
     private fun setupChip() {
-        // TODO IMPROVE IT
-//        chipGroupTransactions.isSingleSelection = true
-//        FilterEnum.values().forEach {
-//            (layoutInflater.inflate(R.layout.item_chip, null) as Chip).apply {
-//                text = resources.getString(it.resStringDefault)
-//                id = it.resId
-//                tag = it.value
-//                chipGroupTransactions.addView(this)
-//                if (it == FilterEnum.ALL) chipGroupTransactions.check(id)
-//            }
-//        }
-
         FilterEnum.values().forEach {
             val chip = chipGroupTransactions.findViewById<Chip>(it.resId)
             chip.tag = it.tag
@@ -161,28 +144,17 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
         with(organizerViewModel) {
             organizerActions.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                 when (it) {
-                    is OrganizerActions.ShowBalance -> {
-                        setBalance(it.balance)
-                        setTransactions(it.balance)
-                        setFiltersCount(it.balance)
-                    }
-                    is OrganizerActions.UpdateBalance -> {
-                        updateBalance(it.balance)
-                    }
                     is OrganizerActions.UpdateTransactions -> {
-                        updateTransactions(it.transactions)
+                        refreshTransaction()
                     }
-                    is OrganizerActions.RemoveTransaction -> {
-                        transactionAdapter.removeItem(it.position)
+                    is OrganizerActions.UpdateTransactionsAfterCreate -> {
+                        refreshTransactionAfterCreate()
                     }
-                    is OrganizerActions.ResetTransactionsFilter -> {
-                        resetTransactionFilter()
+                    is OrganizerActions.UpdateTransactionsAfterRemove -> {
+                        refreshTransactionAfterRemove(it.position)
                     }
-                    is OrganizerActions.DefaultTransactionFilterValues -> {
-                        setDefaultValuesTransactionFilters()
-                    }
-                    is OrganizerActions.CancelRemoveTransaction -> {
-                        transactionAdapter.notifyDataSetChanged()
+                    OrganizerActions.ResetFilters -> {
+                        resetSelectionFilters()
                     }
                     is OrganizerActions.ShowConfirmationMessage -> {
                         showSnackBar(it.strRes)
@@ -191,6 +163,8 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
             })
             organizerViewState.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                 showTransactions(it.isTransactionsVisible)
+                showLoadingFilters(it.isLoadingFilters)
+                showFilters(it.isFiltersVisible)
                 showEmptyState(it.isEmptyStateVisible)
                 showLoadingBalance(it.isLoadingBalance)
                 showLoadingTransactions(it.isLoadingTransactions)
@@ -199,14 +173,19 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
                 setTextInSelectHeaderView(it.currentMonthYear)
                 showAddButton(it.isAddButtonVisible)
                 showTransactionFilterEmptyState(it.isEmptyStateFilterTransactionVisible)
-                enableChips(it.isChipsEnabled)
-//                handleDialog(it.dialog)
+            })
+            organizerBalanceViewState.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                setBalance(it.balanceTop)
+            })
+            organizerTransactionsViewState.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                setFiltersCounters(it.balanceBottom)
+                setTransactions(it.balanceBottom)
             })
         }
     }
 
-    private fun setBalance(balance: Balance) {
-        with(balance) {
+    private fun setBalance(balanceTop: BalanceTop) {
+        with(balanceTop) {
             txtIncome.postOnAnimation {
                 txtIncome.doIncreaseMoneyAnimation(
                     totalIncomes,
@@ -229,77 +208,55 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
         }
     }
 
-    private fun updateBalance(balance: Balance) {
-        with(balance) {
-            txtIncome.postOnAnimation {
-                txtIncome.doIncreaseMoneyAnimation(
-                    totalIncomes,
-                    currentLocale
-                )
-            }
-            txtSpent.postOnAnimation {
-                txtSpent.doIncreaseMoneyAnimation(
-                    totalSpent,
-                    currentLocale
-                )
-            }
-            txtBalance.postOnAnimation {
-                setBalanceTextColor(total)
-                txtBalance.doIncreaseMoneyAnimation(
-                    total,
-                    currentLocale
-                )
-            }
-
-            setFiltersCount(this)
-        }
-    }
-
-    private fun setTransactions(balance: Balance) {
-        balance.transactionsFiltered.also {
-            transactionAdapter.setLocale(balance.currentLocale)
-            updateTransactions(it)
-        }
-    }
-
-    private fun setFiltersCount(balance: Balance) {
-        chipGroupTransactions.findViewById<Chip>(FilterEnum.ALL.resId).text =
-            getString(FilterEnum.ALL.resStringParams, balance.totalAllFilter)
-
-        chipGroupTransactions.findViewById<Chip>(FilterEnum.INCOME.resId).text =
-            getString(FilterEnum.INCOME.resStringParams, balance.totalIncomeFilter)
-
-        chipGroupTransactions.findViewById<Chip>(FilterEnum.SPENT.resId).text =
-            getString(FilterEnum.SPENT.resStringParams, balance.totalSpentFilter)
-    }
-
-
-    private fun updateTransactions(transactions: List<Transaction>) {
+    private fun setTransactions(balanceBottom: BalanceBottom) {
+        transactionAdapter.setLocale(balanceBottom.currentLocale)
         transactionAdapter.clearList()
-        transactionAdapter.addList(transactions)
+        transactionAdapter.addList(balanceBottom.transactions)
     }
 
-    private fun resetTransactionFilter() {
-        chipGroupTransactions.check(chipGroupTransactions.getChildAt(FIRST_ITEM).id)
+    private fun refreshTransaction() {
+        transactionAdapter.notifyDataSetChanged()
     }
 
-    private fun setDefaultValuesTransactionFilters() {
+    private fun refreshTransactionAfterRemove(position: Int) {
+        transactionAdapter.notifyItemRemoved(position)
+    }
+
+    private fun refreshTransactionAfterCreate() {
+        transactionAdapter.notifyItemInserted(0)
+    }
+
+    private fun setFiltersCounters(balanceBottom: BalanceBottom) {
         chipGroupTransactions.findViewById<Chip>(FilterEnum.ALL.resId).text =
-            getString(FilterEnum.ALL.resStringDefault)
+            getString(FilterEnum.ALL.resStringParams, balanceBottom.totalAllFilter)
 
         chipGroupTransactions.findViewById<Chip>(FilterEnum.INCOME.resId).text =
-            getString(FilterEnum.INCOME.resStringDefault)
+            getString(FilterEnum.INCOME.resStringParams, balanceBottom.totalIncomeFilter)
 
         chipGroupTransactions.findViewById<Chip>(FilterEnum.SPENT.resId).text =
-            getString(FilterEnum.SPENT.resStringDefault)
+            getString(FilterEnum.SPENT.resStringParams, balanceBottom.totalSpentFilter)
+    }
+
+    private fun resetSelectionFilters() {
+        chipGroupTransactions.setOnCheckedChangeListener(null)
+        chipGroupTransactions.check(chipGroupTransactions.getChildAt(FIRST_ITEM).id)
+        setupChipClickListener()
     }
 
     private fun showTransactions(hasToShow: Boolean) {
         rvTransactions.isVisible = hasToShow
     }
 
+    private fun showLoadingFilters(hasToShow: Boolean) {
+        shimmerLayoutChip.isVisible = hasToShow
+    }
+
     private fun showEmptyState(hasToShow: Boolean) {
         stateViewEmpty.isVisible = hasToShow
+    }
+
+    private fun showFilters(hasToShow: Boolean) {
+        chipGroupTransactions.visibility = if (hasToShow) View.VISIBLE else View.INVISIBLE
     }
 
     private fun showTransactionFilterEmptyState(hasToShow: Boolean) {
@@ -312,16 +269,13 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
     }
 
     private fun showLoadingTransactions(hasToShow: Boolean) {
-        shimmerLayoutBottom.isVisible = hasToShow
+        shimmerLayoutTransactions.isVisible = hasToShow
+        shimmerLayoutChip.isVisible = hasToShow
         showRefreshing(hasToShow)
     }
 
     private fun showRefreshing(hasToShow: Boolean) {
         srlBalance.isRefreshing = hasToShow
-    }
-
-    private fun enableChips(hasToEnable: Boolean) {
-        chipGroupTransactions.isEnabled = hasToEnable
     }
 
     private fun showAddButton(hasToShow: Boolean) =
@@ -346,19 +300,6 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
             )
         }
     }
-
-//    private fun handleDialog(dialogViewState: Dialog) {
-//        when (dialogViewState) {
-//            is Dialog.ConfirmationDialogRemoveTransaction -> {
-//                showDefaultDialog(
-//                    dialogViewState.imageRes,
-//                    dialogViewState.titleRes,
-//                    dialogViewState.descriptionRes,
-//                    dialogViewState.positionTransaction
-//                )
-//            }
-//        }
-//    }
 
     private fun setupHide(isHide: Boolean) {
         if (isHide) {
@@ -390,35 +331,6 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
             start()
         }
     }
-
-//    private fun showDefaultDialog(
-//        @DrawableRes resImage: Int,
-//        @StringRes resTitle: Int,
-//        @StringRes resDescription: Int,
-//        position: Int
-//    ) =
-//        PopupDialog.Builder()
-//            .setTitle(resTitle)
-//            .setSubtitle(resDescription)
-//            .setupConfirmButtonColor(R.color.color_primary)
-//            .setImage(resImage)
-//            .setupConfirmButton(
-//                R.string.all_button_yes,
-//                object : PopupDialog.PopupDialogConfirmListener {
-//                    override fun onClickConfirmButton() {
-//                        transactionAdapter.removeTransaction(position)
-//                    }
-//                }
-//            )
-//            .setupCancelButton(R.string.all_button_no,
-//                object : PopupDialog.PopupDialogCancelListener {
-//                    override fun onClickCancelButton() {
-//                        transactionAdapter.notifyDataSetChanged()
-//                        organizerViewModel.hideDialogs()
-//                    }
-//                })
-//            .build()
-//            .show(childFragmentManager, PopupDialog.TAG)
 
     private fun showSnackBar(@StringRes strRes: Int) {
         context?.also {

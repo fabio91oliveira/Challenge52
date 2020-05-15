@@ -4,20 +4,20 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include layout="@layout/item_shimmer_bottom" />
+    <include layout="@layout/item_shimmer_transaction" />
 
-    <include layout="@layout/item_shimmer_bottom" />
+    <include layout="@layout/item_shimmer_transaction" />
 
-    <include layout="@layout/item_shimmer_bottom" />
+    <include layout="@layout/item_shimmer_transaction" />
 
-    <include layout="@layout/item_shimmer_bottom" />
+    <include layout="@layout/item_shimmer_transaction" />
 
-    <include layout="@layout/item_shimmer_bottom" />
+    <include layout="@layout/item_shimmer_transaction" />
 
-    <include layout="@layout/item_shimmer_bottom" />
+    <include layout="@layout/item_shimmer_transaction" />
 
-    <include layout="@layout/item_shimmer_bottom" />
+    <include layout="@layout/item_shimmer_transaction" />
 
-    <include layout="@layout/item_shimmer_bottom" />
+    <include layout="@layout/item_shimmer_transaction" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

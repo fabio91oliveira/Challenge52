@@ -4,21 +4,25 @@ import oliveira.fabio.challenge52.organizer.domain.usecase.ChangeHideOptionUseCa
 import oliveira.fabio.challenge52.organizer.domain.usecase.CreateBalanceUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.CreateTransactionUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.GetBalanceByDateAndTypeUseCase
-import oliveira.fabio.challenge52.organizer.domain.usecase.GetTransactionsByFilter
+import oliveira.fabio.challenge52.organizer.domain.usecase.GetTransactionsByFilterUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.GoToNextDateUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.GoToPreviousDateUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.RemoveTransactionUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.ResetDateUseCase
+import oliveira.fabio.challenge52.organizer.domain.usecase.SortTransactionsUseCase
+import oliveira.fabio.challenge52.organizer.domain.usecase.UpdateBalanceAfterCreateTransactionUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.UpdateBalanceAfterRemoveTransactionUseCase
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.ChangeHideOptionUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.CreateBalanceUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.CreateTransactionUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.GetBalanceByDateAndTypeUseCaseImpl
-import oliveira.fabio.challenge52.organizer.domain.usecase.impl.GetTransactionsByFilterImpl
+import oliveira.fabio.challenge52.organizer.domain.usecase.impl.GetTransactionsByFilterUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.GoToNextDateUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.GoToPreviousDateUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.RemoveTransactionUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.ResetDateUseCaseImpl
+import oliveira.fabio.challenge52.organizer.domain.usecase.impl.SortTransactionsUseCaseImpl
+import oliveira.fabio.challenge52.organizer.domain.usecase.impl.UpdateBalanceAfterCreateTransactionUseCaseImpl
 import oliveira.fabio.challenge52.organizer.domain.usecase.impl.UpdateBalanceAfterRemoveTransactionUseCaseImpl
 import oliveira.fabio.challenge52.organizer.presentation.viewmodel.OrganizerViewModel
 import oliveira.fabio.challenge52.presentation.vo.Balance
@@ -29,8 +33,9 @@ import java.util.*
 
 object OrganizerModule {
     private val domainModule = module {
-        factory<GetBalanceByDateAndTypeUseCase> { GetBalanceByDateAndTypeUseCaseImpl(get()) }
-        factory<GetTransactionsByFilter> { GetTransactionsByFilterImpl() }
+        factory<SortTransactionsUseCase> { SortTransactionsUseCaseImpl() }
+        factory<GetBalanceByDateAndTypeUseCase> { GetBalanceByDateAndTypeUseCaseImpl(get(), get()) }
+        factory<GetTransactionsByFilterUseCase> { GetTransactionsByFilterUseCaseImpl(get()) }
         factory<GoToNextDateUseCase> { GoToNextDateUseCaseImpl() }
         factory<GoToPreviousDateUseCase> { GoToPreviousDateUseCaseImpl() }
         factory<ResetDateUseCase> { ResetDateUseCaseImpl() }
@@ -39,14 +44,15 @@ object OrganizerModule {
         factory<ChangeHideOptionUseCase> { ChangeHideOptionUseCaseImpl(get()) }
         factory<RemoveTransactionUseCase> { RemoveTransactionUseCaseImpl(get()) }
         factory<UpdateBalanceAfterRemoveTransactionUseCase> { UpdateBalanceAfterRemoveTransactionUseCaseImpl() }
+        factory<UpdateBalanceAfterCreateTransactionUseCase> { UpdateBalanceAfterCreateTransactionUseCaseImpl() }
     }
     private val presentationModule = module {
-        viewModel { (calendar: Calendar, balance: Balance) ->
+        viewModel {
             OrganizerViewModel(
-                currentDate = calendar,
-                balance = balance,
+                currentDate = Calendar.getInstance(),
+                balance = Balance(),
                 getBalanceByDateAndTypeUseCase = get(),
-                getTransactionsByFilter = get(),
+                getTransactionsByFilterUseCase = get(),
                 goToNextDateUseCase = get(),
                 goToPreviousDateUseCase = get(),
                 resetDateUseCase = get(),
@@ -54,7 +60,8 @@ object OrganizerModule {
                 createTransactionUseCase = get(),
                 changeHideOptionUseCase = get(),
                 removeTransactionUseCase = get(),
-                updateBalanceAfterRemoveTransactionUseCase = get()
+                updateBalanceAfterRemoveTransactionUseCase = get(),
+                updateBalanceAfterCreateTransactionUseCase = get()
             )
         }
     }
