@@ -71,7 +71,6 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
             adapter = transactionAdapter
             val swipeHandler = object : SwipeToDeleteCallback(context) {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//                    organizerViewModel.showConfirmationDialogRemoveTransaction(viewHolder.adapterPosition)
                     val transaction =
                         transactionAdapter.getTransactionByPosition(viewHolder.adapterPosition)
 
@@ -223,7 +222,7 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
     }
 
     private fun refreshTransactionAfterCreate() {
-        transactionAdapter.notifyItemInserted(0)
+        transactionAdapter.notifyItemInserted(FIRST_ITEM)
     }
 
     private fun setFiltersCounters(balanceBottom: BalanceBottom) {
@@ -288,6 +287,10 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
 
     private fun setTextInSelectHeaderView(text: String) {
         selectHeaderView.setTitleText(text)
+    }
+
+    private fun setSelectHeaverViewControlButtonsEnable(isEnabled: Boolean) {
+        selectHeaderView.setControlButtonsEnabled(isEnabled)
     }
 
     private fun setBalanceTextColor(value: Double) {

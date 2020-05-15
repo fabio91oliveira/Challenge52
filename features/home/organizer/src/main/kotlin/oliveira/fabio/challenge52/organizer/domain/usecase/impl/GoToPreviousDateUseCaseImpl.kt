@@ -9,7 +9,7 @@ import java.util.*
 internal class GoToPreviousDateUseCaseImpl(
 ) : GoToPreviousDateUseCase {
     override suspend fun invoke(date: Calendar) = withContext(Dispatchers.Default) {
-        delay(300)
+        delay(500)
         date.add(Calendar.MONTH, -1)
     }
 }

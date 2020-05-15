@@ -69,7 +69,11 @@ class SelectHeaderView @JvmOverloads constructor(
 
     fun setTitleText(text: String) {
         txtItem.text = text
-        //currentDate.time.getDateStringByFormat(DATE_PATTERN)
+    }
+
+    fun setControlButtonsEnabled(isEnabled: Boolean) {
+        imgArrowLeft.isEnabled = isEnabled
+        imgArrowRight.isEnabled = isEnabled
     }
 
     private fun setupClickListeners() {

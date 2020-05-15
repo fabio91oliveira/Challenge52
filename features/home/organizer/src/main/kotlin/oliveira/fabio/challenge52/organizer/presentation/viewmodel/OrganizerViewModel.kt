@@ -7,8 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.map
 import features.home.organizer.R
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import oliveira.fabio.challenge52.event.SingleLiveEvent
 import oliveira.fabio.challenge52.extensions.getDateStringByFormat
@@ -213,7 +211,7 @@ internal class OrganizerViewModel(
                             viewState.copy(
                                 isTransactionsVisible = balance.transactionsFiltered.isNotEmpty(),
                                 isEmptyStateVisible = balance.transactionsFiltered.isEmpty(),
-                                isFiltersVisible = balance.transactionsFiltered.isNotEmpty(),
+                                isFiltersVisible = balance.allTransactions.isNotEmpty() || balance.transactionsFiltered.isNotEmpty(),
                                 isLoadingRemove = false
                             )
                         }
@@ -325,7 +323,8 @@ internal class OrganizerViewModel(
                     isEmptyStateFilterTransactionVisible = false,
                     isEmptyStateVisible = false,
                     isLoadingFilters = true,
-                    isFiltersVisible = false
+                    isFiltersVisible = false,
+                    isChangeDateEnabled = false
                 )
             }
             Result.of(getBalanceByDateAndTypeUseCase(currentDate))
@@ -339,7 +338,8 @@ internal class OrganizerViewModel(
                                 isTransactionsVisible = it.transactionsFiltered.isNotEmpty(),
                                 isEmptyStateVisible = it.transactionsFiltered.isEmpty(),
                                 isLoadingFilters = false,
-                                isFiltersVisible = it.transactionsFiltered.isNotEmpty()
+                                isFiltersVisible = it.transactionsFiltered.isNotEmpty(),
+                                isChangeDateEnabled = true
                             )
                         }
                         balance = it
@@ -361,7 +361,10 @@ internal class OrganizerViewModel(
                 .fold(
                     success = {
                         setViewState {
-                            it.copy(currentMonthYear = getFormattedDate())
+                            it.copy(
+                                currentMonthYear = getFormattedDate(),
+                                isChangeDateEnabled = true
+                            )
                         }
                     },
                     failure = {
