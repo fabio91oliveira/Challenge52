@@ -26,4 +26,5 @@ object UI {
     const val OptionsBottomPopUp = ":ui:optionsbottompopup"
     const val Icons = ":ui:icons"
     const val SelectHeader = ":ui:selectheaderview"
+    const val LoadingDialog = ":ui:loadingdialog"
 }

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.Window
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
@@ -22,6 +21,7 @@ import oliveira.fabio.challenge52.presentation.adapter.AdapterItem
 import oliveira.fabio.challenge52.presentation.adapter.ItemsAdapter
 import oliveira.fabio.challenge52.presentation.bottomsheetdialogfragment.OptionsBottomPopup
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
+import oliveira.fabio.challenge52.presentation.dialogfragment.LoadingDialog
 import oliveira.fabio.challenge52.presentation.dialogfragment.PopupDialog
 import oliveira.fabio.challenge52.presentation.viewmodel.GoalDetailsViewModel
 import oliveira.fabio.challenge52.presentation.viewstate.Dialog
@@ -40,12 +40,11 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
 
     private val weeksAdapter by lazy { ItemsAdapter(this@GoalDetailsActivity, isFromDoneGoals) }
     private val progressDialog by lazy {
-        android.app.Dialog(this).apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCancelable(false)
-            window?.setBackgroundDrawableResource(android.R.color.transparent)
-            setContentView(R.layout.layout_progress);
-        }
+        LoadingDialog(
+            this,
+            R.string.all_please_wait,
+            R.string.all_loading
+        )
     }
 
     private lateinit var newIntent: Intent

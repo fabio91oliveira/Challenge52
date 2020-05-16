@@ -25,6 +25,7 @@ import oliveira.fabio.challenge52.organizer.presentation.enums.FilterEnum
 import oliveira.fabio.challenge52.organizer.presentation.viewmodel.OrganizerViewModel
 import oliveira.fabio.challenge52.organizer.presentation.vo.BalanceBottom
 import oliveira.fabio.challenge52.organizer.presentation.vo.BalanceTop
+import oliveira.fabio.challenge52.presentation.dialogfragment.LoadingDialog
 import oliveira.fabio.challenge52.presentation.view.SelectHeaderView
 import oliveira.fabio.challenge52.presentation.vo.Transaction
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -36,6 +37,14 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
     private val transactionAdapter by lazy { TransactionAdapter(this) }
 
     private val organizerViewModel: OrganizerViewModel by viewModel()
+
+    private val progressDialog by lazy {
+        LoadingDialog(
+            context,
+            R.string.all_please_wait,
+            R.string.all_loading
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -169,6 +178,7 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
                 setTextInSelectHeaderView(it.currentMonthYear)
                 showAddButton(it.isAddButtonVisible)
                 showTransactionFilterEmptyState(it.isEmptyStateFilterTransactionVisible)
+                showProgressDialogRemove(it.isLoadingRemove)
             })
             organizerBalanceViewState.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                 setBalance(it.balanceTop)
@@ -284,6 +294,10 @@ class OrganizerFragment : Fragment(R.layout.fragment_organizer),
 
     private fun setSelectHeaverViewControlButtonsEnable(isEnabled: Boolean) {
         selectHeaderView.setControlButtonsEnabled(isEnabled)
+    }
+
+    private fun showProgressDialogRemove(hasToShow: Boolean) {
+        if (hasToShow) progressDialog.show() else progressDialog.dismiss()
     }
 
     private fun setBalanceTextColor(value: Double) {

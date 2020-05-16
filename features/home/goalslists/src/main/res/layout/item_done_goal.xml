@@ -123,7 +123,7 @@
             android:id="@+id/progressBar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/spacing_none"
+            android:layout_height="@dimen/spacing_01"
             android:includeFontPadding="false"
             android:indeterminate="false"
             android:progressDrawable="@drawable/background_uncompleted_progress_bar"

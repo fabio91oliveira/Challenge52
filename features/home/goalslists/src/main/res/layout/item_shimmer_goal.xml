@@ -61,7 +61,7 @@
             android:id="@+id/viewCompleted"
             android:layout_width="@dimen/spacing_12"
             android:layout_height="@dimen/spacing_01"
-            android:layout_marginTop="@dimen/spacing_04"
+            android:layout_marginTop="@dimen/spacing_05"
             android:background="@drawable/bg_shimmer_rounded"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewCompletedItems" />
@@ -70,7 +70,7 @@
             android:id="@+id/progressBar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/spacing_none"
+            android:layout_height="@dimen/spacing_01"
             android:layout_marginTop="@dimen/spacing_half"
             android:includeFontPadding="false"
             android:indeterminate="false"
