@@ -5,15 +5,13 @@
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/select_header_view_default_color"
-    android:padding="@dimen/select_header_view_content_padding">
+    android:background="@color/select_header_view_default_color">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgArrowLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/select_header_view_arrows_margins"
-        android:layout_marginTop="@dimen/select_header_view_arrows_margin_top"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
@@ -41,7 +39,6 @@
         android:id="@+id/imgArrowRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/select_header_view_arrows_margin_top"
         android:layout_marginEnd="@dimen/select_header_view_arrows_margins"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"

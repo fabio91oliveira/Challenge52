@@ -248,7 +248,7 @@
                         android:maxLines="1"
                         android:text="@string/organizer_default_value"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_09"
+                        android:textSize="@dimen/text_size_08"
                         android:textStyle="bold"
                         android:visibility="visible"
                         app:autoSizeTextType="uniform"

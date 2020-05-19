@@ -16,29 +16,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--    <androidx.appcompat.widget.AppCompatTextView-->
-    <!--        android:id="@+id/txtPeriod"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:textAllCaps="true"-->
-    <!--        android:textColor="@android:color/black"-->
-    <!--        android:textSize="@dimen/text_size_02"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintStart_toEndOf="@+id/viewLine"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        tools:text="May/2020" />-->
-
-
-    <View
-        android:id="@+id/viewPeriod"
-        android:layout_width="@dimen/spacing_10"
-        android:layout_height="@dimen/spacing_01"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtPeriod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_01"
-        android:layout_marginTop="@dimen/spacing_half"
-        android:layout_marginBottom="@dimen/spacing_half"
-        android:background="@drawable/bg_shimmer_rounded"
+        android:paddingTop="@dimen/spacing_min"
+        android:paddingBottom="@dimen/spacing_min"
+        android:textAllCaps="true"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_size_02"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/viewLine"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/viewPeriod"
+        android:layout_width="@dimen/spacing_09"
+        android:layout_height="@dimen/spacing_01"
+        android:background="@drawable/bg_shimmer_rounded"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPeriod"
+        app:layout_constraintStart_toStartOf="@+id/txtPeriod"
+        app:layout_constraintTop_toTopOf="@+id/txtPeriod" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,5 +11,7 @@
     <string name="all_please_wait">Please wait…</string>
     <string name="all_loading">Loading…</string>
 
+    <string name="all_empty">--</string>
+
     <string name="progress_value_percent">%</string>
 </resources>

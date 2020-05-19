@@ -6,9 +6,9 @@
     android:layout_marginBottom="@dimen/spacing_min"
     android:background="@android:color/white"
     android:paddingStart="@dimen/spacing_02"
-    android:paddingTop="@dimen/spacing_03"
+    android:paddingTop="@dimen/spacing_02"
     android:paddingEnd="@dimen/spacing_02"
-    android:paddingBottom="@dimen/spacing_03">
+    android:paddingBottom="@dimen/spacing_02">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgTransaction"

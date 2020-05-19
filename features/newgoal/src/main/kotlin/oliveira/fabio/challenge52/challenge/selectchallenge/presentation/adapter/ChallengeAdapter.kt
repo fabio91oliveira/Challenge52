@@ -43,7 +43,7 @@ internal class ChallengeAdapter(
 
         fun bind(challenge: Challenge) {
             txtTitle.text = challenge.name
-            txtDescription.text = challenge.description
+            txtDescription.text = challenge.smallDescription
             containerView.setOnClickListener {
                 it.doPopAnimation(100L) {
                     challengeSelectListener.onChallengeClick(challenge)

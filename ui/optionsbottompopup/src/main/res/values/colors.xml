@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="color_line">#A4DFDCDC</color>
-    <color name="color_arrow">#F77754</color>
     <color name="color_soft_green">#2300CA9D</color>
 </resources>

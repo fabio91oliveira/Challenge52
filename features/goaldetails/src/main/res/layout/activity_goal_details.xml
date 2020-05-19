@@ -30,27 +30,409 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBar">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:overScrollMode="never">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvDetails"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never"
-                tools:layoutAnimation="@null"
-                tools:listitem="@layout/item_to_save"
-                tools:visibility="visible" />
+                android:layout_height="wrap_content">
 
-            <include
-                android:id="@+id/shimmerContent"
-                layout="@layout/layout_shimmer_details"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/contentCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtName"
+                        android:layout_width="@dimen/spacing_none"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_02"
+                        android:includeFontPadding="false"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_08"
+                        app:layout_constraintEnd_toEndOf="@id/gdEnd"
+                        app:layout_constraintStart_toStartOf="@id/gdStart"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="@tools:sample/lorem" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardMoney"
+                        android:layout_width="@dimen/spacing_none"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_02"
+                        android:stateListAnimator="@anim/animation"
+                        app:cardBackgroundColor="@color/color_primary"
+                        app:cardCornerRadius="@dimen/spacing_01"
+                        app:cardElevation="@dimen/spacing_none"
+                        app:layout_constraintEnd_toEndOf="@id/gdEnd"
+                        app:layout_constraintStart_toStartOf="@id/gdStart"
+                        app:layout_constraintTop_toBottomOf="@+id/txtName">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/contentMoney"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="@dimen/spacing_03">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgMoney"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.7"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/ic_money" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtTotalMoneyTitle"
+                                android:layout_width="@dimen/spacing_none"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.7"
+                                android:ellipsize="end"
+                                android:includeFontPadding="false"
+                                android:maxLines="2"
+                                android:text="@string/goal_details_title_card_money"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/text_size_03"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtTotalMoneySaved"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_half"
+                                android:includeFontPadding="false"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/text_size_10"
+                                android:textStyle="bold"
+                                app:layout_constraintStart_toStartOf="@+id/txtTotalMoneyTitle"
+                                app:layout_constraintTop_toBottomOf="@+id/txtTotalMoneyTitle"
+                                tools:text="$ 2,000" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtTotalToSaveMoneyTitle"
+                                android:layout_width="@dimen/spacing_none"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_half"
+                                android:alpha="0.7"
+                                android:ellipsize="end"
+                                android:includeFontPadding="false"
+                                android:maxLines="2"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/text_size_03"
+                                app:layout_constraintStart_toStartOf="@+id/txtTotalMoneySaved"
+                                app:layout_constraintTop_toBottomOf="@+id/txtTotalMoneySaved"
+                                tools:text="of $ 5,000" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Card Warning -->
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardStatus"
+                        android:layout_width="@dimen/spacing_none"
+                        android:layout_height="@dimen/spacing_12"
+                        android:layout_marginTop="@dimen/spacing_01"
+                        android:layout_marginEnd="@dimen/spacing_01"
+                        app:cardCornerRadius="@dimen/spacing_01"
+                        app:cardElevation="@dimen/spacing_none"
+                        app:layout_constraintEnd_toEndOf="@id/gdlHalf"
+                        app:layout_constraintStart_toStartOf="@id/gdStart"
+                        app:layout_constraintTop_toBottomOf="@+id/cardMoney">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/contentStatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="@dimen/spacing_02">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/ic_info" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtStatusTitle"
+                                android:layout_width="@dimen/spacing_none"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_min"
+                                android:alpha="0.7"
+                                android:ellipsize="end"
+                                android:includeFontPadding="false"
+                                android:maxLines="2"
+                                android:text="@string/goal_details_card_status_title"
+                                android:textSize="@dimen/text_size_02"
+                                app:layout_constraintEnd_toStartOf="@+id/imgStatus"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtStatus"
+                                android:layout_width="@dimen/spacing_none"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_half"
+                                android:includeFontPadding="false"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/text_size_03"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="@+id/txtStatusTitle"
+                                app:layout_constraintTop_toBottomOf="@+id/txtStatusTitle"
+                                tools:text="In progress" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                    <!-- Card Percentage -->
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardPercentage"
+                        android:layout_width="@dimen/spacing_none"
+                        android:layout_height="@dimen/spacing_12"
+                        android:layout_marginTop="@dimen/spacing_01"
+                        android:layout_marginEnd="@dimen/spacing_01"
+                        app:cardCornerRadius="@dimen/spacing_01"
+                        app:cardElevation="@dimen/spacing_none"
+                        app:layout_constraintBottom_toBottomOf="@+id/cardStatus"
+                        app:layout_constraintEnd_toEndOf="@id/gdEnd"
+                        app:layout_constraintStart_toEndOf="@id/gdlHalf"
+                        app:layout_constraintTop_toBottomOf="@+id/cardMoney">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/contentPercentage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="@dimen/spacing_02">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgPercentage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/ic_progress" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtPercentage"
+                                android:layout_width="@dimen/spacing_none"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_min"
+                                android:alpha="0.7"
+                                android:ellipsize="end"
+                                android:includeFontPadding="false"
+                                android:maxLines="2"
+                                android:text="@string/goal_details_card_percentage_title"
+                                android:textSize="@dimen/text_size_02"
+                                app:layout_constraintEnd_toStartOf="@+id/imgPercentage"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtTotalPercentage"
+                                android:layout_width="@dimen/spacing_none"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_half"
+                                android:includeFontPadding="false"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/text_size_03"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="@+id/txtPercentage"
+                                app:layout_constraintTop_toBottomOf="@+id/txtPercentage"
+                                tools:text="88%" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Card Period -->
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardPeriod"
+                        android:layout_width="@dimen/spacing_none"
+                        android:layout_height="@dimen/spacing_12"
+                        android:layout_marginTop="@dimen/spacing_01"
+                        android:layout_marginEnd="@dimen/spacing_01"
+                        app:cardCornerRadius="@dimen/spacing_01"
+                        app:cardElevation="@dimen/spacing_none"
+                        app:layout_constraintEnd_toEndOf="@id/gdlHalf"
+                        app:layout_constraintStart_toStartOf="@id/gdStart"
+                        app:layout_constraintTop_toBottomOf="@+id/cardStatus">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/contentPeriod"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="@dimen/spacing_02">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgPeriod"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/ic_date" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtTotalPeriodTitle"
+                                android:layout_width="@dimen/spacing_none"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_min"
+                                android:alpha="0.7"
+                                android:ellipsize="end"
+                                android:includeFontPadding="false"
+                                android:maxLines="2"
+                                android:text="@string/goal_details_card_period_title"
+                                android:textSize="@dimen/text_size_02"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtPeriod"
+                                android:layout_width="@dimen/spacing_none"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_half"
+                                android:includeFontPadding="false"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/text_size_03"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="@+id/txtTotalPeriodTitle"
+                                app:layout_constraintTop_toBottomOf="@+id/txtTotalPeriodTitle"
+                                tools:text="Weekly" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Card Progress -->
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardProgress"
+                        android:layout_width="@dimen/spacing_none"
+                        android:layout_height="@dimen/spacing_12"
+                        android:layout_marginTop="@dimen/spacing_01"
+                        android:layout_marginEnd="@dimen/spacing_01"
+                        app:cardCornerRadius="@dimen/spacing_01"
+                        app:cardElevation="@dimen/spacing_none"
+                        app:layout_constraintBottom_toBottomOf="@+id/cardPeriod"
+                        app:layout_constraintEnd_toEndOf="@id/gdEnd"
+                        app:layout_constraintStart_toEndOf="@id/gdlHalf"
+                        app:layout_constraintTop_toBottomOf="@+id/cardPercentage">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/contentProgress"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="@dimen/spacing_02">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgProgress"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/ic_timeline" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtProgressTitle"
+                                android:layout_width="@dimen/spacing_none"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_min"
+                                android:alpha="0.7"
+                                android:ellipsize="end"
+                                android:includeFontPadding="false"
+                                android:maxLines="2"
+                                android:text="@string/goal_details_card_progress_title"
+                                android:textSize="@dimen/text_size_02"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/txtProgress"
+                                android:layout_width="@dimen/spacing_none"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_half"
+                                android:includeFontPadding="false"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/text_size_03"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="@+id/txtProgressTitle"
+                                app:layout_constraintTop_toBottomOf="@+id/txtProgressTitle"
+                                tools:text="5 of 52 weeks" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/gdlHalf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.50" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/gdStart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_begin="@dimen/spacing_02" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/gdEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_end="@dimen/spacing_02" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_none"
+                    android:overScrollMode="never"
+                    app:layout_constraintTop_toBottomOf="@+id/contentCard"
+                    tools:layoutAnimation="@null"
+                    tools:listitem="@layout/item_to_save"
+                    tools:visibility="visible" />
+
+                <include
+                    android:id="@+id/shimmerContent"
+                    layout="@layout/layout_shimmer_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_none"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

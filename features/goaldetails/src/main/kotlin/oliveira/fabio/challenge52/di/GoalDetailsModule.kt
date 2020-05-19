@@ -1,8 +1,6 @@
 package oliveira.fabio.challenge52.di
 
 import androidx.lifecycle.SavedStateHandle
-import oliveira.fabio.challenge52.domain.mapper.DetailsMapper
-import oliveira.fabio.challenge52.domain.mapper.impl.DetailsMapperImpl
 import oliveira.fabio.challenge52.domain.usecase.ChangeItemStatusUseCase
 import oliveira.fabio.challenge52.domain.usecase.MountGoalsDetailsUseCase
 import oliveira.fabio.challenge52.domain.usecase.RemoveGoalUseCase
@@ -22,11 +20,8 @@ import org.koin.dsl.module
 
 object GoalDetailsModule {
     private val domainModule = module {
-        factory<DetailsMapper> {
-            DetailsMapperImpl()
-        }
         factory<MountGoalsDetailsUseCase> {
-            MountGoalsDetailsUseCaseImpl(get())
+            MountGoalsDetailsUseCaseImpl()
         }
         factory<ChangeItemStatusUseCase> {
             ChangeItemStatusUseCaseImpl(get(), get())

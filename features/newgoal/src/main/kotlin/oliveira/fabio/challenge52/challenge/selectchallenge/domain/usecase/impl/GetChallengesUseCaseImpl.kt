@@ -18,7 +18,7 @@ internal class GetChallengesUseCaseImpl :
             Challenge(
                 id = 1,
                 name = "Challenge 52 Weeks",
-                description = "You need to accumulate some money per week, this is value that you are saving is accumulative. The most important reason of this challenge is the knowledge of saving money.",
+                smallDescription = "You need to accumulate some money per week, this is value that you are saving is accumulative. The most important reason of this challenge is the knowledge of saving money.",
                 isAccumulative = true,
                 quantity = 52,
                 type = Challenge.Type.WEEKLY
@@ -28,7 +28,7 @@ internal class GetChallengesUseCaseImpl :
             Challenge(
                 id = 2,
                 name = "Challenge 31 Days",
-                description = "You need to accumulate some money per week, this is value that you are saving is accumulative. The most important reason of this challenge is the knowledge of saving money.",
+                smallDescription = "You need to accumulate some money per week, this is value that you are saving is accumulative. The most important reason of this challenge is the knowledge of saving money.",
                 isAccumulative = true,
                 quantity = 31,
                 type = Challenge.Type.DAILY
@@ -38,7 +38,7 @@ internal class GetChallengesUseCaseImpl :
             Challenge(
                 id = 3,
                 name = "Challenge 7 Days",
-                description = "You need to accumulate some money per week, this is value that you are saving is accumulative. The most important reason of this challenge is the knowledge of saving money.",
+                smallDescription = "You need to accumulate some money per week, this is value that you are saving is accumulative. The most important reason of this challenge is the knowledge of saving money.",
                 isAccumulative = false,
                 quantity = 7,
                 type = Challenge.Type.DAILY
@@ -48,7 +48,7 @@ internal class GetChallengesUseCaseImpl :
             Challenge(
                 id = 4,
                 name = "Challenge 10 Months",
-                description = "You need to accumulate some money per week, this is value that you are saving is accumulative. The most important reason of this challenge is the knowledge of saving money.",
+                smallDescription = "You need to accumulate some money per week, this is value that you are saving is accumulative. The most important reason of this challenge is the knowledge of saving money.",
                 isAccumulative = false,
                 quantity = 10,
                 type = Challenge.Type.MONTHLY

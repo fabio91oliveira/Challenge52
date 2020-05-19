@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class Challenge(
     val id: Long,
     val name: String,
-    val description: String,
+    val smallDescription: String,
     val isAccumulative: Boolean = false,
     val quantity: Int = 0,
     val type: Type? = null

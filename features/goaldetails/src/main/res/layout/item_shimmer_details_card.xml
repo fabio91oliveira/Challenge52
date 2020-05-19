@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardStatus"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/spacing_01"
+    android:layout_marginEnd="@dimen/spacing_01"
+    app:cardCornerRadius="@dimen/spacing_01"
+    app:cardElevation="@dimen/spacing_none"
+    app:layout_constraintEnd_toEndOf="@id/gdlHalf"
+    app:layout_constraintStart_toStartOf="@id/gdStart"
+    app:layout_constraintTop_toBottomOf="@+id/cardMoney">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contentStatus"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="@dimen/spacing_02">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_progress" />
+
+        <View
+            android:id="@+id/viewImg"
+            android:layout_width="@dimen/spacing_none"
+            android:layout_height="@dimen/spacing_none"
+            android:background="@drawable/bg_shimmer_rounded"
+            app:layout_constraintBottom_toBottomOf="@id/imgStatus"
+            app:layout_constraintEnd_toEndOf="@id/imgStatus"
+            app:layout_constraintStart_toStartOf="@id/imgStatus"
+            app:layout_constraintTop_toTopOf="@id/imgStatus" />
+
+        <View
+            android:id="@+id/viewTitle"
+            android:layout_width="@dimen/spacing_08"
+            android:layout_height="@dimen/spacing_01"
+            android:layout_marginTop="@dimen/spacing_half"
+            android:background="@drawable/bg_shimmer_rounded"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/viewDescription"
+            android:layout_width="@dimen/spacing_06"
+            android:layout_height="@dimen/spacing_01"
+            android:layout_marginTop="@dimen/spacing_01"
+            android:background="@drawable/bg_shimmer_rounded"
+            app:layout_constraintStart_toStartOf="@+id/viewTitle"
+            app:layout_constraintTop_toBottomOf="@+id/viewTitle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

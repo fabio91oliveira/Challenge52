@@ -1,145 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contentCard"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/txtName"
-        android:layout_width="@dimen/spacing_none"
+        android:id="@+id/txtNameEmpty"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_02"
-        android:layout_marginTop="@dimen/spacing_01"
-        android:layout_marginEnd="@dimen/spacing_02"
+        android:layout_marginTop="@dimen/spacing_02"
         android:includeFontPadding="false"
         android:textColor="@android:color/black"
         android:textSize="@dimen/text_size_08"
         android:visibility="invisible"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@tools:sample/lorem" />
-
-    <View
-        android:id="@+id/viewDescription"
-        android:layout_width="@dimen/spacing_12"
-        android:layout_height="@dimen/spacing_01"
-        android:layout_marginStart="@dimen/spacing_02"
-        android:layout_marginTop="@dimen/spacing_02"
-        android:background="@drawable/bg_shimmer_rounded"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/gdStart"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/contentCard"
-        android:layout_width="match_parent"
+    <View
+        android:id="@+id/viewName"
+        android:layout_width="@dimen/spacing_12"
+        android:layout_height="@dimen/spacing_02"
+        android:background="@drawable/bg_shimmer_rounded"
+        app:layout_constraintBottom_toBottomOf="@id/txtNameEmpty"
+        app:layout_constraintStart_toStartOf="@id/txtNameEmpty"
+        app:layout_constraintTop_toTopOf="@id/txtNameEmpty" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardMoney"
+        android:layout_width="@dimen/spacing_none"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_02"
-        android:background="@android:color/white"
-        android:padding="@dimen/spacing_04"
         android:stateListAnimator="@anim/animation"
-        app:layout_constraintTop_toBottomOf="@+id/txtName">
+        app:cardBackgroundColor="@color/color_primary"
+        app:cardCornerRadius="@dimen/spacing_01"
+        app:cardElevation="@dimen/spacing_none"
+        app:layout_constraintEnd_toEndOf="@id/gdEnd"
+        app:layout_constraintStart_toStartOf="@id/gdStart"
+        app:layout_constraintTop_toBottomOf="@+id/txtNameEmpty">
 
-        <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/progressBar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="180dp"
-            android:layout_height="190dp"
-            android:background="@drawable/bg_progress_circle"
-            android:indeterminate="false"
-            android:progressDrawable="@drawable/bg_progress_uncompleted"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtTotalPercent"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contentMoney"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:includeFontPadding="false"
-            android:text="88"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_size_12"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@+id/txtItemsCompleted"
-            app:layout_constraintEnd_toStartOf="@id/progressBar"
-            app:layout_constraintStart_toEndOf="@id/progressBar"
-            app:layout_constraintTop_toTopOf="@id/progressBar"
-            app:layout_constraintVertical_chainStyle="packed" />
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/spacing_03">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgMoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_shimmer_icon_money" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtTotalMoneyTitleEmpty"
+                android:layout_width="@dimen/spacing_none"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="2"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_03"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/viewTotalMoneyTitle"
+                android:layout_width="@dimen/spacing_08"
+                android:layout_height="@dimen/spacing_01"
+                android:layout_marginTop="@dimen/spacing_01"
+                android:alpha="0.1"
+                android:background="@drawable/bg_shimmer_rounded"
+                app:layout_constraintStart_toStartOf="@id/txtTotalMoneyTitleEmpty"
+                app:layout_constraintTop_toTopOf="@id/txtTotalMoneyTitleEmpty" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/totalMoneySavedEmpty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_half"
+                android:includeFontPadding="false"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_10"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="@+id/txtTotalMoneyTitleEmpty"
+                app:layout_constraintTop_toBottomOf="@+id/txtTotalMoneyTitleEmpty" />
+
+            <View
+                android:id="@+id/viewMoneySaved"
+                android:layout_width="@dimen/spacing_12"
+                android:layout_height="@dimen/spacing_02"
+                android:alpha="0.1"
+                android:background="@drawable/bg_shimmer_rounded"
+                app:layout_constraintBottom_toBottomOf="@+id/totalMoneySavedEmpty"
+                app:layout_constraintStart_toStartOf="@id/totalMoneySavedEmpty"
+                app:layout_constraintTop_toTopOf="@id/totalMoneySavedEmpty" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtTotalToSaveMoneyTitleEmpty"
+                android:layout_width="@dimen/spacing_none"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_half"
+                android:alpha="0.7"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="2"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_03"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="@+id/totalMoneySavedEmpty"
+                app:layout_constraintTop_toBottomOf="@+id/totalMoneySavedEmpty" />
+
+            <View
+                android:id="@+id/viewtxtTotalToSaveMoneyTitle"
+                android:layout_width="@dimen/spacing_08"
+                android:layout_height="@dimen/spacing_01"
+                android:layout_marginTop="@dimen/spacing_half"
+                android:alpha="0.1"
+                android:background="@drawable/bg_shimmer_rounded"
+                app:layout_constraintStart_toStartOf="@id/txtTotalToSaveMoneyTitleEmpty"
+                app:layout_constraintTop_toTopOf="@id/txtTotalToSaveMoneyTitleEmpty" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Card Warning -->
+
+    <include
+        android:id="@+id/cardWarningShimmer"
+        layout="@layout/item_shimmer_details_card"
+        android:layout_width="@dimen/spacing_none"
+        android:layout_height="@dimen/spacing_12"
+        android:layout_marginTop="@dimen/spacing_01"
+        android:layout_marginEnd="@dimen/spacing_01"
+        app:layout_constraintEnd_toEndOf="@id/gdlHalf"
+        app:layout_constraintStart_toStartOf="@id/gdStart"
+        app:layout_constraintTop_toBottomOf="@+id/cardMoney" />
 
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtItemsCompleted"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="33 of 52"
-            android:textSize="@dimen/text_size_02"
-            android:textStyle="bold"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/progressBar"
-            app:layout_constraintEnd_toEndOf="@id/txtTotalPercent"
-            app:layout_constraintStart_toStartOf="@+id/txtTotalPercent"
-            app:layout_constraintTop_toBottomOf="@+id/txtTotalPercent" />
+    <!-- Card Progress -->
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtTitle"
-            android:layout_width="@dimen/spacing_none"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_04"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="1"
-            android:text="@string/goal_details_title"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_size_07"
-            android:textStyle="bold"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="@id/gdEnd"
-            app:layout_constraintStart_toStartOf="@id/gdStart"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+    <include
+        android:id="@+id/cardPercentShimmer"
+        layout="@layout/item_shimmer_details_card"
+        android:layout_width="@dimen/spacing_none"
+        android:layout_height="@dimen/spacing_12"
+        android:layout_marginTop="@dimen/spacing_01"
+        android:layout_marginEnd="@dimen/spacing_01"
+        app:layout_constraintBottom_toBottomOf="@+id/cardWarningShimmer"
+        app:layout_constraintEnd_toEndOf="@id/gdEnd"
+        app:layout_constraintStart_toEndOf="@id/gdlHalf"
+        app:layout_constraintTop_toBottomOf="@+id/cardMoney" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtMoneySaved"
-            android:layout_width="@dimen/spacing_none"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="R$ 230,00"
-            android:textColor="@color/color_red"
-            android:textSize="@dimen/text_size_09"
-            android:textStyle="bold"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="@id/gdEnd"
-            app:layout_constraintStart_toStartOf="@+id/txtTitle"
-            app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txtMoneyToSave"
-            android:layout_width="@dimen/spacing_none"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="2"
-            android:text="de R$ 55.000,00"
-            android:textSize="@dimen/text_size_04"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="@id/gdEnd"
-            app:layout_constraintStart_toStartOf="@+id/txtMoneySaved"
-            app:layout_constraintTop_toBottomOf="@+id/txtMoneySaved" />
+    <!-- Card Items -->
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gdStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/spacing_06" />
+    <include
+        android:id="@+id/cardItemsShimmer"
+        layout="@layout/item_shimmer_details_card"
+        android:layout_width="@dimen/spacing_none"
+        android:layout_height="@dimen/spacing_12"
+        android:layout_marginTop="@dimen/spacing_01"
+        android:layout_marginEnd="@dimen/spacing_01"
+        app:layout_constraintEnd_toEndOf="@id/gdlHalf"
+        app:layout_constraintStart_toStartOf="@id/gdStart"
+        app:layout_constraintTop_toBottomOf="@+id/cardWarningShimmer" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gdEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/spacing_06" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Card Challenge -->
+
+    <include
+        android:id="@+id/cardChallengeShimmer"
+        layout="@layout/item_shimmer_details_card"
+        android:layout_width="@dimen/spacing_none"
+        android:layout_height="@dimen/spacing_12"
+        android:layout_marginTop="@dimen/spacing_01"
+        android:layout_marginEnd="@dimen/spacing_01"
+        app:layout_constraintBottom_toBottomOf="@+id/cardItemsShimmer"
+        app:layout_constraintEnd_toEndOf="@id/gdEnd"
+        app:layout_constraintStart_toEndOf="@id/gdlHalf"
+        app:layout_constraintTop_toBottomOf="@+id/cardPercentShimmer" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdlHalf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.50" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/spacing_02" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/spacing_02" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

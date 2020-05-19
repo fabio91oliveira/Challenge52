@@ -83,13 +83,8 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         }
     }
 
-    override fun onClickItem(itemDetail: ItemDetail) {
-        with(goalDetailsViewModel) {
-            if (isDateAfterTodayWhenWeekIsNotChecked(itemDetail))
-                showConfirmationDialogUpdateWeek(itemDetail)
-            else
-                changeWeekStatus(itemDetail)
-        }
+    override fun onClickItem(itemDetail: ItemDetail, position: Int) {
+        goalDetailsViewModel.changeWeekStatus(itemDetail, position)
     }
 
     private fun setup() {
@@ -127,24 +122,27 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         with(goalDetailsViewModel) {
             goalDetailsViewState.observe(this@GoalDetailsActivity, Observer {
                 showLoading(it.isLoading)
-                showWeekLoading(it.isWeekBeingUpdated)
+                showWeekLoading(it.isItemsBeingUpdated)
                 handleDialog(it.dialog)
                 showContent(it.isContentVisible)
+                addDetailsGoal(it.adapterList)
+                updateTopDetails(it.topDetails)
             })
             goalDetailsActions.observe(this@GoalDetailsActivity, Observer {
                 when (it) {
-                    is GoalDetailsActions.PopulateGoalInformation -> {
-                        addDetailsGoal(it.list)
-                        if (!isFromDoneGoals)
-                            goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated()
+                    is GoalDetailsActions.UpdateDetails -> {
+                        updateDetailsGoal()
                     }
-                    is GoalDetailsActions.ShowUpdateWeekMessage -> {
+                    is GoalDetailsActions.UpdateDetailsWithPosition -> {
+                        updateWeek(it.position)
+                        goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated()
+                    }
+                    is GoalDetailsActions.ShowConfirmationMessage -> {
                         showSnackBar(it.stringRes)
                         newIntent.putExtra(
                             HAS_CHANGED,
                             GoalResult()
                                 .apply { setChangeUpdated() })
-                        goalDetailsViewModel.showConfirmationDialogDoneGoalWhenUpdated()
                     }
                     is GoalDetailsActions.RemoveGoal -> {
                         newIntent.putExtra(
@@ -219,11 +217,40 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
         if (hasToShow) progressDialog.show() else progressDialog.dismiss()
 
     private fun showContent(hasToShow: Boolean) {
+        contentCard.isVisible = hasToShow
         rvDetails.isVisible = hasToShow
     }
 
-    private fun addDetailsGoal(list: MutableList<AdapterItem<TopDetails, String, ItemDetail>>) {
+    private fun addDetailsGoal(list: MutableList<AdapterItem<String, ItemDetail>>) {
+        weeksAdapter.clearList()
         weeksAdapter.addList(list)
+    }
+
+    private fun updateDetailsGoal() {
+        weeksAdapter.notifyDataSetChanged()
+    }
+
+    private fun updateWeek(position: Int) {
+        weeksAdapter.notifyItemChanged(position)
+    }
+
+    private fun updateTopDetails(topDetails: TopDetails) {
+        with(topDetails) {
+            txtName.text = goalName
+            txtTotalMoneySaved.text = totalMoneySaved
+            txtTotalToSaveMoneyTitle.text =
+                getString(R.string.goal_details_card_money_of, totalMoneyToSave)
+            txtStatus.text = getString(statusStrRes)
+            txtTotalPercentage.text =
+                totalPercentsCompleted.toString() + getString(R.string.progress_value_percent)
+            txtPeriod.text = getString(periodStrRes)
+            txtProgress.text =
+                getString(
+                    R.string.goal_details_card_period_range,
+                    totalCompletedItems.toString(),
+                    totalItems.toString()
+                )
+        }
     }
 
     private fun handleDialog(dialogViewState: Dialog) {
@@ -259,15 +286,6 @@ class GoalDetailsActivity : BaseActivity(R.layout.activity_goal_details),
                     dialogViewState.descriptionRes
                 ) {
                     goalDetailsViewModel.completeGoal()
-                }
-            }
-            is Dialog.ConfirmationDialogUpdateWeek -> {
-                showConfirmDialog(
-                    dialogViewState.imageRes,
-                    dialogViewState.titleRes,
-                    dialogViewState.descriptionRes
-                ) {
-                    goalDetailsViewModel.changeWeekStatus(dialogViewState.itemDetail)
                 }
             }
         }

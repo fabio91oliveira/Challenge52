@@ -1,23 +1,18 @@
 package oliveira.fabio.challenge52.presentation.adapter
 
-import android.animation.ObjectAnimator
 import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import features.goaldetails.R
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_details.*
 import kotlinx.android.synthetic.main.item_header.*
 import kotlinx.android.synthetic.main.item_to_save.*
 import oliveira.fabio.challenge52.extensions.doPopAnimation
 import oliveira.fabio.challenge52.extensions.toStringCurrentDateWithFormat
 import oliveira.fabio.challenge52.presentation.vo.ItemDetail
-import oliveira.fabio.challenge52.presentation.vo.PeriodItemEnum
-import oliveira.fabio.challenge52.presentation.vo.TopDetails
 import java.text.DateFormat
 
 
@@ -27,7 +22,7 @@ internal class ItemsAdapter(
 ) :
     RecyclerView.Adapter<ItemsAdapter.ItemViewHolder>() {
 
-    private var list: MutableList<AdapterItem<TopDetails, String, ItemDetail>> = mutableListOf()
+    private var list: MutableList<AdapterItem<String, ItemDetail>> = mutableListOf()
     private var lastClickTime = System.currentTimeMillis()
 
     override fun getItemViewType(position: Int) = list[position].viewType.type
@@ -40,13 +35,6 @@ internal class ItemsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder =
         when (viewType) {
-            AdapterItem.ViewType.DETAILS.type -> DetailsViewHolder(
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_details,
-                    parent,
-                    false
-                )
-            )
             AdapterItem.ViewType.HEADER.type -> HeaderViewHolder(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_header,
@@ -63,76 +51,32 @@ internal class ItemsAdapter(
             )
         }
 
-    fun addList(adapterItemDetailList: List<AdapterItem<TopDetails, String, ItemDetail>>) {
-        list.clear()
+    fun addList(adapterItemDetailList: List<AdapterItem<String, ItemDetail>>) {
         list.addAll(adapterItemDetailList)
-        notifyDataSetChanged()
     }
 
-    inner class DetailsViewHolder(override val containerView: View) :
-        ItemViewHolder(containerView) {
-        override fun bind(itemDetail: AdapterItem<TopDetails, String, ItemDetail>) {
-            itemDetail.first?.also {
-                txtName.text = it.goalName
-
-                val period = when (it.periodItemEnum) {
-                    PeriodItemEnum.DAY -> R.string.goal_details_days
-                    PeriodItemEnum.WEEK -> R.string.goal_details_weeks
-                    PeriodItemEnum.MONTH -> R.string.goal_details_months
-                }
-
-                txtItemsCompleted.text = containerView.resources.getString(
-                    period,
-                    it.totalCompletedItems.toString(), it.totalItems.toString()
-                )
-                txtMoneySaved.text = it.totalMoneySaved
-                txtMoneyToSave.text = containerView.resources.getString(
-                    R.string.goal_details_money,
-                    it.totalMoneyToSave
-                )
-
-                ObjectAnimator.ofInt(
-                    progressBar,
-                    PROGRESS_TAG,
-                    INITIAL_VALUE,
-                    it.totalPercentsCompleted
-                ).apply {
-                    duration = PROGRESS_ANIMATION_DURATION
-                    interpolator = DecelerateInterpolator()
-                    addUpdateListener { valueAnimator ->
-                        val progress = valueAnimator.animatedValue as Int
-                        txtTotalPercent.text = progress.toString()
-                    }
-                    start()
-                }
-            }
-        }
+    fun clearList() {
+        list.clear()
     }
 
     inner class HeaderViewHolder(override val containerView: View) :
         ItemViewHolder(containerView) {
-        override fun bind(itemDetail: AdapterItem<TopDetails, String, ItemDetail>) {
-            txtPeriod.text = itemDetail.second
+        override fun bind(itemDetail: AdapterItem<String, ItemDetail>) {
+            txtPeriod.text = itemDetail.first
         }
     }
 
     inner class SubItemViewHolder(override val containerView: View) :
         ItemViewHolder(containerView) {
-        override fun bind(itemDetail: AdapterItem<TopDetails, String, ItemDetail>) {
-            itemDetail.third?.also { item ->
+        override fun bind(itemDetail: AdapterItem<String, ItemDetail>) {
+            itemDetail.second?.also { item ->
                 if (item.isChecked)
                     bindCheck()
                 else
                     bindUncheck()
 
-                val period = when (item.periodItemEnum) {
-                    PeriodItemEnum.DAY -> R.string.goal_details_day
-                    PeriodItemEnum.WEEK -> R.string.goal_details_week
-                    PeriodItemEnum.MONTH -> R.string.goal_details_month
-                }
-
                 txtItem.text =
-                    "${containerView.resources.getString(period)} ${item.position}"
+                    "${containerView.resources.getString(item.periodRes)} ${item.position}"
                 txtMoney.text = item.moneyToSave
                 txtDate.text =
                     item.date.toStringCurrentDateWithFormat(DateFormat.SHORT)
@@ -145,7 +89,7 @@ internal class ItemsAdapter(
                         }
                         lastClickTime = now
                         it.doPopAnimation(POP_ANIMATION_DURATION) {
-                            onClickItemListener.onClickItem(item)
+                            onClickItemListener.onClickItem(item, adapterPosition)
                         }
                     }
             }
@@ -181,11 +125,11 @@ internal class ItemsAdapter(
     abstract class ItemViewHolder(override val containerView: View) :
         RecyclerView.ViewHolder(containerView),
         LayoutContainer {
-        abstract fun bind(itemDetail: AdapterItem<TopDetails, String, ItemDetail>)
+        abstract fun bind(itemDetail: AdapterItem<String, ItemDetail>)
     }
 
     interface OnClickItemListener {
-        fun onClickItem(itemDetail: ItemDetail)
+        fun onClickItem(itemDetail: ItemDetail, position: Int)
     }
 
     companion object {

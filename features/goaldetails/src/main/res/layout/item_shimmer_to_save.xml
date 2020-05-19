@@ -29,6 +29,70 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtDateEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_04"
+            android:textSize="@dimen/text_size_02"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/txtItemEmpty"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/viewTxtDateEmpty"
+            android:layout_width="@dimen/spacing_08"
+            android:layout_height="@dimen/spacing_01"
+            android:layout_marginTop="@dimen/spacing_01"
+            android:layout_marginBottom="@dimen/spacing_half"
+            android:background="@drawable/bg_shimmer_rounded"
+            app:layout_constraintBottom_toBottomOf="@+id/txtDateEmpty"
+            app:layout_constraintStart_toStartOf="@+id/txtDateEmpty"
+            app:layout_constraintTop_toTopOf="@+id/txtDateEmpty" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtItemEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_01"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@id/txtDateEmpty"
+            app:layout_constraintTop_toBottomOf="@+id/txtDateEmpty" />
+
+        <View
+            android:id="@+id/viewTxtItem"
+            android:layout_width="@dimen/spacing_04"
+            android:layout_height="@dimen/spacing_01"
+            android:layout_marginTop="@dimen/spacing_01"
+            android:layout_marginBottom="@dimen/spacing_half"
+            android:background="@drawable/bg_shimmer_rounded"
+            app:layout_constraintBottom_toBottomOf="@+id/txtItemEmpty"
+            app:layout_constraintStart_toStartOf="@+id/txtItemEmpty"
+            app:layout_constraintTop_toTopOf="@+id/txtItemEmpty" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtMoneyEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_04"
+            android:textSize="@dimen/text_size_02"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/imgNotChecked"
+            app:layout_constraintEnd_toStartOf="@id/imgNotChecked"
+            app:layout_constraintTop_toTopOf="@+id/imgNotChecked" />
+
+        <View
+            android:id="@+id/viewTxtMoney"
+            android:layout_width="@dimen/spacing_06"
+            android:layout_height="@dimen/spacing_01"
+            android:layout_marginEnd="@dimen/spacing_04"
+            android:background="@drawable/bg_shimmer_rounded"
+            app:layout_constraintBottom_toBottomOf="@+id/txtMoneyEmpty"
+            app:layout_constraintEnd_toStartOf="@+id/imgNotChecked"
+            app:layout_constraintStart_toStartOf="@+id/txtMoneyEmpty"
+            app:layout_constraintTop_toTopOf="@+id/txtMoneyEmpty" />
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgNotChecked"
             android:layout_width="wrap_content"
@@ -40,38 +104,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_shimmer_check" />
 
-        <View
-            android:id="@+id/viewDate"
-            android:layout_width="@dimen/spacing_12"
-            android:layout_height="@dimen/spacing_01"
-            android:layout_marginStart="@dimen/spacing_04"
-            android:layout_marginTop="@dimen/spacing_01"
-            android:background="@drawable/bg_shimmer_rounded"
-            app:layout_constraintBottom_toTopOf="@+id/viewItem"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/line"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <View
-            android:id="@+id/viewItem"
-            android:layout_width="@dimen/spacing_08"
-            android:layout_height="@dimen/spacing_01"
-            android:layout_marginTop="@dimen/spacing_01"
-            android:layout_marginBottom="@dimen/spacing_half"
-            android:background="@drawable/bg_shimmer_rounded"
-            app:layout_constraintBottom_toBottomOf="@+id/line"
-            app:layout_constraintStart_toStartOf="@id/viewDate"
-            app:layout_constraintTop_toBottomOf="@+id/viewDate" />
-
-        <View
-            android:id="@+id/viewMoney"
-            android:layout_width="@dimen/spacing_08"
-            android:layout_height="@dimen/spacing_01"
-            android:layout_marginEnd="@dimen/spacing_04"
-            android:background="@drawable/bg_shimmer_rounded"
-            app:layout_constraintBottom_toBottomOf="@+id/imgNotChecked"
-            app:layout_constraintEnd_toStartOf="@id/imgNotChecked"
-            app:layout_constraintTop_toTopOf="@+id/imgNotChecked" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

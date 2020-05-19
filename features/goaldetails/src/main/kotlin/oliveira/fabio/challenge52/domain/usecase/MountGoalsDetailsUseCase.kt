@@ -6,5 +6,5 @@ import oliveira.fabio.challenge52.presentation.vo.ItemDetail
 import oliveira.fabio.challenge52.presentation.vo.TopDetails
 
 interface MountGoalsDetailsUseCase {
-    suspend operator fun invoke(goal: Goal): MutableList<AdapterItem<TopDetails, String, ItemDetail>>
+    suspend operator fun invoke(goal: Goal): Pair<TopDetails, MutableList<AdapterItem<String, ItemDetail>>>
 }

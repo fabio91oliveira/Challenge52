@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="goal_details_title">You are saving</string>
-    <string name="goal_details_months">%s/%s months</string>
-    <string name="goal_details_weeks">%s/%s weeks</string>
-    <string name="goal_details_days">%s/%s days</string>
+    <string name="goal_details_title_card_money">You have saved</string>
+    <string name="goal_details_card_money_of">of %s</string>
+
+    <string name="goal_details_card_status_title">Status</string>
+    <string name="goal_details_card_percentage_title">Percentage</string>
+    <string name="goal_details_card_period_title">Period</string>
+    <string name="goal_details_monthly">Monthly</string>
+    <string name="goal_details_weekly">Weekly</string>
+    <string name="goal_details_daily">Daily</string>
+    <string name="goal_details_card_progress_title">Progress</string>
+    <string name="goal_details_card_period_range">%s of %s</string>
+    <string name="goal_details_status_new">New</string>
+    <string name="goal_details_status_in_progress">In progress</string>
+    <string name="goal_details_status_done">Done</string>
+
     <string name="goal_details_month">Month</string>
     <string name="goal_details_week">Week</string>
     <string name="goal_details_day">Day</string>
-    <string name="goal_details_money">of %s</string>
+
     <string name="goal_details_item_updated">A item has been updated</string>
 
     <string name="goal_details_more_options">More Options</string>
-    <string name="goal_details_option_title">What do you need?</string>
     <string name="goal_details_option_mark_as_done">Mark as done</string>
     <string name="goal_details_option_remove">Remove goal</string>
 
     <string name="goal_details_are_you_sure_remove">Are you sure to remove goal?</string>
     <string name="goal_details_are_you_sure_done">Are you sure to make goal done?</string>
     <string name="goal_details_cannot_move_to_done">You cannot move goal to done until you complete all weeks.</string>
-
-    <string name="goal_details_date_after_today">This date is posterior than today. Do you even want to confirm the
-            money is deposited for this week?
-        </string>
 
     <string name="goal_details_move_to_done_first_dialog">All the weeks has been completed and the money has been
             deposited. Do you want to move this
@@ -31,7 +37,7 @@
 
     <!-- Errors -->
     <string name="goal_details_error_title">Oops! It seems something unexpected occurred.</string>
-    <string name="goal_details_warning_title">Warning! Please, pay attention on it!</string>
+    <string name="goal_details_warning_title">Attention</string>
     <string name="goal_details_list_error_message">An error has occurred when try to detail goal, try again or contact
         the developer.
     </string>

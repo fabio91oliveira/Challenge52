@@ -22,7 +22,7 @@ object Config {
 }
 
 object Versions {
-    const val kotlin = "1.3.50"
+    const val kotlin = "1.3.70"
     const val android_gradle_plugin = "3.4.0"
 
     const val support = "1.1.0"

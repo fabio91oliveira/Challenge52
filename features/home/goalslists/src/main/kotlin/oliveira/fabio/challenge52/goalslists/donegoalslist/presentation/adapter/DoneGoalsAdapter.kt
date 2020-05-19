@@ -127,7 +127,7 @@ internal class DoneGoalsAdapter(private val onClickGoalListener: OnClickGoalList
         private const val INITIAL_VALUE = 0
         private const val INITIAL_PERCENT = 0
         private const val FINAL_PERCENT = 100
-        private const val PROGRESS_ANIMATION_DURATION = 1000L
+        private const val PROGRESS_ANIMATION_DURATION = 500L
         private const val POP_ANIMATION_DURATION = 100L
     }
 }

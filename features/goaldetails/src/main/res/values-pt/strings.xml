@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="goal_details_title">Você está salvando</string>
-    <string name="goal_details_months">%s/%s meses</string>
-    <string name="goal_details_weeks">%s/%s semanas</string>
-    <string name="goal_details_days">%s/%s dias</string>
-    <string name="goal_details_month">Mês</string>
+    <string name="goal_details_title_card_money">You have saved</string>
+    <string name="goal_details_card_money_of">de %s</string>
+
+    <string name="goal_details_card_status_title">Status</string>
+    <string name="goal_details_card_percentage_title">Porcentagem</string>
+    <string name="goal_details_card_period_title">Período</string>
+    <string name="goal_details_monthly">Monthly</string>
+    <string name="goal_details_weekly">Weekly</string>
+    <string name="goal_details_daily">Daily</string>
+    <string name="goal_details_card_progress_title">Andamento</string>
+    <string name="goal_details_card_period_range">%s de %s</string>
+    <string name="goal_details_status_new">Novo</string>
+    <string name="goal_details_status_in_progress">Em andamento</string>
+    <string name="goal_details_status_done">Concluído</string>
+
     <string name="goal_details_week">Semana</string>
     <string name="goal_details_day">Dia</string>
-    <string name="goal_details_money">de %s</string>
+    <string name="goal_details_month">Mês</string>
+
+
     <string name="goal_details_item_updated">Um item foi atualizado</string>
 
     <string name="goal_details_more_options">More Options</string>
-    <string name="goal_details_option_title">O que você precisa?</string>
     <string name="goal_details_option_mark_as_done">Marcar como concluído</string>
     <string name="goal_details_option_remove">Remover meta</string>
 
@@ -23,9 +34,6 @@
     <string name="goal_details_are_you_sure_done">Você tem certeza que deseja marcar meta como realizada?</string>
     <string name="goal_details_cannot_move_to_done">Você não pode mover a meta para realizada até completar todas as
             semanas.
-        </string>
-    <string name="goal_details_date_after_today">Esta data é posterior a data atual. Você quer realmente confirmar o
-            depósito do dinheira para esta semana?
     </string>
 
     <string name="goal_details_error_title">Oops! Algo inesperado acabou de acontecer.</string>

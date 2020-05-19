@@ -1,6 +1,7 @@
 package oliveira.fabio.challenge52.presentation.vo
 
 import android.os.Parcelable
+import androidx.annotation.StringRes
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -11,5 +12,6 @@ data class TopDetails(
     val totalItems: Int,
     val totalMoneySaved: String,
     val totalMoneyToSave: String,
-    val periodItemEnum: PeriodItemEnum
+    @StringRes val periodStrRes: Int,
+    @StringRes val statusStrRes: Int
 ) : Parcelable
