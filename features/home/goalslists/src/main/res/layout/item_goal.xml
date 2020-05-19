@@ -45,7 +45,7 @@
                 android:paddingStart="@dimen/spacing_half"
                 android:paddingTop="@dimen/spacing_half"
                 android:paddingEnd="@dimen/spacing_half"
-                android:paddingBottom="2dp"
+                android:paddingBottom="@dimen/spacing_min"
                 tools:text="in progress"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_01"
@@ -67,7 +67,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewStatus"
-            tools:text="@tools:sample/lorem/random" />
+            tools:text="@tools:sample/lorem" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtCompletedItems"

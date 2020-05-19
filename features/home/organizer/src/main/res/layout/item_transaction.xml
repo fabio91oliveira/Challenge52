@@ -52,6 +52,7 @@
             android:id="@+id/txtDate"
             android:layout_width="@dimen/spacing_none"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_half"
             android:layout_marginEnd="@dimen/spacing_02"
             android:textSize="@dimen/text_size_01"
             app:layout_constraintBottom_toBottomOf="@id/imgTransaction"

@@ -53,7 +53,7 @@
             android:id="@+id/viewDescription"
             android:layout_width="@dimen/spacing_06"
             android:layout_height="@dimen/spacing_01"
-            android:layout_marginTop="@dimen/spacing_01"
+            android:layout_marginTop="@dimen/spacing_02"
             android:background="@drawable/bg_shimmer_rounded"
             app:layout_constraintStart_toStartOf="@+id/viewTitle"
             app:layout_constraintTop_toBottomOf="@+id/viewTitle" />

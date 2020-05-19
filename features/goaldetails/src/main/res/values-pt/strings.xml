@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="goal_details_title_card_money">You have saved</string>
+    <string name="goal_details_title_card_money">Você salvou</string>
     <string name="goal_details_card_money_of">de %s</string>
 
     <string name="goal_details_card_status_title">Status</string>
     <string name="goal_details_card_percentage_title">Porcentagem</string>
     <string name="goal_details_card_period_title">Período</string>
-    <string name="goal_details_monthly">Monthly</string>
-    <string name="goal_details_weekly">Weekly</string>
-    <string name="goal_details_daily">Daily</string>
+    <string name="goal_details_monthly">Mensal</string>
+    <string name="goal_details_weekly">Semanal</string>
+    <string name="goal_details_daily">Diário</string>
     <string name="goal_details_card_progress_title">Andamento</string>
     <string name="goal_details_card_period_range">%s de %s</string>
     <string name="goal_details_status_new">Novo</string>

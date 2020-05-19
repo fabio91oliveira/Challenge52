@@ -34,7 +34,7 @@
         android:id="@+id/viewDate"
         android:layout_width="@dimen/spacing_08"
         android:layout_height="@dimen/spacing_01"
-        android:layout_marginTop="@dimen/spacing_min"
+        android:layout_marginTop="@dimen/spacing_01"
         android:background="@drawable/bg_shimmer_rounded"
         app:layout_constraintBottom_toBottomOf="@id/imgTransaction"
         app:layout_constraintStart_toStartOf="@+id/viewDescription"

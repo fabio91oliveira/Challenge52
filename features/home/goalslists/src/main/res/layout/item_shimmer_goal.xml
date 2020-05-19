@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardGoal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -28,63 +29,138 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_next" />
 
-        <View
-            android:id="@+id/viewStatus"
-            android:layout_width="@dimen/spacing_07"
-            android:layout_height="@dimen/spacing_02"
-            android:background="@drawable/bg_shimmer_rounded"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/viewStatusEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/color_accent_dark">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtStatusEmpty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:paddingStart="@dimen/spacing_half"
+                android:paddingTop="@dimen/spacing_half"
+                android:paddingEnd="@dimen/spacing_half"
+                android:paddingBottom="@dimen/spacing_min"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_01" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <View
-            android:id="@+id/viewName"
-            android:layout_width="@dimen/spacing_none"
-            android:layout_height="@dimen/spacing_01"
-            android:layout_marginTop="@dimen/spacing_02"
-            android:layout_marginEnd="@dimen/spacing_12"
-            android:background="@drawable/bg_shimmer_rounded"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewStatus" />
-
-        <View
-            android:id="@+id/viewCompletedItems"
+            android:id="@+id/viewStatusPlaceHolder"
             android:layout_width="@dimen/spacing_08"
             android:layout_height="@dimen/spacing_01"
-            android:layout_marginTop="@dimen/spacing_01"
-            android:layout_marginEnd="@dimen/spacing_12"
             android:background="@drawable/bg_shimmer_rounded"
-            app:layout_constraintStart_toStartOf="@id/viewName"
-            app:layout_constraintTop_toBottomOf="@+id/viewName" />
+            app:layout_constraintBottom_toBottomOf="@+id/viewStatusEmpty"
+            app:layout_constraintStart_toStartOf="@+id/viewStatusEmpty"
+            app:layout_constraintTop_toTopOf="@+id/viewStatusEmpty" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtNameEmpty"
+            android:layout_width="@dimen/spacing_none"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_01"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:textSize="@dimen/text_size_03"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewStatusEmpty" />
 
         <View
-            android:id="@+id/viewCompleted"
+            android:id="@+id/viewTxtNamePlaceHolder"
             android:layout_width="@dimen/spacing_12"
             android:layout_height="@dimen/spacing_01"
-            android:layout_marginTop="@dimen/spacing_04"
             android:background="@drawable/bg_shimmer_rounded"
+            app:layout_constraintBottom_toBottomOf="@+id/txtNameEmpty"
+            app:layout_constraintStart_toStartOf="@+id/txtNameEmpty"
+            app:layout_constraintTop_toTopOf="@+id/txtNameEmpty" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtCompletedItemsEmpty"
+            android:layout_width="@dimen/spacing_none"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:textSize="@dimen/text_size_01"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@+id/txtNameEmpty"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewCompletedItems" />
+            app:layout_constraintTop_toBottomOf="@+id/txtNameEmpty" />
+
+        <View
+            android:id="@+id/viewTxtCompletedItems"
+            android:layout_width="@dimen/spacing_06"
+            android:layout_height="@dimen/spacing_01"
+            android:background="@drawable/bg_shimmer_rounded"
+            app:layout_constraintBottom_toBottomOf="@+id/txtCompletedItemsEmpty"
+            app:layout_constraintStart_toStartOf="@+id/txtCompletedItemsEmpty"
+            app:layout_constraintTop_toTopOf="@+id/txtCompletedItemsEmpty" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtPercentEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_03"
+            android:textSize="@dimen/text_size_03"
+            app:layout_constraintStart_toStartOf="@+id/txtNameEmpty"
+            app:layout_constraintTop_toBottomOf="@+id/txtCompletedItemsEmpty" />
+
+        <View
+            android:id="@+id/viewTxtPercent"
+            android:layout_width="@dimen/spacing_12"
+            android:layout_height="@dimen/spacing_01"
+            android:background="@drawable/bg_shimmer_rounded"
+            app:layout_constraintBottom_toBottomOf="@+id/txtPercentEmpty"
+            app:layout_constraintStart_toStartOf="@+id/txtPercentEmpty"
+            app:layout_constraintTop_toTopOf="@+id/txtPercentEmpty" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtCompletedEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_01"
+            android:textSize="@dimen/text_size_02"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/txtPercentEmpty"
+            app:layout_constraintStart_toEndOf="@+id/txtPercentEmpty"
+            app:layout_constraintTop_toTopOf="@+id/txtPercentEmpty" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtMoneyEmpty"
+            android:layout_width="@dimen/spacing_none"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:textAlignment="viewEnd"
+            android:textSize="@dimen/text_size_03"
+            app:layout_constraintBottom_toBottomOf="@+id/txtCompletedEmpty"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txtCompletedEmpty" />
+
+        <View
+            android:id="@+id/viewTxtMoney"
+            android:layout_width="@dimen/spacing_12"
+            android:layout_height="@dimen/spacing_01"
+            android:background="@drawable/bg_shimmer_rounded"
+            app:layout_constraintBottom_toBottomOf="@+id/txtMoneyEmpty"
+            app:layout_constraintEnd_toEndOf="@+id/txtMoneyEmpty"
+            app:layout_constraintTop_toTopOf="@+id/txtMoneyEmpty" />
 
         <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/progressBarEmpty"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="@dimen/spacing_01"
-            android:layout_marginTop="@dimen/spacing_half"
             android:includeFontPadding="false"
             android:indeterminate="false"
             android:progressDrawable="@drawable/background_uncompleted_progress_bar"
-            app:layout_constraintTop_toBottomOf="@id/viewCompleted" />
-
-        <View
-            android:id="@+id/viewMoney"
-            android:layout_width="@dimen/spacing_05"
-            android:layout_height="@dimen/spacing_01"
-            android:layout_marginTop="@dimen/spacing_04"
-            android:background="@drawable/bg_shimmer_rounded"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewCompletedItems" />
+            app:layout_constraintTop_toBottomOf="@id/txtPercentEmpty" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

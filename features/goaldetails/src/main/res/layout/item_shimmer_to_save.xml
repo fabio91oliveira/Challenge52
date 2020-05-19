@@ -86,7 +86,7 @@
             android:id="@+id/viewTxtMoney"
             android:layout_width="@dimen/spacing_06"
             android:layout_height="@dimen/spacing_01"
-            android:layout_marginEnd="@dimen/spacing_04"
+            android:layout_marginEnd="@dimen/spacing_10"
             android:background="@drawable/bg_shimmer_rounded"
             app:layout_constraintBottom_toBottomOf="@+id/txtMoneyEmpty"
             app:layout_constraintEnd_toStartOf="@+id/imgNotChecked"
