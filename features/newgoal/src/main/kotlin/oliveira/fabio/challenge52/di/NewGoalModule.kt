@@ -15,14 +15,12 @@ import oliveira.fabio.challenge52.goal.domain.usecase.CalculateMoneyUseCase
 import oliveira.fabio.challenge52.goal.domain.usecase.CreateGoalToSaveObjectUseCase
 import oliveira.fabio.challenge52.goal.domain.usecase.CreateItemsUseCase
 import oliveira.fabio.challenge52.goal.domain.usecase.GetGoalSuggestionsUseCase
-import oliveira.fabio.challenge52.goal.domain.usecase.GetMoneySuggestionsUseCase
 import oliveira.fabio.challenge52.goal.domain.usecase.impl.AddGoalUseCaseImpl
 import oliveira.fabio.challenge52.goal.domain.usecase.impl.AddItemsUseCaseImpl
 import oliveira.fabio.challenge52.goal.domain.usecase.impl.CalculateMoneyUseCaseImpl
 import oliveira.fabio.challenge52.goal.domain.usecase.impl.CreateGoalToSaveObjectUseCaseImpl
 import oliveira.fabio.challenge52.goal.domain.usecase.impl.CreateItemsUseCaseImpl
 import oliveira.fabio.challenge52.goal.domain.usecase.impl.GetGoalSuggestionsUseCaseImpl
-import oliveira.fabio.challenge52.goal.domain.usecase.impl.GetMoneySuggestionsUseCaseImpl
 import oliveira.fabio.challenge52.goal.presentation.viewmodel.CreateGoalViewModel
 import oliveira.fabio.challenge52.goal.presentation.viewmodel.GoalChooseNameViewModel
 import oliveira.fabio.challenge52.goal.presentation.viewmodel.GoalSuggestionsListViewModel
@@ -37,7 +35,6 @@ object NewGoalModule {
         factory<GetChallengesUseCase> { GetChallengesUseCaseImpl() }
         factory<GetGoalSuggestionsUseCase> { GetGoalSuggestionsUseCaseImpl() }
         factory<CreateGoalToSaveObjectUseCase> { CreateGoalToSaveObjectUseCaseImpl(get()) }
-        factory<GetMoneySuggestionsUseCase> { GetMoneySuggestionsUseCaseImpl(get()) }
         factory<AddGoalUseCase> { AddGoalUseCaseImpl(get()) }
         factory<AddItemsUseCase> { AddItemsUseCaseImpl(get()) }
         factory<CalculateMoneyUseCase> { CalculateMoneyUseCaseImpl() }
@@ -64,7 +61,7 @@ object NewGoalModule {
             GoalChooseNameViewModel(handle)
         }
         viewModel { (handle: SavedStateHandle) ->
-            CreateGoalViewModel(handle, get(), get(), get(), get(), get())
+            CreateGoalViewModel(handle, get(), get(), get(), get())
         }
     }
 

@@ -8,22 +8,19 @@ import androidx.lifecycle.viewModelScope
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import features.newgoal.R
 import kotlinx.coroutines.launch
+import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.goal.domain.usecase.AddGoalUseCase
 import oliveira.fabio.challenge52.goal.domain.usecase.AddItemsUseCase
 import oliveira.fabio.challenge52.goal.domain.usecase.CalculateMoneyUseCase
 import oliveira.fabio.challenge52.goal.domain.usecase.CreateItemsUseCase
-import oliveira.fabio.challenge52.goal.domain.usecase.GetMoneySuggestionsUseCase
 import oliveira.fabio.challenge52.goal.presentation.action.CreateGoalActions
 import oliveira.fabio.challenge52.goal.presentation.viewstate.CreateGoalViewState
-import oliveira.fabio.challenge52.goal.presentation.vo.MoneySuggestion
-import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.presentation.vo.GoalToSave
 import oliveira.fabio.challenge52.presentation.vo.enums.PeriodEnum
 import timber.log.Timber
 
 internal class CreateGoalViewModel(
     private val state: SavedStateHandle,
-    private val getMoneySuggestionsUseCase: GetMoneySuggestionsUseCase,
     private val calculateMoneyUseCase: CalculateMoneyUseCase,
     private val createItemsUseCase: CreateItemsUseCase,
     private val addGoalUseCase: AddGoalUseCase,
@@ -44,7 +41,6 @@ internal class CreateGoalViewModel(
     init {
         initViewState()
         setPeriodText()
-        getMoneySuggestions()
     }
 
     fun createGoal() {
@@ -114,21 +110,6 @@ internal class CreateGoalViewModel(
                         R.string.goal_choose_name_error_title,
                         R.string.goal_choose_name_list_error_description
                     ).sendAction()
-                    Timber.e(it)
-                }
-            )
-        }
-    }
-
-    private fun getMoneySuggestions() {
-        viewModelScope.launch {
-            SuspendableResult.of<List<MoneySuggestion>, Exception> {
-                getMoneySuggestionsUseCase()
-            }.fold(
-                success = {
-                    CreateGoalActions.ShowMoneySuggestions(it).sendAction()
-                },
-                failure = {
                     Timber.e(it)
                 }
             )

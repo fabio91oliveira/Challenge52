@@ -48,10 +48,9 @@ internal class GoalSuggestionsListFragment :
 
     private fun setupRecyclerView() {
         with(rvSuggestions) {
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(
+            layoutManager = androidx.recyclerview.widget.GridLayoutManager(
                 context,
-                androidx.recyclerview.widget.RecyclerView.VERTICAL,
-                false
+                2
             )
             adapter = goalSuggestionAdapter
         }

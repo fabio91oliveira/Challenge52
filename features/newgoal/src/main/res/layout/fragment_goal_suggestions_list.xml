@@ -34,12 +34,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_02"
             android:layoutAnimation="@anim/layout_animation_slide_from_bottom"
+            android:overScrollMode="never"
+            android:layout_marginStart="@dimen/spacing_02"
+            android:layout_marginEnd="@dimen/spacing_02"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtTitle"
             tools:layoutAnimation="@null"
+            tools:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             tools:listitem="@layout/item_goal_suggestion"
+            tools:spanCount="2"
             tools:visibility="visible" />
 
         <androidx.core.widget.ContentLoadingProgressBar

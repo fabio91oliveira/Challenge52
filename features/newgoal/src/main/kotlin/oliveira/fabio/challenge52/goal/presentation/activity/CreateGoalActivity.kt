@@ -12,17 +12,12 @@ import oliveira.fabio.challenge52.extensions.setRipple
 import oliveira.fabio.challenge52.extensions.toCurrencyAndTextChangeAction
 import oliveira.fabio.challenge52.extensions.toStringMoney
 import oliveira.fabio.challenge52.goal.presentation.action.CreateGoalActions
-import oliveira.fabio.challenge52.goal.presentation.adapter.MoneySuggestionAdapter
 import oliveira.fabio.challenge52.goal.presentation.viewmodel.CreateGoalViewModel
-import oliveira.fabio.challenge52.goal.presentation.vo.MoneySuggestion
 import oliveira.fabio.challenge52.presentation.dialogfragment.FullScreenDialog
 import org.koin.androidx.viewmodel.ext.android.getStateViewModel
 
 internal class CreateGoalActivity :
-    BaseActivity(R.layout.activity_create_goal),
-    MoneySuggestionAdapter.MoneySuggestionSuggestionClickListener {
-
-    private val moneyAdapter by lazy { MoneySuggestionAdapter(this) }
+    BaseActivity(R.layout.activity_create_goal) {
 
     private val money: String
         get() = edtMoney.text.toString()
@@ -32,10 +27,6 @@ internal class CreateGoalActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         init()
-    }
-
-    override fun onDateSuggestionClick(moneySuggestion: MoneySuggestion) {
-        setPeriodMoney(moneySuggestion.moneyPresentation)
     }
 
     private fun init() {
@@ -86,9 +77,6 @@ internal class CreateGoalActivity :
         with(createGoalViewModel) {
             createGoalActions.observe(this@CreateGoalActivity, Observer {
                 when (it) {
-                    is CreateGoalActions.ShowMoneySuggestions -> {
-                        moneyAdapter.addSuggestions(it.moneySuggestions)
-                    }
                     is CreateGoalActions.GoalCreated -> {
                         finishAffinity()
                     }
@@ -115,8 +103,6 @@ internal class CreateGoalActivity :
     private fun setTotalMoney(totalMoney: String) {
         txtTotalMoney.text = totalMoney
     }
-
-    private fun setPeriodMoney(money: String) = edtMoney.setText(money)
 
     private fun enableFinishButton(isFinishButtonEnabled: Boolean) {
         btnCreate.isEnabled = isFinishButtonEnabled
